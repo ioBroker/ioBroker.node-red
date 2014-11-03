@@ -1,0 +1,31 @@
+{
+    "common": {
+        "name":                     "node-red",
+        "version":                  "0.0.1",
+        "title":                    "node-red Adapter",
+        "desc":                     {
+            "en": "This adapter uses node-red as a service. No additional node-red instance required.",
+            "de": "Adapter benutzt node-red als Servcie. Keine zusätzliche Instanz von node-red is nötig.",
+            "ru": "Драйвер создает node-red сервер и позволяет общаться с ним"
+        },
+        "authors": [
+            "bluefox <bluefox@ccu.io>"
+        ],
+        "license":                  "Apache 2.0",
+        "platform":                 "Javascript/Node.js",
+        "mode":                     "daemon",
+        "messagebox":               true,
+        "loglevel":                 "info",
+        "icon":                     "node-red.png",
+        "keywords":                 ["node-red", "logic", "script"],
+        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
+        "localLink":                "http://%ip%:1880",
+        "enabled":                  true
+    },
+    "native": {
+        "port": 1880
+    },
+    "objects": [
+
+    ]
+}

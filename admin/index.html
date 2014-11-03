@@ -1,0 +1,109 @@
+<html>
+
+<!-- these 4 files always have to be included -->
+<link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
+<script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+
+<!-- these two file always have to be included -->
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+<style>
+    .table_header {
+        background-color: blue;
+        color: white;
+    }
+    .ip {
+        width: 150px;
+        text-align: right;
+    }
+</style>
+<!-- you have to define 2 functions in the global scope: -->
+<script type="text/javascript">
+    var devices = [];
+
+    function setValue(id, value) {
+        // example: select elements with id=key and class=value and insert value
+        if ($('#' + id + '.value').attr('type') == 'checkbox') {
+            $('#' + id + '.value').prop('checked', value).change(function() {
+                changed = true;
+                $('#save').button("enable");
+            });
+        } else {
+            $('#' + id + '.value').val(value).change(function() {
+                changed = true;
+                $('#save').button("enable");
+            }).keyup(function() {
+                // Chack that only numbers entered
+                if ($(this).hasClass('number')) {
+                    var val = $(this).val();
+                    if (val) {
+                        var newVal = '';
+                        for (var i = 0; i < val.length; i++) {
+                            if (val[i] >= '0' && val[i] <= '9') {
+                                newVal += val[i];
+                            }
+                        }
+
+                        if (val != newVal) $(this).val(newVal);
+                    }
+                }
+
+                changed = true;
+                $('#save').button("enable");
+            });
+        }
+    }
+
+    // the function loadSettings has to exist ...
+    function load(settings) {
+        if (!settings) return;
+
+        changed = false;
+        $('#save').button("disable");
+
+        devices = settings.devices || [];
+
+        for (var key in settings) {
+            setValue(key, settings[key]);
+        }
+    }
+
+    // ... and the function save has to exist.
+    // you have to make sure the callback is called with the settings object as first param!
+    function save(callback) {
+        // example: select elements with class=value and build settings object
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') == 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+
+        changed = false;
+        $('#save').button("disable");
+
+        callback(obj, {localLink: 'http://%ip%:' + obj.port});
+    }
+</script>
+
+<!-- you have to put your config page in a div with id adapter-container -->
+<div id="adapter-container">
+
+    <table><tr>
+        <td><img src="node-red.png" width="64" height="64"></td>
+        <td style="padding-top: 20px;padding-left: 10px"><h3 class="translate">node-red adapter settings</h3></td>
+    </tr></table>
+
+    <h4 class="translate">node-red settings</h4>
+    <table>
+        <tr><td class="translate">Web server port]:</td><td><input class="value number" id="port" type="input" size="5"/></td></tr>
+    </table>
+</div>
+</html>
