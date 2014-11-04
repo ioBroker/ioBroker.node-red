@@ -10,6 +10,7 @@
 
 var adapter = require(__dirname + '/../../lib/adapter.js')({
     name: 'node-red',
+    systemConfig: true, // get the system configuration as systemConfig parameter of adapter
     unload: function (callback) {
         // Stop node-red
         stopping = true;
@@ -17,11 +18,14 @@ var adapter = require(__dirname + '/../../lib/adapter.js')({
             redProcess.kill();
             redProcess = null;
         }
+        if(notifications) notifications.close();
+
         if (callback) callback();
     }});
-var nodered = require('node-red');
+	
 var fs =      require('fs');
-var spawn   = require('child_process').spawn;
+var spawn =   require('child_process').spawn;
+var Notify =  require('fs.notify');
 
 adapter.on('message', function (obj) {
     if (obj) processMessage(obj);
@@ -56,6 +60,7 @@ function processMessages() {
 }
 var redProcess;
 var stopping;
+var notifications;
 
 function startNodeRed() {
     var args = [__dirname + '/node_modules/node-red/red.js', '-v', '--settings', __dirname + '/userdata/settings.js'];
@@ -79,29 +84,32 @@ function startNodeRed() {
     });
 }
 
-function setOption(line, option) {
+function setOption(line, option, value) {
     var toFind = "'%%" + option + "%%'";
     var pos = line.indexOf(toFind);
     if (pos != -1) {
-        return line.substring(0, pos) + adapter.config[option] + lines[i].substring(pos + toFind.length);
+        return line.substring(0, pos) + ((value !== undefined) ? value: adapter.config[option]) + line.substring(pos + toFind.length);
     }
     return line;
 }
 
 function writeSettings() {
+    var config = JSON.stringify(adapter.systemConfig);
     var text = fs.readFileSync(__dirname + '/settings.js').toString();
     var lines = text.split('\n');
     for (var i = 0; i < lines.length; i++) {
         lines[i] = setOption(lines[i], 'port');
+        lines[i] = setOption(lines[i], 'instance', adapter.instance);
+        lines[i] = setOption(lines[i], 'config', config);
     }
     fs.writeFileSync(__dirname + '/userdata/settings.js', lines.join('\n'));
 }
 
 function writeStateList(callback) {
-    adapter.getForeignStates('io.*', function (err, obj) {
-        var states = {values: []};
+    adapter.getForeignObjects('io.*', 'state', 'rooms', function (err, obj) {
+        var states = {};
         for (var state in obj) {
-            states.values.push(state);
+            states[state] = {name: obj[state].common.name, role: obj[state].common.role, rooms: obj[state].enums};
         }
         fs.writeFileSync(__dirname + '/node_modules/node-red/public/iobroker.json', JSON.stringify(states));
         if (callback) callback();
@@ -109,10 +117,43 @@ function writeStateList(callback) {
 }
 
 function main() {
-    // Create settings for node-red
-    writeSettings();
-    writeStateList(function () {
-        startNodeRed();
+    // monitor project file
+    notifications = new Notify([__dirname + '/userdata/flows_cred.json', __dirname + '/userdata/flows.json']);
+    notifications.on('change', function (file, event, path) {
+        var cred = {};
+        var flows = {};
+
+        if (fs.existsSync(__dirname + '/userdata/flows_cred.json')) cred = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows_cred.json'));
+        if (fs.existsSync(__dirname + '/userdata/flows.json')) flows = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows.json'));
+
+        //upload it to config
+        adapter.setObject('flows', {
+            common: {
+                name: 'Flows for node-red'
+            },
+            native: {
+                cred:  cred,
+                flows: flows
+            },
+            type: 'config',
+            parent: 'system.adapter.node-red.' + adapter.instance
+        });
+    });
+
+    // Read configuration
+    adapter.getObject('flows', function (err, obj) {
+        if (obj && obj.native && obj.native.cred) {
+            fs.writeFileSync(__dirname + '/userdata/flows_cred.json', JSON.stringify(obj.native.cred));
+        }
+        if (obj && obj.native && obj.native.flows) {
+            fs.writeFileSync(__dirname + '/userdata/flows.json', JSON.stringify(obj.native.flows));
+        }
+
+        // Create settings for node-red
+        writeSettings();
+        writeStateList(function () {
+            startNodeRed();
+        });
     });
 }
 

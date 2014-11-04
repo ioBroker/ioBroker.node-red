@@ -49,14 +49,44 @@
             return this.name?"node_label_italic":"";
         },
         oneditprepare: function() {
+            console.log("b");
             try {
                 $("#node-input-topic").autocomplete( "destroy" );
             } catch(err) {
             }
-            $.getJSON("iobroker.json", function(data) {
-                var items = [];
-                $("#node-input-topic").autocomplete({source: data.values});
-            });
+            $("#node-input-topic").on( "autocompletechange", function( event, ui ) {
+                if ($('#node-input-name').val() == "" && window.__iobroker[$(this).val()]) {
+                    $('#node-input-name').val(window.__iobroker[$(this).val()].name);
+                }
+            } );
+            if (!window.__iobroker) {
+                $.getJSON("iobroker.json", function(data) {
+                    var items = [];
+                    window.__iobroker = data;
+                    window.__iobrokerKeys = [];
+                    for (var state in window.__iobroker) {
+                        window.__iobrokerKeys.push(state);
+                    }
+
+                    $("#node-input-topic").autocomplete({
+                        source: window.__iobrokerKeys,
+                        autocompletechange: function () {
+                            if ($('#node-input-name').val() == "" && window.__iobroker[$(this).val()]) {
+                                $('#node-input-name').val(window.__iobroker[$(this).val()].name);
+                            }
+                        }
+                    });
+                });
+            } else {
+                $("#node-input-topic").autocomplete({
+                    source: window.__iobrokerKeys,
+                    autocompletechange: function () {
+                        if ($('#node-input-name').val() == "" && window.__iobroker[$(this).val()]) {
+                            $('#node-input-name').val(window.__iobroker[$(this).val()].name);
+                        }
+                    }
+                });
+            }
         }
     });
 </script>
@@ -77,6 +107,13 @@
             <option value="false">command</option>
         </select>
     </div>
+    <div class="form-row">
+        <label for="node-input-autoCreate"><i class="fa fa-arrow-up"></i> Auto create</label>
+        <select id="node-input-autoCreate" style="width:73% !important">
+            <option value="true">Create states if not exist</option>
+            <option value="false">Ignore messages for non existing states</option>
+        </select>
+    </div>
     <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
@@ -91,7 +128,8 @@
         defaults: {
             name: {value:""},
             topic: {value:""},
-            ack: {value:"false"}
+            ack: {value:"false"},
+			autoCreate: {value: "false"}
          },
         color:"#a8bfd8",
         inputs:1,
@@ -105,14 +143,45 @@
             return this.name?"node_label_italic":"";
         },
         oneditprepare: function() {
+            console.log("A");
             try {
                 $("#node-input-topic").autocomplete( "destroy" );
             } catch(err) {
             }
-            $.getJSON("iobroker.json", function(data) {
-                var items = [];
-                $("#node-input-topic").autocomplete({source: data.values});
-            });
+
+            if (!window.__iobroker) {
+                $.getJSON("iobroker.json", function(data) {
+                    var items = [];
+                    window.__iobroker = data;
+                    window.__iobrokerKeys = [];
+                    for (var state in window.__iobroker) {
+                        window.__iobrokerKeys.push(state);
+                    }
+
+                    $("#node-input-topic").autocomplete({
+                        source: window.__iobrokerKeys,
+                        autocompletechange: function () {
+                            if ($('#node-input-name').val() == "" && window.__iobroker[$(this).val()]) {
+                                $('#node-input-name').val(window.__iobroker[$(this).val()].name);
+                            }
+                        }
+                    });
+                });
+            } else {
+                $("#node-input-topic").autocomplete({
+                    source: window.__iobrokerKeys,
+                    autocompletechange: function () {
+                        if ($('#node-input-name').val() == "" && window.__iobroker[$(this).val()]) {
+                            $('#node-input-name').val(window.__iobroker[$(this).val()].name);
+                        }
+                    }
+                });
+            }
+            $("#node-input-topic").on( "autocompletechange", function( event, ui ) {
+                if ($('#node-input-name').val() == "" && window.__iobroker[$(this).val()]) {
+                    $('#node-input-name').val(window.__iobroker[$(this).val()].name);
+                }
+            } );
         }
     });
 </script>

@@ -18,15 +18,16 @@
 // to make it available:
 //var fs = require("fs");
 
- 
 module.exports = {
     // the tcp port that the Node-RED web server is listening on
-    uiPort: 1880,
+    uiPort: '%%port%%',
 
     // By default, the Node-RED UI accepts connections on all IPv4 interfaces.
     // The following property can be used to listen on a specific interface. For
     // example, the following would only allow connections from the local machine.
     //uiHost: "127.0.0.1",
+    iobrokerInstance: '%%instance%%',
+    iobrokerConfig: '%%config%%',
 
     // Retry time in milliseconds for MQTT connections
     mqttReconnectTime: 15000,
@@ -45,7 +46,7 @@ module.exports = {
     debugMaxLength: 1000,
 
     // The file containing the flows. If not set, it defaults to flows_<hostname>.json
-    flowFile: 'flows.json',
+    flowFile: __dirname + '/flows.json',
 
     // To enabled pretty-printing of the flow within the flow file, set the following
     //  property to true:

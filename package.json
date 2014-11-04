@@ -11,7 +11,8 @@
       "mongodb": "*"
   },
   "dependencies": {
-      "node-red": "~0.9.1"
+      "node-red": "~0.9.1",
+      "fs.notify": "~0.0.4"
   },
   "devDependencies": {
       "grunt": "~0.4.4",
