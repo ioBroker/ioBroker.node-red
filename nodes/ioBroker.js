@@ -109,42 +109,65 @@ module.exports = function(RED) {
             node.status({fill:"red",shape:"ring",text:"disconnected"},true);
         }
 
+        function setState(id, val, ack) {
+            adapter.getObject(id, function (err, obj) {
+                if (!obj) {
+                    if (!node.autoCreate) {
+                        adapter.log.warn('State "' + id + '" does not exist in the ioBroker.');
+                        return;
+                    }
+                    adapter.log.warn('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
+                    // Create object
+                    adapter.setObject(id, {
+                        common: {
+                            name: id.replace(/^io\./, ''),
+                            role: 'info'
+                        },
+                        parent: 'node-red.' + settings.iobrokerInstance,
+                        native: {},
+                        type: 'state'
+                    }, function (err, obj) {
+                        // Add state to children of root
+                        adapter.getObject('', function (err, obj) {
+                            if (obj) {
+                                if (obj.children) {
+                                    var pos = obj.children.indexOf(id);
+                                    if (pos == -1) {
+                                        obj.children.push(id);
+                                        adapter.extendObject('node-red.' + instance, {children: obj.children, type: 'channel'});
+                                    }
+                                }
+                            }
+                        });
+
+                    });
+
+                    adapter.setState(id, {val: val, ack: ack});
+                } else {
+                    adapter.setState(id, {val: val, ack: ack});
+                }
+            });
+        }
 
         node.on("input", function(msg) {
             var id = node.topic || msg.topic;
             if (id) {
-                if (id.match(/^io\./) && !node.regex.exec(id)) {
-                    // Check if state exists
-                    adapter.getForeignState(id, function (obj) {
-                        if (obj) {
-                            adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
-                        } else {
-                            adapter.log.warn('State "' + id + '" does not exist in the ioBroker')
-                        }
-                    });
-                } else {
-                    adapter.getObject(id, function (obj) {
-                        if (!obj) {
-                            if (!node.autoCreate) {
-                                adapter.log.warn('State "' + id + '" does not exist in the ioBroker.');
-                                return;
+                if (id.match(/^io\./)) {
+                    // If not this adapter state
+                    if (!node.regex.exec(id)) {
+                        // Check if state exists
+                        adapter.getForeignState(id, function (obj) {
+                            if (obj) {
+                                adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
+                            } else {
+                                adapter.log.warn('State "' + id + '" does not exist in the ioBroker')
                             }
-                            adapter.log.warn('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
-                            // Create object
-                            adapter.setObject(id, {
-                                common: {
-                                    name: id,
-                                    role: 'info'
-                                },
-                                parent: 'node-red.' + settings.iobrokerInstance,
-                                native: {},
-                                type: 'state'
-                            });
-                            adapter.setState(id, {val: msg.payload, ack: node.ack});
-                        } else {
-                            adapter.setState(id, {val: msg.payload, ack: node.ack});
-                        }
-                    });
+                        });
+                    } else {
+                        setState(id, msg.payload, node.ack);
+                    }
+                } else {
+                    setState('io.' + id, msg.payload, node.ack);
                 }
             } else {
                 node.warn("No key or topic set");

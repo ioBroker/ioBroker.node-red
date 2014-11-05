@@ -70,6 +70,19 @@
         for (var key in settings) {
             setValue(key, settings[key]);
         }
+        $('#update').button().click(function () {
+            sendTo(null, 'update', null, function (error) {
+                if (!error) {
+                    showMessage(_('Successfully updated'))
+                } else {
+                    showMessage(_('Cannot update:') + _(error))
+                }
+            });
+        });
+
+        getIsAdapterAlive(function (isAlive) {
+            if (!isAlive) $('#update').button("disable");
+        });
     }
 
     // ... and the function save has to exist.
@@ -105,5 +118,8 @@
     <table>
         <tr><td class="translate">Web server port]:</td><td><input class="value number" id="port" type="input" size="5"/></td></tr>
     </table>
+    <h4 class="translate">node-red update select dialog</h4>
+    <button id="update" class="translateB">Update select dialog</button>
+
 </div>
 </html>

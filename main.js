@@ -45,7 +45,9 @@ function processMessage(obj) {
     if (!obj || !obj.command) return;
     switch (obj.command) {
         case 'update': {
-            writeStateList();
+            writeStateList(function(error) {
+                if (obj.callback) adapter.sendTo(obj.from, obj.command, error, obj.callback);
+            });
         }
     }
 }
@@ -112,11 +114,16 @@ function writeStateList(callback) {
             states[state] = {name: obj[state].common.name, role: obj[state].common.role, rooms: obj[state].enums};
         }
         fs.writeFileSync(__dirname + '/node_modules/node-red/public/iobroker.json', JSON.stringify(states));
-        if (callback) callback();
+        if (callback) callback(err);
     });
 }
 
 function main() {
+    // create userdata directory
+    if (!fs.existsSync(__dirname + '/userdata')) {
+        fs.mkdirSync(__dirname + '/userdata');
+    }
+
     // monitor project file
     notifications = new Notify([__dirname + '/userdata/flows_cred.json', __dirname + '/userdata/flows.json']);
     notifications.on('change', function (file, event, path) {
