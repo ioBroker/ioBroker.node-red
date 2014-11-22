@@ -7,6 +7,9 @@ ioBroker node-red Adapter
 This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
+### 0.0.5 (2014-11-22)
+* (bluefox) support of new naming concept
+
 ### 0.0.4 (2014-11-05)
 * (bluefox) fix some errors
 

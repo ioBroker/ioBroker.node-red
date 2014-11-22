@@ -108,7 +108,7 @@ function writeSettings() {
 }
 
 function writeStateList(callback) {
-    adapter.getForeignObjects('io.*', 'state', 'rooms', function (err, obj) {
+    adapter.getForeignObjects('*', 'state', 'rooms', function (err, obj) {
         var states = {};
         for (var state in obj) {
             states[state] = {name: obj[state].common.name, role: obj[state].common.role, rooms: obj[state].enums};
