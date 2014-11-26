@@ -38,7 +38,7 @@ module.exports = function(RED) {
 
     adapter.on("ready", function () {
         ready = true;
-        adapter.subscribeForeignStates('io.*');
+        adapter.subscribeForeignStates('*');
         while (nodes.length) {
             var node = nodes.pop();
             if (node instanceof IOBrokerInNode)
@@ -47,7 +47,7 @@ module.exports = function(RED) {
         }
     });
 
-    // name is like io.system.state, pattern is like "*.state" or "io.*" or "*system*"
+    // name is like system.state, pattern is like "*.state" or "*" or "*system*"
     function getRegex(pattern) {
         if (!pattern || pattern == '*') return null;
         if (pattern.indexOf('*') == -1) return null;
@@ -60,9 +60,9 @@ module.exports = function(RED) {
     function IOBrokerInNode(n) {
         var node = this;
         RED.nodes.createNode(node,n);
-        node.topic = n.topic || 'io.*';
-        node.structtype = n.structtype;
+        node.topic = (n.topic || '*').replace(/\//g, '.');
         node.regex = getRegex(this.topic);
+        node.payloadType = n.payloadType;
 
         if (ready) {
             node.status({fill:"green",shape:"dot",text:"connected"});
@@ -71,11 +71,15 @@ module.exports = function(RED) {
         }
 
         node.stateChange = function(topic, obj) {
-            if (node.regex && !node.regex.exec(topic)) return;
+            if (node.regex) {
+                if (!node.regex.exec(topic)) return;
+            } else if (node.topic != '*' && node.topic != topic) {
+                return;
+            }
 
             node.send({
-                topic:       topic,
-                payload:     obj.val.toString(),
+                topic:       topic.replace(/\./g, '/'),
+                payload:     (node.payloadType == 'object') ? obj : obj.val.toString(),
                 acknowledged:obj.ack,
                 timestamp:   obj.ts,
                 lastchange:  obj.lc,
@@ -99,9 +103,10 @@ module.exports = function(RED) {
         var node = this;
         RED.nodes.createNode(node,n);
         node.topic = n.topic;
+
         node.ack = (n.ack === "true" || n.ack === true);
         node.autoCreate = n.autoCreate;
-        node.regex = new RegExp("^io\.node-red\." + instance);
+        node.regex = new RegExp("^node-red\." + instance);
 
         if (ready) {
             node.status({fill:"green",shape:"dot",text:"connected"});
@@ -120,29 +125,14 @@ module.exports = function(RED) {
                     // Create object
                     adapter.setObject(id, {
                         common: {
-                            name: id.replace(/^io\./, ''),
+                            name: id,
                             role: 'info'
                         },
-                        parent: 'node-red.' + settings.iobrokerInstance,
                         native: {},
                         type: 'state'
                     }, function (err, obj) {
-                        // Add state to children of root
-                        adapter.getObject('', function (err, obj) {
-                            if (obj) {
-                                if (obj.children) {
-                                    var pos = obj.children.indexOf(id);
-                                    if (pos == -1) {
-                                        obj.children.push(id);
-                                        adapter.extendObject('node-red.' + instance, {children: obj.children, type: 'channel'});
-                                    }
-                                }
-                            }
-                        });
-
+                        adapter.setState(id, {val: val, ack: ack});
                     });
-
-                    adapter.setState(id, {val: val, ack: ack});
                 } else {
                     adapter.setState(id, {val: val, ack: ack});
                 }
@@ -152,22 +142,19 @@ module.exports = function(RED) {
         node.on("input", function(msg) {
             var id = node.topic || msg.topic;
             if (id) {
-                if (id.match(/^io\./)) {
-                    // If not this adapter state
-                    if (!node.regex.exec(id)) {
-                        // Check if state exists
-                        adapter.getForeignState(id, function (obj) {
-                            if (obj) {
-                                adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
-                            } else {
-                                adapter.log.warn('State "' + id + '" does not exist in the ioBroker')
-                            }
-                        });
-                    } else {
-                        setState(id, msg.payload, node.ack);
-                    }
+                id = id.replace(/\//g, '.');
+                // If not this adapter state
+                if (!node.regex.exec(id) && id.indexOf('.') != -1) {
+                    // Check if state exists
+                    adapter.getForeignState(id, function (obj) {
+                        if (obj) {
+                            adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
+                        } else {
+                            adapter.log.warn('State "' + id + '" does not exist in the ioBroker')
+                        }
+                    });
                 } else {
-                    setState('io.' + id, msg.payload, node.ack);
+                    setState(id, msg.payload, node.ack);
                 }
             } else {
                 node.warn("No key or topic set");

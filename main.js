@@ -142,8 +142,7 @@ function main() {
                 cred:  cred,
                 flows: flows
             },
-            type: 'config',
-            parent: 'system.adapter.node-red.' + adapter.instance
+            type: 'config'
         });
     });
 

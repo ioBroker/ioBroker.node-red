@@ -20,6 +20,13 @@
         <input type="text" id="node-input-topic" placeholder="Topic">
     </div>
     <div class="form-row">
+        <label for="node-input-payloadType"><i class="fa fa-envelope"></i> Payload</label>
+        <select id="node-input-payloadType" style="width:125px !important">
+          <option value="value">value</option>
+          <option value="object">object</option>
+        </select>
+    </div>
+    <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
@@ -36,7 +43,8 @@
         category: 'input',
         defaults: {
             name: {value:""},
-            topic: {value:"io.*",required:true}
+            topic: {value:"*",required:true},
+            payloadType: {value:'value'}
         },
         color:"#a8bfd8",
         inputs:0,
