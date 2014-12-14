@@ -7,6 +7,9 @@ ioBroker node-red Adapter
 This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
+### 0.0.7 (2014-12-14)
+* (bluefox) support of select ID dialogs
+
 ### 0.0.6 (2014-11-26)
 * (bluefox) use names like in mqtt: "adapter/instance/device/channel/state"
 * (bluefox) suport of "value" or "object" for input node

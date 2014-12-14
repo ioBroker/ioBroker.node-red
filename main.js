@@ -11,17 +11,8 @@
 var adapter = require(__dirname + '/../../lib/adapter.js')({
     name: 'node-red',
     systemConfig: true, // get the system configuration as systemConfig parameter of adapter
-    unload: function (callback) {
-        // Stop node-red
-        stopping = true;
-        if (redProcess) {
-            redProcess.kill();
-            redProcess = null;
-        }
-        if(notifications) notifications.close();
-
-        if (callback) callback();
-    }});
+    unload: unloadRed
+});
 	
 var fs =      require('fs');
 var spawn =   require('child_process').spawn;
@@ -40,6 +31,18 @@ adapter.on('ready', function () {
 // is called if a subscribed state changes
 //adapter.on('stateChange', function (id, state) {
 //});
+function unloadRed (callback) {
+    // Stop node-red
+    stopping = true;
+    if (redProcess) {
+        adapter.log.info("kill node-red task");
+        redProcess.kill();
+        redProcess = null;
+    }
+    if(notifications) notifications.close();
+
+    if (callback) callback();
+}
 
 function processMessage(obj) {
     if (!obj || !obj.command) return;
@@ -48,6 +51,9 @@ function processMessage(obj) {
             writeStateList(function(error) {
                 if (obj.callback) adapter.sendTo(obj.from, obj.command, error, obj.callback);
             });
+        }
+        case 'stopInstance': {
+            unloadRed();
         }
     }
 }
@@ -63,15 +69,25 @@ function processMessages() {
 var redProcess;
 var stopping;
 var notifications;
+var saveTimer;
 
 function startNodeRed() {
     var args = [__dirname + '/node_modules/node-red/red.js', '-v', '--settings', __dirname + '/userdata/settings.js'];
     adapter.log.info('Starting node-red: ' + args.join(' '));
+
     redProcess = spawn('node', args);
     redProcess.stdout.on('data', function (data) {
-        if (data && data[data.length - 1] == '\n')
-            data = data.substring(0, data.length - 1);
-        adapter.log.debug(data);
+        if (!data) return;
+        data = data.toString();
+        if (data[data.length - 2] == '\r' && data[data.length - 1] == '\n') data = data.substring(0, data.length - 2);
+        if (data[data.length - 2] == '\n' && data[data.length - 1] == '\r') data = data.substring(0, data.length - 2);
+        if (data[data.length - 1] == '\r') data = data.substring(0, data.length - 1);
+
+        if (data.indexOf("Error: ") != -1) {
+            adapter.log.error(data);
+        } else {
+            adapter.log.debug(data);
+        }
     });
     redProcess.stderr.on('data', function (data) {
         adapter.log.error(data);
@@ -108,13 +124,53 @@ function writeSettings() {
 }
 
 function writeStateList(callback) {
-    adapter.getForeignObjects('*', 'state', 'rooms', function (err, obj) {
+    adapter.getForeignObjects('*', function (err, obj) {
+        // remove native information
+        for (var i in obj) {
+            if (obj[i].native) delete obj[i].native;
+        }
+
+        fs.writeFileSync(__dirname + '/node_modules/node-red/public/iobroker.json', JSON.stringify(obj));
+        if (callback) callback(err);
+    });
+/*    adapter.getForeignObjects('*', 'state', 'rooms', function (err, obj) {
         var states = {};
         for (var state in obj) {
             states[state] = {name: obj[state].common.name, role: obj[state].common.role, rooms: obj[state].enums};
         }
         fs.writeFileSync(__dirname + '/node_modules/node-red/public/iobroker.json', JSON.stringify(states));
         if (callback) callback(err);
+    });*/
+}
+
+function saveObjects() {
+    if (saveTimer) {
+        clearTimeout(saveTimer);
+        saveTimer = null;
+    }
+    var cred = {};
+    var flows = {};
+
+    try {
+        if (fs.existsSync(__dirname + '/userdata/flows_cred.json')) cred = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows_cred.json'));
+    } catch(e) {
+        adapter.log.error('Cannot save ' + __dirname + '/userdata/flows_cred.json');
+    }
+    try {
+        if (fs.existsSync(__dirname + '/userdata/flows.json')) flows = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows.json'));
+    } catch(e) {
+        adapter.log.error('Cannot save ' + __dirname + '/userdata/flows.json');
+    }
+    //upload it to config
+    adapter.setObject('flows', {
+        common: {
+            name: 'Flows for node-red'
+        },
+        native: {
+            cred:  cred,
+            flows: flows
+        },
+        type: 'config'
     });
 }
 
@@ -124,26 +180,16 @@ function main() {
         fs.mkdirSync(__dirname + '/userdata');
     }
 
+    if (!fs.existsSync(__dirname + '/node_modules/node-red/public/icons.gif')) {
+        fs.createReadStream(__dirname + '/nodes/icons/icons.gif').pipe(fs.createWriteStream(__dirname + '/node_modules/node-red/public/icons.gif'));
+    }
     // monitor project file
     notifications = new Notify([__dirname + '/userdata/flows_cred.json', __dirname + '/userdata/flows.json']);
-    notifications.on('change', function (file, event, path) {
-        var cred = {};
-        var flows = {};
-
-        if (fs.existsSync(__dirname + '/userdata/flows_cred.json')) cred = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows_cred.json'));
-        if (fs.existsSync(__dirname + '/userdata/flows.json')) flows = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows.json'));
-
-        //upload it to config
-        adapter.setObject('flows', {
-            common: {
-                name: 'Flows for node-red'
-            },
-            native: {
-                cred:  cred,
-                flows: flows
-            },
-            type: 'config'
-        });
+    notifications.on('change', function () {
+        if (saveTimer) {
+            clearTimeout(saveTimer);
+        }
+        saveTimer = setTimeout(saveObjects, 500);
     });
 
     // Read configuration
