@@ -174,15 +174,35 @@ function saveObjects() {
     });
 }
 
+function syncPublic(path) {
+    if (!path) path = '/public';
+
+    var dir = fs.readdirSync(__dirname + path);
+
+    if (!fs.existsSync(__dirname + '/node_modules/node-red' + path)) {
+        fs.mkdirSync(__dirname + '/node_modules/node-red' + path);
+    }
+
+    for (var i = 0; i < dir.length; i++) {
+        var stat = fs.statSync(__dirname + path + '/' + dir[i]);
+        if (stat.isDirectory())  {
+            syncPublic(path + '/' + dir[i]);
+        } else {
+            if (!fs.existsSync(__dirname + '/node_modules/node-red' + path + '/' + dir[i])) {
+                fs.createReadStream(__dirname + path + '/' + dir[i]).pipe(fs.createWriteStream(__dirname + '/node_modules/node-red' + path + '/' + dir[i]));
+            }
+        }
+    }
+}
+
 function main() {
     // create userdata directory
     if (!fs.existsSync(__dirname + '/userdata')) {
         fs.mkdirSync(__dirname + '/userdata');
     }
 
-    if (!fs.existsSync(__dirname + '/node_modules/node-red/public/icons.gif')) {
-        fs.createReadStream(__dirname + '/nodes/icons/icons.gif').pipe(fs.createWriteStream(__dirname + '/node_modules/node-red/public/icons.gif'));
-    }
+    syncPublic();
+
     // monitor project file
     notifications = new Notify([__dirname + '/userdata/flows_cred.json', __dirname + '/userdata/flows.json']);
     notifications.on('change', function () {
