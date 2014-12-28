@@ -33,13 +33,11 @@
         {
             "_id":  "",
             "type": "channel",
-            "role": "info",
             "common": {
-                "name": "States created by node-red.%INSTANCE%"
+                "name": "States created by node-red.%INSTANCE%",
+                "role": "info"
             },
-            "native": {},
-            "children": [],
-            "parent": null
+            "native": {}
         }
     ]
 }
