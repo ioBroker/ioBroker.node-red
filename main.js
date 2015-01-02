@@ -7,8 +7,13 @@
  *      Apache 2.0 License
  *
  */
+/* jshint -W097 */// jshint strict:false
+/*jslint node: true */
+"use strict";
 
-var adapter = require(__dirname + '/../../lib/adapter.js')({
+var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
+
+var adapter = utils.adapter.js({
     name: 'node-red',
     systemConfig: true, // get the system configuration as systemConfig parameter of adapter
     unload: unloadRed

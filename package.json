@@ -1,43 +1,51 @@
 {
   "name": "iobroker.node-red",
   "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "author": "bluefox <bluefox@ccu.io>",
   "contributors": [
     "bluefox <bluefox@ccu.io>"
   ],
   "homepage": "https://github.com/ioBroker/ioBroker.node-red",
-  "licenses": [
-    {
-      "type": "Apache 2.0",
-      "url": "https://github.com/ioBroker/ioBroker.node-red/blob/master/LICENSE"
-    }
+  "license": "Apache 2.0",
+  "keywords": [
+    "ioBroker",
+    "node-red",
+    "home automation"
   ],
-  "keywords":  ["ioBroker", "node-red", "home automation"],
-  "readmeFilename": "README.md",
-  "repository" : {
-      "type" : "git",
-      "url" : "https://github.com/ioBroker/ioBroker.node-red"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ioBroker/ioBroker.node-red"
   },
   "optionalDependencies": {
-      "js2xmlparser": "*",
-      "fs.notify": "*",
-      "feedparser": "*",
-      "mongodb": "*"
+    "js2xmlparser": "*",
+    "fs.notify": "*",
+    "feedparser": "*",
+    "mongodb": "*"
   },
   "dependencies": {
-      "node-red": "~0.9.1",
-      "fs.notify": "~0.0.4"
+    "node-red": "~0.9.1",
+    "fs.notify": "*",
+    "js2xmlparser": "*",
+    "feedparser": "*",
+    "mongodb": "*"
   },
   "devDependencies": {
-      "grunt": "~0.4.4",
-      "grunt-replace": "~0.7.6",
-      "grunt-contrib-jshint": "~0.10.0",
-      "grunt-jscs": "~0.6.1",
-      "grunt-http": "~1.4.1",
-      "grunt-contrib-clean": "~0.5.0",
-      "grunt-contrib-compress": "~0.8.0",
-      "grunt-contrib-copy": "~0.5.0",
-      "grunt-exec": "~0.4.5"
+    "grunt": "~0.4.4",
+    "grunt-replace": "~0.7.6",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-jscs": "~0.6.1",
+    "grunt-http": "~1.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-compress": "~0.8.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-exec": "~0.4.5"
+  },
+  "bugs": {
+    "url": "https://github.com/ioBroker/ioBroker.node-red/issues"
+  },
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
