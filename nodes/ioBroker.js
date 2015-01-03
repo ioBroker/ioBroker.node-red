@@ -17,19 +17,20 @@
 module.exports = function(RED) {
     "use strict";
     var util = require("util");
+    var utils = require(__dirname + '/../lib/utils');
     //var redis = require("redis");
     var hashFieldRE = /^([^=]+)=(.*)$/;
 	// Get the redis address
 
 	var settings = require(process.env.NODE_RED_HOME+"/red/red").settings;
-    var instance = settings.get('iobrokerInstance') || 0;
-    var config   = settings.get('iobrokerConfig');
+    var instance = settings.get("iobrokerInstance") || 0;
+    var config   = settings.get("iobrokerConfig");
     if (typeof config == 'string') {
         config = JSON.parse(config);
     }
 
     try {
-        var adapter = require(__dirname + '/../../../lib/adapter.js')({name: 'node-red', instance: instance, config: config});
+        var adapter = utils.adapter({name: 'node-red', instance: instance, config: config});
     } catch(e) {
         console.log(e);
     }

@@ -533,7 +533,6 @@
 
     var methods = {
         "init": function (options) {
-            console.log("Init IN!!!");
             // done, just to show possible settings, this is not required
             var settings = $.extend({
                 currentId:  '',
@@ -734,7 +733,6 @@
 
 <script type="text/javascript">
 
-    console.log("a");
     RED.nodes.registerType('ioBroker in',{
         category: 'input',
         defaults: {
@@ -753,11 +751,8 @@
             return this.name?"node_label_italic":"";
         },
         oneditprepare: function() {
-            console.log("b");
-
             if (!window.__iobroker) {
                 $.getJSON("iobroker.json", function(data) {
-                    console.log("initIn");
                     window.__iobroker = data;
                     $('#dialog-select-member').selectId('init', {
                         objects: window.__iobroker,
@@ -844,10 +839,8 @@ RED.nodes.registerType('ioBroker out',{
             return this.name?"node_label_italic":"";
         },
         oneditprepare: function() {
-            console.log("C");
             if (!window.__iobroker) {
                 $.getJSON("iobroker.json", function(data) {
-                    console.log("initIn");
                     window.__iobroker = data;
                     $('#dialog-select-member').selectId('init', {
                         objects: window.__iobroker,

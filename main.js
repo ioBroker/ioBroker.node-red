@@ -13,7 +13,7 @@
 
 var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
 
-var adapter = utils.adapter.js({
+var adapter = utils.adapter({
     name: 'node-red',
     systemConfig: true, // get the system configuration as systemConfig parameter of adapter
     unload: unloadRed
