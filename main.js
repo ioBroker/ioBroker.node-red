@@ -176,6 +176,8 @@ function saveObjects() {
             flows: flows
         },
         type: 'config'
+    }, function () {
+        adapter.log.info('Save ' + __dirname + '/userdata/flows.json');
     });
 }
 
