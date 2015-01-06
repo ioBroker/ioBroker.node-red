@@ -62,6 +62,12 @@ module.exports = function(RED) {
         var node = this;
         RED.nodes.createNode(node,n);
         node.topic = (n.topic || '*').replace(/\//g, '.');
+
+        // If no adapter prefix, add own adapter prefix
+        if (node.topic && node.topic.indexOf('.') == -1) {
+            node.topic = adapter.namespace + '.' + node.topic;
+        }
+
         node.regex = getRegex(this.topic);
         node.payloadType = n.payloadType;
 
@@ -80,7 +86,7 @@ module.exports = function(RED) {
 
             node.send({
                 topic:       topic.replace(/\./g, '/'),
-                payload:     (node.payloadType == 'object') ? obj : obj.val.toString(),
+                payload:     (node.payloadType == 'object') ? obj : (obj.val === null || obj.val === undefined) ? '' : obj.val.toString(),
                 acknowledged:obj.ack,
                 timestamp:   obj.ts,
                 lastchange:  obj.lc,
@@ -106,7 +112,7 @@ module.exports = function(RED) {
         node.topic = n.topic;
 
         node.ack = (n.ack === "true" || n.ack === true);
-        node.autoCreate = n.autoCreate;
+        node.autoCreate = (n.autoCreate === "true" || n.autoCreate === true);
         node.regex = new RegExp("^node-red\." + instance);
 
         if (ready) {
@@ -132,10 +138,16 @@ module.exports = function(RED) {
                         native: {},
                         type: 'state'
                     }, function (err, obj) {
-                        adapter.setState(id, {val: val, ack: ack});
+                        if (val != '__create__') {
+                            adapter.setState(id, {val: val, ack: ack});
+                        } else {
+                            adapter.setState(id, {val: null, ack: ack});
+                        }
                     });
                 } else {
-                    adapter.setState(id, {val: val, ack: ack});
+                    if (val != '__create__') {
+                        adapter.setState(id, {val: val, ack: ack});
+                    }
                 }
             });
         }

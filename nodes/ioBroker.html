@@ -777,7 +777,7 @@
                     var newObj = $('#dialog-select-member').selectId('getInfo', newId)
                     $('#node-input-topic').val(newId);
                     var oldName = $('#node-input-name').val();
-                    if (!oldName || (oldObj.common && oldName == oldObj.common.name && newObj.common)) {
+                    if (!oldName || !oldObj || (oldObj.common && oldName == oldObj.common.name && newObj.common)) {
                         $('#node-input-name').val(newObj.common.name);
                     }
                 });
@@ -816,6 +816,7 @@
 <script type="text/x-red" data-help-name="ioBroker out">
     <p>Connects to a ioBroker and publishes <b>msg.payload</b> either to the <b>msg.topic</b> or to the topic specified in the edit window. The value in the edit window has precedence.</p>
     <p>If <b>msg.payload</b> contains an object it will be stringified before being sent.</p>
+    <p>If <b>msg.payload</b> contains "__create__", the object will be only created, but no value will be written.</p>
 </script>
 
 <script type="text/javascript">
@@ -866,7 +867,7 @@ RED.nodes.registerType('ioBroker out',{
                     $('#node-input-topic').val(newId);
 
                     var oldName = $('#node-input-name').val();
-                    if (!oldName || (oldObj.common && oldName == oldObj.common.name && newObj.common)) {
+                    if (!oldName || !oldObj || (oldObj.common && oldName == oldObj.common.name && newObj.common)) {
                         $('#node-input-name').val(newObj.common.name);
                     }
                 });
