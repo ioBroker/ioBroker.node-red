@@ -7,6 +7,9 @@ ioBroker node-red Adapter
 This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
+### 0.1.4 (2015-01-07)
+* (bluefox) create variables without need to be extra called with "__create__"
+
 ### 0.1.3 (2015-01-06)
 * (bluefox) make possible creation of variables
 

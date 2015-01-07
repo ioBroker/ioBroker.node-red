@@ -1,10 +1,16 @@
 {
   "name": "iobroker.node-red",
   "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "0.1.3",
-  "author": "bluefox <bluefox@ccu.io>",
+  "version": "0.1.4",
+  "author": {
+    "name": "bluefox",
+    "email": "bluefox@ccu.io"
+  },
   "contributors": [
-    "bluefox <bluefox@ccu.io>"
+    {
+      "name": "bluefox",
+      "email": "bluefox@ccu.io"
+    }
   ],
   "homepage": "https://github.com/ioBroker/ioBroker.node-red",
   "license": "Apache 2.0",
@@ -47,5 +53,11 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  },
+  "readme": "![Logo](admin/node-red.png)\nioBroker node-red Adapter\n==============\n\n# Starts node-red instance and communicates with it.\n\nThis adapter uses the node-red server from https://github.com/node-red/node-red\n\n## Changelog\n### 0.1.2 (2015-01-04)\n* (bluefox) print debug message by saving\n\n### 0.1.1 (2015-01-03)\n* (bluefox) fix errors with utils.js\n\n### 0.1.0 (2015-01-02)\n* (bluefox) enable npm install\n\n### 0.0.8 (2014-12-20)\n* (bluefox) support signal stopInstance\n\n### 0.0.7 (2014-12-14)\n* (bluefox) support of select ID dialogs\n\n### 0.0.6 (2014-11-26)\n* (bluefox) use names like in mqtt: \"adapter/instance/device/channel/state\"\n* (bluefox) suport of \"value\" or \"object\" for input node\n\n### 0.0.5 (2014-11-22)\n* (bluefox) support of new naming concept\n\n### 0.0.4 (2014-11-05)\n* (bluefox) fix some errors\n\n### 0.0.2 (2014-11-04)\n* (bluefox) use adapter.js to communicate with ioBroker\n\n### 0.0.1 (2014-11-03)\n* (bluefox) initial commit\n\n## Install\n\n```node iobroker.js add node-red```\n\n## Configuration\n\n## License\n\nCopyright 2014 bluefox<bluefox@ccu.io>.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "readmeFilename": "README.md",
+  "gitHead": "60e3c37b76f905763f8d9c4e6a6ae2f676742fe3",
+  "_id": "iobroker.node-red@0.1.2",
+  "_shasum": "82f9122892765f9d6c0a73897ffa1fb4559fb8f5",
+  "_from": "iobroker.node-red@"
 }
