@@ -231,8 +231,8 @@ module.exports = function(RED) {
                 // If not this adapter state
                 if (!node.regex.exec(id) && id.indexOf('.') != -1) {
                     // Check if state exists
-                    adapter.getForeignState(id, function (obj) {
-                        if (obj) {
+                    adapter.getForeignState(id, function (err, state) {
+                        if (!err && state) {
                             adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
                         } else {
                             if (adapter.log) {

@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "node-red",
-        "version":                  "0.1.4",
+        "version":                  "0.1.5",
         "title":                    "node-red Adapter",
         "desc":                     {
             "en": "This adapter uses node-red as a service. No additional node-red instance required.",
