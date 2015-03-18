@@ -207,15 +207,19 @@ function main() {
     if (!fs.existsSync(__dirname + '/userdata')) {
         fs.mkdirSync(__dirname + '/userdata');
     }
+    if (!fs.existsSync(__dirname + '/userdata/flows_cred.json')) {
+        fs.writeFileSync(__dirname + '/userdata/flows_cred.json', "{}");
+    }
+    if (!fs.existsSync(__dirname + '/userdata/flows.json')) {
+        fs.writeFileSync(__dirname + '/userdata/flows.json', "[]");
+    }
 
     syncPublic();
 
     // monitor project file
     notifications = new Notify([__dirname + '/userdata/flows_cred.json', __dirname + '/userdata/flows.json']);
     notifications.on('change', function () {
-        if (saveTimer) {
-            clearTimeout(saveTimer);
-        }
+        if (saveTimer) clearTimeout(saveTimer);
         saveTimer = setTimeout(saveObjects, 500);
     });
 
