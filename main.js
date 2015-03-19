@@ -88,14 +88,20 @@ function startNodeRed() {
         if (data[data.length - 2] == '\n' && data[data.length - 1] == '\r') data = data.substring(0, data.length - 2);
         if (data[data.length - 1] == '\r') data = data.substring(0, data.length - 1);
 
-        if (data.indexOf("Error: ") != -1) {
+        if (data.indexOf('[err') != -1) {
             adapter.log.error(data);
+        }  else if (data.indexOf('[warn]') != -1) {
+            adapter.log.warn(data);
         } else {
             adapter.log.debug(data);
         }
     });
     redProcess.stderr.on('data', function (data) {
-        adapter.log.error(data);
+        if (data.indexOf('[warn]') == -1) {
+            adapter.log.warn(data);
+        } else {
+            adapter.log.error(data);
+        }
     });
 
     redProcess.on('exit', function (exitCode) {
@@ -216,13 +222,6 @@ function main() {
 
     syncPublic();
 
-    // monitor project file
-    notifications = new Notify([__dirname + '/userdata/flows_cred.json', __dirname + '/userdata/flows.json']);
-    notifications.on('change', function () {
-        if (saveTimer) clearTimeout(saveTimer);
-        saveTimer = setTimeout(saveObjects, 500);
-    });
-
     // Read configuration
     adapter.getObject('flows', function (err, obj) {
         if (obj && obj.native && obj.native.cred) {
@@ -231,6 +230,13 @@ function main() {
         if (obj && obj.native && obj.native.flows) {
             fs.writeFileSync(__dirname + '/userdata/flows.json', JSON.stringify(obj.native.flows));
         }
+
+        // monitor project file
+        notifications = new Notify([__dirname + '/userdata/flows_cred.json', __dirname + '/userdata/flows.json']);
+        notifications.on('change', function () {
+            if (saveTimer) clearTimeout(saveTimer);
+            saveTimer = setTimeout(saveObjects, 500);
+        });
 
         // Create settings for node-red
         writeSettings();
