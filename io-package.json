@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "node-red",
-        "version":                  "0.1.6",
+        "version":                  "0.1.7",
         "title":                    "node-red Adapter",
         "desc":                     {
             "en": "This adapter uses node-red as a service. No additional node-red instance required.",
@@ -22,7 +22,9 @@
         "localLink":                "http://%ip%:1880",
         "enabled":                  true,
         "singletonHost":            true,
-		"supportStopInstance":      true
+		"supportStopInstance":      true,
+		"type":                     "script",
+        "readme":                   "https://github.com/ioBroker/ioBroker.dwd/blob/master/README.md"
     },
     "native": {
         "port": 1880

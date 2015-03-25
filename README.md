@@ -7,6 +7,9 @@ ioBroker node-red Adapter
 This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
+### 0.1.7 (2015-03-25)
+* (bluefox) remove warnings
+
 ### 0.1.6 (2015-03-18)
 * (bluefox) make node-red compatible with ioBroker again
 
