@@ -44,7 +44,8 @@ function unloadRed (callback) {
         redProcess.kill();
         redProcess = null;
     }
-    if(notifications) notifications.close();
+    if (notificationsCreds) notificationsCreds.close();
+    if (notificationsFlows) notificationsFlows.close();
 
     if (callback) callback();
 }
@@ -73,7 +74,8 @@ function processMessages() {
 }
 var redProcess;
 var stopping;
-var notifications;
+var notificationsFlows;
+var notificationsCreds;
 var saveTimer;
 
 function startNodeRed() {
@@ -97,6 +99,7 @@ function startNodeRed() {
         }
     });
     redProcess.stderr.on('data', function (data) {
+		if (!data) return;
         if (data.indexOf('[warn]') == -1) {
             adapter.log.warn(data);
         } else {
@@ -159,16 +162,20 @@ function saveObjects() {
         clearTimeout(saveTimer);
         saveTimer = null;
     }
-    var cred = {};
-    var flows = {};
+    var cred  = undefined;
+    var flows = undefined;
 
     try {
-        if (fs.existsSync(__dirname + '/userdata/flows_cred.json')) cred = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows_cred.json'));
+        if (fs.existsSync(__dirname + '/userdata/flows_cred.json')) {
+            cred = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows_cred.json'));
+        }
     } catch(e) {
         adapter.log.error('Cannot save ' + __dirname + '/userdata/flows_cred.json');
     }
     try {
-        if (fs.existsSync(__dirname + '/userdata/flows.json')) flows = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows.json'));
+        if (fs.existsSync(__dirname + '/userdata/flows.json')) {
+            flows = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows.json'));
+        }
     } catch(e) {
         adapter.log.error('Cannot save ' + __dirname + '/userdata/flows.json');
     }
@@ -208,16 +215,48 @@ function syncPublic(path) {
     }
 }
 
+function installNotifierFlows(isFirst) {
+    if (!notificationsFlows) {
+        if (fs.existsSync(__dirname + '/userdata/flows.json')) {
+            if (!isFirst) saveObjects();
+            // monitor project file
+            notificationsFlows = new Notify([__dirname + '/userdata/flows.json']);
+            notificationsFlows.on('change', function () {
+                if (saveTimer) clearTimeout(saveTimer);
+                saveTimer = setTimeout(saveObjects, 500);
+            });
+        } else {
+            // Try to install notifier every 10 seconds till the file will be created
+            setTimeout(function () {
+                installNotifierFlows();
+            }, 10000);
+        }
+    }
+}
+
+function installNotifierCreds(isFirst) {
+    if (!notificationsCreds) {
+        if (fs.existsSync(__dirname + '/userdata/flows_cred.json')) {
+            if (!isFirst) saveObjects();
+            // monitor project file
+            notificationsCreds = new Notify([__dirname + '/userdata/flows_cred.json']);
+            notificationsCreds.on('change', function () {
+                if (saveTimer) clearTimeout(saveTimer);
+                saveTimer = setTimeout(saveObjects, 500);
+            });
+        } else {
+            // Try to install notifier every 10 seconds till the file will be created
+            setTimeout(function () {
+                installNotifierCreds();
+            }, 10000);
+        }
+    }
+}
+
 function main() {
     // create userdata directory
     if (!fs.existsSync(__dirname + '/userdata')) {
         fs.mkdirSync(__dirname + '/userdata');
-    }
-    if (!fs.existsSync(__dirname + '/userdata/flows_cred.json')) {
-        fs.writeFileSync(__dirname + '/userdata/flows_cred.json', "{}");
-    }
-    if (!fs.existsSync(__dirname + '/userdata/flows.json')) {
-        fs.writeFileSync(__dirname + '/userdata/flows.json', "[]");
     }
 
     syncPublic();
@@ -225,18 +264,22 @@ function main() {
     // Read configuration
     adapter.getObject('flows', function (err, obj) {
         if (obj && obj.native && obj.native.cred) {
-            fs.writeFileSync(__dirname + '/userdata/flows_cred.json', JSON.stringify(obj.native.cred));
+            var c = JSON.stringify(obj.native.cred);
+            // If really not empty
+            if (c != '{}' && c != '[]') {
+                fs.writeFileSync(__dirname + '/userdata/flows_cred.json', JSON.stringify(obj.native.cred));
+            }
         }
         if (obj && obj.native && obj.native.flows) {
-            fs.writeFileSync(__dirname + '/userdata/flows.json', JSON.stringify(obj.native.flows));
+            var f = JSON.stringify(obj.native.flows);
+            // If really not empty
+            if (f != '{}' && f != '[]') {
+                fs.writeFileSync(__dirname + '/userdata/flows.json', JSON.stringify(obj.native.flows));
+            }
         }
 
-        // monitor project file
-        notifications = new Notify([__dirname + '/userdata/flows_cred.json', __dirname + '/userdata/flows.json']);
-        notifications.on('change', function () {
-            if (saveTimer) clearTimeout(saveTimer);
-            saveTimer = setTimeout(saveObjects, 500);
-        });
+        installNotifierFlows(true);
+        installNotifierCreds(true);
 
         // Create settings for node-red
         writeSettings();
