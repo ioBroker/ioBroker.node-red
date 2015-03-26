@@ -100,10 +100,10 @@ function startNodeRed() {
     });
     redProcess.stderr.on('data', function (data) {
 		if (!data) return;
-        if (data.indexOf('[warn]') == -1) {
+        if (data.indexOf && data.indexOf('[warn]') == -1) {
             adapter.log.warn(data);
         } else {
-            adapter.log.error(data);
+            adapter.log.error(JSON.stringify(data));
         }
     });
 
