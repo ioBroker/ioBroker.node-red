@@ -100,6 +100,13 @@ function startNodeRed() {
     });
     redProcess.stderr.on('data', function (data) {
 		if (!data) return;
+		if (data[0]) {
+			var text = "";
+			for (var i = 0; i < data.length; i++) {
+				text += String.fromCharCode(data[i]);
+			}
+			data = text;
+		}
         if (data.indexOf && data.indexOf('[warn]') == -1) {
             adapter.log.warn(data);
         } else {
