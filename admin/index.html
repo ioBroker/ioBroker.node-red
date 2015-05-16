@@ -25,17 +25,48 @@
 <script type="text/javascript">
     var devices = [];
 
-    function setValue(id, value) {
+    systemDictionary = {
+        "node-red settings": {
+            "en": "node-red settings",
+            "de": "node-red Einstellungen",
+            "ru": "node-red Настройки"
+        },
+        "Web server port:": {
+            "en": "Web server port:",
+            "de": "Web-Server-Port:",
+            "ru": "Порт веб сервера:"
+        },
+        "node-red update select dialog": {
+            "en": "node-red update select dialog",
+            "de": "node-red SelectID Dialog aktualisieren",
+            "ru": "Обновить переменные в диалоге node-red"
+        },
+        "Update select dialog": {
+            "en": "Update select dialog",
+            "de": "Update Dialog um ID zu selektieren",
+            "ru": "Обновить переменные в диалоге выбора объектов"
+        },
+        "Divided by comma": {
+            "en": "Divided by comma",
+            "de": "Getrennt mit Komma",
+            "ru": "Через запятую"
+        },
+        "Additional npm modules:": {
+            "en": "Additional npm modules:",
+            "de": "Zusätzliche NPM-Module",
+            "ru": "Дополнительные NPM Модули:"
+        }
+    };
+
+    function setValue(id, value, onChange) {
         // example: select elements with id=key and class=value and insert value
         if ($('#' + id + '.value').attr('type') == 'checkbox') {
             $('#' + id + '.value').prop('checked', value).change(function() {
-                changed = true;
-                $('#save').button("enable");
+                onChange();
             });
         } else {
             $('#' + id + '.value').val(value).change(function() {
-                changed = true;
-                $('#save').button("enable");
+                onChange();
             }).keyup(function() {
                 // Chack that only numbers entered
                 if ($(this).hasClass('number')) {
@@ -52,23 +83,19 @@
                     }
                 }
 
-                changed = true;
-                $('#save').button("enable");
+                onChange();
             });
         }
     }
 
     // the function loadSettings has to exist ...
-    function load(settings) {
+    function load(settings, onChange) {
         if (!settings) return;
-
-        changed = false;
-        $('#save').button("disable");
 
         devices = settings.devices || [];
 
         for (var key in settings) {
-            setValue(key, settings[key]);
+            setValue(key, settings[key], onChange);
         }
         $('#update').button().click(function () {
             sendTo(null, 'update', null, function (error) {
@@ -80,9 +107,20 @@
             });
         });
 
+        if (common.npmLibs){
+            $('#libraries').val(common.npmLibs.join(', '));
+        }
+
+        $('#libraries').change(function () {
+            onChange();
+        }).keyup(function () {
+            $(this).trigger('change');
+        });
+
         getIsAdapterAlive(function (isAlive) {
             if (!isAlive) $('#update').button("disable");
         });
+        onChange(false);
     }
 
     // ... and the function save has to exist.
@@ -99,10 +137,13 @@
             }
         });
 
-        changed = false;
-        $('#save').button("disable");
+        var libs = $('#libraries').val().split(',');
+        var common = {npmLibs: []};
+        for (var l = 0; l < libs.length; l++) {
+            common.npmLibs.push(libs[l].trim());
+        }
 
-        callback(obj, {localLink: 'http://%ip%:' + obj.port});
+        callback(obj, {localLink: 'http://%ip%:' + obj.port, npmLibs: common.npmLibs});
     }
 </script>
 
@@ -116,7 +157,10 @@
 
     <h4 class="translate">node-red settings</h4>
     <table>
-        <tr><td class="translate">Web server port]:</td><td><input class="value number" id="port" type="input" size="5"/></td></tr>
+        <tr><td class="translate">Web server port:</td><td colspan="2"><input class="value number" id="port" type="input" size="5"/></td></tr>
+        <tr>
+            <td class="translate">Additional npm modules:</td><td><input id="libraries" class="value" style="width: 100%"/></td><td class="translate">Divided by comma</td>
+        </tr>
     </table>
     <h4 class="translate">node-red update select dialog</h4>
     <button id="update" class="translateB">Update select dialog</button>
