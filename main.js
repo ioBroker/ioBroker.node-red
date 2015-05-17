@@ -19,9 +19,10 @@ var adapter = utils.adapter({
     unload: unloadRed
 });
 	
-var fs =      require('fs');
-var spawn =   require('child_process').spawn;
-var Notify =  require('fs.notify');
+var fs =       require('fs');
+var spawn =    require('child_process').spawn;
+var Notify =   require('fs.notify');
+var attempts = {};
 
 adapter.on('message', function (obj) {
     if (obj) processMessage(obj);
@@ -47,7 +48,13 @@ function installNpm(npmLib, callback) {
     // because during installation npm packet will be deleted too, but some files must be loaded even during the install process.
     var exec = require('child_process').exec;
     var child = exec(cmd);
-    child.stderr.pipe(process.stdout);
+    child.stdout.on('data', function(buf) {
+        adapter.log.info(buf.toString('utf8'));
+    });
+    child.stderr.on('data', function(buf) {
+        adapter.log.error(buf.toString('utf8'));
+    });
+
     child.on('exit', function (code, signal) {
         if (code) {
             adapter.log.error('Cannot install ' + npmLib + ': ' + code);
@@ -61,18 +68,33 @@ function installLibraries(callback) {
     var allInstalled = true;
     if (adapter.common && adapter.common.npmLibs) {
         for (var lib = 0; lib < adapter.common.npmLibs.length; lib++) {
-            fs = fs || require('fs');
+            if (adapter.common.npmLibs[lib] && adapter.common.npmLibs[lib].trim()) {
+                adapter.common.npmLibs[lib] = adapter.common.npmLibs[lib].trim();
+                fs = fs || require('fs');
 
-            if (!fs.existsSync(__dirname + '/node_modules/' + adapter.common.npmLibs[lib] + '/package.json')) {
-                installNpm(adapter.common.npmLibs[lib], function () {
-                    installLibraries(callback);
-                });
-                allInstalled = false;
+                if (!fs.existsSync(__dirname + '/node_modules/' + adapter.common.npmLibs[lib] + '/package.json')) {
+
+                    if (!attempts[adapter.common.npmLibs[lib]]) {
+                        attempts[adapter.common.npmLibs[lib]] = 1;
+                    } else {
+                        attempts[adapter.common.npmLibs[lib]]++;
+                    }
+                    if (attempts[adapter.common.npmLibs[lib]] > 3) {
+                        adapter.log.error('Cannot install npm packet: ' + adapter.common.npmLibs[lib]);
+                        continue;
+                    }
+
+                    installNpm(adapter.common.npmLibs[lib], function () {
+                        installLibraries(callback);
+                    });
+                    allInstalled = false;
+                }
             }
         }
     }
     if (allInstalled) callback();
 }
+
 
 // is called if a subscribed state changes
 //adapter.on('stateChange', function (id, state) {
