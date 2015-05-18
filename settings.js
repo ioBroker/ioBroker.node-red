@@ -130,6 +130,7 @@ module.exports = {
     //    context.global.os
 
     functionGlobalContext: {
+        //'%%functionGlobalContext%%'
         // os:require('os'),
         // bonescript:require('bonescript'),
         // arduino:require('duino')

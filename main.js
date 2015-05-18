@@ -23,6 +23,9 @@ var fs =       require('fs');
 var spawn =    require('child_process').spawn;
 var Notify =   require('fs.notify');
 var attempts = {};
+var additional = [];
+
+var userdataDir = __dirname + '/userdata/';
 
 adapter.on('message', function (obj) {
     if (obj) processMessage(obj);
@@ -88,13 +91,14 @@ function installLibraries(callback) {
                         installLibraries(callback);
                     });
                     allInstalled = false;
+                } else {
+                    if (additional.indexOf(adapter.common.npmLibs[lib]) == -1) additional.push(adapter.common.npmLibs[lib]);
                 }
             }
         }
     }
     if (allInstalled) callback();
 }
-
 
 // is called if a subscribed state changes
 //adapter.on('stateChange', function (id, state) {
@@ -142,7 +146,7 @@ var notificationsCreds;
 var saveTimer;
 
 function startNodeRed() {
-    var args = [__dirname + '/node_modules/node-red/red.js', '-v', '--settings', __dirname + '/userdata/settings.js'];
+    var args = [__dirname + '/node_modules/node-red/red.js', '-v', '--settings', userdataDir + 'settings.js'];
     adapter.log.info('Starting node-red: ' + args.join(' '));
 
     redProcess = spawn('node', args);
@@ -199,12 +203,23 @@ function writeSettings() {
     var config = JSON.stringify(adapter.systemConfig);
     var text = fs.readFileSync(__dirname + '/settings.js').toString();
     var lines = text.split('\n');
+    var npms = '\r\n';
+    var dir = __dirname.replace(/\\/g, '/') + '/node_modules/';
+    for (var a = 0; a < additional.length; a++) {
+        npms += '        "' + additional[a] + '": require("' + dir + additional[a] + '")';
+        if (a != additional.length - 1) {
+            npms += ', \r\n';
+        }
+    }
+
+
     for (var i = 0; i < lines.length; i++) {
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'instance', adapter.instance);
         lines[i] = setOption(lines[i], 'config', config);
+        lines[i] = setOption(lines[i], 'functionGlobalContext', npms);
     }
-    fs.writeFileSync(__dirname + '/userdata/settings.js', lines.join('\n'));
+    fs.writeFileSync(userdataDir + 'settings.js', lines.join('\n'));
 }
 
 function writeStateList(callback) {
@@ -236,18 +251,18 @@ function saveObjects() {
     var flows = undefined;
 
     try {
-        if (fs.existsSync(__dirname + '/userdata/flows_cred.json')) {
-            cred = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows_cred.json'));
+        if (fs.existsSync(userdataDir + 'flows_cred.json')) {
+            cred = JSON.parse(fs.readFileSync(userdataDir + 'flows_cred.json'));
         }
     } catch(e) {
-        adapter.log.error('Cannot save ' + __dirname + '/userdata/flows_cred.json');
+        adapter.log.error('Cannot save ' + userdataDir + 'flows_cred.json');
     }
     try {
-        if (fs.existsSync(__dirname + '/userdata/flows.json')) {
-            flows = JSON.parse(fs.readFileSync(__dirname + '/userdata/flows.json'));
+        if (fs.existsSync(userdataDir + 'flows.json')) {
+            flows = JSON.parse(fs.readFileSync(userdataDir + 'flows.json'));
         }
     } catch(e) {
-        adapter.log.error('Cannot save ' + __dirname + '/userdata/flows.json');
+        adapter.log.error('Cannot save ' + userdataDir + 'flows.json');
     }
     //upload it to config
     adapter.setObject('flows', {
@@ -260,7 +275,7 @@ function saveObjects() {
         },
         type: 'config'
     }, function () {
-        adapter.log.info('Save ' + __dirname + '/userdata/flows.json');
+        adapter.log.info('Save ' + userdataDir + 'flows.json');
     });
 }
 
@@ -287,10 +302,10 @@ function syncPublic(path) {
 
 function installNotifierFlows(isFirst) {
     if (!notificationsFlows) {
-        if (fs.existsSync(__dirname + '/userdata/flows.json')) {
+        if (fs.existsSync(userdataDir + 'flows.json')) {
             if (!isFirst) saveObjects();
             // monitor project file
-            notificationsFlows = new Notify([__dirname + '/userdata/flows.json']);
+            notificationsFlows = new Notify([userdataDir + 'flows.json']);
             notificationsFlows.on('change', function () {
                 if (saveTimer) clearTimeout(saveTimer);
                 saveTimer = setTimeout(saveObjects, 500);
@@ -306,10 +321,10 @@ function installNotifierFlows(isFirst) {
 
 function installNotifierCreds(isFirst) {
     if (!notificationsCreds) {
-        if (fs.existsSync(__dirname + '/userdata/flows_cred.json')) {
+        if (fs.existsSync(userdataDir + 'flows_cred.json')) {
             if (!isFirst) saveObjects();
             // monitor project file
-            notificationsCreds = new Notify([__dirname + '/userdata/flows_cred.json']);
+            notificationsCreds = new Notify([userdataDir + 'flows_cred.json']);
             notificationsCreds.on('change', function () {
                 if (saveTimer) clearTimeout(saveTimer);
                 saveTimer = setTimeout(saveObjects, 500);
@@ -324,9 +339,21 @@ function installNotifierCreds(isFirst) {
 }
 
 function main() {
+    // Find userdata directory
+
+    // normally /opt/iobroker/node_modules/iobroker.js-controller
+    // but can be /example/ioBroker.js-controller
+    var controllerDir = utils.controllerDir;
+    var parts = controllerDir.split('/');
+    if (parts.length > 1 && parts[parts.length - 2] == 'node_modules') {
+        parts.splice(parts.length - 2, 2);
+        userdataDir = parts.join('/');
+        userdataDir += '/iobroker-data/node-red/';
+    }
+
     // create userdata directory
-    if (!fs.existsSync(__dirname + '/userdata')) {
-        fs.mkdirSync(__dirname + '/userdata');
+    if (!fs.existsSync(userdataDir)) {
+        fs.mkdirSync(userdataDir);
     }
 
     syncPublic();
@@ -337,14 +364,14 @@ function main() {
             var c = JSON.stringify(obj.native.cred);
             // If really not empty
             if (c != '{}' && c != '[]') {
-                fs.writeFileSync(__dirname + '/userdata/flows_cred.json', JSON.stringify(obj.native.cred));
+                fs.writeFileSync(userdataDir + 'flows_cred.json', JSON.stringify(obj.native.cred));
             }
         }
         if (obj && obj.native && obj.native.flows) {
             var f = JSON.stringify(obj.native.flows);
             // If really not empty
             if (f != '{}' && f != '[]') {
-                fs.writeFileSync(__dirname + '/userdata/flows.json', JSON.stringify(obj.native.flows));
+                fs.writeFileSync(userdataDir  + 'flows.json', JSON.stringify(obj.native.flows));
             }
         }
 
