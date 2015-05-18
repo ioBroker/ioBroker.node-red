@@ -24,7 +24,8 @@
         "singletonHost":            true,
 		"supportStopInstance":      true,
 		"type":                     "script",
-        "readme":                   "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md"
+        "readme":                   "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
+        "stopBeforeUpdate":         true
     },
     "native": {
         "port": 1880
