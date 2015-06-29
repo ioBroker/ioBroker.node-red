@@ -58,10 +58,10 @@ module.exports = {
 
     // Node-RED scans the `nodes` directory in the install directory to find nodes.
     // The following property can be used to specify an additional directory to scan.
-    nodesDir: __dirname + '/../nodes/',
+    nodesDir: '%%nodesdir%%',
 
     // By default, the Node-RED UI is available at http://localhost:1880/
-    // The following property can be used to specifiy a different root path.
+    // The following property can be used to specify a different root path.
     // If set to false, this is disabled.
     //httpAdminRoot: '/admin',
 

@@ -205,6 +205,7 @@ function writeSettings() {
     var lines = text.split('\n');
     var npms = '\r\n';
     var dir = __dirname.replace(/\\/g, '/') + '/node_modules/';
+    var nodesDir = '"' + __dirname.replace(/\\/g, '/') + '/nodes/"';
     for (var a = 0; a < additional.length; a++) {
         npms += '        "' + additional[a] + '": require("' + dir + additional[a] + '")';
         if (a != additional.length - 1) {
@@ -218,6 +219,7 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'instance', adapter.instance);
         lines[i] = setOption(lines[i], 'config', config);
         lines[i] = setOption(lines[i], 'functionGlobalContext', npms);
+        lines[i] = setOption(lines[i], 'nodesdir', nodesDir);
     }
     fs.writeFileSync(userdataDir + 'settings.js', lines.join('\n'));
 }
