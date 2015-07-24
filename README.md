@@ -9,6 +9,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the iobroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 0.3.3 (2015-07-24)
+* (bluefox) enable node-red 0.11.x
+
 ### 0.3.2 (2015-06-29)
 * (bluefox) fix error with ioBroker nodes
 
