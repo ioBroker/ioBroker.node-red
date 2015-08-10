@@ -207,12 +207,12 @@ function writeSettings() {
     var dir = __dirname.replace(/\\/g, '/') + '/node_modules/';
     var nodesDir = '"' + __dirname.replace(/\\/g, '/') + '/nodes/"';
     for (var a = 0; a < additional.length; a++) {
+        if (additional[a].match(/^node-red-/)) continue;
         npms += '        "' + additional[a] + '": require("' + dir + additional[a] + '")';
         if (a != additional.length - 1) {
             npms += ', \r\n';
         }
     }
-
 
     for (var i = 0; i < lines.length; i++) {
         lines[i] = setOption(lines[i], 'port');
