@@ -13,7 +13,7 @@
     }
   ],
   "homepage": "https://github.com/ioBroker/ioBroker.node-red",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "keywords": [
     "ioBroker",
     "node-red",
