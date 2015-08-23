@@ -91,6 +91,7 @@ function installLibraries(callback) {
                         installLibraries(callback);
                     });
                     allInstalled = false;
+                    break;
                 } else {
                     if (additional.indexOf(adapter.common.npmLibs[lib]) == -1) additional.push(adapter.common.npmLibs[lib]);
                 }
