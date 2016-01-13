@@ -16,6 +16,7 @@
 
 module.exports = function(RED) {
     "use strict";
+    require('events').EventEmitter.prototype._maxListeners = 100;
     var util = require("util");
     var utils = require(__dirname + '/../lib/utils');
     //var redis = require("redis");
@@ -37,6 +38,7 @@ module.exports = function(RED) {
     var nodes = [];
     var ready = false;
 
+	
     adapter.on("ready", function () {
         ready = true;
         adapter.subscribeForeignStates('*');
@@ -267,4 +269,108 @@ module.exports = function(RED) {
 
     }
     RED.nodes.registerType("ioBroker out",IOBrokerOutNode);
+
+    function IOBrokerGetNode(n) {
+        var node = this;
+        RED.nodes.createNode(node,n);
+        node.topic = (n.topic || '*').replace(/\//g, '.');
+
+        // If no adapter prefix, add own adapter prefix
+        if (node.topic && node.topic.indexOf('.') == -1) {
+            node.topic = adapter.namespace + '.' + node.topic;
+        }
+
+        node.regex = new RegExp("^node-red\." + instance);
+        //node.regex = getRegex(this.topic);
+        node.payloadType = n.payloadType;
+        node.attrname = n.attrname;
+				
+        if (node.topic) {
+            var id = node.topic;
+            // If no wildchars and belongs to this adapter
+            if (id.indexOf('*') == -1 && (id.match("^node-red\." + instance) || id.indexOf('.') != -1)) {
+                adapter.getObject(id, function (err, obj) {
+                    if (!obj) {
+                        if (adapter.log) {
+                            adapter.log.warn('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
+                        } else {
+                            console.log(('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id)));
+                        }
+                        // Create object
+                        adapter.setObject(id, {
+                            common: {
+                                name: id,
+                                role: 'info'
+                            },
+                            native: {},
+                            type: 'state'
+                        }, function (err, obj) {
+                            adapter.setState(id, undefined);
+                        });
+                    }
+                });
+            }
+        }
+
+        if (ready) {
+            node.status({fill:"green",shape:"dot",text:"connected"});
+        } else {
+            node.status({fill:"red",shape:"ring",text:"disconnected"},true);
+        }
+
+	node.getStateValue = function (err, state)
+					    {
+
+                        if (!err && state) {
+                            node.msg [node.attrname]= state.val;
+							node.msg.acknowledged=state.ack;
+							node.msg.timestamp=state.ts;
+							node.msg.lastchange=state.lc;
+							
+                        } else {
+                            if (adapter.log) {
+                                adapter.log.warn('State "' + id + '" does not exist in the ioBroker');
+                            } else {
+                                console.log('State "' + id + '" does not exist in the ioBroker')
+                            }
+
+						}
+		            node.wait=false;
+					node.send (node.msg);		
+                    };
+
+       node.on("input", function(msg) {
+            var id = node.topic || msg.topic;
+			node.msg= msg;
+			if (id) {
+                id = id.replace(/\//g, '.');
+                // If not this adapter state
+                if (!node.regex.exec(id) && id.indexOf('.') != -1) {
+                    // Check if state exists
+                     
+					adapter.getForeignState(id, node.getStateValue);
+                } else {
+                    if (id.indexOf('*') != -1) {
+                        if (adapter.log) {
+                            adapter.log.warn('Invalid topic name "' + id + '" for ioBroker');
+                        } else {
+                            console.log('Invalid topic name "' + id + '" for ioBroker');
+                        }
+                    } else {
+ 					  node.wait=true;
+					  adapter.getState(id, node.getStateValue);
+                    }
+                }
+            } else {
+                node.warn("No key or topic set");
+            }
+        });
+        if (!ready) {
+            nodes.push(node);
+        }		
+		
+    }
+    RED.nodes.registerType("ioBroker get",IOBrokerGetNode);
+	
 }
+
