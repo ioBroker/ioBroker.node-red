@@ -1722,3 +1722,91 @@ RED.nodes.registerType('ioBroker out',{
     });
 </script>
 
+<script type="text/x-red" data-template-name="ioBroker get">
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="."/>
+    </div>
+    <div id="dialog-select-member" style="display:none"></div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-payloadType"><i class="fa fa-envelope"></i> Payload</label>
+        <select id="node-input-payloadType" style="width:125px !important">
+          <option value="value">value</option>
+          <option value="object">object</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-attrname"><i class="fa fa-tag"></i> Attribute</label>
+        <input type="text" id="node-input-attrname" placeholder="attrname">
+    </div>	
+ 
+    <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+</script>
+
+<script type="text/x-red" data-help-name="ioBroker get">
+    <p>Connects to a ioBroker and returns the requested value or the object in the massage attribute in the properties dialog, e.g. <b>msg.payload</b>. The object could be identified either by the <b>msg.topic</b> or specified in the poperties dialog. The value in the poperties dialog has precedence.</p>
+    <p>The msg object also contains the attributs <b>msg.timestamp</b>, <b>msg.lastchange</b> and <b>msg.acknowledged</b>. All other attributes ob the input msg object will be passed to the output msg object.</p>
+</script>
+
+<script type="text/javascript">
+RED.nodes.registerType('ioBroker get',{
+        category: 'function',
+        defaults: {
+            name: {value:""},
+            topic: {value:""},
+            attrname: {value:"payload"},
+           payloadType: {value:'value'}
+         },
+        color:"#a8bfd8",
+        inputs:1,
+        outputs:1,
+        icon: "ioBroker.png",
+        label: function() {
+            return this.name||this.topic||"ioBroker get";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            if (!window.__iobroker) {
+                $.getJSON("iobroker.json", function(data) {
+                    window.__iobroker = data;
+                    $('#dialog-select-member').selectId('init', {
+                        objects: window.__iobroker,
+                        columns: ['name', 'type', 'role', 'enum', 'room'],
+                        states:  null,
+                        noImg:   true
+                    });
+                });
+            } else {
+                $('#dialog-select-member').selectId('init', {
+                    objects: window.__iobroker,
+                    columns: ['name', 'type', 'role', 'enum', 'room'],
+                    states:  null,
+                    noImg:   true
+                });
+            }
+
+            $('#node-input-topic-button').button({
+                icons: {primary: 'ui-icon-folder-open'},
+                text:  false
+            }).click(function () {
+                $('#dialog-select-member').selectId('show', $('#node-input-topic').val(), undefined, function (newId, oldId) {
+                    var oldObj = $('#dialog-select-member').selectId('getInfo', oldId);
+                    var newObj = $('#dialog-select-member').selectId('getInfo', newId);
+                    $('#node-input-topic').val(newId);
+
+                    var oldName = $('#node-input-name').val();
+                    if (!oldName || !oldObj || (oldObj.common && oldName == oldObj.common.name && newObj.common)) {
+                        $('#node-input-name').val(newObj.common.name);
+                    }
+                });
+            });
+        }
+    });
+</script>
+

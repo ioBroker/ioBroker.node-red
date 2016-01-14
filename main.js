@@ -147,7 +147,7 @@ var notificationsCreds;
 var saveTimer;
 
 function startNodeRed() {
-    var args = [__dirname + '/node_modules/node-red/red.js', '-v', '--settings', userdataDir + 'settings.js'];
+    var args = ['--max-old-space-size=128' ,__dirname + '/node_modules/node-red/red.js', '-v', '--settings', userdataDir + 'settings.js'];
     adapter.log.info('Starting node-red: ' + args.join(' '));
 
     redProcess = spawn('node', args);
