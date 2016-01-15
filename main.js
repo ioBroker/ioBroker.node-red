@@ -221,6 +221,7 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'config', config);
         lines[i] = setOption(lines[i], 'functionGlobalContext', npms);
         lines[i] = setOption(lines[i], 'nodesdir', nodesDir);
+        lines[i] = setOption(lines[i], 'httpRoot');
     }
     fs.writeFileSync(userdataDir + 'settings.js', lines.join('\n'));
 }
