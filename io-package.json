@@ -19,7 +19,7 @@
         "icon":                     "node-red.png",
         "keywords":                 ["node-red", "logic", "script"],
         "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-        "localLink":                "http://%ip%:%port%",
+        "localLink":                "http://%ip%:%port%%httpRoot%",
         "enabled":                  true,
         "singletonHost":            true,
 		"supportStopInstance":      true,
@@ -27,11 +27,12 @@
         "readme":                   "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
         "stopBeforeUpdate":         true,
         "adminTab": {
-            "link":                 "http://%ip%:%port%"
+            "link":                 "http://%ip%:%port%%httpRoot%"
         }
     },
     "native": {
-        "port": 1880
+        "port": 1880,
+        "httpRoot": "/"
     },
     "objects": [
     ],
