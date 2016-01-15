@@ -9,6 +9,12 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the iobroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 0.4.0 (2016-01-14)
+* (nobodyMO) Add --max-old-space-size=128 to support systems with low memory.
+* (nobodyMO) Add version 0.12.5 for node-red because it works.
+* (nobodyMO) Add ioBroker get node.
+* (nobodyMO) Set _maxListeners = 100 to supress warnings in the log.
+
 ### 0.3.5 (2015-08-23)
 * (bluefox) fix error if many additional npm packets
 
