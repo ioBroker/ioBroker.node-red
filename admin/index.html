@@ -148,7 +148,7 @@
             common.npmLibs.push(libs[l].trim());
         }
 
-        callback(obj, {localLink: 'http://%ip%:' + obj.httpRoot + obj.port, npmLibs: common.npmLibs});
+        callback(obj, {localLink: 'http://%ip%:' + obj.port, npmLibs: common.npmLibs});
     }
 </script>
 
