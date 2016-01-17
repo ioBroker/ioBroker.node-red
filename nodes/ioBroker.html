@@ -31,12 +31,31 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-onlyack" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-onlyack" style="width: 70%;">Send only on then ack==true</label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-func"><i class="fa fa-wrench"></i> Mode</label>
+        <select type="text" id="node-input-func" style="width:74%;">
+			<option value="all">Send all events</option>            
+            <option value="rbe">block unless value changes</option>
+            <option value="deadband">block unless changes by more than</option>
+		</select>
+    </div>
+    <div class="form-row" id="node-bandgap">
+        <label for="node-input-gap">&nbsp;</label>
+        <input type="text" id="node-input-gap" placeholder="e.g. 10 or 5%" style="width:71%;">
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker in">
     <p>ioBroker input node. Connects to a ioBroker and subscribes to the specified topic. The topic may contain redis wildcards (*).</p>
     <p>Outputs an object called <b>msg</b> containing <b>msg.topic, msg.payload, msg.timestamp, msg.lastchange and msg.acknowledged.</p>
-    <p><b>msg.payload</b> is a String.</p>
+	<p>The checkbox determines whether only States with ack == true or all events are forwarded.</p>
+	<p>The select box Mode offers further filtering options. The options are the same as for the RBE node.</p>
+	
 </script>
 <style type="text/css">
     /* --------------------------- ui.fancytree.min.css ----------------------------------------------------- */
@@ -1580,7 +1599,11 @@
         defaults: {
             name: {value:""},
             topic: {value:"*",required:true},
-            payloadType: {value:'value'}
+            payloadType: {value:'value'},
+			onlyack: {value:""},
+            func: {value:"all"},
+            gap: {value:"",validate:RED.validators.regex(/^(\d*[.]*\d*|)(%|)$/)}
+ 			
         },
         color:"#a8bfd8",
         inputs:0,
@@ -1626,6 +1649,17 @@
                     }
                 });
             });
+             $("#node-input-func").on("change",function() {
+                if ($("#node-input-func").val() == null) $("#node-input-func").val ("all");
+				if ($("#node-input-func").val() === "deadband") {
+                    $("#node-bandgap").show();
+                } else {
+                    $("#node-bandgap").hide();
+                }
+            });
+			
+
+			
         }
     });
 </script>
@@ -1743,13 +1777,13 @@ RED.nodes.registerType('ioBroker out',{
         <label for="node-input-attrname"><i class="fa fa-tag"></i> Attribute</label>
         <input type="text" id="node-input-attrname" placeholder="attrname">
     </div>	
- 
-    <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+     <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker get">
     <p>Connects to a ioBroker and returns the requested value or the object in the massage attribute in the properties dialog, e.g. <b>msg.payload</b>. The object could be identified either by the <b>msg.topic</b> or specified in the poperties dialog. The value in the poperties dialog has precedence.</p>
     <p>The msg object also contains the attributs <b>msg.timestamp</b>, <b>msg.lastchange</b> and <b>msg.acknowledged</b>. All other attributes ob the input msg object will be passed to the output msg object.</p>
+ 
 </script>
 
 <script type="text/javascript">
@@ -1759,7 +1793,7 @@ RED.nodes.registerType('ioBroker get',{
             name: {value:""},
             topic: {value:""},
             attrname: {value:"payload"},
-           payloadType: {value:'value'}
+            payloadType: {value:'value'}
          },
         color:"#a8bfd8",
         inputs:1,
@@ -1806,7 +1840,9 @@ RED.nodes.registerType('ioBroker get',{
                     }
                 });
             });
-        }
+
+         }
+		
     });
 </script>
 
