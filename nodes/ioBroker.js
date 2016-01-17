@@ -367,7 +367,7 @@ module.exports = function(RED) {
 					    {
 
                         if (!err && state) {
-                            node.msg [node.attrname]= obj.val.toString();
+                                                        node.msg [node.attrname]= (node.payloadType == 'object') ? state : (state.val === null || state.val === undefined) ? '' : state.val.toString();
 							node.msg.acknowledged=state.ack;
 							node.msg.timestamp=state.ts;
 							node.msg.lastchange=state.lc;
