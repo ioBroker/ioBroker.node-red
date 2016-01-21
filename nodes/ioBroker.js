@@ -72,7 +72,18 @@ module.exports = function(RED) {
 
         node.regex = getRegex(this.topic);
         node.payloadType = n.payloadType;
+        node.onlyack=(n.onlyack==true || false);
+        node.func = n.func || "all";
+        node.gap = n.gap || "0";
+        node.pc = false;
+		if (node.gap.substr(-1) === "%") {
+            node.pc = true;
+            node.gap = parseFloat(node.gap);
+        }
+        node.g = node.gap;
 
+        node.previous = {};
+				
         if (node.topic) {
             var id = node.topic;
             // If no wildchars and belongs to this adapter
@@ -113,8 +124,42 @@ module.exports = function(RED) {
                 return;
             }
 
+			if (node.onlyack && obj.ack!=true) return;
+            
+			
+            var t = topic.replace(/\./g, '/') || "_no_topic";
+            //node.log ("Function: " + node.func);
+           
+			if (node.func === "rbe") 
+			  {
+              if (obj.val === node.previous[t])  
+			    {
+                return;             
+                };
+			  }
+             else if (node.func === "deadband") 
+			  {
+              var n = parseFloat(obj.val.toString());
+              if (!isNaN(n)) 
+			    {
+                //node.log ("Old Value: " + node.previous[t] + " New Value: " + n);
+				if (node.pc) { node.gap = (node.previous[t] * node.g / 100) || 0; }
+                if (!node.previous.hasOwnProperty(t)) { node.previous[t] = n - node.gap; }
+                if (!Math.abs(n - node.previous[t]) >= node.gap) 
+				  {
+                  return;
+                  }
+				}  
+               else 
+			    {
+                node.warn("no number found in value");
+                return;
+                }
+			  }
+            node.previous[t] = obj.val;
+			
             node.send({
-                topic:       topic.replace(/\./g, '/'),
+                topic:       t,
                 payload:     (node.payloadType == 'object') ? obj : (obj.val === null || obj.val === undefined) ? '' : obj.val.toString(),
                 acknowledged:obj.ack,
                 timestamp:   obj.ts,
@@ -284,7 +329,7 @@ module.exports = function(RED) {
         //node.regex = getRegex(this.topic);
         node.payloadType = n.payloadType;
         node.attrname = n.attrname;
-				
+
         if (node.topic) {
             var id = node.topic;
             // If no wildchars and belongs to this adapter
@@ -322,10 +367,11 @@ module.exports = function(RED) {
 					    {
 
                         if (!err && state) {
-                            node.msg [node.attrname]= state.val;
+                                                        node.msg [node.attrname]= (node.payloadType == 'object') ? state : (state.val === null || state.val === undefined) ? '' : state.val.toString();
 							node.msg.acknowledged=state.ack;
 							node.msg.timestamp=state.ts;
 							node.msg.lastchange=state.lc;
+							node.send (node.msg);
 							
                         } else {
                             if (adapter.log) {
@@ -334,9 +380,7 @@ module.exports = function(RED) {
                                 console.log('State "' + id + '" does not exist in the ioBroker')
                             }
 
-						}
-		            node.wait=false;
-					node.send (node.msg);		
+						}		
                     };
 
        node.on("input", function(msg) {
@@ -357,7 +401,6 @@ module.exports = function(RED) {
                             console.log('Invalid topic name "' + id + '" for ioBroker');
                         }
                     } else {
- 					  node.wait=true;
 					  adapter.getState(id, node.getStateValue);
                     }
                 }
