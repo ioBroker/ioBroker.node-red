@@ -6,14 +6,18 @@ ioBroker node-red Adapter
 
 This adapter uses the node-red server from https://github.com/node-red/node-red
 
-**Note:** If in select ID dialog of the iobroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
+**Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
-### 0.4.0 (2016-01-14)
+### 0.4.2 (2016-01-21)
+* (nobodyMO) Add httpRoot setting
+* (nobodyMO) add filter settings to nodes
+
+### 0.4.1 (2016-01-14)
 * (nobodyMO) Add --max-old-space-size=128 to support systems with low memory.
 * (nobodyMO) Add version 0.12.5 for node-red because it works.
 * (nobodyMO) Add ioBroker get node.
-* (nobodyMO) Set _maxListeners = 100 to supress warnings in the log.
+* (nobodyMO) Set _maxListeners = 100 to suppress warnings in the log.
 
 ### 0.3.5 (2015-08-23)
 * (bluefox) fix error if many additional npm packets
@@ -101,7 +105,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## License
 
-Copyright 2014 bluefox<bluefox@ccu.io>.
+Copyright 2014-2016 bluefox<dogafox@gmail.com>.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
