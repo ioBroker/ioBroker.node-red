@@ -30,7 +30,7 @@
     "mongodb": "*"
   },
   "dependencies": {
-    "node-red": "^0.11.1 || ^0.12.5"
+    "node-red": "^0.13.4"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
