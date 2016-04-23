@@ -1,6 +1,10 @@
 ![Logo](admin/node-red.png)
 ioBroker node-red Adapter
 ==============
+[![NPM version](http://img.shields.io/npm/v/iobroker.node-red.svg)](https://www.npmjs.com/package/iobroker.node-red)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.node-red.svg)](https://www.npmjs.com/package/iobroker.node-red)
+
+[![NPM](https://nodei.co/npm/iobroker.node-red.png?downloads=true)](https://nodei.co/npm/iobroker.node-red/)
 
 # Starts node-red instance and communicates with it.
 
@@ -9,6 +13,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 0.4.3 (2016-04-23)
+* (bluefox) use node-red 0.13.4
+
 ### 0.4.2 (2016-01-21)
 * (nobodyMO) Add httpRoot setting
 * (nobodyMO) add filter settings to nodes
