@@ -1,7 +1,7 @@
 {
   "name": "iobroker.node-red",
   "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "author": {
     "name": "bluefox",
     "email": "bluefox@ccu.io"
