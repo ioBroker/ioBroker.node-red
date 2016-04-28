@@ -22,8 +22,9 @@
         "localLink":                "http://%ip%:%port%%httpRoot%",
         "enabled":                  true,
         "singletonHost":            true,
-		"supportStopInstance":      true,
-		"type":                     "script",
+	"supportStopInstance":      true,
+	"unsafePerm":               true,
+	"type":                     "script",
         "readme":                   "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
         "stopBeforeUpdate":         true,
         "adminTab": {
