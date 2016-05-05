@@ -11,19 +11,19 @@
 /*jslint node: true */
 "use strict";
 
-var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
-
+var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var adapter = utils.adapter({
-    name: 'node-red',
-    systemConfig: true, // get the system configuration as systemConfig parameter of adapter
-    unload: unloadRed
+    name:           'node-red',
+    systemConfig:   true, // get the system configuration as systemConfig parameter of adapter
+    unload:         unloadRed
 });
 	
-var fs =       require('fs');
-var spawn =    require('child_process').spawn;
-var Notify =   require('fs.notify');
-var attempts = {};
-var additional = [];
+var fs          = require('fs');
+var path        = require('path');
+var spawn       = require('child_process').spawn;
+var Notify      = require('fs.notify');
+var attempts    = {};
+var additional  = [];
 
 var userdataDir = __dirname + '/userdata/';
 
@@ -73,8 +73,6 @@ function installLibraries(callback) {
         for (var lib = 0; lib < adapter.common.npmLibs.length; lib++) {
             if (adapter.common.npmLibs[lib] && adapter.common.npmLibs[lib].trim()) {
                 adapter.common.npmLibs[lib] = adapter.common.npmLibs[lib].trim();
-                fs = fs || require('fs');
-
                 if (!fs.existsSync(__dirname + '/node_modules/' + adapter.common.npmLibs[lib] + '/package.json')) {
 
                     if (!attempts[adapter.common.npmLibs[lib]]) {
@@ -140,14 +138,30 @@ function processMessages() {
         }
     });
 }
+
+function getNodeRedPath() {
+    var nodeRed = __dirname + '/node_modules/node-red';
+    if (!fs.existsSync(nodeRed)) {
+        nodeRed = path.normalize(__dirname + '/../node-red');
+        if (!fs.existsSync(nodeRed)) {
+            adapter.log.error('Cannot find node-red packet!');
+            throw new Error('Cannot find node-red packet!');
+        }
+    }
+
+    return nodeRed;
+}
 var redProcess;
 var stopping;
 var notificationsFlows;
 var notificationsCreds;
 var saveTimer;
+var nodePath = getNodeRedPath();
+
+
 
 function startNodeRed() {
-    var args = ['--max-old-space-size=128' ,__dirname + '/node_modules/node-red/red.js', '-v', '--settings', userdataDir + 'settings.js'];
+    var args = ['--max-old-space-size=128', nodePath + '/red.js', '-v', '--settings', userdataDir + 'settings.js'];
     adapter.log.info('Starting node-red: ' + args.join(' '));
 
     redProcess = spawn('node', args);
@@ -233,7 +247,7 @@ function writeStateList(callback) {
             if (obj[i].native) delete obj[i].native;
         }
 
-        fs.writeFileSync(__dirname + '/node_modules/node-red/public/iobroker.json', JSON.stringify(obj));
+        fs.writeFileSync(nodePath + '/public/iobroker.json', JSON.stringify(obj));
         if (callback) callback(err);
     });
 /*    adapter.getForeignObjects('*', 'state', 'rooms', function (err, obj) {
@@ -288,8 +302,8 @@ function syncPublic(path) {
 
     var dir = fs.readdirSync(__dirname + path);
 
-    if (!fs.existsSync(__dirname + '/node_modules/node-red' + path)) {
-        fs.mkdirSync(__dirname + '/node_modules/node-red' + path);
+    if (!fs.existsSync(nodePath + path)) {
+        fs.mkdirSync(nodePath + path);
     }
 
     for (var i = 0; i < dir.length; i++) {
@@ -297,8 +311,8 @@ function syncPublic(path) {
         if (stat.isDirectory())  {
             syncPublic(path + '/' + dir[i]);
         } else {
-            if (!fs.existsSync(__dirname + '/node_modules/node-red' + path + '/' + dir[i])) {
-                fs.createReadStream(__dirname + path + '/' + dir[i]).pipe(fs.createWriteStream(__dirname + '/node_modules/node-red' + path + '/' + dir[i]));
+            if (!fs.existsSync(nodePath + path + '/' + dir[i])) {
+                fs.createReadStream(__dirname + path + '/' + dir[i]).pipe(fs.createWriteStream(nodePath + path + '/' + dir[i]));
             }
         }
     }

@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "node-red",
-        "version":                  "0.4.4",
+        "version":                  "1.0.0",
         "title":                    "node-red Adapter",
         "desc":                     {
             "en": "This adapter uses node-red as a service. No additional node-red instance required.",
@@ -22,9 +22,9 @@
         "localLink":                "http://%ip%:%port%%httpRoot%",
         "enabled":                  true,
         "singletonHost":            true,
-	"supportStopInstance":      true,
-	"unsafePerm":               true,
-	"type":                     "script",
+        "supportStopInstance":      true,
+        "unsafePerm":               true,
+        "type":                     "script",
         "readme":                   "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
         "stopBeforeUpdate":         true,
         "adminTab": {
