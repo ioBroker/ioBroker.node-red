@@ -160,7 +160,7 @@ module.exports = function(RED) {
 			
             node.send({
                 topic:       t,
-                payload:     (node.payloadType == 'object') ? obj : (obj.val === null || obj.val === undefined) ? '' : obj.val.toString(),
+                payload:     (node.payloadType == 'object') ? obj : (obj.val === null || obj.val === undefined) ? '' : obj.val,
                 acknowledged:obj.ack,
                 timestamp:   obj.ts,
                 lastchange:  obj.lc,
@@ -367,7 +367,7 @@ module.exports = function(RED) {
 					    {
 
                         if (!err && state) {
-                                                        node.msg [node.attrname]= (node.payloadType == 'object') ? state : (state.val === null || state.val === undefined) ? '' : state.val.toString();
+                                                        node.msg [node.attrname]= (node.payloadType == 'object') ? state : (state.val === null || state.val === undefined) ? '' : state.val;
 							node.msg.acknowledged=state.ack;
 							node.msg.timestamp=state.ts;
 							node.msg.lastchange=state.lc;
