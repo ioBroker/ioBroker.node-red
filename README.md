@@ -3,6 +3,7 @@ ioBroker node-red Adapter
 ==============
 [![NPM version](http://img.shields.io/npm/v/iobroker.node-red.svg)](https://www.npmjs.com/package/iobroker.node-red)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.node-red.svg)](https://www.npmjs.com/package/iobroker.node-red)
+[![Tests](https://travis-ci.org/ioBroker/ioBroker.node-red.svg?branch=master)](https://travis-ci.org/ioBroker/ioBroker.node-red)
 
 [![NPM](https://nodei.co/npm/iobroker.node-red.png?downloads=true)](https://nodei.co/npm/iobroker.node-red/)
 
@@ -13,6 +14,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 1.0.1 (2016-05-22)
+* (bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed
+
 ### 1.0.0 (2016-04-29)
 * (bluefox) support of npm 2/3
 

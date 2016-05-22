@@ -136,4 +136,4 @@ module.exports = {
         // arduino:require('duino')
     }
 
-}
+};

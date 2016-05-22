@@ -1,7 +1,12 @@
 {
   "name": "iobroker.node-red",
   "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "news": {
+    "en": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
+    "de": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
+    "ru": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed"
+  },
   "author": {
     "name": "bluefox",
     "email": "dogafox@gmail.com"
@@ -37,14 +42,17 @@
     "grunt-replace": "^0.9.3",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-jscs": "^2.0.0",
-    "grunt-http": "^1.6.0"
+    "grunt-http": "^1.6.0",
+    "request": "^2.69.0",
+    "mocha": "^2.3.4",
+    "chai": "^3.4.1"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.node-red/issues"
   },
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/mocha/bin/mocha"
   },
   "readmeFilename": "README.md"
 }

@@ -151,14 +151,13 @@ function getNodeRedPath() {
 
     return nodeRed;
 }
+
 var redProcess;
 var stopping;
 var notificationsFlows;
 var notificationsCreds;
 var saveTimer;
 var nodePath = getNodeRedPath();
-
-
 
 function startNodeRed() {
     var args = ['--max-old-space-size=128', nodePath + '/red.js', '-v', '--settings', userdataDir + 'settings.js'];
@@ -209,7 +208,7 @@ function setOption(line, option, value) {
     var toFind = "'%%" + option + "%%'";
     var pos = line.indexOf(toFind);
     if (pos != -1) {
-        return line.substring(0, pos) + ((value !== undefined) ? value: adapter.config[option]) + line.substring(pos + toFind.length);
+        return line.substring(0, pos) + ((value !== undefined) ? value : adapter.config[option] || '') + line.substring(pos + toFind.length);
     }
     return line;
 }
