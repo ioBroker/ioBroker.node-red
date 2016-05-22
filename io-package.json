@@ -8,7 +8,11 @@
             "de": "Adapter benutzt node-red als Servcie. Keine zusätzliche Instanz von node-red is nötig.",
             "ru": "Драйвер создает node-red сервер и позволяет общаться с ним"
         },
-
+        "news": {
+            "en": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
+            "de": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
+            "ru": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed"
+        },
         "authors": [
             "bluefox <dogafox@gmail.com>"
         ],
