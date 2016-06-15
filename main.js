@@ -208,7 +208,7 @@ function setOption(line, option, value) {
     var toFind = "'%%" + option + "%%'";
     var pos = line.indexOf(toFind);
     if (pos != -1) {
-        return line.substring(0, pos) + ((value !== undefined) ? value : adapter.config[option] || '') + line.substring(pos + toFind.length);
+        return line.substring(0, pos) + ((value !== undefined) ? value : (adapter.config[option] == null) ? '' : adapter.config[option]) + line.substring(pos + toFind.length);
     }
     return line;
 }
@@ -227,7 +227,11 @@ function writeSettings() {
             npms += ', \r\n';
         }
     }
-
+	
+	// update from 1.0.1 (new convert-option)
+	if (adapter.config['iobrokerConvert'] == null) {
+		adapter.config['iobrokerConvert'] = true;
+	}
     for (var i = 0; i < lines.length; i++) {
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'instance', adapter.instance);
