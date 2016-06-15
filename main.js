@@ -235,6 +235,7 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'functionGlobalContext', npms);
         lines[i] = setOption(lines[i], 'nodesdir', nodesDir);
         lines[i] = setOption(lines[i], 'httpRoot');
+		lines[i] = setOption(lines[i], 'iobrokerConvert');
     }
     fs.writeFileSync(userdataDir + 'settings.js', lines.join('\n'));
 }

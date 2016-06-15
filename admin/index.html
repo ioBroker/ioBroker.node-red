@@ -60,7 +60,12 @@
             "en": "http root directory:",
             "de": "http Stammpfad:",
             "ru": "http root directory:"
-        }
+        },
+		"Convert ioBroker values to string:":{
+			"en": "Convert ioBroker values to string:",
+			"de": "IoBroker-Werte in String konvertieren:",
+			"ru": "Convert ioBroker values to string:"
+		}
     };
 
     function setValue(id, value, onChange) {
@@ -169,6 +174,9 @@
         <tr>
             <td class="translate">http root directory:</td><td><input id="httpRoot" class="value" style="width: 100%"/></td>
         </tr>
+		<tr>
+			<td class="translate">Convert ioBroker values to string:</td><td> <input  class="value" id="iobrokerConvert" type="checkbox" /></td>
+		</tr>
     </table>
     <h4 class="translate">node-red update select dialog</h4>
     <button id="update" class="translateB">Update select dialog</button>
