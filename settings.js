@@ -129,6 +129,8 @@ module.exports = {
     // can be accessed in a function block as:
     //    context.global.os
 
+	iobrokerConvert: '%%iobrokerConvert%%',
+	
     functionGlobalContext: {
         //'%%functionGlobalContext%%'
         // os:require('os'),

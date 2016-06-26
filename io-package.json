@@ -38,7 +38,8 @@
     },
     "native": {
         "port": 1880,
-        "httpRoot": "/"
+        "httpRoot": "/",
+		"iobrokerConvert": true
     },
     "objects": [
     ],

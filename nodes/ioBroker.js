@@ -26,6 +26,7 @@ module.exports = function(RED) {
 	var settings = require(process.env.NODE_RED_HOME+"/red/red").settings;
     var instance = settings.get("iobrokerInstance") || 0;
     var config   = settings.get("iobrokerConfig");
+	var iobrokerConvert = settings.get("iobrokerConvert");
     if (typeof config == 'string') {
         config = JSON.parse(config);
     }
@@ -160,7 +161,7 @@ module.exports = function(RED) {
 			
             node.send({
                 topic:       t,
-                payload:     (node.payloadType == 'object') ? obj : (obj.val === null || obj.val === undefined) ? '' : obj.val.toString(),
+                payload:     (node.payloadType == 'object') ? obj : (obj.val === null || obj.val === undefined) ? '' : (iobrokerConvert) ? obj.val.toString() : obj.val,
                 acknowledged:obj.ack,
                 timestamp:   obj.ts,
                 lastchange:  obj.lc,
@@ -367,7 +368,7 @@ module.exports = function(RED) {
 					    {
 
                         if (!err && state) {
-                                                        node.msg [node.attrname]= (node.payloadType == 'object') ? state : (state.val === null || state.val === undefined) ? '' : state.val.toString();
+                            node.msg [node.attrname]= (node.payloadType == 'object') ? state : (state.val === null || state.val === undefined) ? '' : (iobrokerConvert) ? state.val.toString() : state.val;
 							node.msg.acknowledged=state.ack;
 							node.msg.timestamp=state.ts;
 							node.msg.lastchange=state.lc;
