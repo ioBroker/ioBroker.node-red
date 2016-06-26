@@ -14,6 +14,10 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 1.1.0 (2016-05-22)
+* (ploebb) configurable: convert values to string
+* (nobodyMO) use newer version of node-red 0.14.3
+
 ### 1.0.1 (2016-05-22)
 * (bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed
 

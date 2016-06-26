@@ -129,7 +129,7 @@ module.exports = {
     // can be accessed in a function block as:
     //    context.global.os
 
-	iobrokerConvert: '%%iobrokerConvert%%',
+    valueConvert: '%%valueConvert%%',
 	
     functionGlobalContext: {
         //'%%functionGlobalContext%%'

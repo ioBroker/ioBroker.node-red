@@ -1,17 +1,24 @@
 {
     "common": {
         "name":                     "node-red",
-        "version":                  "1.0.1",
+        "version":                  "1.1.0",
         "title":                    "node-red Adapter",
-        "desc":                     {
+        "news": {
+            "1.1.0": {
+                "en": "configurable: convert values to string\nuse newer version of node-red 0.14.3",
+                "de": "configurable: convert values to string\nuse newer version of node-red 0.14.3",
+                "ru": "configurable: convert values to string\nuse newer version of node-red 0.14.3"
+            },
+            "1.0.1": {
+                "en": "on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
+                "de": "on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
+                "ru": "on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed"
+            }
+        },
+        "desc": {
             "en": "This adapter uses node-red as a service. No additional node-red instance required.",
             "de": "Adapter benutzt node-red als Servcie. Keine zusätzliche Instanz von node-red is nötig.",
             "ru": "Драйвер создает node-red сервер и позволяет общаться с ним"
-        },
-        "news": {
-            "en": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
-            "de": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
-            "ru": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed"
         },
         "authors": [
             "bluefox <dogafox@gmail.com>"
@@ -39,7 +46,7 @@
     "native": {
         "port": 1880,
         "httpRoot": "/",
-		"iobrokerConvert": true
+		"valueConvert": true
     },
     "objects": [
     ],

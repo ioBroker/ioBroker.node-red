@@ -15,18 +15,18 @@
  **/
 
 module.exports = function(RED) {
-    "use strict";
+    'use strict';
     require('events').EventEmitter.prototype._maxListeners = 100;
-    var util = require("util");
+    var util  = require('util');
     var utils = require(__dirname + '/../lib/utils');
     //var redis = require("redis");
-    var hashFieldRE = /^([^=]+)=(.*)$/;
+    //var hashFieldRE = /^([^=]+)=(.*)$/;
 	// Get the redis address
 
-	var settings = require(process.env.NODE_RED_HOME+"/red/red").settings;
-    var instance = settings.get("iobrokerInstance") || 0;
-    var config   = settings.get("iobrokerConfig");
-	var iobrokerConvert = settings.get("iobrokerConvert");
+	var settings = require(process.env.NODE_RED_HOME + '/red/red').settings;
+    var instance = settings.get('iobrokerInstance') || 0;
+    var config   = settings.get('iobrokerConfig');
+	var valueConvert = settings.get('valueConvert');
     if (typeof config == 'string') {
         config = JSON.parse(config);
     }
@@ -39,24 +39,23 @@ module.exports = function(RED) {
     var nodes = [];
     var ready = false;
 
-	
-    adapter.on("ready", function () {
+    adapter.on('ready', function () {
         ready = true;
         adapter.subscribeForeignStates('*');
         while (nodes.length) {
             var node = nodes.pop();
             if (node instanceof IOBrokerInNode)
                 adapter.on('stateChange', node.stateChange);
-            node.status({fill:"green",shape:"dot",text:"connected"});
+            node.status({fill: 'green', shape: 'dot', text: 'connected'});
         }
     });
 
     // name is like system.state, pattern is like "*.state" or "*" or "*system*"
     function getRegex(pattern) {
-        if (!pattern || pattern == '*') return null;
-        if (pattern.indexOf('*') == -1) return null;
-        if (pattern[pattern.length - 1] != '*') pattern = pattern + '$';
-        if (pattern[0] != '*') pattern = '^' + pattern;
+        if (!pattern || pattern === '*') return null;
+        if (pattern.indexOf('*') === -1) return null;
+        if (pattern[pattern.length - 1] !== '*') pattern = pattern + '$';
+        if (pattern[0] !== '*') pattern = '^' + pattern;
         pattern = pattern.replace(/\*/g, '[a-zA-Z0-9.\s]');
         return new RegExp(pattern);
     }
@@ -65,19 +64,20 @@ module.exports = function(RED) {
         var node = this;
         RED.nodes.createNode(node,n);
         node.topic = (n.topic || '*').replace(/\//g, '.');
+        node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && node.topic.indexOf('.') == -1) {
+        if (node.topic && node.topic.indexOf('.') === -1) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
-        node.regex = getRegex(this.topic);
+        node.regexTopic = getRegex(this.topic);
         node.payloadType = n.payloadType;
-        node.onlyack=(n.onlyack==true || false);
-        node.func = n.func || "all";
-        node.gap = n.gap || "0";
+        node.onlyack = (n.onlyack == true || false);
+        node.func = n.func || 'all';
+        node.gap = n.gap || '0';
         node.pc = false;
-		if (node.gap.substr(-1) === "%") {
+		if (node.gap.substr(-1) === '%') {
             node.pc = true;
             node.gap = parseFloat(node.gap);
         }
@@ -88,7 +88,7 @@ module.exports = function(RED) {
         if (node.topic) {
             var id = node.topic;
             // If no wildchars and belongs to this adapter
-            if (id.indexOf('*') == -1 && (id.match("^node-red\." + instance) || id.indexOf('.') != -1)) {
+            if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
                 adapter.getObject(id, function (err, obj) {
                     if (!obj) {
                         if (adapter.log) {
@@ -113,55 +113,47 @@ module.exports = function(RED) {
         }
 
         if (ready) {
-            node.status({fill:"green",shape:"dot",text:"connected"});
+            node.status({fill: 'green', shape: 'dot', text: 'connected'});
         } else {
-            node.status({fill:"red",shape:"ring",text:"disconnected"},true);
+            node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
         }
 
         node.stateChange = function(topic, obj) {
-            if (node.regex) {
-                if (!node.regex.exec(topic)) return;
-            } else if (node.topic != '*' && node.topic != topic) {
+            if (node.regexTopic) {
+                if (!node.regexTopic.test(topic)) return;
+            } else if (node.topic !== '*' && node.topic != topic) {
                 return;
             }
 
-			if (node.onlyack && obj.ack!=true) return;
+			if (node.onlyack && obj.ack != true) return;
             
-			
-            var t = topic.replace(/\./g, '/') || "_no_topic";
+            var t = topic.replace(/\./g, '/') || '_no_topic';
             //node.log ("Function: " + node.func);
            
-			if (node.func === "rbe") 
-			  {
-              if (obj.val === node.previous[t])  
-			    {
-                return;             
-                };
-			  }
-             else if (node.func === "deadband") 
-			  {
-              var n = parseFloat(obj.val.toString());
-              if (!isNaN(n)) 
-			    {
-                //node.log ("Old Value: " + node.previous[t] + " New Value: " + n);
-				if (node.pc) { node.gap = (node.previous[t] * node.g / 100) || 0; }
-                if (!node.previous.hasOwnProperty(t)) { node.previous[t] = n - node.gap; }
-                if (!Math.abs(n - node.previous[t]) >= node.gap) 
-				  {
-                  return;
-                  }
-				}  
-               else 
-			    {
-                node.warn("no number found in value");
-                return;
+			if (node.func === 'rbe') {
+                if (obj.val === node.previous[t]) {
+                    return;
                 }
-			  }
+            }
+            else if (node.func === 'deadband') {
+                var n = parseFloat(obj.val.toString());
+                if (!isNaN(n)) {
+                    //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
+                    if (node.pc) { node.gap = (node.previous[t] * node.g / 100) || 0; }
+                    if (!node.previous.hasOwnProperty(t)) { node.previous[t] = n - node.gap; }
+                    if (!Math.abs(n - node.previous[t]) >= node.gap) {
+                        return;
+                    }
+                } else {
+                    node.warn('no number found in value');
+                    return;
+                }
+            }
             node.previous[t] = obj.val;
 			
             node.send({
                 topic:       t,
-                payload:     (node.payloadType == 'object') ? obj : (obj.val === null || obj.val === undefined) ? '' : (iobrokerConvert) ? obj.val.toString() : obj.val,
+                payload:     (node.payloadType === 'object') ? obj : ((obj.val === null || obj.val === undefined) ? '' : (valueConvert ? obj.val.toString() : obj.val)),
                 acknowledged:obj.ack,
                 timestamp:   obj.ts,
                 lastchange:  obj.lc,
@@ -179,22 +171,22 @@ module.exports = function(RED) {
             nodes.push(node);
         }
     }
-    RED.nodes.registerType("ioBroker in",IOBrokerInNode);
+    RED.nodes.registerType('ioBroker in', IOBrokerInNode);
 
     function IOBrokerOutNode(n) {
         var node = this;
         RED.nodes.createNode(node,n);
         node.topic = n.topic;
 
-        node.ack = (n.ack === "true" || n.ack === true);
-        node.autoCreate = (n.autoCreate === "true" || n.autoCreate === true);
-        node.regex = new RegExp("^node-red\." + instance);
+        node.ack = (n.ack === 'true' || n.ack === true);
+        node.autoCreate = (n.autoCreate === 'true' || n.autoCreate === true);
+        node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
         // Create variable if not exists
         if (node.autoCreate && node.topic) {
             var id = node.topic.replace(/\//g, '.');
             // If no wildchars and belongs to this adapter
-            if (id.indexOf('*') == -1 && (node.regex.exec(id) || id.indexOf('.') != -1)) {
+            if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
                 adapter.getObject(node.topic, function (err, obj) {
                     if (!obj) {
                         if (adapter.log) {
@@ -222,9 +214,9 @@ module.exports = function(RED) {
         }
 
         if (ready) {
-            node.status({fill:"green",shape:"dot",text:"connected"});
+            node.status({fill: 'green', shape: 'dot', text: 'connected'});
         } else {
-            node.status({fill:"red",shape:"ring",text:"disconnected"},true);
+            node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
         }
 
         function setState(id, val, ack) {
@@ -272,12 +264,12 @@ module.exports = function(RED) {
             }
         }
 
-        node.on("input", function(msg) {
+        node.on('input', function(msg) {
             var id = node.topic || msg.topic;
             if (id) {
                 id = id.replace(/\//g, '.');
                 // If not this adapter state
-                if (!node.regex.exec(id) && id.indexOf('.') != -1) {
+                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
                     // Check if state exists
                     adapter.getForeignState(id, function (err, state) {
                         if (!err && state) {
@@ -291,7 +283,7 @@ module.exports = function(RED) {
                         }
                     });
                 } else {
-                    if (id.indexOf('*') != -1) {
+                    if (id.indexOf('*') !== -1) {
                         if (adapter.log) {
                             adapter.log.warn('Invalid topic name "' + id + '" for ioBroker');
                         } else {
@@ -302,7 +294,7 @@ module.exports = function(RED) {
                     }
                 }
             } else {
-                node.warn("No key or topic set");
+                node.warn('No key or topic set');
             }
         });
         if (!ready) {
@@ -314,7 +306,7 @@ module.exports = function(RED) {
 //        });
 
     }
-    RED.nodes.registerType("ioBroker out",IOBrokerOutNode);
+    RED.nodes.registerType('ioBroker out', IOBrokerOutNode);
 
     function IOBrokerGetNode(n) {
         var node = this;
@@ -322,11 +314,11 @@ module.exports = function(RED) {
         node.topic = (n.topic || '*').replace(/\//g, '.');
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && node.topic.indexOf('.') == -1) {
+        if (node.topic && node.topic.indexOf('.') === -1) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
-        node.regex = new RegExp("^node-red\." + instance);
+        node.regex = new RegExp('^node-red\\.' + instance + '\\.');
         //node.regex = getRegex(this.topic);
         node.payloadType = n.payloadType;
         node.attrname = n.attrname;
@@ -334,7 +326,7 @@ module.exports = function(RED) {
         if (node.topic) {
             var id = node.topic;
             // If no wildchars and belongs to this adapter
-            if (id.indexOf('*') == -1 && (id.match("^node-red\." + instance) || id.indexOf('.') != -1)) {
+            if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
                 adapter.getObject(id, function (err, obj) {
                     if (!obj) {
                         if (adapter.log) {
@@ -359,38 +351,36 @@ module.exports = function(RED) {
         }
 
         if (ready) {
-            node.status({fill:"green",shape:"dot",text:"connected"});
+            node.status({fill: 'green', shape: 'dot', text: 'connected'});
         } else {
-            node.status({fill:"red",shape:"ring",text:"disconnected"},true);
+            node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
         }
 
-	node.getStateValue = function (err, state)
-					    {
+        node.getStateValue = function (err, state) {
+            if (!err && state) {
+                node.msg [node.attrname]= (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
+                node.msg.acknowledged=state.ack;
+                node.msg.timestamp=state.ts;
+                node.msg.lastchange=state.lc;
+                node.send (node.msg);
 
-                        if (!err && state) {
-                            node.msg [node.attrname]= (node.payloadType == 'object') ? state : (state.val === null || state.val === undefined) ? '' : (iobrokerConvert) ? state.val.toString() : state.val;
-							node.msg.acknowledged=state.ack;
-							node.msg.timestamp=state.ts;
-							node.msg.lastchange=state.lc;
-							node.send (node.msg);
-							
-                        } else {
-                            if (adapter.log) {
-                                adapter.log.warn('State "' + id + '" does not exist in the ioBroker');
-                            } else {
-                                console.log('State "' + id + '" does not exist in the ioBroker')
-                            }
+            } else {
+                if (adapter.log) {
+                    adapter.log.warn('State "' + id + '" does not exist in the ioBroker');
+                } else {
+                    console.log('State "' + id + '" does not exist in the ioBroker')
+                }
 
-						}		
-                    };
+            }
+        };
 
-       node.on("input", function(msg) {
+        node.on('input', function(msg) {
             var id = node.topic || msg.topic;
-			node.msg= msg;
+			node.msg = msg;
 			if (id) {
                 id = id.replace(/\//g, '.');
                 // If not this adapter state
-                if (!node.regex.exec(id) && id.indexOf('.') != -1) {
+                if (!node.regex.test(id) && id.indexOf('.') != -1) {
                     // Check if state exists
                      
 					adapter.getForeignState(id, node.getStateValue);
@@ -406,15 +396,15 @@ module.exports = function(RED) {
                     }
                 }
             } else {
-                node.warn("No key or topic set");
+                node.warn('No key or topic set');
             }
         });
+
         if (!ready) {
             nodes.push(node);
         }		
 		
     }
-    RED.nodes.registerType("ioBroker get",IOBrokerGetNode);
-	
-}
+    RED.nodes.registerType('ioBroker get', IOBrokerGetNode);
+};
 

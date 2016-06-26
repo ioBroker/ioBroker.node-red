@@ -208,7 +208,7 @@ function setOption(line, option, value) {
     var toFind = "'%%" + option + "%%'";
     var pos = line.indexOf(toFind);
     if (pos != -1) {
-        return line.substring(0, pos) + ((value !== undefined) ? value : (adapter.config[option] == null) ? '' : adapter.config[option]) + line.substring(pos + toFind.length);
+        return line.substring(0, pos) + ((value !== undefined) ? value : (adapter.config[option] === null || adapter.config[option] === undefined) ? '' : adapter.config[option]) + line.substring(pos + toFind.length);
     }
     return line;
 }
@@ -229,9 +229,19 @@ function writeSettings() {
     }
 	
 	// update from 1.0.1 (new convert-option)
-	if (adapter.config['iobrokerConvert'] == null) {
-		adapter.config['iobrokerConvert'] = true;
+	if (adapter.config.valueConvert === null      ||
+        adapter.config.valueConvert === undefined ||
+        adapter.config.valueConvert === ''        ||
+        adapter.config.valueConvert === 'true'    ||
+        adapter.config.valueConvert === '1'       ||
+        adapter.config.valueConvert === 1) {
+		adapter.config.valueConvert = true;
 	}
+    if (adapter.config.valueConvert === 0   ||
+        adapter.config.valueConvert === '0' ||
+        adapter.config.valueConvert === 'false') {
+        adapter.config.valueConvert = false;
+    }
     for (var i = 0; i < lines.length; i++) {
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'instance', adapter.instance);
@@ -239,7 +249,7 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'functionGlobalContext', npms);
         lines[i] = setOption(lines[i], 'nodesdir', nodesDir);
         lines[i] = setOption(lines[i], 'httpRoot');
-		lines[i] = setOption(lines[i], 'iobrokerConvert');
+		lines[i] = setOption(lines[i], 'valueConvert');
     }
     fs.writeFileSync(userdataDir + 'settings.js', lines.join('\n'));
 }
