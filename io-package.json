@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "node-red",
-        "version":                  "1.1.0",
+        "version":                  "1.1.1",
         "title":                    "node-red Adapter",
         "news": {
+			"1.1.1": {
+                "en": "use newer version of node-red 0.14.4",
+                "de": "use newer version of node-red 0.14.4",
+                "ru": "use newer version of node-red 0.14.4"
+            },
             "1.1.0": {
                 "en": "configurable: convert values to string\nuse newer version of node-red 0.14.3",
                 "de": "configurable: convert values to string\nuse newer version of node-red 0.14.3",

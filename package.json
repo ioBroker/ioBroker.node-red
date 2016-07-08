@@ -1,12 +1,7 @@
 {
   "name": "iobroker.node-red",
   "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "1.1.0",
-  "news": {
-    "en": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
-    "de": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
-    "ru": "(bluefox) on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed"
-  },
+  "version": "1.1.1",
   "author": {
     "name": "bluefox",
     "email": "dogafox@gmail.com"
