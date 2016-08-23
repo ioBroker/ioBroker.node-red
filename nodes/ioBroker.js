@@ -311,7 +311,7 @@ module.exports = function(RED) {
     function IOBrokerGetNode(n) {
         var node = this;
         RED.nodes.createNode(node,n);
-        node.topic = (n.topic || '*').replace(/\//g, '.');
+        node.topic =  (typeof n.topic=== 'string' && n.topic.length > 0 ?  n.topic.replace(/\//g, '.') : null) ;
 
         // If no adapter prefix, add own adapter prefix
         if (node.topic && node.topic.indexOf('.') === -1) {
@@ -376,8 +376,8 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var id = node.topic || msg.topic;
-			node.msg = msg;
-			if (id) {
+	    node.msg = msg;
+	    if (id) {
                 id = id.replace(/\//g, '.');
                 // If not this adapter state
                 if (!node.regex.test(id) && id.indexOf('.') != -1) {
