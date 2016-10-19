@@ -2,3 +2,5 @@ Gruntfile.js
 tasks
 test
 .travis.yml
+.idea
+node_modules
