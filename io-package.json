@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "node-red",
-        "version":                  "1.1.2",
+        "version":                  "1.1.4",
         "title":                    "node-red Adapter",
         "news": {
+			"1.1.4": {
+                "en": "use newer version of node-red 0.15.2",
+                "de": "Neue Version von node-red 0.15.2",
+                "ru": "Новая версия node-red 0.15.2"
+            },
 			"1.1.2": {
                 "en": "use newer version of node-red 0.14.6\nchange topic name processing",
                 "de": "neuere Version von node-red 0.14.6\nÄndere bearbeitung von Topicnamen",
