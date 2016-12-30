@@ -356,34 +356,32 @@ module.exports = function(RED) {
             node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
         }
 
-        node.getStateValue = function (err, state) {
-            if (!err && state) {
-                node.msg [node.attrname]= (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
-                node.msg.acknowledged=state.ack;
-                node.msg.timestamp=state.ts;
-                node.msg.lastchange=state.lc;
-                node.send (node.msg);
-
-            } else {
-                if (adapter.log) {
-                    adapter.log.warn('State "' + id + '" does not exist in the ioBroker');
+        node.getStateValue = function (msg) { 
+            return function (err, state) {
+                if (!err && state) {
+                    msg [node.attrname]= (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
+                    msg.acknowledged=state.ack;
+                    msg.timestamp=state.ts;
+                    msg.lastchange=state.lc;
+                    node.send(msg);
                 } else {
-                    console.log('State "' + id + '" does not exist in the ioBroker')
+                    if (adapter.log) {
+                        adapter.log.warn('State "' + id + '" does not exist in the ioBroker');
+                    } else {
+                        console.log('State "' + id + '" does not exist in the ioBroker')
+                    }
                 }
-
-            }
+            };
         };
 
         node.on('input', function(msg) {
             var id = node.topic || msg.topic;
-	    node.msg = msg;
-	    if (id) {
+            if (id) {
                 id = id.replace(/\//g, '.');
                 // If not this adapter state
                 if (!node.regex.test(id) && id.indexOf('.') != -1) {
                     // Check if state exists
-                     
-					adapter.getForeignState(id, node.getStateValue);
+                    adapter.getForeignState(id, node.getStateValue(msg));
                 } else {
                     if (id.indexOf('*') != -1) {
                         if (adapter.log) {
@@ -392,7 +390,7 @@ module.exports = function(RED) {
                             console.log('Invalid topic name "' + id + '" for ioBroker');
                         }
                     } else {
-					  adapter.getState(id, node.getStateValue);
+                        adapter.getState(id, node.getStateValue(msg));
                     }
                 }
             } else {
