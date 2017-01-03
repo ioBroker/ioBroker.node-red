@@ -14,6 +14,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 1.1.5 (2017-01-03)
+* (Erhard Weinell) support concurrent access to GetNode
+
 ### 1.1.4 (2016-11-04)
 * (bluefox) use newer version of node-red 0.15.2
 
