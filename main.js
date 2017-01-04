@@ -164,6 +164,11 @@ function startNodeRed() {
     adapter.log.info('Starting node-red: ' + args.join(' '));
 
     redProcess = spawn('node', args);
+	
+    redProcess.on('error', function (err) {
+        adapter.log.error('catched exception from node-red:' + JSON.stringify(err));
+        });
+	
     redProcess.stdout.on('data', function (data) {
         if (!data) return;
         data = data.toString();
