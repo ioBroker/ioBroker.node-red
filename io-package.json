@@ -1,10 +1,15 @@
 {
     "common": {
         "name":                     "node-red",
-        "version":                  "1.1.5",
+        "version":                  "1.1.6",
         "title":                    "node-red Adapter",
         "news": {
-			"1.1.5": {
+            "1.1.6": {
+                "en": "use newer version of node-red 0.16.2",
+                "de": "Neue Version von node-red 0.16.2",
+                "ru": "Новая версия node-red 0.16.2"
+            },
+            "1.1.5": {
                 "en": "support concurrent access to GetNode",
                 "de": "Unterstützung von gleichzeitigem Aufruf für GetNode",
                 "ru": "Поддержка параллельного вызова GetNode"
