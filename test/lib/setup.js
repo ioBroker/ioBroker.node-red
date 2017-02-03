@@ -1,8 +1,5 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
-
-/* Testing setup.js v2017-02-03 */
-
 // check if tmp directory exists
 var fs            = require('fs');
 var path          = require('path');
