@@ -1,5 +1,8 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
+
+/* Testing setup.js v2017-02-03 */
+
 // check if tmp directory exists
 var fs            = require('fs');
 var path          = require('path');
@@ -34,7 +37,12 @@ function copyFileSync(source, target) {
         }
     }
 
-    fs.writeFileSync(targetFile, fs.readFileSync(source));
+    try {
+        fs.writeFileSync(targetFile, fs.readFileSync(source));
+    }
+    catch (err) {
+        console.log("file copy error: " +source +" -> " + targetFile + " (error ignored)");
+    }
 }
 
 function copyFolderRecursiveSync(source, target, ignore) {
