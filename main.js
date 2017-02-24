@@ -382,7 +382,7 @@ function main() {
     // but can be /example/ioBroker.js-controller
     var controllerDir = utils.controllerDir;
     var parts = controllerDir.split('/');
-    if (parts.length > 1 && parts[parts.length - 2] == 'node_modules') {
+    if (parts.length > 1 && parts[parts.length - 2] === 'node_modules') {
         parts.splice(parts.length - 2, 2);
         userdataDir = parts.join('/');
         userdataDir += '/iobroker-data/node-red/';
