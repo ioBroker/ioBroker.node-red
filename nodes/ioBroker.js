@@ -38,14 +38,16 @@ module.exports = function(RED) {
     }
     var nodes = [];
     var ready = false;
+    var log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
 
     adapter.on('ready', function () {
         ready = true;
         adapter.subscribeForeignStates('*');
         while (nodes.length) {
             var node = nodes.pop();
-            if (node instanceof IOBrokerInNode)
+            if (node instanceof IOBrokerInNode) {
                 adapter.on('stateChange', node.stateChange);
+            }
             node.status({fill: 'green', shape: 'dot', text: 'connected'});
         }
     });
@@ -57,9 +59,65 @@ module.exports = function(RED) {
         if (pattern[pattern.length - 1] !== '*') pattern = pattern + '$';
         if (pattern[0] !== '*') pattern = '^' + pattern;
         pattern = pattern.replace(/\*/g, '[a-zA-Z0-9.\s]');
+        pattern = pattern.replace(/\./g, '\\.');
         return new RegExp(pattern);
     }
 
+    function checkState(node, id, val, callback) {
+        if (node.idChecked) {
+            return callback && callback();
+        }
+        node.idChecked = true;
+        
+        adapter.getObject(node.topic, function (err, obj) {
+            if (!obj) {
+                adapter.getForeignObject(node.topic, function (err, obj) {
+                    if (!obj) {
+                        log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
+                        // Create object
+                        adapter.setObject(id, {
+                            common: {
+                                name: id,
+                                role: 'info',
+                                type: 'state',
+                                desc: 'Created by MQTT'
+                            },
+                            native: {},
+                            type: 'state'
+                        }, function (err) {
+                            if (val !== undefined && val !== null && val !== '__create__') {
+                                adapter.setState(id, val, function () {
+                                    callback && callback();
+                                });
+                            } else {
+                                adapter.setState(id, undefined, function () {
+                                    callback && callback();
+                                });
+                            }
+                        });
+                    } else {
+                        node._id = obj._id;
+                        if (val !== undefined && val !== null && val !== '__create__') {
+                            adapter.setForeignState(obj._id, val, function () {
+                                callback && callback();
+                            });
+                        } else {
+                            callback && callback();
+                        }
+                    }
+                });
+            } else {
+                if (val !== undefined && val !== null && val !== '__create__') {
+                    adapter.setForeignState(obj._id, val, function () {
+                        callback && callback();
+                    });
+                } else {
+                    callback && callback();
+                }
+            }
+        });
+    }
+    
     function IOBrokerInNode(n) {
         var node = this;
         RED.nodes.createNode(node,n);
@@ -71,12 +129,13 @@ module.exports = function(RED) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
-        node.regexTopic = getRegex(this.topic);
+        node.regexTopic  = getRegex(this.topic);
         node.payloadType = n.payloadType;
-        node.onlyack = (n.onlyack == true || false);
-        node.func = n.func || 'all';
-        node.gap = n.gap || '0';
-        node.pc = false;
+        node.onlyack     = (n.onlyack == true || false);
+        node.func        = n.func || 'all';
+        node.gap         = n.gap || '0';
+        node.pc          = false;
+        
 		if (node.gap.substr(-1) === '%') {
             node.pc = true;
             node.gap = parseFloat(node.gap);
@@ -89,26 +148,7 @@ module.exports = function(RED) {
             var id = node.topic;
             // If no wildchars and belongs to this adapter
             if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
-                adapter.getObject(id, function (err, obj) {
-                    if (!obj) {
-                        if (adapter.log) {
-                            adapter.log.warn('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
-                        } else {
-                            console.log(('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id)));
-                        }
-                        // Create object
-                        adapter.setObject(id, {
-                            common: {
-                                name: id,
-                                role: 'info'
-                            },
-                            native: {},
-                            type: 'state'
-                        }, function (err, obj) {
-                            adapter.setState(id, undefined);
-                        });
-                    }
-                });
+                checkState(node, id);
             }
         }
 
@@ -121,7 +161,7 @@ module.exports = function(RED) {
         node.stateChange = function(topic, obj) {
             if (node.regexTopic) {
                 if (!node.regexTopic.test(topic)) return;
-            } else if (node.topic !== '*' && node.topic != topic) {
+            } else if (node.topic !== '*' && node.topic !== topic) {
                 return;
             }
 
@@ -134,13 +174,14 @@ module.exports = function(RED) {
                 if (obj.val === node.previous[t]) {
                     return;
                 }
-            }
-            else if (node.func === 'deadband') {
+            } else if (node.func === 'deadband') {
                 var n = parseFloat(obj.val.toString());
                 if (!isNaN(n)) {
                     //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
                     if (node.pc) { node.gap = (node.previous[t] * node.g / 100) || 0; }
-                    if (!node.previous.hasOwnProperty(t)) { node.previous[t] = n - node.gap; }
+                    if (!node.previous.hasOwnProperty(t)) { 
+                        node.previous[t] = n - node.gap; 
+                    }
                     if (!Math.abs(n - node.previous[t]) >= node.gap) {
                         return;
                     }
@@ -187,29 +228,7 @@ module.exports = function(RED) {
             var id = node.topic.replace(/\//g, '.');
             // If no wildchars and belongs to this adapter
             if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
-                adapter.getObject(node.topic, function (err, obj) {
-                    if (!obj) {
-                        if (adapter.log) {
-                            adapter.log.warn('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
-                        } else {
-                            console.log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
-                        }
-                        // Create object
-                        adapter.setObject(id, {
-                            common: {
-                                name: id,
-                                role: 'info'
-                            },
-                            native: {},
-                            type: 'state'
-                        }, function (err, obj) {
-                            adapter.setState(id, undefined);
-                            node.idChecked = true;
-                        });
-                    } else {
-                        node.idChecked = true;
-                    }
-                });
+                checkState(node, node.topic);
             }
         }
 
@@ -220,47 +239,12 @@ module.exports = function(RED) {
         }
 
         function setState(id, val, ack) {
-            if (id == node.topic && node.idChecked) {
-                if (val != '__create__') {
+            if (id === node.topic && node.idChecked) {
+                if (val !== '__create__') {
                     adapter.setState(id, {val: val, ack: ack});
                 }
-            } else {
-                adapter.getObject(id, function (err, obj) {
-                    if (!obj) {
-                        if (!node.autoCreate) {
-                            if (adapter.log) {
-                                adapter.log.warn('State "' + id + '" does not exist in the ioBroker.');
-                            } else {
-                                console.log('State "' + id + '" does not exist in the ioBroker.');
-                            }
-                            return;
-                        }
-                        if (adapter.log) {
-                            adapter.log.warn('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
-                        } else {
-                            console.log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
-                        }
-                        // Create object
-                        adapter.setObject(id, {
-                            common: {
-                                name: id,
-                                role: 'info'
-                            },
-                            native: {},
-                            type: 'state'
-                        }, function (err, obj) {
-                            if (val != '__create__') {
-                                adapter.setState(id, {val: val, ack: ack});
-                            } else {
-                                adapter.setState(id, {val: undefined, ack: ack});
-                            }
-                        });
-                    } else {
-                        if (val != '__create__') {
-                            adapter.setState(id, {val: val, ack: ack});
-                        }
-                    }
-                });
+            } else if (!node.idChecked) {
+                checkState(node, node.topic, {val: val, ack: ack});
             }
         }
 
@@ -275,20 +259,12 @@ module.exports = function(RED) {
                         if (!err && state) {
                             adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
                         } else {
-                            if (adapter.log) {
-                                adapter.log.warn('State "' + id + '" does not exist in the ioBroker');
-                            } else {
-                                console.log('State "' + id + '" does not exist in the ioBroker')
-                            }
+                            log('State "' + id + '" does not exist in the ioBroker');
                         }
                     });
                 } else {
                     if (id.indexOf('*') !== -1) {
-                        if (adapter.log) {
-                            adapter.log.warn('Invalid topic name "' + id + '" for ioBroker');
-                        } else {
-                            console.log('Invalid topic name "' + id + '" for ioBroker');
-                        }
+                        log('Invalid topic name "' + id + '" for ioBroker');
                     } else {
                         setState(id, msg.payload, node.ack);
                     }
@@ -297,6 +273,7 @@ module.exports = function(RED) {
                 node.warn('No key or topic set');
             }
         });
+        
         if (!ready) {
             nodes.push(node);
         }
@@ -327,26 +304,7 @@ module.exports = function(RED) {
             var id = node.topic;
             // If no wildchars and belongs to this adapter
             if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
-                adapter.getObject(id, function (err, obj) {
-                    if (!obj) {
-                        if (adapter.log) {
-                            adapter.log.warn('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
-                        } else {
-                            console.log(('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id)));
-                        }
-                        // Create object
-                        adapter.setObject(id, {
-                            common: {
-                                name: id,
-                                role: 'info'
-                            },
-                            native: {},
-                            type: 'state'
-                        }, function (err, obj) {
-                            adapter.setState(id, undefined);
-                        });
-                    }
-                });
+                checkState(node, id);
             }
         }
 
@@ -359,17 +317,13 @@ module.exports = function(RED) {
         node.getStateValue = function (msg) { 
             return function (err, state) {
                 if (!err && state) {
-                    msg [node.attrname]= (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
-                    msg.acknowledged=state.ack;
-                    msg.timestamp=state.ts;
-                    msg.lastchange=state.lc;
+                    msg[node.attrname] = (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
+                    msg.acknowledged   = state.ack;
+                    msg.timestamp      = state.ts;
+                    msg.lastchange     = state.lc;
                     node.send(msg);
                 } else {
-                    if (adapter.log) {
-                        adapter.log.warn('State "' + id + '" does not exist in the ioBroker');
-                    } else {
-                        console.log('State "' + id + '" does not exist in the ioBroker')
-                    }
+                    log('State "' + id + '" does not exist in the ioBroker');
                 }
             };
         };
@@ -379,16 +333,12 @@ module.exports = function(RED) {
             if (id) {
                 id = id.replace(/\//g, '.');
                 // If not this adapter state
-                if (!node.regex.test(id) && id.indexOf('.') != -1) {
+                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
                     // Check if state exists
                     adapter.getForeignState(id, node.getStateValue(msg));
                 } else {
-                    if (id.indexOf('*') != -1) {
-                        if (adapter.log) {
-                            adapter.log.warn('Invalid topic name "' + id + '" for ioBroker');
-                        } else {
-                            console.log('Invalid topic name "' + id + '" for ioBroker');
-                        }
+                    if (id.indexOf('*') !== -1) {
+                        log('Invalid topic name "' + id + '" for ioBroker');
                     } else {
                         adapter.getState(id, node.getStateValue(msg));
                     }

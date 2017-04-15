@@ -172,13 +172,13 @@ function startNodeRed() {
     redProcess.stdout.on('data', function (data) {
         if (!data) return;
         data = data.toString();
-        if (data[data.length - 2] == '\r' && data[data.length - 1] == '\n') data = data.substring(0, data.length - 2);
-        if (data[data.length - 2] == '\n' && data[data.length - 1] == '\r') data = data.substring(0, data.length - 2);
-        if (data[data.length - 1] == '\r') data = data.substring(0, data.length - 1);
+        if (data[data.length - 2] === '\r' && data[data.length - 1] === '\n') data = data.substring(0, data.length - 2);
+        if (data[data.length - 2] === '\n' && data[data.length - 1] === '\r') data = data.substring(0, data.length - 2);
+        if (data[data.length - 1] === '\r') data = data.substring(0, data.length - 1);
 
-        if (data.indexOf('[err') != -1) {
+        if (data.indexOf('[err') !== -1) {
             adapter.log.error(data);
-        }  else if (data.indexOf('[warn]') != -1) {
+        }  else if (data.indexOf('[warn]') !== -1) {
             adapter.log.warn(data);
         } else {
             adapter.log.debug(data);
@@ -187,13 +187,13 @@ function startNodeRed() {
     redProcess.stderr.on('data', function (data) {
 		if (!data) return;
 		if (data[0]) {
-			var text = "";
+			var text = '';
 			for (var i = 0; i < data.length; i++) {
 				text += String.fromCharCode(data[i]);
 			}
 			data = text;
 		}
-        if (data.indexOf && data.indexOf('[warn]') == -1) {
+        if (data.indexOf && data.indexOf('[warn]') === -1) {
             adapter.log.warn(data);
         } else {
             adapter.log.error(JSON.stringify(data));
@@ -212,7 +212,7 @@ function startNodeRed() {
 function setOption(line, option, value) {
     var toFind = "'%%" + option + "%%'";
     var pos = line.indexOf(toFind);
-    if (pos != -1) {
+    if (pos !== -1) {
         return line.substring(0, pos) + ((value !== undefined) ? value : (adapter.config[option] === null || adapter.config[option] === undefined) ? '' : adapter.config[option]) + line.substring(pos + toFind.length);
     }
     return line;
@@ -228,7 +228,7 @@ function writeSettings() {
     for (var a = 0; a < additional.length; a++) {
         if (additional[a].match(/^node-red-/)) continue;
         npms += '        "' + additional[a] + '": require("' + dir + additional[a] + '")';
-        if (a != additional.length - 1) {
+        if (a !== additional.length - 1) {
             npms += ', \r\n';
         }
     }
@@ -260,23 +260,17 @@ function writeSettings() {
 }
 
 function writeStateList(callback) {
-    adapter.getForeignObjects('*', function (err, obj) {
+    adapter.getForeignObjects('*', 'state', ['rooms', 'functions'], function (err, obj) {
         // remove native information
         for (var i in obj) {
-            if (obj[i].native) delete obj[i].native;
+            if (obj.hasOwnProperty(i) && obj[i].native) {
+                delete obj[i].native;
+            }
         }
 
         fs.writeFileSync(nodePath + '/public/iobroker.json', JSON.stringify(obj));
         if (callback) callback(err);
     });
-/*    adapter.getForeignObjects('*', 'state', 'rooms', function (err, obj) {
-        var states = {};
-        for (var state in obj) {
-            states[state] = {name: obj[state].common.name, role: obj[state].common.role, rooms: obj[state].enums};
-        }
-        fs.writeFileSync(__dirname + '/node_modules/node-red/public/iobroker.json', JSON.stringify(states));
-        if (callback) callback(err);
-    });*/
 }
 
 function saveObjects() {
@@ -400,14 +394,14 @@ function main() {
         if (obj && obj.native && obj.native.cred) {
             var c = JSON.stringify(obj.native.cred);
             // If really not empty
-            if (c != '{}' && c != '[]') {
+            if (c !== '{}' && c !== '[]') {
                 fs.writeFileSync(userdataDir + 'flows_cred.json', JSON.stringify(obj.native.cred));
             }
         }
         if (obj && obj.native && obj.native.flows) {
             var f = JSON.stringify(obj.native.flows);
             // If really not empty
-            if (f != '{}' && f != '[]') {
+            if (f !== '{}' && f !== '[]') {
                 fs.writeFileSync(userdataDir  + 'flows.json', JSON.stringify(obj.native.flows));
             }
         }

@@ -1,7 +1,7 @@
 {
   "name": "iobroker.node-red",
   "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "author": {
     "name": "bluefox",
     "email": "dogafox@gmail.com"
@@ -33,7 +33,8 @@
     "node-red": "^0.16.2",
     "node-red-contrib-os": "^0.1.7",
     "node-red-dashboard": "^2.2.1",
-    "node-red-contrib-aggregator": "^1.3.0"
+    "node-red-contrib-aggregator": "^1.3.0",
+    "node-red-contrib-polymer": "^0.0.18"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
