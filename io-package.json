@@ -75,7 +75,8 @@
         "readme":                   "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
         "stopBeforeUpdate":         true,
         "adminTab": {
-            "link":                 "http://%ip%:%port%%httpRoot%"
+            "link":                 "http://%ip%:%port%%httpRoot%",
+            "fa-icon":              "fa-code-fork"
         }
     },
     "native": {
