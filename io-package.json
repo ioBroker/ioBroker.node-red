@@ -3,6 +3,11 @@
         "name":                     "node-red",
         "version":                  "1.3.0",
         "title":                    "node-red Adapter",
+		"titleLang":                {
+			"en": "node-red Adapter",
+            "de": "node-red Adapter",
+            "ru": "node-red Драйвер",
+        },
         "news": {
             "1.3.0": {
                 "en": "Update the select ID dialog",
