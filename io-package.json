@@ -6,7 +6,7 @@
 		"titleLang":                {
 			"en": "node-red Adapter",
             "de": "node-red Adapter",
-            "ru": "node-red Драйвер",
+            "ru": "node-red Драйвер"
         },
         "news": {
             "1.3.0": {
