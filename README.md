@@ -9,6 +9,8 @@ ioBroker node-red Adapter
 
 # Starts node-red instance and communicates with it.
 
+***This adapter needs at least nodejs 4.x to work***
+
 This adapter uses the node-red server from https://github.com/node-red/node-red
 
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
