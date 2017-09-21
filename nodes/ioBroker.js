@@ -67,11 +67,13 @@ module.exports = function(RED) {
         if (node.idChecked) {
             return callback && callback();
         }
-        node.idChecked = true;
-        
-        adapter.getObject(node.topic, function (err, obj) {
+        if(node.topic) {
+            node.idChecked = true;
+        }
+
+        adapter.getObject(id, function (err, obj) {
             if (!obj) {
-                adapter.getForeignObject(node.topic, function (err, obj) {
+                adapter.getForeignObject(id, function (err, obj) {
                     if (!obj) {
                         log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
                         // Create object
@@ -223,15 +225,6 @@ module.exports = function(RED) {
         node.autoCreate = (n.autoCreate === 'true' || n.autoCreate === true);
         node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
-        // Create variable if not exists
-        if (node.autoCreate && node.topic) {
-            var id = node.topic.replace(/\//g, '.');
-            // If no wildchars and belongs to this adapter
-            if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
-                checkState(node, node.topic);
-            }
-        }
-
         if (ready) {
             node.status({fill: 'green', shape: 'dot', text: 'connected'});
         } else {
@@ -239,12 +232,12 @@ module.exports = function(RED) {
         }
 
         function setState(id, val, ack) {
-            if (id === node.topic && node.idChecked) {
+            if (node.idChecked) {
                 if (val !== '__create__') {
                     adapter.setState(id, {val: val, ack: ack});
                 }
-            } else if (!node.idChecked) {
-                checkState(node, node.topic, {val: val, ack: ack});
+            } else {
+                checkState(node, id, {val: val, ack: ack});
             }
         }
 
@@ -252,6 +245,16 @@ module.exports = function(RED) {
             var id = node.topic || msg.topic;
             if (id) {
                 id = id.replace(/\//g, '.');
+
+                // Create variable if not exists
+                if (node.autoCreate && !node.idChecked) {
+                    id = id.replace(/\//g, '.');
+                    // If no wildchars and belongs to this adapter
+                    if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
+                        checkState(node, id);
+                    }
+                }
+
                 // If not this adapter state
                 if (!node.regex.test(id) && id.indexOf('.') !== -1) {
                     // Check if state exists
