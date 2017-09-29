@@ -67,7 +67,7 @@ module.exports = function(RED) {
         if (node.idChecked) {
             return callback && callback();
         }
-        if(node.topic) {
+        if (node.topic) {
             node.idChecked = true;
         }
 
