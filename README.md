@@ -16,6 +16,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 1.4.1 (2017-10-03)
+* (twonky4) fix blank topic support
+
 ### 1.4.0 (2017-08-06)
 * (bluefox) use newer version of node-red 0.17.5
 

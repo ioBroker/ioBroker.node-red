@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "node-red",
-        "version":                  "1.4.0",
+        "version":                  "1.4.1",
         "title":                    "node-red Adapter",
 		"titleLang":                {
 			"en": "node-red Adapter",
@@ -9,6 +9,11 @@
             "ru": "node-red Драйвер"
         },
         "news": {
+			"1.4.1": {
+                "en": "fix blank topic support",
+                "de": "Korrigiere lehre Topics",
+                "ru": "Поправлены пустые топики"
+            },
             "1.4.0": {
                 "en": "use newer version of node-red 0.17.5",
                 "de": "Neue Version von node-red 0.17.5",
