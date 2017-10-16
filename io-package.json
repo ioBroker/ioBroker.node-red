@@ -1,15 +1,15 @@
 {
     "common": {
-        "name":                     "node-red",
-        "version":                  "1.4.1",
-        "title":                    "node-red Adapter",
-		"titleLang":                {
-			"en": "node-red Adapter",
+        "name": "node-red",
+        "version": "1.4.1",
+        "title": "node-red Adapter",
+        "titleLang": {
+            "en": "node-red Adapter",
             "de": "node-red Adapter",
             "ru": "node-red Драйвер"
         },
         "news": {
-			"1.4.1": {
+            "1.4.1": {
                 "en": "fix blank topic support",
                 "de": "Korrigiere lehre Topics",
                 "ru": "Поправлены пустые топики"
@@ -39,17 +39,17 @@
                 "de": "Unterstützung von gleichzeitigem Aufruf für GetNode",
                 "ru": "Поддержка параллельного вызова GetNode"
             },
-			"1.1.4": {
+            "1.1.4": {
                 "en": "use newer version of node-red 0.15.2",
                 "de": "Neue Version von node-red 0.15.2",
                 "ru": "Новая версия node-red 0.15.2"
             },
-			"1.1.2": {
+            "1.1.2": {
                 "en": "use newer version of node-red 0.14.6\nchange topic name processing",
                 "de": "neuere Version von node-red 0.14.6\nÄndere bearbeitung von Topicnamen",
                 "ru": "Новая версия node-red 0.14.6\nИзменена обработка имен топиков"
             },
-			"1.1.1": {
+            "1.1.1": {
                 "en": "use newer version of node-red 0.14.4",
                 "de": "use newer version of node-red 0.14.4",
                 "ru": "use newer version of node-red 0.14.4"
@@ -73,37 +73,40 @@
         "authors": [
             "bluefox <dogafox@gmail.com>"
         ],
-        "license":                  "Apache-2.0",
-        "platform":                 "Javascript/Node.js",
-        "mode":                     "daemon",
-        "messagebox":               true,
-        "loglevel":                 "info",
-        "icon":                     "node-red.png",
-        "keywords":                 ["node-red", "logic", "script"],
-        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-        "localLink":                "http://%ip%:%port%%httpRoot%",
-        "enabled":                  true,
-        "singletonHost":            true,
-        "supportStopInstance":      true,
-        "unsafePerm":               true,
-        "type":                     "script",
-        "readme":                   "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
-        "stopBeforeUpdate":         true,
+        "license": "Apache-2.0",
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "messagebox": true,
+        "loglevel": "info",
+        "icon": "node-red.png",
+        "keywords": [
+            "node-red",
+            "logic",
+            "script"
+        ],
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
+        "localLink": "http://%ip%:%port%%httpRoot%",
+        "enabled": true,
+        "singletonHost": true,
+        "supportStopInstance": true,
+        "unsafePerm": true,
+        "type": "logic",
+        "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
+        "stopBeforeUpdate": true,
         "adminTab": {
-            "link":                 "http://%ip%:%port%%httpRoot%",
-            "fa-icon":              "fa-code-fork"
+            "link": "http://%ip%:%port%%httpRoot%",
+            "fa-icon": "fa-code-fork"
         }
     },
     "native": {
         "port": 1880,
         "httpRoot": "/",
-		"valueConvert": true
+        "valueConvert": true
     },
-    "objects": [
-    ],
-    "instanceObjects":[
+    "objects": [],
+    "instanceObjects": [
         {
-            "_id":  "",
+            "_id": "",
             "type": "channel",
             "common": {
                 "name": "States created by node-red.%INSTANCE%",
