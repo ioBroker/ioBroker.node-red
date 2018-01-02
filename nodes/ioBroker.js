@@ -32,7 +32,7 @@ module.exports = function(RED) {
     }
 
     try {
-        var adapter = utils.adapter({name: 'node-red', instance: instance, config: config});
+        var adapter = utils.Adapter({name: 'node-red', instance: instance, config: config});
     } catch(e) {
         console.log(e);
     }
