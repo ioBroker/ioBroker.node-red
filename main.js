@@ -12,7 +12,7 @@
 "use strict";
 
 var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
-var adapter = utils.adapter({
+var adapter = utils.Adapter({
     name:           'node-red',
     systemConfig:   true, // get the system configuration as systemConfig parameter of adapter
     unload:         unloadRed
