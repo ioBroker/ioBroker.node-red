@@ -17,7 +17,7 @@ var adapter = utils.Adapter({
     systemConfig:   true, // get the system configuration as systemConfig parameter of adapter
     unload:         unloadRed
 });
-	
+
 var fs          = require('fs');
 var path        = require('path');
 var spawn       = require('child_process').spawn;
@@ -43,7 +43,7 @@ function installNpm(npmLib, callback) {
         npmLib = undefined;
     }
 
-    var cmd = 'npm install ' + npmLib + ' --production --prefix "' + path + '"';
+    var cmd = 'npm install ' + npmLib + ' --production --prefix "' + path + '" --save';
     adapter.log.info(cmd + ' (System call)');
     // Install node modules as system call
 
@@ -164,11 +164,11 @@ function startNodeRed() {
     adapter.log.info('Starting node-red: ' + args.join(' '));
 
     redProcess = spawn('node', args);
-	
+
     redProcess.on('error', function (err) {
         adapter.log.error('catched exception from node-red:' + JSON.stringify(err));
         });
-	
+
     redProcess.stdout.on('data', function (data) {
         if (!data) return;
         data = data.toString();
@@ -232,7 +232,7 @@ function writeSettings() {
             npms += ', \r\n';
         }
     }
-	
+
 	// update from 1.0.1 (new convert-option)
 	if (adapter.config.valueConvert === null      ||
         adapter.config.valueConvert === undefined ||
@@ -416,4 +416,3 @@ function main() {
         });
     });
 }
-
