@@ -30,13 +30,15 @@ module.exports = function(RED) {
     if (typeof config == 'string') {
         config = JSON.parse(config);
     }
+    var adapter;
 
     try {
-        var adapter = utils.Adapter({name: 'node-red', instance: instance, config: config});
+        adapter = utils.Adapter({name: 'node-red', instance: instance, config: config});
     } catch(e) {
         console.log(e);
     }
     var nodes = [];
+    var nodeSets = [];
     var ready = false;
     var log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
 
@@ -50,6 +52,14 @@ module.exports = function(RED) {
             }
             node.status({fill: 'green', shape: 'dot', text: 'connected'});
         }
+        var count = 0;
+        while (nodeSets.length) {
+            var nodeSetData = nodes.pop();
+            nodeSetData.node.emit('input', nodeSetData.msg);
+            count++;
+        }
+        if (count > 0) log(count + ' queued state values set in ioBroker');
+
     });
 
     // name is like system.state, pattern is like "*.state" or "*" or "*system*"
@@ -82,7 +92,7 @@ module.exports = function(RED) {
                                 name: id,
                                 role: 'info',
                                 type: 'state',
-                                desc: 'Created by MQTT'
+                                desc: 'Created by Node-Red'
                             },
                             native: {},
                             type: 'state'
@@ -119,7 +129,7 @@ module.exports = function(RED) {
             }
         });
     }
-    
+
     function IOBrokerInNode(n) {
         var node = this;
         RED.nodes.createNode(node,n);
@@ -137,7 +147,7 @@ module.exports = function(RED) {
         node.func        = n.func || 'all';
         node.gap         = n.gap || '0';
         node.pc          = false;
-        
+
 		if (node.gap.substr(-1) === '%') {
             node.pc = true;
             node.gap = parseFloat(node.gap);
@@ -145,7 +155,7 @@ module.exports = function(RED) {
         node.g = node.gap;
 
         node.previous = {};
-				
+
         if (node.topic) {
             var id = node.topic;
             // If no wildchars and belongs to this adapter
@@ -168,10 +178,10 @@ module.exports = function(RED) {
             }
 
 			if (node.onlyack && obj.ack != true) return;
-            
+
             var t = topic.replace(/\./g, '/') || '_no_topic';
             //node.log ("Function: " + node.func);
-           
+
 			if (node.func === 'rbe') {
                 if (obj.val === node.previous[t]) {
                     return;
@@ -181,8 +191,8 @@ module.exports = function(RED) {
                 if (!isNaN(n)) {
                     //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
                     if (node.pc) { node.gap = (node.previous[t] * node.g / 100) || 0; }
-                    if (!node.previous.hasOwnProperty(t)) { 
-                        node.previous[t] = n - node.gap; 
+                    if (!node.previous.hasOwnProperty(t)) {
+                        node.previous[t] = n - node.gap;
                     }
                     if (!Math.abs(n - node.previous[t]) >= node.gap) {
                         return;
@@ -193,7 +203,7 @@ module.exports = function(RED) {
                 }
             }
             node.previous[t] = obj.val;
-			
+
             node.send({
                 topic:       t,
                 payload:     (node.payloadType === 'object') ? obj : ((obj.val === null || obj.val === undefined) ? '' : (valueConvert ? obj.val.toString() : obj.val)),
@@ -243,6 +253,11 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var id = node.topic || msg.topic;
+            if (!ready) {
+                nodeSets.push({'node': node, 'msg': msg});
+                log('Message for "' + id + '" queued because ioBroker connection not initialized');
+                return;
+            }
             if (id) {
                 id = id.replace(/\//g, '.');
 
@@ -276,7 +291,7 @@ module.exports = function(RED) {
                 node.warn('No key or topic set');
             }
         });
-        
+
         if (!ready) {
             nodes.push(node);
         }
@@ -317,7 +332,7 @@ module.exports = function(RED) {
             node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
         }
 
-        node.getStateValue = function (msg) { 
+        node.getStateValue = function (msg) {
             return function (err, state) {
                 if (!err && state) {
                     msg[node.attrname] = (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
@@ -333,6 +348,11 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var id = node.topic || msg.topic;
+            if (!ready) {
+                nodeSets.push({'node': node, 'msg': msg});
+                log('Message for "' + id + '" queued because ioBroker connection not initialized');
+                return;
+            }
             if (id) {
                 id = id.replace(/\//g, '.');
                 // If not this adapter state
@@ -353,9 +373,8 @@ module.exports = function(RED) {
 
         if (!ready) {
             nodes.push(node);
-        }		
-		
+        }
+
     }
     RED.nodes.registerType('ioBroker get', IOBrokerGetNode);
 };
-
