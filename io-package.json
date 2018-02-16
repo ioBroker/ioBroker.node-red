@@ -9,6 +9,11 @@
             "ru": "node-red Драйвер"
         },
         "news": {
+            "1.5.1": {
+                "en": "queue set state requests till ioBroker connection has been initialized",
+                "de": "Verzögern von ioBroker-Schreibaktionen bis Verbindung zu ioBroker initialisiert wurde",
+                "ru": "queue set state requests till ioBroker connection has been initialized"
+            },
             "1.5.0": {
                 "en": "use newer version of node-red 0.18.2",
                 "de": "Neue Version von node-red 0.18.2",

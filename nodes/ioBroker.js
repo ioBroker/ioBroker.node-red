@@ -255,7 +255,7 @@ module.exports = function(RED) {
             var id = node.topic || msg.topic;
             if (!ready) {
                 nodeSets.push({'node': node, 'msg': msg});
-                log('Message for "' + id + '" queued because ioBroker connection not initialized');
+                //log('Message for "' + id + '" queued because ioBroker connection not initialized');
                 return;
             }
             if (id) {
@@ -350,7 +350,7 @@ module.exports = function(RED) {
             var id = node.topic || msg.topic;
             if (!ready) {
                 nodeSets.push({'node': node, 'msg': msg});
-                log('Message for "' + id + '" queued because ioBroker connection not initialized');
+                //log('Message for "' + id + '" queued because ioBroker connection not initialized');
                 return;
             }
             if (id) {
