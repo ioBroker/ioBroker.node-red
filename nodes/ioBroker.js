@@ -54,7 +54,7 @@ module.exports = function(RED) {
         }
         var count = 0;
         while (nodeSets.length) {
-            var nodeSetData = nodes.pop();
+            var nodeSetData = nodeSets.pop();
             nodeSetData.node.emit('input', nodeSetData.msg);
             count++;
         }
