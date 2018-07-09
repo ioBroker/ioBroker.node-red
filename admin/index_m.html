@@ -1,0 +1,156 @@
+<html>
+
+<!-- Materialze style -->
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../lib/js/materialize.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="words.js"></script>
+
+<style>
+    .m .input-field.col label {
+        top: -10px;
+        font-size: 12px;
+    }
+</style>
+<!-- you have to define 2 functions in the global scope: -->
+<script type="text/javascript">
+    var devices = [];
+
+    function setValue(id, value, onChange) {
+        var $value = $('#' + id + '.value');
+        if ($value.attr('type') === 'checkbox') {
+            $value.prop('checked', value).change(function() {
+                onChange();
+            });
+        } else {
+            $value.val(value).on('change', function() {
+                onChange();
+            }).on('keyup', function() {
+                onChange();
+            });
+        }
+    }
+    function chips2list(selector) {
+        var data = $(selector).chips('getData');
+        var text = [];
+        for (var lib = 0; lib < data.length; lib++) {
+            text.push(data[lib].tag.trim());
+        }
+        return text;
+    }
+    function list2chips(selector, list, onChange) {
+        var data = [];
+        if (list) {
+            for (var c = 0; c < list.length; c++) {
+                if (list[c] && list[c].trim()) {
+                    data.push({tag: list[c].trim()});
+                }
+            }
+        }
+        $(selector).chips({
+            data: data,
+            placeholder: _('Module names'),
+            secondaryPlaceholder: _('Add module'),
+            onChipAdd: onChange,
+            onChipDelete: onChange
+        });
+    }
+    // the function loadSettings has to exist ...
+    function load(settings, onChange) {
+        if (!settings) return;
+
+        devices = settings.devices || [];
+
+        if (settings.maxMemory === undefined) settings.maxMemory = 128;
+
+        for (var key in settings) {
+            if (settings.hasOwnProperty(key)) {
+                setValue(key, settings[key], onChange);
+            }
+        }
+        $('#update').click(function () {
+            sendTo(null, 'update', null, function (error) {
+                if (!error) {
+                    showMessage(_('Successfully updated'))
+                } else {
+                    showMessage(_('Cannot update:') + _(error))
+                }
+            });
+        });
+
+        list2chips('.libraries', common.npmLibs || [], onChange);
+
+        getIsAdapterAlive(function (isAlive) {
+            if (!isAlive) {
+                $('#update').addClass('disabled');
+            }
+        });
+        onChange(false);
+    }
+
+    function save(callback) {
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') === 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+
+        common.npmLibs = chips2list('.libraries');
+
+        callback(obj, {localLink: 'http://%ip%:' + obj.port, npmLibs: common.npmLibs});
+    }
+</script>
+
+<div class="m adapter-container">
+    <div class="row">
+        <div class="col s12">
+            <div class="row">
+                <div class="col s6">
+                    <img src="node-red.png" class="logo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m8 l6">
+                    <label class="translate">Additional npm modules:</label>
+                    <div class="chips libraries"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m4 l3">
+                    <input class="value" id="port" type="number" min="1" max="65565"/>
+                    <label class="translate" for="port">Web server port:</label>
+                </div>
+                <div class="input-field col s12 m4 l3">
+                    <input id="httpRoot" class="value" style="width: 100%"/>
+                    <label class="translate" for="httpRoot">http root directory:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m4 l3">
+                    <input  class="value" id="valueConvert" type="checkbox" />
+                    <label class="translate" for="valueConvert">Convert values to string:</label>
+                </div>
+                <div class="input-field col s12 m4 l3">
+                    <input class="value" id="maxMemory" type="number" min="32"/>
+                    <label class="translate" for="maxMemory">Max allocated RAM:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <a id="update" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i><span class="translate">Update select dialog</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,14 +1,20 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.5.1",
-        "title": "node-red Adapter",
-        "titleLang": {
-            "en": "node-red Adapter",
-            "de": "node-red Adapter",
-            "ru": "node-red Драйвер"
-        },
+        "version": "1.6.0",
+        "title": "node-red",
         "news": {
+            "1.6.0": {
+                "en": "newer version of node-red 0.18.7 used\nAdmin3 dialog implemented\nRAM settings were added",
+                "de": "neuere Version von node-red 0.18.7 verwendet\nAdmin3-Dialog implementiert\nRAM-Einstellungen wurden hinzugefügt",
+                "ru": "более новая версия node-red 0.18.7 используется\nДиалог Admin3 реализован\nДобавлены настройки RAM",
+                "pt": "versão mais recente do node-red 0.18.7 usado\nDiálogo Admin3 implementado\nConfigurações de RAM foram adicionadas",
+                "nl": "nieuwere versie van knooppunt-rood 0.18.7 gebruikt\nAdmin3-dialoogvenster geïmplementeerd\nRAM-instellingen zijn toegevoegd",
+                "fr": "version plus récente de node-red 0.18.7 d'occasion\nBoîte de dialogue Admin3 implémentée\nParamètres RAM ont été ajoutés",
+                "it": "versione più recente di node-red 0.18.7 usata\nFinestra di dialogo Admin3 implementata\nSono state aggiunte le impostazioni della RAM",
+                "es": "nueva versión de node-red 0.18.7 usada\nDiálogo Admin3 implementado\nSe agregaron configuraciones de RAM",
+                "pl": "zastosowano nowszą wersję węzła-czerwonego 0.18.7\nZaimplementowano okno Admin3\nDodano ustawienia pamięci RAM"
+            },
             "1.5.1": {
                 "en": "queue set state requests till ioBroker connection has been initialized",
                 "de": "Verzögern von ioBroker-Schreibaktionen bis Verbindung zu ioBroker initialisiert wurde",
@@ -43,42 +49,18 @@
                 "en": "use newer version of node-red 0.16.2",
                 "de": "Neue Version von node-red 0.16.2",
                 "ru": "Новая версия node-red 0.16.2"
-            },
-            "1.1.5": {
-                "en": "support concurrent access to GetNode",
-                "de": "Unterstützung von gleichzeitigem Aufruf für GetNode",
-                "ru": "Поддержка параллельного вызова GetNode"
-            },
-            "1.1.4": {
-                "en": "use newer version of node-red 0.15.2",
-                "de": "Neue Version von node-red 0.15.2",
-                "ru": "Новая версия node-red 0.15.2"
-            },
-            "1.1.2": {
-                "en": "use newer version of node-red 0.14.6\nchange topic name processing",
-                "de": "neuere Version von node-red 0.14.6\nÄndere bearbeitung von Topicnamen",
-                "ru": "Новая версия node-red 0.14.6\nИзменена обработка имен топиков"
-            },
-            "1.1.1": {
-                "en": "use newer version of node-red 0.14.4",
-                "de": "use newer version of node-red 0.14.4",
-                "ru": "use newer version of node-red 0.14.4"
-            },
-            "1.1.0": {
-                "en": "configurable: convert values to string\nuse newer version of node-red 0.14.3",
-                "de": "configurable: convert values to string\nuse newer version of node-red 0.14.3",
-                "ru": "configurable: convert values to string\nuse newer version of node-red 0.14.3"
-            },
-            "1.0.1": {
-                "en": "on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
-                "de": "on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed",
-                "ru": "on some systems node-red was available under wrong URL http://ip:1881/undefined. Fixed"
             }
         },
         "desc": {
             "en": "This adapter uses node-red as a service. No additional node-red instance required.",
             "de": "Adapter benutzt node-red als Servcie. Kein zusätzliches node-red Programm nötig.",
-            "ru": "Драйвер создает node-red сервер и позволяет общаться с ним"
+            "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
+            "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
+            "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
+            "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
+            "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
+            "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
+            "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana."
         },
         "authors": [
             "bluefox <dogafox@gmail.com>"
@@ -100,6 +82,7 @@
         "singletonHost": true,
         "supportStopInstance": true,
         "unsafePerm": true,
+        "materialize": true,
         "type": "logic",
         "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
         "stopBeforeUpdate": true,
@@ -111,7 +94,8 @@
     "native": {
         "port": 1880,
         "httpRoot": "/",
-        "valueConvert": true
+        "valueConvert": true,
+        "maxMemory": 128
     },
     "objects": [],
     "instanceObjects": [

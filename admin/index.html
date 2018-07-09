@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
 <script type="text/javascript" src="../../js/translate.js"></script>
 <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="words.js"></script>
 
 <style>
     .table_header {
@@ -25,74 +26,16 @@
 <script type="text/javascript">
     var devices = [];
 
-    systemDictionary = {
-        "node-red settings": {
-            "en": "node-red settings",
-            "de": "node-red Einstellungen",
-            "ru": "node-red Настройки"
-        },
-        "Web server port:": {
-            "en": "Web server port:",
-            "de": "Web-Server-Port:",
-            "ru": "Порт веб сервера:"
-        },
-        "node-red update select dialog": {
-            "en": "node-red update select dialog",
-            "de": "node-red SelectID Dialog aktualisieren",
-            "ru": "Обновить переменные в диалоге node-red"
-        },
-        "Update select dialog": {
-            "en": "Update select dialog",
-            "de": "Update Dialog um ID zu selektieren",
-            "ru": "Обновить переменные в диалоге выбора объектов"
-        },
-        "Divided by comma": {
-            "en": "Divided by comma",
-            "de": "Getrennt mit Komma",
-            "ru": "Через запятую"
-        },
-        "Additional npm modules:": {
-            "en": "Additional npm modules:",
-            "de": "Zusätzliche NPM-Module",
-            "ru": "Дополнительные NPM Модули:"
-        },
-        "http root directory:": {
-            "en": "http root directory:",
-            "de": "http Stammpfad:",
-            "ru": "http root directory:"
-        },
-		"Convert values to string:":{
-			"en": "Convert ioBroker values to string:",
-			"de": "ioBroker-Werte in String konvertieren:",
-			"ru": "Конвертировать значения из ioBroker в строки:"
-		}
-    };
-
     function setValue(id, value, onChange) {
-        // example: select elements with id=key and class=value and insert value
-        if ($('#' + id + '.value').attr('type') == 'checkbox') {
-            $('#' + id + '.value').prop('checked', value).change(function() {
+        var $value = $('#' + id + '.value');
+        if ($value.attr('type') === 'checkbox') {
+            $value.prop('checked', value).change(function() {
                 onChange();
             });
         } else {
-            $('#' + id + '.value').val(value).change(function() {
+            $value.val(value).on('change', function() {
                 onChange();
-            }).keyup(function() {
-                // Chack that only numbers entered
-                if ($(this).hasClass('number')) {
-                    var val = $(this).val();
-                    if (val) {
-                        var newVal = '';
-                        for (var i = 0; i < val.length; i++) {
-                            if (val[i] >= '0' && val[i] <= '9') {
-                                newVal += val[i];
-                            }
-                        }
-
-                        if (val != newVal) $(this).val(newVal);
-                    }
-                }
-
+            }).on('keyup', function() {
                 onChange();
             });
         }
@@ -104,8 +47,12 @@
 
         devices = settings.devices || [];
 
+        if (settings.maxMemory === undefined) settings.maxMemory = 128;
+
         for (var key in settings) {
-            setValue(key, settings[key], onChange);
+            if (settings.hasOwnProperty(key)) {
+                setValue(key, settings[key], onChange);
+            }
         }
         $('#update').button().click(function () {
             sendTo(null, 'update', null, function (error) {
@@ -117,30 +64,29 @@
             });
         });
 
+        var $libs = $('#libraries');
+
         if (common.npmLibs){
-            $('#libraries').val(common.npmLibs.join(', '));
+            $libs.val(common.npmLibs.join(', '));
         }
-                 
-        $('#libraries').change(function () {
+
+        $libs.on('change', function () {
             onChange();
-        }).keyup(function () {
+        }).on('keyup', function () {
             $(this).trigger('change');
         });
 
         getIsAdapterAlive(function (isAlive) {
-            if (!isAlive) $('#update').button("disable");
+            if (!isAlive) $('#update').button('disable');
         });
         onChange(false);
     }
 
-    // ... and the function save has to exist.
-    // you have to make sure the callback is called with the settings object as first param!
     function save(callback) {
-        // example: select elements with class=value and build settings object
         var obj = {};
         $('.value').each(function () {
             var $this = $(this);
-            if ($this.attr('type') == 'checkbox') {
+            if ($this.attr('type') === 'checkbox') {
                 obj[$this.attr('id')] = $this.prop('checked');
             } else {
                 obj[$this.attr('id')] = $this.val();
@@ -159,7 +105,6 @@
 
 <!-- you have to put your config page in a div with id adapter-container -->
 <div id="adapter-container">
-
     <table><tr>
         <td><img src="node-red.png" width="64" height="64"></td>
         <td style="padding-top: 20px;padding-left: 10px"><h3 class="translate">node-red adapter settings</h3></td>
@@ -167,19 +112,21 @@
 
     <h4 class="translate">node-red settings</h4>
     <table>
-        <tr><td class="translate">Web server port:</td><td colspan="2"><input class="value number" id="port" type="input" size="5"/></td></tr>
+        <tr><td><label class="translate" for="port">Web server port:</label></td><td colspan="2"><input class="value" id="port" type="number" min="1" max="65565"/></td></tr>
         <tr>
-            <td class="translate">Additional npm modules:</td><td><input id="libraries" class="value" style="width: 100%"/></td><td class="translate">Divided by comma</td>
+            <td><label class="translate" for="libraries">Additional npm modules:</label></td><td><input id="libraries" class="value" style="width: 100%"/></td><td class="translate">Divided by comma</td>
         </tr>
         <tr>
-            <td class="translate">http root directory:</td><td><input id="httpRoot" class="value" style="width: 100%"/></td>
+            <td><label class="translate" for="httpRoot">http root directory:</label></td><td><input id="httpRoot" class="value" style="width: 100%"/></td>
         </tr>
 		<tr>
-			<td class="translate">Convert values to string:</td><td> <input  class="value" id="valueConvert" type="checkbox" /></td>
+			<td><label class="translate" for="valueConvert">Convert values to string:</label></td><td> <input  class="value" id="valueConvert" type="checkbox" /></td>
 		</tr>
+        <tr>
+            <td><label class="translate" for="maxMemory">Max allocated RAM:</label></td><td> <input class="value" id="maxMemory" type="number" min="32"/></td>
+        </tr>
     </table>
     <h4 class="translate">node-red update select dialog</h4>
     <button id="update" class="translateB">Update select dialog</button>
-
 </div>
 </html>

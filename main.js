@@ -160,7 +160,8 @@ var saveTimer;
 var nodePath = getNodeRedPath();
 
 function startNodeRed() {
-    var args = ['--max-old-space-size=128', nodePath + '/red.js', '-v', '--settings', userdataDir + 'settings.js'];
+    adapter.config.maxMemory = parseInt(adapter.config.maxMemory, 10) || 128;
+    var args = ['--max-old-space-size=' + adapter.config.maxMemory, nodePath + '/red.js', '-v', '--settings', userdataDir + 'settings.js'];
     adapter.log.info('Starting node-red: ' + args.join(' '));
 
     redProcess = spawn('node', args);

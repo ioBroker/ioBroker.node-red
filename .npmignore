@@ -1,7 +1,9 @@
-Gruntfile.js
+gulpfile.js
 tasks
+tmp
 test
 .travis.yml
-.idea
-node_modules
 appveyor.yml
+admin/i18n
+iob_npm.done
+package-lock.json
