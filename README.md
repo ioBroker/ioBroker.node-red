@@ -1,5 +1,5 @@
 ![Logo](admin/node-red.png)
-ioBroker node-red Adapter
+# ioBroker node-red Adapter
 ==============
 [![NPM version](http://img.shields.io/npm/v/iobroker.node-red.svg)](https://www.npmjs.com/package/iobroker.node-red)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.node-red.svg)](https://www.npmjs.com/package/iobroker.node-red)
@@ -20,6 +20,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 * (bluefox) use newer version of node-red 0.18.7
 * (bluefox) Admin3 dialog implemented
 * (bluefox) RAM settings were added
+* (bluefox) add credentialSecret option
 
 ### 1.5.1 (2017-02-16)
 * (Apollon77) queue set state requests till ioBroker connection has been initialized
@@ -168,7 +169,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## License
 
-Copyright 2014-2017 bluefox <dogafox@gmail.com>.
+Copyright 2014-2018 bluefox <dogafox@gmail.com>.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
