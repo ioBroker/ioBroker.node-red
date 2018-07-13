@@ -130,6 +130,8 @@ module.exports = {
     //    context.global.os
 
     valueConvert: '%%valueConvert%%',
+
+    credentialSecret: '%%credentialSecret%%',
 	
     functionGlobalContext: {
         //'%%functionGlobalContext%%'
