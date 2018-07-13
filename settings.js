@@ -131,7 +131,7 @@ module.exports = {
 
     valueConvert: '%%valueConvert%%',
 
-    credentialSecret: '%%credentialSecret%%',
+    credentialSecret: "'%%credentialSecret%%'",
 	
     functionGlobalContext: {
         //'%%functionGlobalContext%%'

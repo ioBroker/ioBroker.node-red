@@ -147,8 +147,11 @@ function getNodeRedPath() {
     if (!fs.existsSync(nodeRed)) {
         nodeRed = path.normalize(__dirname + '/../node-red');
         if (!fs.existsSync(nodeRed)) {
-            adapter.log.error('Cannot find node-red packet!');
-            throw new Error('Cannot find node-red packet!');
+            nodeRed = path.normalize(__dirname + '/../node_modules/node-red');
+            if (!fs.existsSync(nodeRed)) {
+                adapter && adapter.log && adapter.log.error('Cannot find node-red packet!');
+                throw new Error('Cannot find node-red packet!');
+            }
         }
     }
 
