@@ -1,9 +1,20 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.6.0",
+        "version": "1.7.0",
         "title": "node-red",
         "news": {
+            "1.7.0": {
+                "en": "Used newer version of node-red 0.19.1",
+                "de": "Benutzte neuere Version von node-red 0.19.1",
+                "ru": "Используется новая версия node-red 0.19.1",
+                "pt": "Usado versão mais recente do nó vermelho 0.19.1",
+                "nl": "Gebruikte nieuwere versie van knoop-rood 0.19.1",
+                "fr": "Version plus récente de node-red 0.19.1",
+                "it": "Utilizzata la versione più recente di node-red 0.19.1",
+                "es": "Versión más nueva usada de node-red 0.19.1",
+                "pl": "Używana nowsza wersja węzła-czerwonego 0.19.1"
+            },
             "1.6.0": {
                 "en": "newer version of node-red 0.18.7 used\nAdmin3 dialog implemented\nRAM settings were added",
                 "de": "neuere Version von node-red 0.18.7 verwendet\nAdmin3-Dialog implementiert\nRAM-Einstellungen wurden hinzugefügt",
