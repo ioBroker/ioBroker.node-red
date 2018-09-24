@@ -70,6 +70,10 @@ function installNpm(npmLib, callback) {
 
 function installLibraries(callback) {
     let allInstalled = true;
+    if (typeof adapter.common.npmLibs === 'string') {
+        adapter.common.npmLibs = adapter.common.npmLibs.split(/[,;\s]+/);
+    }
+
     if (adapter.common && adapter.common.npmLibs) {
         for (let lib = 0; lib < adapter.common.npmLibs.length; lib++) {
             if (adapter.common.npmLibs[lib] && adapter.common.npmLibs[lib].trim()) {
@@ -232,6 +236,11 @@ function writeSettings() {
     let npms = '\r\n';
     const dir = __dirname.replace(/\\/g, '/') + '/node_modules/';
     const nodesDir = '"' + __dirname.replace(/\\/g, '/') + '/nodes/"';
+
+    const bind = '"' + (adapter.config.bind || '0.0.0.0') + '"';
+    const auth = adapter.config.user && adapter.config.pass ? JSON.stringify({user: adapter.config.user, pass: adapter.config.pass}) : '""';
+    const pass = '"' + adapter.config.pass + '"';
+
     for (let a = 0; a < additional.length; a++) {
         if (additional[a].match(/^node-red-/)) continue;
         npms += '        "' + additional[a] + '": require("' + dir + additional[a] + '")';
@@ -255,6 +264,10 @@ function writeSettings() {
         adapter.config.valueConvert = false;
     }
     for (let i = 0; i < lines.length; i++) {
+        lines[i] = setOption(lines[i], 'port');
+        lines[i] = setOption(lines[i], 'auth', auth);
+        lines[i] = setOption(lines[i], 'pass', pass);
+        lines[i] = setOption(lines[i], 'bind', bind);
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'instance', adapter.instance);
         lines[i] = setOption(lines[i], 'config', config);

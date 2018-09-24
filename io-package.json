@@ -1,9 +1,20 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.7.0",
+        "version": "1.7.1",
         "title": "node-red",
         "news": {
+            "1.7.1": {
+                "en": "Used newer version of node-red 0.19.4\nBasic authentication was added",
+                "de": "Verwendete neuere Version von node-red 0.19.4\nStandardauthentifizierung wurde hinzugefügt",
+                "ru": "Используется новая версия node-red 0.19.4\nДобавлена ​​базовая аутентификация",
+                "pt": "Usado versão mais recente do nó vermelho 0.19.4\nAutenticação básica foi adicionada",
+                "nl": "Gebruikte nieuwere versie van knoop-rood 0.19.4\nBasisverificatie is toegevoegd",
+                "fr": "Version plus récente de node-red 0.19.4\nL'authentification de base a été ajoutée",
+                "it": "Utilizzata la versione più recente di node-red 0.19.4\nÈ stata aggiunta l'autenticazione di base",
+                "es": "Versión más nueva usada de node-red 0.19.4\nAutenticación básica fue agregada",
+                "pl": "Używana nowsza wersja węzła-czerwonego 0.19.4\nDodano uwierzytelnianie podstawowe"
+            },
             "1.7.0": {
                 "en": "Used newer version of node-red 0.19.1",
                 "de": "Benutzte neuere Version von node-red 0.19.1",
@@ -103,10 +114,14 @@
         }
     },
     "native": {
+        "bind": "0.0.0.0",
         "port": 1880,
         "httpRoot": "/",
+        "npmLibs": "",
         "valueConvert": true,
-        "maxMemory": 128
+        "maxMemory": 128,
+        "user": "",
+        "pass": ""
     },
     "objects": [],
     "instanceObjects": [
