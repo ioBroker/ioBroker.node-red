@@ -110,7 +110,7 @@
         "stopBeforeUpdate": true,
         "adminTab": {
             "link": "http://%ip%:%port%%httpRoot%",
-            "fa-icon": "fa-code-fork"
+            "fa-icon": "settings_input_composite"
         }
     },
     "native": {
