@@ -212,6 +212,8 @@ module.exports = function(RED) {
                 lastchange:  obj.lc,
                 from:        obj.from
             });
+
+            node.status({fill: 'green', shape: 'dot', text: (node.payloadType === 'object') ? JSON.stringify(obj) : ((obj.val === null || obj.val === undefined) ? '' : obj.val.toString() ) });
         };
 
         node.on('close', function() {
@@ -276,6 +278,7 @@ module.exports = function(RED) {
                     adapter.getForeignState(id, function (err, state) {
                         if (!err && state) {
                             adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
+                            node.status({fill: 'green', shape: 'dot', text: msg.payload.toString() });
                         } else {
                             log('State "' + id + '" does not exist in the ioBroker');
                         }
@@ -285,6 +288,7 @@ module.exports = function(RED) {
                         log('Invalid topic name "' + id + '" for ioBroker');
                     } else {
                         setState(id, msg.payload, node.ack);
+                        node.status({fill: 'green', shape: 'dot', text: msg.payload.toString() });
                     }
                 }
             } else {
@@ -339,6 +343,11 @@ module.exports = function(RED) {
                     msg.acknowledged   = state.ack;
                     msg.timestamp      = state.ts;
                     msg.lastchange     = state.lc;
+                    node.status({
+                        fill: 'green',
+                        shape: 'dot',
+                        text: (node.payloadType === 'object') ? JSON.stringify(state) : ((state.val === null || state.val === undefined) ? '' : state.val.toString())
+                    });
                     node.send(msg);
                 } else {
                     log('State "' + id + '" does not exist in the ioBroker');
