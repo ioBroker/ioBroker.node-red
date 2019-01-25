@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.7.1",
+        "version": "1.7.2",
         "title": "node-red",
         "news": {
+            "1.7.2": {
+                "en": "Add Chinese support",
+                "de": "Chinesische Unterstützung hinzufügen",
+                "ru": "Добавить поддержку китайцев",
+                "pt": "Adicionar suporte chinês",
+                "nl": "Voeg Chinese ondersteuning toe",
+                "fr": "Ajouter un support chinois",
+                "it": "Aggiungi supporto cinese",
+                "es": "Añadir soporte chino",
+                "pl": "Dodaj chińskie wsparcie",
+                "zh-cn": "添加中文支持"
+            },
             "1.7.1": {
                 "en": "Used newer version of node-red 0.19.4\nBasic authentication was added",
                 "de": "Verwendete neuere Version von node-red 0.19.4\nStandardauthentifizierung wurde hinzugefügt",
@@ -82,7 +94,8 @@
             "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
             "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
             "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
-            "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana."
+            "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
+            "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
         },
         "authors": [
             "bluefox <dogafox@gmail.com>"
