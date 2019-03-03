@@ -11,7 +11,7 @@
 /*jslint node: true */
 'use strict';
 
-const utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
+const utils = require('@iobroker/adapter-core'); // Get common adapter utils
 const adapter = utils.Adapter({
     name:           'node-red',
     systemConfig:   true, // get the system configuration as systemConfig parameter of adapter
