@@ -23,7 +23,8 @@ module.exports = function(RED) {
     //var hashFieldRE = /^([^=]+)=(.*)$/;
 	// Get the redis address
 
-	var settings = require(process.env.NODE_RED_HOME + '/red/red').settings;
+    var settings = require(process.env.NODE_RED_HOME + '/lib/red').settings;
+
     var instance = settings.get('iobrokerInstance') || 0;
     var config   = settings.get('iobrokerConfig');
 	var valueConvert = settings.get('valueConvert');
