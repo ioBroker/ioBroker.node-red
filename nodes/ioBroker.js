@@ -18,7 +18,7 @@ module.exports = function(RED) {
     'use strict';
     require('events').EventEmitter.prototype._maxListeners = 100;
     var util  = require('util');
-    var utils = require(__dirname + '/../lib/utils');
+    var utils = require('@iobroker/adapter-core');
     //var redis = require("redis");
     //var hashFieldRE = /^([^=]+)=(.*)$/;
 	// Get the redis address
