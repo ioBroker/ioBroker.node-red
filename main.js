@@ -162,13 +162,28 @@ function getNodeRedPath() {
     return nodeRed;
 }
 
+function getNodeRedEditorPath() {
+    let nodeRedEditor = __dirname + '/node_modules/@node-red/editor-client';
+    if (!fs.existsSync(nodeRedEditor)) {
+        nodeRedEditor = path.normalize(__dirname + '/../@node-red/editor-client');
+        if (!fs.existsSync(nodeRedEditor)) {
+            nodeRedEditor = path.normalize(__dirname + '/../node_modules/@node-red/editor-client');
+            if (!fs.existsSync(nodeRedEditor)) {
+                adapter && adapter.log && adapter.log.error('Cannot find @node-red/editor-client packet!');
+                throw new Error('Cannot find @node-red/editor-client packet!');
+            }
+        }
+    }
+    return nodeRedEditor;
+}
+
 let redProcess;
 let stopping;
 let notificationsFlows;
 let notificationsCreds;
 let saveTimer;
 const nodePath = getNodeRedPath();
-const editorclientPath = getNodeRedPath() + '/../@node-red/editor-client';
+const editorclientPath = getNodeRedEditorPath();
 
 function startNodeRed() {
     adapter.config.maxMemory = parseInt(adapter.config.maxMemory, 10) || 128;
