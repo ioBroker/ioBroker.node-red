@@ -1,7 +1,7 @@
 {
   "name": "iobroker.node-red",
   "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "author": {
     "name": "bluefox",
     "email": "dogafox@gmail.com"
@@ -38,9 +38,9 @@
     "@iobroker/adapter-core": "^1.0.3"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.1",
     "request": "^2.88.0",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.4",
     "chai": "^4.1.2"
   },
   "bugs": {

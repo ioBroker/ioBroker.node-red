@@ -335,26 +335,25 @@ function languages2words(src) {
     writeWordJs(bigOne, src);
 }
 
-gulp.task('adminWords2languages', function (done) {
+gulp.task('words.js => json', function (done) {
     words2languages('./admin/');
     done();
 });
 
-gulp.task('adminWords2languagesFlat', function (done) {
+gulp.task('words.js => flat', function (done) {
     words2languagesFlat('./admin/');
     done();
 });
 
-gulp.task('adminLanguagesFlat2words', function (done) {
+gulp.task('flat => words.js', function (done) {
     languagesFlat2words('./admin/');
     done();
 });
 
-gulp.task('adminLanguages2words', function (done) {
+gulp.task('json => words.js', function (done) {
     languages2words('./admin/');
     done();
 });
-
 
 gulp.task('updatePackages', function (done) {
     iopackage.common.version = pkg.version;
@@ -399,4 +398,4 @@ gulp.task('updateReadme', function (done) {
     done();
 });
 
-gulp.task('default', ['updatePackages', 'updateReadme']);
+gulp.task('default', gulp.series('updatePackages', 'updateReadme'));
