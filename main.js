@@ -162,12 +162,28 @@ function getNodeRedPath() {
     return nodeRed;
 }
 
+function getNodeRedEditorPath() {
+    let nodeRedEditor = __dirname + '/node_modules/@node-red/editor-client';
+    if (!fs.existsSync(nodeRedEditor)) {
+        nodeRedEditor = path.normalize(__dirname + '/../@node-red/editor-client');
+        if (!fs.existsSync(nodeRedEditor)) {
+            nodeRedEditor = path.normalize(__dirname + '/../node_modules/@node-red/editor-client');
+            if (!fs.existsSync(nodeRedEditor)) {
+                adapter && adapter.log && adapter.log.error('Cannot find @node-red/editor-client packet!');
+                throw new Error('Cannot find @node-red/editor-client packet!');
+            }
+        }
+    }
+    return nodeRedEditor;
+}
+
 let redProcess;
 let stopping;
 let notificationsFlows;
 let notificationsCreds;
 let saveTimer;
 const nodePath = getNodeRedPath();
+const editorclientPath = getNodeRedEditorPath();
 
 function startNodeRed() {
     adapter.config.maxMemory = parseInt(adapter.config.maxMemory, 10) || 128;
@@ -289,7 +305,7 @@ function writeStateList(callback) {
             }
         }
 
-        fs.writeFileSync(nodePath + '/public/iobroker.json', JSON.stringify(obj));
+        fs.writeFileSync(editorclientPath + '/public/iobroker.json', JSON.stringify(obj));
         if (callback) callback(err);
     });
 }
@@ -336,8 +352,8 @@ function syncPublic(path) {
 
     const dir = fs.readdirSync(__dirname + path);
 
-    if (!fs.existsSync(nodePath + path)) {
-        fs.mkdirSync(nodePath + path);
+    if (!fs.existsSync(editorclientPath + path)) {
+        fs.mkdirSync(editorclientPath + path);
     }
 
     for (let i = 0; i < dir.length; i++) {
@@ -345,8 +361,8 @@ function syncPublic(path) {
         if (stat.isDirectory())  {
             syncPublic(path + '/' + dir[i]);
         } else {
-            if (!fs.existsSync(nodePath + path + '/' + dir[i])) {
-                fs.createReadStream(__dirname + path + '/' + dir[i]).pipe(fs.createWriteStream(nodePath + path + '/' + dir[i]));
+            if (!fs.existsSync(editorclientPath + path + '/' + dir[i])) {
+                fs.createReadStream(__dirname + path + '/' + dir[i]).pipe(fs.createWriteStream(editorclientPath + path + '/' + dir[i]));
             }
         }
     }

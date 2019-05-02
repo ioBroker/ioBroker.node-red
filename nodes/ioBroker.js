@@ -18,12 +18,13 @@ module.exports = function(RED) {
     'use strict';
     require('events').EventEmitter.prototype._maxListeners = 100;
     var util  = require('util');
-    var utils = require(__dirname + '/../lib/utils');
+    var utils = require('@iobroker/adapter-core');
     //var redis = require("redis");
     //var hashFieldRE = /^([^=]+)=(.*)$/;
 	// Get the redis address
 
-	var settings = require(process.env.NODE_RED_HOME + '/red/red').settings;
+    var settings = require(process.env.NODE_RED_HOME + '/lib/red').settings;
+
     var instance = settings.get('iobrokerInstance') || 0;
     var config   = settings.get('iobrokerConfig');
 	var valueConvert = settings.get('valueConvert');
