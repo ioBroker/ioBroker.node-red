@@ -279,7 +279,7 @@ module.exports = function(RED) {
                     adapter.getForeignState(id, function (err, state) {
                         if (!err && state) {
                             adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
-                            node.status({fill: 'green', shape: 'dot', text: msg.payload.toString() });
+                            node.status({fill: 'green', shape: 'dot', text: ((msg.payload === null || msg.payload === undefined) ? '' : msg.payload.toString().toString()) });
                         } else {
                             log('State "' + id + '" does not exist in the ioBroker');
                         }
@@ -289,7 +289,7 @@ module.exports = function(RED) {
                         log('Invalid topic name "' + id + '" for ioBroker');
                     } else {
                         setState(id, msg.payload, node.ack);
-                        node.status({fill: 'green', shape: 'dot', text: msg.payload.toString() });
+                        node.status({fill: 'green', shape: 'dot', text: ((msg.payload === null || msg.payload === undefined) ? '' : msg.payload.toString().toString()) });
                     }
                 }
             } else {
