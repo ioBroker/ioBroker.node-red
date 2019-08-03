@@ -40,7 +40,7 @@
   "devDependencies": {
     "gulp": "^4.0.2",
     "request": "^2.88.0",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.0",
     "chai": "^4.2.0"
   },
   "bugs": {
