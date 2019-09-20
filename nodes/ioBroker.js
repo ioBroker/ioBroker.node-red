@@ -40,27 +40,41 @@ module.exports = function(RED) {
     }
     var nodes = [];
     var nodeSets = [];
+    var checkStates = [];
     var ready = false;
     var log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
 
     adapter.on('ready', function () {
-        ready = true;
-        adapter.subscribeForeignStates('*');
-        while (nodes.length) {
-            var node = nodes.pop();
-            if (node instanceof IOBrokerInNode) {
-                adapter.on('stateChange', node.stateChange);
+        function checkQueuedStates(callback) {
+            if (!checkStates.length) {
+                callback && callback();
+                return;
             }
-            node.status({fill: 'green', shape: 'dot', text: 'connected'});
+            const check = checkStates.shift();
+            checkState(check.node, check.id, check.val, () => {
+                check.callback && check.callback();
+                checkQueuedStates(callback)
+            });
         }
-        var count = 0;
-        while (nodeSets.length) {
-            var nodeSetData = nodeSets.pop();
-            nodeSetData.node.emit('input', nodeSetData.msg);
-            count++;
-        }
-        if (count > 0) log(count + ' queued state values set in ioBroker');
 
+        ready = true;
+        checkQueuedStates(() => {
+            adapter.subscribeForeignStates('*');
+            while (nodes.length) {
+                var node = nodes.pop();
+                if (node instanceof IOBrokerInNode) {
+                    adapter.on('stateChange', node.stateChange);
+                }
+                node.status({fill: 'green', shape: 'dot', text: 'connected'});
+            }
+            var count = 0;
+            while (nodeSets.length) {
+                var nodeSetData = nodeSets.pop();
+                nodeSetData.node.emit('input', nodeSetData.msg);
+                count++;
+            }
+            if (count > 0) log(count + ' queued state values set in ioBroker');
+        });
     });
 
     // name is like system.state, pattern is like "*.state" or "*" or "*system*"
@@ -77,6 +91,10 @@ module.exports = function(RED) {
     function checkState(node, id, val, callback) {
         if (node.idChecked) {
             return callback && callback();
+        }
+        if (!ready) {
+            checkStates.push({node, id, val, callback});
+            return;
         }
         if (node.topic) {
             node.idChecked = true;
