@@ -4,6 +4,18 @@
         "version": "1.10.1",
         "title": "node-red",
         "news": {
+            "1.10.1": {
+                "en": "better handle object checks on initialization of the nodes",
+                "de": "Objektprüfungen bei der Initialisierung der Nodes besser handhaben",
+                "ru": "лучше обрабатывать проверки объектов при инициализации узлов",
+                "pt": "lidar melhor com verificações de objetos na inicialização dos nós",
+                "nl": "beter omgaan met objectcontroles bij initialisatie van de knooppunten",
+                "fr": "mieux gérer les vérifications d'objet lors de l'initialisation des nœuds",
+                "it": "gestire meglio i controlli degli oggetti sull'inizializzazione dei nodi",
+                "es": "manejar mejor las comprobaciones de objetos en la inicialización de los nodos",
+                "pl": "lepiej obsługiwać sprawdzanie obiektów przy inicjalizacji węzłów",
+                "zh-cn": "更好地处理节点初始化时的对象检查"
+            },
             "1.10.0": {
                 "en": "Used newer version of node-red 0.20.8",
                 "de": "Verwendete neuere Version von node-red 0.20.8",
