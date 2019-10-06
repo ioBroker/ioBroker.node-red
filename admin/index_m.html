@@ -142,6 +142,9 @@
         if (settings.maxMemory === undefined) {
             settings.maxMemory = 128;
         }
+        if (settings.projectsEnabled === undefined) {
+            settings.projectsEnabled = false;
+        }
         oldPass = settings.pass;
         if (settings.pass) {
             settings.pass = '__pass__';
@@ -257,6 +260,12 @@
                 <div class="input-field col s12 m4 l3">
                     <input class="value" id="maxMemory" type="number" min="32"/>
                     <label class="translate" for="maxMemory">Max allocated RAM:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m4 l3">
+                    <input  class="value" id="projectsEnabled" type="checkbox" />
+                    <label class="translate" for="projectsEnabled">Enable Projects Feature:</label>
                 </div>
             </div>
             <div class="row">

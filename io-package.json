@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.11.0",
+        "version": "1.12.0",
         "title": "node-red",
         "news": {
+            "1.12.0": {
+                "en": "upgrade to nodered 1.0 and allow to enable projects feature via admin",
+                "de": "aktualisiere auf nodered 1.0 und erlaube, die projektfunktion über admin zu aktivieren",
+                "ru": "обновить до версии 1.0 и разрешить включение проектов через администратора",
+                "pt": "atualizar para a versão 1.0 e permitir ativar o recurso de projetos via admin",
+                "nl": "upgrade naar nodered 1.0 en sta projecten toe om via admin in te schakelen",
+                "fr": "mise à niveau vers nodered 1.0 et permettre d'activer la fonctionnalité de projets via admin",
+                "it": "eseguire l'aggiornamento a nodered 1.0 e consentire di abilitare la funzione progetti tramite admin",
+                "es": "actualice a nodered 1.0 y permita habilitar la función de proyectos a través del administrador",
+                "pl": "uaktualnij do nodered 1.0 i pozwól włączyć funkcję projektów przez administratora",
+                "zh-cn": "升级到nodered 1.0，并允许通过管理员启用项目功能"
+            },
             "1.10.1": {
                 "en": "better handle object checks on initialization of the nodes",
                 "de": "Objektprüfungen bei der Initialisierung der Nodes besser handhaben",
@@ -179,7 +191,8 @@
         "valueConvert": true,
         "maxMemory": 128,
         "user": "",
-        "pass": ""
+        "pass": "",
+        "projectsEnabled": false
     },
     "objects": [],
     "instanceObjects": [

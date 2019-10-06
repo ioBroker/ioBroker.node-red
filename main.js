@@ -291,7 +291,8 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'nodesdir', nodesDir);
         lines[i] = setOption(lines[i], 'httpRoot');
         lines[i] = setOption(lines[i], 'credentialSecret', secret);
-		lines[i] = setOption(lines[i], 'valueConvert');
+        lines[i] = setOption(lines[i], 'valueConvert');
+        lines[i] = setOption(lines[i], 'projectsEnabled', adapter.config.projectsEnabled);
     }
     fs.writeFileSync(userdataDir + 'settings.js', lines.join('\n'));
 }

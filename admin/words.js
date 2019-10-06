@@ -17,4 +17,16 @@ systemDictionary = {
     "User": {                                        "en": "User",                                            "de": "Benutzer",                                        "ru": "Имя пользователя",                                "pt": "Do utilizador",                                   "nl": "Gebruiker",                                       "fr": "Utilisateur",                                     "it": "Utente",                                          "es": "Usuario",                                         "pl": "Użytkownik",                                      "zh-cn": "用户"},
     "Leave blank to disable basic authentication": { "en": "Leave blank to disable basic authentication",     "de": "Leer lassen, um die Basic-Authentication zu deaktivieren", "ru": "Оставить пустым, чтобы отключить basic authentication", "pt": "Deixe em branco para desativar a autenticação básica", "nl": "Laat dit leeg om basisverificatie uit te schakelen", "fr": "Laissez vide pour désactiver l'authentification de base", "it": "Lascia vuoto per disabilitare l'autenticazione di base", "es": "Dejar en blanco para deshabilitar la autenticación básica", "pl": "Pozostaw puste, aby wyłączyć podstawowe uwierzytelnianie", "zh-cn": "留空以禁用基本身份验证"},
     "Password": {                                    "en": "Password",                                        "de": "Passwort",                                        "ru": "Пароль",                                          "pt": "Senha",                                           "nl": "Wachtwoord",                                      "fr": "Mot de passe",                                    "it": "Parola d'ordine",                                 "es": "Contraseña",                                      "pl": "Hasło",                                           "zh-cn": "密码"},
+    "Enable Projects Feature:": {
+        "en": "Enable Projects Feature:",
+        "de": "Projektfunktion aktivieren:",
+        "ru": "Включить проекты",
+        "pt": "Ativar recurso de projetos:",
+        "nl": "Projecten inschakelen",
+        "fr": "Activer la fonctionnalité de projets:",
+        "it": "Abilita funzionalità progetti:",
+        "es": "Habilitar característica de proyectos:",
+        "pl": "Włącz funkcję projektów:",
+        "zh-cn": "启用项目功能："
+    }
 };

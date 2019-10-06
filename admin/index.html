@@ -48,6 +48,7 @@
         devices = settings.devices || [];
 
         if (settings.maxMemory === undefined) settings.maxMemory = 128;
+        if (settings.projectsEnabled === undefined) settings.projectsEnabled = false;
 
         for (var key in settings) {
             if (settings.hasOwnProperty(key)) {
@@ -124,6 +125,9 @@
 		</tr>
         <tr>
             <td><label class="translate" for="maxMemory">Max allocated RAM:</label></td><td> <input class="value" id="maxMemory" type="number" min="32"/></td>
+        </tr>
+        <tr>
+            <td><label class="translate" for="projectsEnabled">Enable Projects Feature:</label></td><td> <input  class="value" id="projectsEnabled" type="checkbox" /></td>
         </tr>
     </table>
     <h4 class="translate">node-red update select dialog</h4>

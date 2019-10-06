@@ -139,6 +139,12 @@ module.exports = {
         // os:require('os'),
         // bonescript:require('bonescript'),
         // arduino:require('duino')
+    },
+
+    editorTheme: {
+        projects: {
+            enabled: %%projectsEnabled%%
+        }
     }
 
 };
