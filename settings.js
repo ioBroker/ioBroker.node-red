@@ -143,7 +143,7 @@ module.exports = {
 
     editorTheme: {
         projects: {
-            enabled: %%projectsEnabled%%
+            enabled: '%%projectsEnabled%%'
         }
     }
 
