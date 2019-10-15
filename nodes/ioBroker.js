@@ -405,4 +405,81 @@ module.exports = function(RED) {
 
     }
     RED.nodes.registerType('ioBroker get', IOBrokerGetNode);
+
+
+    function IOBrokerGetObjectNode(n) {
+        var node = this;
+        RED.nodes.createNode(node,n);
+        node.topic =  (typeof n.topic=== 'string' && n.topic.length > 0 ?  n.topic.replace(/\//g, '.') : null) ;
+
+        // If no adapter prefix, add own adapter prefix
+        if (node.topic && node.topic.indexOf('.') === -1) {
+            node.topic = adapter.namespace + '.' + node.topic;
+        }
+
+        node.regex = new RegExp('^node-red\\.' + instance + '\\.');
+        node.attrname = n.attrname;
+
+        if (node.topic) {
+            var id = node.topic;
+            // If no wildchars and belongs to this adapter
+            if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
+                checkState(node, id);
+            }
+        }
+
+        if (ready) {
+            node.status({fill: 'green', shape: 'dot', text: 'connected'});
+        } else {
+            node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
+        }
+
+        node.getObject = function (msg) {
+            return function (err, state) {
+                if (!err && state) {
+                    msg[node.attrname] = state;
+                    node.status({
+                        fill: 'green',
+                        shape: 'dot',
+                        text: JSON.stringify(state)
+                    });
+                    node.send(msg);
+                } else {
+                    log('Object "' + id + '" does not exist in the ioBroker');
+                }
+            };
+        };
+
+        node.on('input', function(msg) {
+            var id = node.topic || msg.topic;
+            if (!ready) {
+                nodeSets.push({'node': node, 'msg': msg});
+                //log('Message for "' + id + '" queued because ioBroker connection not initialized');
+                return;
+            }
+            if (id) {
+                id = id.replace(/\//g, '.');
+                // If not this adapter state
+                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
+                    // Check if state exists
+                    adapter.getForeignObject(id, node.getObject(msg));
+                } else {
+                    if (id.indexOf('*') !== -1) {
+                        log('Invalid topic name "' + id + '" for ioBroker');
+                    } else {
+                        adapter.getObject(id, node.getObject(msg));
+                    }
+                }
+            } else {
+                node.warn('No key or topic set');
+            }
+        });
+
+        if (!ready) {
+            nodes.push(node);
+        }
+
+    }
+    RED.nodes.registerType('ioBroker get object', IOBrokerGetObjectNode);
+
 };
