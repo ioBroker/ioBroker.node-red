@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.12.0",
+        "version": "1.13.0",
         "title": "node-red",
         "news": {
+            "1.13.0": {
+                "en": "Get Object node added",
+                "de": "Objektknoten abrufen hinzugefügt",
+                "ru": "Добавлен узел Get Object",
+                "pt": "Adição do nó Objeto",
+                "nl": "Objectknooppunt toegevoegd",
+                "fr": "Obtenir le noeud d'objet ajouté",
+                "it": "Ottieni nodo oggetto aggiunto",
+                "es": "Obtener nodo de objeto agregado",
+                "pl": "Pobierz węzeł obiektu",
+                "zh-cn": "获取对象节点已添加"
+            },
             "1.12.0": {
                 "en": "upgrade to nodered 1.0 and allow to enable projects feature via admin",
                 "de": "aktualisiere auf nodered 1.0 und erlaube, die projektfunktion über admin zu aktivieren",
