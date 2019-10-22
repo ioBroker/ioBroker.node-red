@@ -207,6 +207,8 @@ function startNodeRed() {
             adapter.log.error(data);
         }  else if (data.indexOf('[warn]') !== -1) {
             adapter.log.warn(data);
+	} else if (data.indexOf('[info] [debug:') !== -1) {
+            adapter.log.info(data);
         } else {
             adapter.log.debug(data);
         }
