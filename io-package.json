@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.13.0",
+        "version": "1.13.1",
         "title": "node-red",
         "news": {
+            "1.13.1": {
+              "en": "Elevated logging for debug-nodes",
+              "de": "Erhöhte Protokollierung für Debugknoten",
+              "ru": "Повышенное ведение журнала для отладочных узлов",
+              "pt": "Registro elevado para nós de depuração",
+              "nl": "Verhoogde logging voor debug-knooppunten",
+              "fr": "Journalisation élevée pour les nœuds de débogage",
+              "it": "Registrazione elevata per nodi di debug",
+              "es": "Registro elevado para nodos de depuración",
+              "pl": "Podwyższone rejestrowanie dla węzłów debugowania",
+              "zh-cn": "调试节点的提升日志记录"
+            },
             "1.13.0": {
                 "en": "Get Object node added",
                 "de": "Objektknoten abrufen hinzugefügt",
