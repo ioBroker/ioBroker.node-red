@@ -257,9 +257,9 @@ module.exports = function(RED) {
         node.ack = (n.ack === 'true' || n.ack === true);
         node.autoCreate = (n.autoCreate === 'true' || n.autoCreate === true);
         if (node.autoCreate) {
-            node.objectPreDefinedRole = n.objectPreDefinedRole;
-            node.objectPreDefinedType = n.objectPreDefinedType;
-            node.objectReadonly = n.objectReadonly || false;
+            node.objectPreDefinedRole = n.role;
+            node.objectPreDefinedType = n.payloadType;
+            node.objectReadonly = n.readonly || false;
         }
         node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
