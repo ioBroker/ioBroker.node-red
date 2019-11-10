@@ -109,8 +109,10 @@ module.exports = function(RED) {
                         adapter.setObject(id, {
                             common: {
                                 name: id,
-                                role: 'info',
-                                type: 'state',
+                                role: node.objectPreDefinedRole || 'info',
+                                type: node.objectPreDefinedType || 'state',
+                                read: true,
+                                write: !node.objectReadonly,
                                 desc: 'Created by Node-Red'
                             },
                             native: {},
@@ -254,6 +256,11 @@ module.exports = function(RED) {
 
         node.ack = (n.ack === 'true' || n.ack === true);
         node.autoCreate = (n.autoCreate === 'true' || n.autoCreate === true);
+        if (node.autoCreate) {
+            node.objectPreDefinedRole = n.objectPreDefinedRole;
+            node.objectPreDefinedType = n.objectPreDefinedType;
+            node.objectReadonly = n.objectReadonly || false;
+        }
         node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
         if (ready) {
@@ -281,9 +288,11 @@ module.exports = function(RED) {
             }
             if (id) {
                 id = id.replace(/\//g, '.');
-
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
+                    node.objectPreDefinedRole = node.objectPreDefinedRole || msg.role
+                    node.objectReadonly = n.objectReadonly || msg.readonly;
+                    node.objectPreDefinedType = node.objectPreDefinedType || msg.type || typeof msg.payload
                     id = id.replace(/\//g, '.');
                     // If no wildchars and belongs to this adapter
                     if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
