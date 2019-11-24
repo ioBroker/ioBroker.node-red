@@ -108,7 +108,7 @@ module.exports = function(RED) {
                         // Create object
                         adapter.setObject(id, {
                             common: {
-                                name: id,
+                                name: node.objectPreDefinedName || id,
                                 role: node.objectPreDefinedRole || 'info',
                                 type: node.objectPreDefinedType || 'state',
                                 read: true,
@@ -259,6 +259,7 @@ module.exports = function(RED) {
         if (node.autoCreate) {
             node.objectPreDefinedRole = n.role;
             node.objectPreDefinedType = n.payloadType;
+            node.objectPreDefinedName = n.stateName || '';
             node.objectReadonly = n.readonly || false;
         }
         node.regex = new RegExp('^node-red\\.' + instance + '\\.');
@@ -293,6 +294,7 @@ module.exports = function(RED) {
                     node.objectPreDefinedRole = node.objectPreDefinedRole || msg.role
                     node.objectReadonly = n.objectReadonly || msg.readonly;
                     node.objectPreDefinedType = node.objectPreDefinedType || msg.type || typeof msg.payload
+                    node.objectPreDefinedName = n.stateName || msg.stateName || '';
                     id = id.replace(/\//g, '.');
                     // If no wildchars and belongs to this adapter
                     if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
