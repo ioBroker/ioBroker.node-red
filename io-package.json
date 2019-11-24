@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.13.1",
+        "version": "1.13.2",
         "title": "node-red",
         "news": {
+            "1.13.2": {
+                "en": "Set state name, role, type and readonly state in node and msg",
+                "de": "Legen Sie den Statusnamen, die Rolle, den Typ und den schreibgeschützten Status in Node und msg fest",
+                "ru": "Установить имя состояния, роль, тип и состояние только для чтения в узле и сообщении",
+                "pt": "Definir nome do estado, função, tipo e estado somente leitura no nó e na mensagem",
+                "nl": "Stel de statusnaam, rol, type en alleen-lezen staat in knooppunt en msg",
+                "fr": "Définir le nom de l'état, le rôle, le type et l'état en lecture seule dans le noeud et le msg",
+                "it": "Imposta il nome dello stato, il ruolo, il tipo e lo stato di sola lettura nel nodo e nel messaggio",
+                "es": "Establezca el nombre del estado, el rol, el tipo y el estado de solo lectura en el nodo y el mensaje",
+                "pl": "Ustaw nazwę stanu, rolę, typ i stan tylko do odczytu w węźle i msg",
+                "zh-cn": "在节点和消息中设置状态名称，角色，类型和只读状态"
+            },
             "1.13.1": {
               "en": "Elevated logging for debug-nodes",
               "de": "Erhöhte Protokollierung für Debugknoten",
