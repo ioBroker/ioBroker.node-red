@@ -1,257 +1,145 @@
 {
-    "common": {
-        "name": "node-red",
-        "version": "1.13.3",
-        "title": "node-red",
-        "news": {
-            "1.13.3": {
-                "en": "hide some parameters if not enable create object",
-                "de": "Blenden Sie einige Parameter aus, wenn Sie das Erstellen von Objekten nicht aktivieren",
-                "ru": "скрыть некоторые параметры, если не включить создание объекта",
-                "pt": "ocultar alguns parâmetros, se não habilitar, criar objeto",
-                "nl": "verberg enkele parameters indien niet, maak object aan",
-                "fr": "masquer certains paramètres sinon activer créer un objet",
-                "it": "nascondere alcuni parametri se non abilitare la creazione di oggetti",
-                "es": "ocultar algunos parámetros si no habilita crear objeto",
-                "pl": "ukryj niektóre parametry, jeśli nie, utwórz obiekt",
-                "zh-cn": "如果不启用创建对象，则隐藏一些参数"
-            },
-            "1.13.2": {
-                "en": "Set state name, role, type and readonly state in node and msg",
-                "de": "Legen Sie den Statusnamen, die Rolle, den Typ und den schreibgeschützten Status in Node und msg fest",
-                "ru": "Установить имя состояния, роль, тип и состояние только для чтения в узле и сообщении",
-                "pt": "Definir nome do estado, função, tipo e estado somente leitura no nó e na mensagem",
-                "nl": "Stel de statusnaam, rol, type en alleen-lezen staat in knooppunt en msg",
-                "fr": "Définir le nom de l'état, le rôle, le type et l'état en lecture seule dans le noeud et le msg",
-                "it": "Imposta il nome dello stato, il ruolo, il tipo e lo stato di sola lettura nel nodo e nel messaggio",
-                "es": "Establezca el nombre del estado, el rol, el tipo y el estado de solo lectura en el nodo y el mensaje",
-                "pl": "Ustaw nazwę stanu, rolę, typ i stan tylko do odczytu w węźle i msg",
-                "zh-cn": "在节点和消息中设置状态名称，角色，类型和只读状态"
-            },
-            "1.13.1": {
-              "en": "Elevated logging for debug-nodes",
-              "de": "Erhöhte Protokollierung für Debugknoten",
-              "ru": "Повышенное ведение журнала для отладочных узлов",
-              "pt": "Registro elevado para nós de depuração",
-              "nl": "Verhoogde logging voor debug-knooppunten",
-              "fr": "Journalisation élevée pour les nœuds de débogage",
-              "it": "Registrazione elevata per nodi di debug",
-              "es": "Registro elevado para nodos de depuración",
-              "pl": "Podwyższone rejestrowanie dla węzłów debugowania",
-              "zh-cn": "调试节点的提升日志记录"
-            },
-            "1.13.0": {
-                "en": "Get Object node added",
-                "de": "Objektknoten abrufen hinzugefügt",
-                "ru": "Добавлен узел Get Object",
-                "pt": "Adição do nó Objeto",
-                "nl": "Objectknooppunt toegevoegd",
-                "fr": "Obtenir le noeud d'objet ajouté",
-                "it": "Ottieni nodo oggetto aggiunto",
-                "es": "Obtener nodo de objeto agregado",
-                "pl": "Pobierz węzeł obiektu",
-                "zh-cn": "获取对象节点已添加"
-            },
-            "1.12.0": {
-                "en": "upgrade to nodered 1.0 and allow to enable projects feature via admin",
-                "de": "aktualisiere auf nodered 1.0 und erlaube, die projektfunktion über admin zu aktivieren",
-                "ru": "обновить до версии 1.0 и разрешить включение проектов через администратора",
-                "pt": "atualizar para a versão 1.0 e permitir ativar o recurso de projetos via admin",
-                "nl": "upgrade naar nodered 1.0 en sta projecten toe om via admin in te schakelen",
-                "fr": "mise à niveau vers nodered 1.0 et permettre d'activer la fonctionnalité de projets via admin",
-                "it": "eseguire l'aggiornamento a nodered 1.0 e consentire di abilitare la funzione progetti tramite admin",
-                "es": "actualice a nodered 1.0 y permita habilitar la función de proyectos a través del administrador",
-                "pl": "uaktualnij do nodered 1.0 i pozwól włączyć funkcję projektów przez administratora",
-                "zh-cn": "升级到nodered 1.0，并允许通过管理员启用项目功能"
-            },
-            "1.10.1": {
-                "en": "better handle object checks on initialization of the nodes",
-                "de": "Objektprüfungen bei der Initialisierung der Nodes besser handhaben",
-                "ru": "лучше обрабатывать проверки объектов при инициализации узлов",
-                "pt": "lidar melhor com verificações de objetos na inicialização dos nós",
-                "nl": "beter omgaan met objectcontroles bij initialisatie van de knooppunten",
-                "fr": "mieux gérer les vérifications d'objet lors de l'initialisation des nœuds",
-                "it": "gestire meglio i controlli degli oggetti sull'inizializzazione dei nodi",
-                "es": "manejar mejor las comprobaciones de objetos en la inicialización de los nodos",
-                "pl": "lepiej obsługiwać sprawdzanie obiektów przy inicjalizacji węzłów",
-                "zh-cn": "更好地处理节点初始化时的对象检查"
-            },
-            "1.10.0": {
-                "en": "Used newer version of node-red 0.20.8",
-                "de": "Verwendete neuere Version von node-red 0.20.8",
-                "ru": "Используется новая версия node-red 0.20.8",
-                "pt": "Usado versão mais recente do nó vermelho 0.20.8",
-                "nl": "Gebruikte nieuwere versie van knoop-rood 0.20.8",
-                "fr": "Version plus récente de node-red 0.20.8",
-                "it": "Utilizzata la versione più recente di node-red 0.20.8",
-                "es": "Versión más nueva usada de node-red 0.20.8",
-                "pl": "Używana nowsza wersja węzła-czerwonego 0.20.8"
-            },
-            "1.9.0": {
-                "en": "Used newer version of node-red 0.20.7",
-                "de": "Verwendete neuere Version von node-red 0.20.7",
-                "ru": "Используется новая версия node-red 0.20.7",
-                "pt": "Usado versão mais recente do nó vermelho 0.20.7",
-                "nl": "Gebruikte nieuwere versie van knoop-rood 0.20.7",
-                "fr": "Version plus récente de node-red 0.20.7",
-                "it": "Utilizzata la versione più recente di node-red 0.20.7",
-                "es": "Versión más nueva usada de node-red 0.20.7",
-                "pl": "Używana nowsza wersja węzła-czerwonego 0.20.7"
-            },
-            "1.8.0": {
-                "en": "Used newer version of node-red 0.20.5",
-                "de": "Verwendete neuere Version von node-red 0.20.5",
-                "ru": "Используется новая версия node-red 0.20.5",
-                "pt": "Usado versão mais recente do nó vermelho 0.20.5",
-                "nl": "Gebruikte nieuwere versie van knoop-rood 0.20.5",
-                "fr": "Version plus récente de node-red 0.20.5",
-                "it": "Utilizzata la versione più recente di node-red 0.20.5",
-                "es": "Versión más nueva usada de node-red 0.20.5",
-                "pl": "Używana nowsza wersja węzła-czerwonego 0.20.5"
-            },
-            "1.7.2": {
-                "en": "Add Chinese support",
-                "de": "Chinesische Unterstützung hinzufügen",
-                "ru": "Добавить поддержку китайцев",
-                "pt": "Adicionar suporte chinês",
-                "nl": "Voeg Chinese ondersteuning toe",
-                "fr": "Ajouter un support chinois",
-                "it": "Aggiungi supporto cinese",
-                "es": "Añadir soporte chino",
-                "pl": "Dodaj chińskie wsparcie",
-                "zh-cn": "添加中文支持"
-            },
-            "1.7.1": {
-                "en": "Used newer version of node-red 0.19.4\nBasic authentication was added",
-                "de": "Verwendete neuere Version von node-red 0.19.4\nStandardauthentifizierung wurde hinzugefügt",
-                "ru": "Используется новая версия node-red 0.19.4\nДобавлена ​​базовая аутентификация",
-                "pt": "Usado versão mais recente do nó vermelho 0.19.4\nAutenticação básica foi adicionada",
-                "nl": "Gebruikte nieuwere versie van knoop-rood 0.19.4\nBasisverificatie is toegevoegd",
-                "fr": "Version plus récente de node-red 0.19.4\nL'authentification de base a été ajoutée",
-                "it": "Utilizzata la versione più recente di node-red 0.19.4\nÈ stata aggiunta l'autenticazione di base",
-                "es": "Versión más nueva usada de node-red 0.19.4\nAutenticación básica fue agregada",
-                "pl": "Używana nowsza wersja węzła-czerwonego 0.19.4\nDodano uwierzytelnianie podstawowe"
-            },
-            "1.7.0": {
-                "en": "Used newer version of node-red 0.19.1",
-                "de": "Benutzte neuere Version von node-red 0.19.1",
-                "ru": "Используется новая версия node-red 0.19.1",
-                "pt": "Usado versão mais recente do nó vermelho 0.19.1",
-                "nl": "Gebruikte nieuwere versie van knoop-rood 0.19.1",
-                "fr": "Version plus récente de node-red 0.19.1",
-                "it": "Utilizzata la versione più recente di node-red 0.19.1",
-                "es": "Versión más nueva usada de node-red 0.19.1",
-                "pl": "Używana nowsza wersja węzła-czerwonego 0.19.1"
-            },
-            "1.6.0": {
-                "en": "newer version of node-red 0.18.7 used\nAdmin3 dialog implemented\nRAM settings were added",
-                "de": "neuere Version von node-red 0.18.7 verwendet\nAdmin3-Dialog implementiert\nRAM-Einstellungen wurden hinzugefügt",
-                "ru": "более новая версия node-red 0.18.7 используется\nДиалог Admin3 реализован\nДобавлены настройки RAM",
-                "pt": "versão mais recente do node-red 0.18.7 usado\nDiálogo Admin3 implementado\nConfigurações de RAM foram adicionadas",
-                "nl": "nieuwere versie van knooppunt-rood 0.18.7 gebruikt\nAdmin3-dialoogvenster geïmplementeerd\nRAM-instellingen zijn toegevoegd",
-                "fr": "version plus récente de node-red 0.18.7 d'occasion\nBoîte de dialogue Admin3 implémentée\nParamètres RAM ont été ajoutés",
-                "it": "versione più recente di node-red 0.18.7 usata\nFinestra di dialogo Admin3 implementata\nSono state aggiunte le impostazioni della RAM",
-                "es": "nueva versión de node-red 0.18.7 usada\nDiálogo Admin3 implementado\nSe agregaron configuraciones de RAM",
-                "pl": "zastosowano nowszą wersję węzła-czerwonego 0.18.7\nZaimplementowano okno Admin3\nDodano ustawienia pamięci RAM"
-            },
-            "1.5.1": {
-                "en": "queue set state requests till ioBroker connection has been initialized",
-                "de": "Verzögern von ioBroker-Schreibaktionen bis Verbindung zu ioBroker initialisiert wurde",
-                "ru": "queue set state requests till ioBroker connection has been initialized"
-            },
-            "1.5.0": {
-                "en": "use newer version of node-red 0.18.2",
-                "de": "Neue Version von node-red 0.18.2",
-                "ru": "Новая версия node-red 0.18.2"
-            },
-            "1.4.1": {
-                "en": "fix blank topic support",
-                "de": "Korrigiere lehre Topics",
-                "ru": "Поправлены пустые топики"
-            },
-            "1.4.0": {
-                "en": "use newer version of node-red 0.17.5",
-                "de": "Neue Version von node-red 0.17.5",
-                "ru": "Новая версия node-red 0.17.5"
-            },
-            "1.3.0": {
-                "en": "Update the select ID dialog",
-                "de": "Update ID Auswahl",
-                "ru": "Обновлён диалог выбора объектов"
-            },
-            "1.2.0": {
-                "en": "add node-red-contrib-os, node-red-dashboard, node-red-contrib-aggregator by default",
-                "de": "Hinzugefügt: node-red-contrib-os, node-red-dashboard, node-red-contrib-aggregator",
-                "ru": "Добавлены: node-red-contrib-os, node-red-dashboard, node-red-contrib-aggregator"
-            },
-            "1.1.6": {
-                "en": "use newer version of node-red 0.16.2",
-                "de": "Neue Version von node-red 0.16.2",
-                "ru": "Новая версия node-red 0.16.2"
-            }
-        },
-        "desc": {
-            "en": "This adapter uses node-red as a service. No additional node-red instance required.",
-            "de": "Adapter benutzt node-red als Servcie. Kein zusätzliches node-red Programm nötig.",
-            "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
-            "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
-            "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
-            "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
-            "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
-            "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
-            "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
-            "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
-        },
-        "authors": [
-            "bluefox <dogafox@gmail.com>"
-        ],
-        "license": "Apache-2.0",
-        "platform": "Javascript/Node.js",
-        "mode": "daemon",
-        "messagebox": true,
-        "loglevel": "info",
-        "icon": "node-red.png",
-        "keywords": [
-            "node-red",
-            "logic",
-            "script"
-        ],
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-        "localLink": "http://%ip%:%port%%httpRoot%",
-        "enabled": true,
-        "singletonHost": true,
-        "supportStopInstance": true,
-        "unsafePerm": true,
-        "materialize": true,
-        "type": "logic",
-        "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
-        "stopBeforeUpdate": true,
-        "adminTab": {
-            "link": "http://%ip%:%port%%httpRoot%",
-            "fa-icon": "settings_input_composite"
-        }
+  "common": {
+    "name": "node-red",
+    "version": "1.14.0",
+    "title": "node-red",
+    "news": {
+      "1.14.0": {
+        "en": "Hide some parameters if not enable create object",
+        "de": "Blenden Sie einige Parameter aus, wenn Sie das Erstellen von Objekten nicht aktivieren",
+        "ru": "Скрыть некоторые параметры, если не включить создание объекта",
+        "pt": "Ocultar alguns parâmetros, se não habilitar, criar objeto",
+        "nl": "Verberg enkele parameters indien niet, maak object aan",
+        "fr": "Masquer certains paramètres sinon activer créer un objet",
+        "it": "Nascondere alcuni parametri se non abilitare la creazione di oggetti",
+        "es": "Ocultar algunos parámetros si no habilita crear objeto",
+        "pl": "Ukryj niektóre parametry, jeśli nie, utwórz obiekt",
+        "zh-cn": "如果不启用创建对象，则隐藏一些参数"
+      },
+      "1.13.2": {
+        "en": "Set state name, role, type and readonly state in node and msg",
+        "de": "Legen Sie den Statusnamen, die Rolle, den Typ und den schreibgeschützten Status in Node und msg fest",
+        "ru": "Установить имя состояния, роль, тип и состояние только для чтения в узле и сообщении",
+        "pt": "Definir nome do estado, função, tipo e estado somente leitura no nó e na mensagem",
+        "nl": "Stel de statusnaam, rol, type en alleen-lezen staat in knooppunt en msg",
+        "fr": "Définir le nom de l'état, le rôle, le type et l'état en lecture seule dans le noeud et le msg",
+        "it": "Imposta il nome dello stato, il ruolo, il tipo e lo stato di sola lettura nel nodo e nel messaggio",
+        "es": "Establezca el nombre del estado, el rol, el tipo y el estado de solo lectura en el nodo y el mensaje",
+        "pl": "Ustaw nazwę stanu, rolę, typ i stan tylko do odczytu w węźle i msg",
+        "zh-cn": "在节点和消息中设置状态名称，角色，类型和只读状态"
+      },
+      "1.13.1": {
+        "en": "Elevated logging for debug-nodes",
+        "de": "Erhöhte Protokollierung für Debugknoten",
+        "ru": "Повышенное ведение журнала для отладочных узлов",
+        "pt": "Registro elevado para nós de depuração",
+        "nl": "Verhoogde logging voor debug-knooppunten",
+        "fr": "Journalisation élevée pour les nœuds de débogage",
+        "it": "Registrazione elevata per nodi di debug",
+        "es": "Registro elevado para nodos de depuración",
+        "pl": "Podwyższone rejestrowanie dla węzłów debugowania",
+        "zh-cn": "调试节点的提升日志记录"
+      },
+      "1.13.0": {
+        "en": "Get Object node added",
+        "de": "Objektknoten abrufen hinzugefügt",
+        "ru": "Добавлен узел Get Object",
+        "pt": "Adição do nó Objeto",
+        "nl": "Objectknooppunt toegevoegd",
+        "fr": "Obtenir le noeud d'objet ajouté",
+        "it": "Ottieni nodo oggetto aggiunto",
+        "es": "Obtener nodo de objeto agregado",
+        "pl": "Pobierz węzeł obiektu",
+        "zh-cn": "获取对象节点已添加"
+      },
+      "1.12.0": {
+        "en": "upgrade to nodered 1.0 and allow to enable projects feature via admin",
+        "de": "aktualisiere auf nodered 1.0 und erlaube, die projektfunktion über admin zu aktivieren",
+        "ru": "обновить до версии 1.0 и разрешить включение проектов через администратора",
+        "pt": "atualizar para a versão 1.0 e permitir ativar o recurso de projetos via admin",
+        "nl": "upgrade naar nodered 1.0 en sta projecten toe om via admin in te schakelen",
+        "fr": "mise à niveau vers nodered 1.0 et permettre d'activer la fonctionnalité de projets via admin",
+        "it": "eseguire l'aggiornamento a nodered 1.0 e consentire di abilitare la funzione progetti tramite admin",
+        "es": "actualice a nodered 1.0 y permita habilitar la función de proyectos a través del administrador",
+        "pl": "uaktualnij do nodered 1.0 i pozwól włączyć funkcję projektów przez administratora",
+        "zh-cn": "升级到nodered 1.0，并允许通过管理员启用项目功能"
+      },
+      "1.10.1": {
+        "en": "better handle object checks on initialization of the nodes",
+        "de": "Objektprüfungen bei der Initialisierung der Nodes besser handhaben",
+        "ru": "лучше обрабатывать проверки объектов при инициализации узлов",
+        "pt": "lidar melhor com verificações de objetos na inicialização dos nós",
+        "nl": "beter omgaan met objectcontroles bij initialisatie van de knooppunten",
+        "fr": "mieux gérer les vérifications d'objet lors de l'initialisation des nœuds",
+        "it": "gestire meglio i controlli degli oggetti sull'inizializzazione dei nodi",
+        "es": "manejar mejor las comprobaciones de objetos en la inicialización de los nodos",
+        "pl": "lepiej obsługiwać sprawdzanie obiektów przy inicjalizacji węzłów",
+        "zh-cn": "更好地处理节点初始化时的对象检查"
+      }
     },
-    "native": {
-        "bind": "0.0.0.0",
-        "port": 1880,
-        "httpRoot": "/",
-        "npmLibs": "",
-        "valueConvert": true,
-        "maxMemory": 128,
-        "user": "",
-        "pass": "",
-        "projectsEnabled": false
+    "desc": {
+      "en": "This adapter uses node-red as a service. No additional node-red instance required.",
+      "de": "Adapter benutzt node-red als Servcie. Kein zusätzliches node-red Programm nötig.",
+      "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
+      "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
+      "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
+      "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
+      "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
+      "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
+      "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
+      "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "",
-            "type": "channel",
-            "common": {
-                "name": "States created by node-red.%INSTANCE%",
-                "role": "info"
-            },
-            "native": {}
-        }
-    ]
+    "authors": [
+      "bluefox <dogafox@gmail.com>"
+    ],
+    "license": "Apache-2.0",
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "messagebox": true,
+    "loglevel": "info",
+    "icon": "node-red.png",
+    "keywords": [
+      "node-red",
+      "logic",
+      "script"
+    ],
+    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
+    "localLink": "http://%ip%:%port%%httpRoot%",
+    "enabled": true,
+    "singletonHost": true,
+    "supportStopInstance": true,
+    "unsafePerm": true,
+    "materialize": true,
+    "compact": true,
+    "type": "logic",
+    "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
+    "stopBeforeUpdate": true,
+    "adminTab": {
+      "link": "http://%ip%:%port%%httpRoot%",
+      "fa-icon": "settings_input_composite"
+    }
+  },
+  "native": {
+    "bind": "0.0.0.0",
+    "port": 1880,
+    "httpRoot": "/",
+    "npmLibs": "",
+    "valueConvert": true,
+    "maxMemory": 128,
+    "user": "",
+    "pass": "",
+    "projectsEnabled": false
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "",
+      "type": "channel",
+      "common": {
+        "name": "States created by node-red.%INSTANCE%",
+        "role": "info"
+      },
+      "native": {}
+    }
+  ]
 }

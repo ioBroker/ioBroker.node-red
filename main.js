@@ -2,22 +2,26 @@
  *
  *      ioBroker node-red Adapter
  *
- *      (c) 2014 bluefox<bluefox@ccu.io>
+ *      (c) 2014-2019 bluefox<bluefox@ccu.io>
  *
  *      Apache 2.0 License
  *
  */
-/* jshint -W097 */// jshint strict:false
-/*jslint node: true */
+/* jshint -W097 */
+/* jshint strict: false */
+/* jslint node: true */
 'use strict';
 
 const utils = require('@iobroker/adapter-core'); // Get common adapter utils
+const adapterName = require('./package.json').name.split('.').pop();
+
 const adapter = utils.Adapter({
     name:           'node-red',
     systemConfig:   true, // get the system configuration as systemConfig parameter of adapter
     unload:         unloadRed
 });
 
+let   adapter;
 const fs          = require('fs');
 const path        = require('path');
 const spawn       = require('child_process').spawn;
@@ -28,14 +32,25 @@ let secret;
 
 let userdataDir = __dirname + '/userdata/';
 
-adapter.on('message', function (obj) {
-    if (obj) processMessage(obj);
-    processMessages();
-});
+function startAdapter(options) {
+    options = options || {};
+    Object.assign(options, {
+        name: adapterName,
+        systemConfig: true,
+        unload: unloadRed
+    });
 
-adapter.on('ready', function () {
-    installLibraries(main);
-});
+    adapter = new utils.Adapter(options);
+
+    adapter.on('message', obj => {
+        obj && processMessage(obj);
+        processMessages();
+    });
+
+    adapter.on('ready', () => installLibraries(main));
+
+    return adapter;
+}
 
 function installNpm(npmLib, callback) {
     const path = __dirname;
@@ -52,19 +67,13 @@ function installNpm(npmLib, callback) {
     // because during installation npm packet will be deleted too, but some files must be loaded even during the install process.
     const exec = require('child_process').exec;
     const child = exec(cmd);
-    child.stdout.on('data', function(buf) {
-        adapter.log.info(buf.toString('utf8'));
-    });
-    child.stderr.on('data', function(buf) {
-        adapter.log.error(buf.toString('utf8'));
-    });
+    child.stdout.on('data', buf => adapter.log.info(buf.toString('utf8')));
+    child.stderr.on('data', buf => adapter.log.error(buf.toString('utf8')));
 
-    child.on('exit', function (code, signal) {
-        if (code) {
-            adapter.log.error('Cannot install ' + npmLib + ': ' + code);
-        }
+    child.on('exit', (code, signal) => {
+        code && adapter.log.error('Cannot install ' + npmLib + ': ' + code);
         // command succeeded
-        if (callback) callback(npmLib);
+        callback && callback(npmLib);
     });
 }
 
@@ -90,13 +99,15 @@ function installLibraries(callback) {
                         continue;
                     }
 
-                    installNpm(adapter.common.npmLibs[lib], function () {
-                        installLibraries(callback);
-                    });
+                    installNpm(adapter.common.npmLibs[lib], () =>
+                        installLibraries(callback));
+
                     allInstalled = false;
                     break;
                 } else {
-                    if (additional.indexOf(adapter.common.npmLibs[lib]) === -1) additional.push(adapter.common.npmLibs[lib]);
+                    if (additional.indexOf(adapter.common.npmLibs[lib]) === -1) {
+                        additional.push(adapter.common.npmLibs[lib]);
+                    }
                 }
             }
         }
@@ -192,29 +203,34 @@ function startNodeRed() {
 
     redProcess = spawn('node', args);
 
-    redProcess.on('error', function (err) {
-        adapter.log.error('catched exception from node-red:' + JSON.stringify(err));
-        });
+    redProcess.on('error', err =>
+        adapter.log.error('catched exception from node-red:' + JSON.stringify(err)));
 
-    redProcess.stdout.on('data', function (data) {
-        if (!data) return;
+    redProcess.stdout.on('data', data => {
+        if (!data) {
+            return;
+        }
+
         data = data.toString();
+
         if (data[data.length - 2] === '\r' && data[data.length - 1] === '\n') data = data.substring(0, data.length - 2);
         if (data[data.length - 2] === '\n' && data[data.length - 1] === '\r') data = data.substring(0, data.length - 2);
         if (data[data.length - 1] === '\r') data = data.substring(0, data.length - 1);
 
         if (data.indexOf('[err') !== -1) {
             adapter.log.error(data);
-        }  else if (data.indexOf('[warn]') !== -1) {
+        } else if (data.indexOf('[warn]') !== -1) {
             adapter.log.warn(data);
-	} else if (data.indexOf('[info] [debug:') !== -1) {
+        } else if (data.indexOf('[info] [debug:') !== -1) {
             adapter.log.info(data);
         } else {
             adapter.log.debug(data);
         }
     });
-    redProcess.stderr.on('data', function (data) {
-		if (!data) return;
+    redProcess.stderr.on('data', data => {
+		if (!data) {
+		    return;
+        }
 		if (data[0]) {
             let text = '';
 			for (let i = 0; i < data.length; i++) {
@@ -229,7 +245,7 @@ function startNodeRed() {
         }
     });
 
-    redProcess.on('exit', function (exitCode) {
+    redProcess.on('exit', exitCode => {
         adapter.log.info('node-red exited with ' + exitCode);
         redProcess = null;
         if (!stopping) {
@@ -300,7 +316,7 @@ function writeSettings() {
 }
 
 function writeStateList(callback) {
-    adapter.getForeignObjects('*', 'state', ['rooms', 'functions'], function (err, obj) {
+    adapter.getForeignObjects('*', 'state', ['rooms', 'functions'], (err, obj) => {
         // remove native information
         for (const i in obj) {
             if (obj.hasOwnProperty(i) && obj[i].native) {
@@ -309,7 +325,7 @@ function writeStateList(callback) {
         }
 
         fs.writeFileSync(editorclientPath + '/public/iobroker.json', JSON.stringify(obj));
-        if (callback) callback(err);
+        callback && callback(err);
     });
 }
 
@@ -336,22 +352,23 @@ function saveObjects() {
         adapter.log.error('Cannot save ' + userdataDir + 'flows.json');
     }
     //upload it to config
-    adapter.setObject('flows', {
-        common: {
-            name: 'Flows for node-red'
+    adapter.setObject('flows',
+        {
+            common: {
+                name: 'Flows for node-red'
+            },
+            native: {
+                cred:  cred,
+                flows: flows
+            },
+            type: 'config'
         },
-        native: {
-            cred:  cred,
-            flows: flows
-        },
-        type: 'config'
-    }, function () {
-        adapter.log.info('Save ' + userdataDir + 'flows.json');
-    });
+        () => adapter.log.info('Save ' + userdataDir + 'flows.json')
+    );
 }
 
 function syncPublic(path) {
-    if (!path) path = '/public';
+    path = path || '/public';
 
     const dir = fs.readdirSync(__dirname + path);
 
@@ -377,15 +394,13 @@ function installNotifierFlows(isFirst) {
             if (!isFirst) saveObjects();
             // monitor project file
             notificationsFlows = new Notify([userdataDir + 'flows.json']);
-            notificationsFlows.on('change', function () {
-                if (saveTimer) clearTimeout(saveTimer);
+            notificationsFlows.on('change', () => {
+                saveTimer && clearTimeout(saveTimer);
                 saveTimer = setTimeout(saveObjects, 500);
             });
         } else {
             // Try to install notifier every 10 seconds till the file will be created
-            setTimeout(function () {
-                installNotifierFlows();
-            }, 10000);
+            setTimeout(() => installNotifierFlows(), 10000);
         }
     }
 }
@@ -396,15 +411,13 @@ function installNotifierCreds(isFirst) {
             if (!isFirst) saveObjects();
             // monitor project file
             notificationsCreds = new Notify([userdataDir + 'flows_cred.json']);
-            notificationsCreds.on('change', function () {
-                if (saveTimer) clearTimeout(saveTimer);
+            notificationsCreds.on('change', () => {
+                saveTimer && clearTimeout(saveTimer);
                 saveTimer = setTimeout(saveObjects, 500);
             });
         } else {
             // Try to install notifier every 10 seconds till the file will be created
-            setTimeout(function () {
-                installNotifierCreds();
-            }, 10000);
+            setTimeout(() => installNotifierCreds(), 10000);
         }
     }
 }
@@ -430,7 +443,7 @@ function main() {
     syncPublic();
 
     // Read configuration
-    adapter.getObject('flows', function (err, obj) {
+    adapter.getObject('flows', (err, obj) => {
         if (obj && obj.native && obj.native.cred) {
             const c = JSON.stringify(obj.native.cred);
             // If really not empty
@@ -460,3 +473,12 @@ function main() {
         });
     });
 }
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
+}
+
