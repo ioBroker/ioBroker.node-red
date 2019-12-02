@@ -15,12 +15,6 @@
 const utils = require('@iobroker/adapter-core'); // Get common adapter utils
 const adapterName = require('./package.json').name.split('.').pop();
 
-const adapter = utils.Adapter({
-    name:           'node-red',
-    systemConfig:   true, // get the system configuration as systemConfig parameter of adapter
-    unload:         unloadRed
-});
-
 let   adapter;
 const fs          = require('fs');
 const path        = require('path');
