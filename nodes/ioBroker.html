@@ -166,15 +166,15 @@
             <option value="false">Ignore messages for non existing states</option>
         </select>
     </div>
-    <div class="form-row">
+    <div class="form-row input-autoCreate">
         <label for="node-input-stateName"><i class="fa fa-tag"></i> State Name</label>
         <input type="text" id="node-input-stateName" placeholder="">
     </div>
-    <div class="form-row">
+    <div class="form-row input-autoCreate">
         <label for="node-input-role"><i class="fa fa-tag"></i> Role</label>
-        <input type="text" id="node-input-role" placeholder="info">
+        <input type="text" id="node-input-role" placeholder="">
     </div>
-    <div class="form-row">
+    <div class="form-row input-autoCreate">
         <label for="node-input-payloadType"><i class="fa fa-arrow-up"></i> Payload type</label>
         <select id="node-input-payloadType" style="width:73% !important">
             <option value="string">String</option>
@@ -186,7 +186,7 @@
             <option value="file">File</option>
         </select>
     </div>
-    <div class="form-row">
+    <div class="form-row input-autoCreate">
         <label for="node-input-readonly"><i class="fa fa-arrow-up"></i> Readonly</label>
         <select id="node-input-readonly" style="width:73% !important">
             <option value="true">Object is readonly</option>
@@ -214,10 +214,10 @@ RED.nodes.registerType('ioBroker out',{
             topic: {value:""},
             ack: {value:"false"},
 			autoCreate: {value: "false"},
-            stateName: {value:"string"},
-            role: {value:"info"},
-            payloadType: {value:"string"},
-            readonly: {value:"false"},
+            stateName: {value:""},
+            role: {value:""},
+            payloadType: {value:""},
+            readonly: {value:""},
          },
         color:"#a8bfd8",
         inputs:1,
@@ -266,6 +266,15 @@ RED.nodes.registerType('ioBroker out',{
                         $('#node-input-name').val(newObj.common.name);
                     }
                 });
+            });
+
+            $("#node-input-autoCreate").on("change",function() {
+                if ($("#node-input-autoCreate").val() == null) $("#node-input-autoCreate").val ("false");
+				if ($("#node-input-autoCreate").val() === "true") {
+                    $(".input-autoCreate").show();
+                } else {
+                    $(".input-autoCreate").hide();
+                }
             });
         }
     });

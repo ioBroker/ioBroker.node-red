@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "1.13.2",
+        "version": "1.13.3",
         "title": "node-red",
         "news": {
+            "1.13.3": {
+                "en": "hide some parameters if not enable create object",
+                "de": "Blenden Sie einige Parameter aus, wenn Sie das Erstellen von Objekten nicht aktivieren",
+                "ru": "скрыть некоторые параметры, если не включить создание объекта",
+                "pt": "ocultar alguns parâmetros, se não habilitar, criar objeto",
+                "nl": "verberg enkele parameters indien niet, maak object aan",
+                "fr": "masquer certains paramètres sinon activer créer un objet",
+                "it": "nascondere alcuni parametri se non abilitare la creazione di oggetti",
+                "es": "ocultar algunos parámetros si no habilita crear objeto",
+                "pl": "ukryj niektóre parametry, jeśli nie, utwórz obiekt",
+                "zh-cn": "如果不启用创建对象，则隐藏一些参数"
+            },
             "1.13.2": {
                 "en": "Set state name, role, type and readonly state in node and msg",
                 "de": "Legen Sie den Statusnamen, die Rolle, den Typ und den schreibgeschützten Status in Node und msg fest",

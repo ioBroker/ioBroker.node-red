@@ -16,6 +16,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 1.13.3 (2019-11-29)
+* (SchumyHao) hide some parameters if not enable create object
+
 ### 1.13.2 (2019-11-24)
 * (SchumyHao) Set state name, role, type and readonly state in node and msg
 
