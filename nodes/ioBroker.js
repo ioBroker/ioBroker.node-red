@@ -106,15 +106,19 @@ module.exports = function(RED) {
                     if (!obj) {
                         log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
                         // Create object
-                        adapter.setObject(id, {
-                            common: {
+                        var common_ = {
                                 name: node.objectPreDefinedName || id,
                                 role: node.objectPreDefinedRole || 'info',
                                 type: node.objectPreDefinedType || 'state',
                                 read: true,
-                                write: !node.objectReadonly,
+                                write: !node.objectPreDefinedReadonly || false,
                                 desc: 'Created by Node-Red'
-                            },
+                        };
+                        if(node.objectPreDefinedUnit) common_['unit'] = node.objectPreDefinedUnit;
+                        if(node.objectPreDefinedMin) common_['min'] = node.objectPreDefinedMin;
+                        if(node.objectPreDefinedMax) common_['max'] = node.objectPreDefinedMax;
+                        adapter.setObject(id, {
+                            common: common_,
                             native: {},
                             type: 'state'
                         }, function (err) {
@@ -257,10 +261,13 @@ module.exports = function(RED) {
         node.ack = (n.ack === 'true' || n.ack === true);
         node.autoCreate = (n.autoCreate === 'true' || n.autoCreate === true);
         if (node.autoCreate) {
-            node.objectPreDefinedRole = n.role;
-            node.objectPreDefinedType = n.payloadType;
+            node.objectPreDefinedRole = n.stateRole;
+            node.objectPreDefinedType = n.stateType;
             node.objectPreDefinedName = n.stateName || '';
-            node.objectReadonly = n.readonly || false;
+            node.objectPreDefinedReadonly = n.stateReadonly || false;
+            node.objectPreDefinedUnit = n.stateUnit;
+            node.objectPreDefinedMin = n.stateMin;
+            node.objectPreDefinedMax = n.stateMax;
         }
         node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
@@ -291,10 +298,13 @@ module.exports = function(RED) {
                 id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
-                    node.objectPreDefinedRole = node.objectPreDefinedRole || msg.role
-                    node.objectReadonly = n.objectReadonly || msg.readonly;
-                    node.objectPreDefinedType = node.objectPreDefinedType || msg.type || typeof msg.payload
+                    node.objectPreDefinedRole = n.stateRole || msg.stateRole
+                    node.objectPreDefinedType = n.stateType || msg.stateType || typeof msg.payload
                     node.objectPreDefinedName = n.stateName || msg.stateName || '';
+                    node.objectPreDefinedReadonly = n.stateReadonly || msg.stateReadonly;
+                    node.objectPreDefinedUnit = n.stateUnit || msg.stateUnit;
+                    node.objectPreDefinedMin = n.stateMin || msg.stateMin;
+                    node.objectPreDefinedMax = n.stateMax || msg.stateMax;
                     id = id.replace(/\//g, '.');
                     // If no wildchars and belongs to this adapter
                     if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {

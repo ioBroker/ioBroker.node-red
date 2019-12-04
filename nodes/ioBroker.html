@@ -149,6 +149,9 @@
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">
+        <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+    </div>
+    <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
@@ -167,16 +170,16 @@
         </select>
     </div>
     <div class="form-row input-autoCreate">
-        <label for="node-input-stateName"><i class="fa fa-tag"></i> State Name</label>
+        <label for="node-input-stateName"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-stateName" placeholder="">
     </div>
     <div class="form-row input-autoCreate">
-        <label for="node-input-role"><i class="fa fa-tag"></i> Role</label>
-        <input type="text" id="node-input-role" placeholder="">
+        <label for="node-input-stateRole"><i class="fa fa-tag"></i> Role</label>
+        <input type="text" id="node-input-stateRole" placeholder="">
     </div>
     <div class="form-row input-autoCreate">
-        <label for="node-input-payloadType"><i class="fa fa-arrow-up"></i> Payload type</label>
-        <select id="node-input-payloadType" style="width:73% !important">
+        <label for="node-input-stateType"><i class="fa fa-arrow-up"></i> Type</label>
+        <select id="node-input-stateType" style="width:73% !important">
             <option value="string">String</option>
             <option value="number">Number</option>
             <option value="boolean">Boolean</option>
@@ -187,13 +190,25 @@
         </select>
     </div>
     <div class="form-row input-autoCreate">
-        <label for="node-input-readonly"><i class="fa fa-arrow-up"></i> Readonly</label>
-        <select id="node-input-readonly" style="width:73% !important">
+        <label for="node-input-stateReadonly"><i class="fa fa-arrow-up"></i> Readonly</label>
+        <select id="node-input-stateReadonly" style="width:73% !important">
             <option value="true">Object is readonly</option>
             <option value="false">Object is writeable</option>
         </select>
     </div>
-    <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+    <div class="form-row input-autoCreate">
+        <label for="node-input-stateUnit"><i class="fa fa-tag"></i> Unit</label>
+        <input type="text" id="node-input-stateUnit" placeholder="">
+    </div>
+    <div class="form-row input-autoCreate">
+        <label for="node-input-stateMin"><i class="fa fa-tag"></i> Min</label>
+        <input type="text" id="node-input-stateMin" placeholder="">
+    </div>
+    <div class="form-row input-autoCreate">
+        <label for="node-input-stateMax"><i class="fa fa-tag"></i> Max</label>
+        <input type="text" id="node-input-stateMax" placeholder="">
+    </div>
+    <div class="form-tips input-autoCreate">Tip: Leave above options blank if you want to set them via msg properties.</div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker out">
@@ -201,9 +216,13 @@
     <p>If <b>msg.payload</b> contains an object it will be stringified before being sent.</p>
     <p>If <b>msg.payload</b> contains "__create__", the object will be only created, but no value will be written.</p>
     <p>If <b>State Name</b> is defined, the created object name will be set as this value. If <b>State Name</b> is not defined, but <b>msg.stateName</b> is set, use this instead.  If both node and msg do not set state name, the name will same as topic</p>
-    <p>If <b>Role</b> is defined, the created object role will be set as this value. If <b>Role</b> is not defined, but <b>msg.role</b> is set, use this instead.</p>
-    <p>If <b>Payload type</b> is defined, the created object common type will be set as this value. If <b>Payload type</b> is not defined, but <b>msg.type</b> is set, use this instead. If both node and msg do not set type, the type will be type of payload</p>
-    <p>If <b>Readonly</b> is defined, the created object only readable. If <b>Readonly</b> is not defined, but <b>msg.readonly</b> is set, use this instead.</p>
+    <p>If <b>State Role</b> is defined, the created object role will be set as this value. If <b>State Role</b> is not defined, but <b>msg.stateRole</b> is set, use this instead.</p>
+    <p>If <b>State Type</b> is defined, the created object common type will be set as this value. If <b>State Type</b> is not defined, but <b>msg.stateType</b> is set, use this instead. If both node and msg do not set type, the type will be type of payload</p>
+    <p>If <b>State Readonly</b> is defined, the created object only readable. If <b>Readonly</b> is not defined, but <b>msg.stateReadonly</b> is set, use this instead.</p>
+    <p>If <b>State Unit</b> is defined, the created object role will be set as this value. If <b>State Unit</b> is not defined, but <b>msg.stateUint</b> is set, use this instead.</p>
+    <p>If <b>State Min</b> is defined, the created object role will be set as this value. If <b>State Min</b> is not defined, but <b>msg.stateMin</b> is set, use this instead.</p>
+    <p>If <b>State Max</b> is defined, the created object role will be set as this value. If <b>State Max</b> is not defined, but <b>msg.stateMax</b> is set, use this instead.</p>
+
 </script>
 
 <script type="text/javascript">
@@ -215,9 +234,12 @@ RED.nodes.registerType('ioBroker out',{
             ack: {value:"false"},
 			autoCreate: {value: "false"},
             stateName: {value:""},
-            role: {value:""},
-            payloadType: {value:""},
-            readonly: {value:""},
+            stateRole: {value:""},
+            stateType: {value:""},
+            stateReadonly: {value:""},
+            stateUnit: {value:""},
+            stateMin: {value:""},
+            stateMax: {value:""}
          },
         color:"#a8bfd8",
         inputs:1,
