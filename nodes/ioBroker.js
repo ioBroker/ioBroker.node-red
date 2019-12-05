@@ -107,16 +107,16 @@ module.exports = function(RED) {
                         log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
                         // Create object
                         var common_ = {
-                                name: node.objectPreDefinedName || id,
-                                role: node.objectPreDefinedRole || 'info',
-                                type: node.objectPreDefinedType || 'state',
+                                name: node.objectPreDefinedName,
+                                role: node.objectPreDefinedRole,
+                                type: node.objectPreDefinedType,
                                 read: true,
-                                write: !node.objectPreDefinedReadonly || false,
+                                write: !node.objectPreDefinedReadonly,
                                 desc: 'Created by Node-Red'
                         };
-                        if(node.objectPreDefinedUnit) common_['unit'] = node.objectPreDefinedUnit;
-                        if(node.objectPreDefinedMin) common_['min'] = node.objectPreDefinedMin;
-                        if(node.objectPreDefinedMax) common_['max'] = node.objectPreDefinedMax;
+                        if(node.objectPreDefinedUnit !== null) common_['unit'] = node.objectPreDefinedUnit;
+                        if(node.objectPreDefinedMin !== null) common_['min'] = node.objectPreDefinedMin;
+                        if(node.objectPreDefinedMax !== null) common_['max'] = node.objectPreDefinedMax;
                         adapter.setObject(id, {
                             common: common_,
                             native: {},
@@ -260,15 +260,15 @@ module.exports = function(RED) {
 
         node.ack = (n.ack === 'true' || n.ack === true);
         node.autoCreate = (n.autoCreate === 'true' || n.autoCreate === true);
-        if (node.autoCreate) {
-            node.objectPreDefinedRole = n.stateRole;
-            node.objectPreDefinedType = n.stateType;
-            node.objectPreDefinedName = n.stateName || '';
-            node.objectPreDefinedReadonly = n.stateReadonly || false;
-            node.objectPreDefinedUnit = n.stateUnit;
-            node.objectPreDefinedMin = n.stateMin;
-            node.objectPreDefinedMax = n.stateMax;
-        }
+    //    if (node.autoCreate) {
+    //        node.objectPreDefinedRole = n.stateRole;
+    //        node.objectPreDefinedType = n.stateType;
+    //        node.objectPreDefinedName = n.stateName || '';
+    //        node.objectPreDefinedReadonly = n.stateReadonly || false;
+    //        node.objectPreDefinedUnit = n.stateUnit;
+    //        node.objectPreDefinedMin = n.stateMin;
+    //        node.objectPreDefinedMax = n.stateMax;
+    //    }
         node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
         if (ready) {
@@ -298,13 +298,13 @@ module.exports = function(RED) {
                 id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
-                    node.objectPreDefinedRole = n.stateRole || msg.stateRole
+                    node.objectPreDefinedRole = n.stateRole || msg.stateRole || 'state'
                     node.objectPreDefinedType = n.stateType || msg.stateType || typeof msg.payload
-                    node.objectPreDefinedName = n.stateName || msg.stateName || '';
-                    node.objectPreDefinedReadonly = n.stateReadonly || msg.stateReadonly;
-                    node.objectPreDefinedUnit = n.stateUnit || msg.stateUnit;
-                    node.objectPreDefinedMin = n.stateMin || msg.stateMin;
-                    node.objectPreDefinedMax = n.stateMax || msg.stateMax;
+                    node.objectPreDefinedName = n.stateName || msg.stateName || id;
+                    node.objectPreDefinedReadonly = n.stateReadonly || msg.stateReadonly || false;
+                    node.objectPreDefinedUnit = n.stateUnit || msg.stateUnit || null;
+                    node.objectPreDefinedMin = n.stateMin || msg.stateMin || null;
+                    node.objectPreDefinedMax = n.stateMax || msg.stateMax || null;
                     id = id.replace(/\//g, '.');
                     // If no wildchars and belongs to this adapter
                     if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
