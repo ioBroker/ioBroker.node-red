@@ -169,6 +169,9 @@
             <option value="false">Ignore messages for non existing states</option>
         </select>
     </div>
+    <div class="form-row">
+        <div class="form-tips input-autoCreate">Tip: Leave below options blank if you want to set them via msg properties.</div>
+    </div>
     <div class="form-row input-autoCreate">
         <label for="node-input-stateName"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-stateName" placeholder="">
@@ -208,20 +211,19 @@
         <label for="node-input-stateMax"><i class="fa fa-tag"></i> Max</label>
         <input type="text" id="node-input-stateMax" placeholder="">
     </div>
-    <div class="form-tips input-autoCreate">Tip: Leave above options blank if you want to set them via msg properties.</div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker out">
     <p>Connects to a ioBroker and publishes <b>msg.payload</b> either to the <b>msg.topic</b> or to the topic specified in the edit window. The value in the edit window has precedence.</p>
     <p>If <b>msg.payload</b> contains an object it will be stringified before being sent.</p>
     <p>If <b>msg.payload</b> contains "__create__", the object will be only created, but no value will be written.</p>
-    <p>If <b>State Name</b> is defined, the created object name will be set as this value. If <b>State Name</b> is not defined, but <b>msg.stateName</b> is set, use this instead.  If both node and msg do not set state name, the name will same as topic</p>
-    <p>If <b>State Role</b> is defined, the created object role will be set as this value. If <b>State Role</b> is not defined, but <b>msg.stateRole</b> is set, use this instead.</p>
-    <p>If <b>State Type</b> is defined, the created object common type will be set as this value. If <b>State Type</b> is not defined, but <b>msg.stateType</b> is set, use this instead. If both node and msg do not set type, the type will be type of payload</p>
-    <p>If <b>State Readonly</b> is defined, the created object only readable. If <b>Readonly</b> is not defined, but <b>msg.stateReadonly</b> is set, use this instead.</p>
-    <p>If <b>State Unit</b> is defined, the created object role will be set as this value. If <b>State Unit</b> is not defined, but <b>msg.stateUint</b> is set, use this instead.</p>
-    <p>If <b>State Min</b> is defined, the created object role will be set as this value. If <b>State Min</b> is not defined, but <b>msg.stateMin</b> is set, use this instead.</p>
-    <p>If <b>State Max</b> is defined, the created object role will be set as this value. If <b>State Max</b> is not defined, but <b>msg.stateMax</b> is set, use this instead.</p>
+    <p>If <b>msg.stateName</b> is defined, the created object name will be set as this value. If <b>msg.stateName</b> is not defined, but <b>Name</b> is set, use this instead.  If both node and msg do not set state name, the name will same as topic</p>
+    <p>If <b>msg.stateRole</b> is defined, the created object role will be set as this value. If <b>msg.stateRole</b> is not defined, but <b>Role</b> is set, use this instead.</p>
+    <p>If <b>msg.stateType</b> is defined, the created object common type will be set as this value. If <b>msg.stateType</b> is not defined, but <b>Type</b> is set, use this instead. If both node and msg do not set type, the type will be type of payload</p>
+    <p>If <b>msg.stateReadonly</b> is defined, the created object writeable will be set as this value. If <b>msg.stateReadonly</b> is not defined, but <b>Readonly</b> is set, use this instead.If both node and msg do not set readonly, it will be readonly</p>
+    <p>If <b>msg.stateUnit</b> is defined, the created object role will be set as this value. If <b>msg.stateUint</b> is not defined, but <b>Uint</b> is set, use this instead.</p>
+    <p>If <b>msg.stateMin</b> is defined, the created object role will be set as this value. If <b>msg.stateMin</b> is not defined, but <b>Min</b> is set, use this instead.</p>
+    <p>If <b>msg.stateMax</b> is defined, the created object role will be set as this value. If <b>msg.stateMax</b> is not defined, but <b>Max</b> is set, use this instead.</p>
 
 </script>
 
