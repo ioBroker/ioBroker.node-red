@@ -1,9 +1,21 @@
 {
   "common": {
     "name": "node-red",
-    "version": "1.14.0",
+    "version": "1.14.1",
     "title": "node-red",
     "news": {
+      "1.14.1": {
+        "en": "add state unit,min and max for iobroker out node",
+        "de": "Statuseinheit, min und max für iobroker out-Knoten hinzufügen",
+        "ru": "добавить государственную единицу, мин и макс для узла iobroker out",
+        "pt": "adicione unidade de estado, min e max para o nó de saída iobroker",
+        "nl": "toe te voegen staat eenheid, min en max voor iobroker uit knooppunt",
+        "fr": "ajouter une unité d'état, min et max pour le nœud de sortie iobroker",
+        "it": "aggiungi unità di stato, min e max per il nodo iobroker out",
+        "es": "agregar unidad de estado, min y max para el nodo iobroker out",
+        "pl": "dodaj jednostkę stanu, min i max dla węzła wyjściowego iobroker",
+        "zh-cn": "为iobroker out节点添加状态单位，最小值和最大值"
+      },
       "1.14.0": {
         "en": "Hide some parameters if not enable create object",
         "de": "Blenden Sie einige Parameter aus, wenn Sie das Erstellen von Objekten nicht aktivieren",

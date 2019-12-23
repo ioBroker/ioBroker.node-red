@@ -16,6 +16,10 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+<<<<<<< HEAD
+### 1.14.1 (2019-12-23)
+* (Samuel-0-0) add state unit,min and max for iobroker out node
+
 ### 1.14.0 (2019-11-29)
 * (SchumyHao) hide some parameters if not enable create object
 
