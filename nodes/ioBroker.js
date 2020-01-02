@@ -281,7 +281,7 @@ module.exports = function(RED) {
         }
 
         node.on('input', function(msg) {
-            var id = node.topic || msg.topic;
+            var id = node.topic || 'node-red.' + instance + '.' + msg.topic;
             if (!ready) {
                 nodeSets.push({'node': node, 'msg': msg});
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
