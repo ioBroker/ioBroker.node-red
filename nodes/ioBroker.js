@@ -21,13 +21,13 @@ module.exports = function(RED) {
     var utils = require('@iobroker/adapter-core');
     //var redis = require("redis");
     //var hashFieldRE = /^([^=]+)=(.*)$/;
-	// Get the redis address
+    // Get the redis address
 
     var settings = require(process.env.NODE_RED_HOME + '/lib/red').settings;
 
     var instance = settings.get('iobrokerInstance') || 0;
     var config   = settings.get('iobrokerConfig');
-	var valueConvert = settings.get('valueConvert');
+    var valueConvert = settings.get('valueConvert');
     if (typeof config == 'string') {
         config = JSON.parse(config);
     }
@@ -104,9 +104,8 @@ module.exports = function(RED) {
             if (!obj) {
                 adapter.getForeignObject(id, function (err, obj) {
                     if (!obj) {
-                        log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
                         // Create object
-                        adapter.setObject(id, {
+                        var data = {
                             common: {
                                 name: node.objectPreDefinedName || id,
                                 role: node.objectPreDefinedRole || 'info',
@@ -117,17 +116,35 @@ module.exports = function(RED) {
                             },
                             native: {},
                             type: 'state'
-                        }, function (err) {
-                            if (val !== undefined && val !== null && val !== '__create__') {
-                                adapter.setState(id, val, function () {
-                                    callback && callback();
-                                });
-                            } else {
-                                adapter.setState(id, undefined, function () {
-                                    callback && callback();
-                                });
-                            }
-                        });
+                        }
+
+                        if (isForeignState(node, id)) {
+                            log('State "' + id + '" was created in the ioBroker as ' + id);
+                            adapter.setForeignObject(id, data, function (err) {
+                                if (val !== undefined && val !== null && val !== '__create__') {
+                                    adapter.setForeignState(id, val, function () {
+                                        callback && callback();
+                                    });
+                                } else {
+                                    adapter.setForeignState(id, undefined, function () {
+                                        callback && callback();
+                                    });
+                                }
+                            });
+                        } else {
+                            log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
+                            adapter.setObject(id, data, function (err) {
+                                if (val !== undefined && val !== null && val !== '__create__') {
+                                    adapter.setState(id, val, function () {
+                                        callback && callback();
+                                    });
+                                } else {
+                                    adapter.setState(id, undefined, function () {
+                                        callback && callback();
+                                    });
+                                }
+                            });
+                        }
                     } else {
                         node._id = obj._id;
                         if (val !== undefined && val !== null && val !== '__create__') {
@@ -151,6 +168,10 @@ module.exports = function(RED) {
         });
     }
 
+    function isForeignState(node, id) {
+      return !node.regex.test(id) && id.indexOf('.') !== -1
+    }
+
     function IOBrokerInNode(n) {
         var node = this;
         RED.nodes.createNode(node,n);
@@ -169,7 +190,7 @@ module.exports = function(RED) {
         node.gap         = n.gap || '0';
         node.pc          = false;
 
-		if (node.gap.substr(-1) === '%') {
+        if (node.gap.substr(-1) === '%') {
             node.pc = true;
             node.gap = parseFloat(node.gap);
         }
@@ -198,12 +219,12 @@ module.exports = function(RED) {
                 return;
             }
 
-			if (node.onlyack && obj.ack != true) return;
+            if (node.onlyack && obj.ack != true) return;
 
             var t = topic.replace(/\./g, '/') || '_no_topic';
             //node.log ("Function: " + node.func);
 
-			if (node.func === 'rbe') {
+            if (node.func === 'rbe') {
                 if (obj.val === node.previous[t]) {
                     return;
                 }
@@ -273,10 +294,15 @@ module.exports = function(RED) {
         function setState(id, val, ack) {
             if (node.idChecked) {
                 if (val !== '__create__') {
-                    adapter.setState(id, {val: val, ack: ack});
+                    // If not this adapter state
+                    if (isForeignState(node, id)) {
+                        adapter.setForeignState(id, {val: val, ack: ack});
+                    } else {
+                        adapter.setState(id, {val: val, ack: ack});
+                    }
                 }
             } else {
-                checkState(node, id, {val: val, ack: ack});
+                checkState(node, id, val);
             }
         }
 
@@ -297,13 +323,12 @@ module.exports = function(RED) {
                     node.objectPreDefinedName = n.stateName || msg.stateName || '';
                     id = id.replace(/\//g, '.');
                     // If no wildchars and belongs to this adapter
-                    if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
+                    if (id.indexOf('*') === -1 && !isForeignState(node, id)) {
                         checkState(node, id);
                     }
                 }
 
-                // If not this adapter state
-                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
+                if (isForeignState(node, id)) {
                     // Check if state exists
                     adapter.getForeignState(id, function (err, state) {
                         if (!err && state) {
@@ -331,8 +356,8 @@ module.exports = function(RED) {
         }
 
         //node.on("close", function() {
-//
-//        });
+        //
+        //});
 
     }
     RED.nodes.registerType('ioBroker out', IOBrokerOutNode);
@@ -395,7 +420,7 @@ module.exports = function(RED) {
             if (id) {
                 id = id.replace(/\//g, '.');
                 // If not this adapter state
-                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
+                if (isForeignState(node, id)) {
                     // Check if state exists
                     adapter.getForeignState(id, node.getStateValue(msg));
                 } else {
@@ -416,7 +441,6 @@ module.exports = function(RED) {
 
     }
     RED.nodes.registerType('ioBroker get', IOBrokerGetNode);
-
 
     function IOBrokerGetObjectNode(n) {
         var node = this;
@@ -470,8 +494,7 @@ module.exports = function(RED) {
             }
             if (id) {
                 id = id.replace(/\//g, '.');
-                // If not this adapter state
-                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
+                if (isForeignState(node, id)) {
                     // Check if state exists
                     adapter.getForeignObject(id, node.getObject(msg));
                 } else {
