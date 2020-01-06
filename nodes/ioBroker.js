@@ -1,6 +1,6 @@
 /**
- * Copyright 2013,2014 IBM Corp.
- *
+ * Copyright 2014-2020 bluefox <dogafox@gmail.com>.
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,35 +16,34 @@
 
 module.exports = function(RED) {
     'use strict';
+    // patch event emitter
     require('events').EventEmitter.prototype._maxListeners = 100;
-    var util  = require('util');
-    var utils = require('@iobroker/adapter-core');
-    //var redis = require("redis");
-    //var hashFieldRE = /^([^=]+)=(.*)$/;
-	// Get the redis address
 
-    var settings = require(process.env.NODE_RED_HOME + '/lib/red').settings;
+    const utils        = require('@iobroker/adapter-core');
+    const settings     = require(process.env.NODE_RED_HOME + '/lib/red').settings;
 
-    var instance = settings.get('iobrokerInstance') || 0;
-    var config   = settings.get('iobrokerConfig');
-	var valueConvert = settings.get('valueConvert');
-    if (typeof config == 'string') {
+    const instance     = settings.get('iobrokerInstance') || 0;
+    let config         = settings.get('iobrokerConfig');
+	const valueConvert = settings.get('valueConvert');
+	const allowCreationOfForeignObjects = settings.get('allowCreationOfForeignObjects');
+    if (typeof config === 'string') {
         config = JSON.parse(config);
     }
-    var adapter;
+    let adapter;
 
     try {
-        adapter = utils.Adapter({name: 'node-red', instance: instance, config: config});
+        adapter = utils.Adapter({name: 'node-red', instance, config});
     } catch(e) {
         console.log(e);
     }
-    var nodes = [];
-    var nodeSets = [];
-    var checkStates = [];
-    var ready = false;
-    var log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
+    const nodes = [];
+    const nodeSets = [];
+    const checkStates = [];
+    const isValidID = new RegExp('^[-_a-z0-9]+\\.\\d+\\.');
+    let ready = false;
+    const log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
 
-    adapter.on('ready', function () {
+    adapter.on('ready', () => {
         function checkQueuedStates(callback) {
             if (!checkStates.length) {
                 callback && callback();
@@ -61,33 +60,46 @@ module.exports = function(RED) {
         checkQueuedStates(() => {
             adapter.subscribeForeignStates('*');
             while (nodes.length) {
-                var node = nodes.pop();
+                const node = nodes.pop();
                 if (node instanceof IOBrokerInNode) {
                     adapter.on('stateChange', node.stateChange);
                 }
                 node.status({fill: 'green', shape: 'dot', text: 'connected'});
             }
-            var count = 0;
+            let count = 0;
             while (nodeSets.length) {
-                var nodeSetData = nodeSets.pop();
+                const nodeSetData = nodeSets.pop();
                 nodeSetData.node.emit('input', nodeSetData.msg);
                 count++;
             }
-            if (count > 0) log(count + ' queued state values set in ioBroker');
+            count > 0 && log(count + ' queued state values set in ioBroker');
         });
     });
 
+    function isForeignState(id) {
+        return isValidID.test(id) && !id.startsWith(adapter.namespace + '.');
+    }
+
     // name is like system.state, pattern is like "*.state" or "*" or "*system*"
     function getRegex(pattern) {
-        if (!pattern || pattern === '*') return null;
-        if (pattern.indexOf('*') === -1) return null;
-        if (pattern[pattern.length - 1] !== '*') pattern = pattern + '$';
-        if (pattern[0] !== '*') pattern = '^' + pattern;
+        if (!pattern || pattern === '*') {
+            return null;
+        }
+        if (!pattern.includes('*')) {
+            return null;
+        }
+        if (pattern[pattern.length - 1] !== '*') {
+            pattern = pattern + '$';
+        }
+        if (pattern[0] !== '*') {
+            pattern = '^' + pattern;
+        }
         pattern = pattern.replace(/\*/g, '[a-zA-Z0-9.\s]');
         pattern = pattern.replace(/\./g, '\\.');
         return new RegExp(pattern);
     }
 
+    // check if object exists and sets its value if provided
     function checkState(node, id, val, callback) {
         if (node.idChecked) {
             return callback && callback();
@@ -100,50 +112,52 @@ module.exports = function(RED) {
             node.idChecked = true;
         }
 
-        adapter.getObject(id, function (err, obj) {
+        if (val === null || val === '__create__') {
+            val = undefined;
+        }
+
+        adapter.getObject(id, (err, obj) => {
             if (!obj) {
-                adapter.getForeignObject(id, function (err, obj) {
+                adapter.getForeignObject(id, (err, obj) => {
+                    // If not exists
                     if (!obj) {
                         log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
                         // Create object
-                        adapter.setObject(id, {
+                        const data = {
                             common: {
-                                name: node.objectPreDefinedName || id,
-                                role: node.objectPreDefinedRole || 'info',
-                                type: node.objectPreDefinedType || 'state',
-                                read: true,
+                                name:  node.objectPreDefinedName || id,
+                                role:  node.objectPreDefinedRole || 'info',
+                                type:  node.objectPreDefinedType || 'state',
+                                read:  true,
                                 write: !node.objectReadonly,
-                                desc: 'Created by Node-Red'
+                                desc:  'Created by Node-Red'
                             },
                             native: {},
                             type: 'state'
-                        }, function (err) {
-                            if (val !== undefined && val !== null && val !== '__create__') {
-                                adapter.setState(id, val, function () {
-                                    callback && callback();
-                                });
+                        };
+
+                        if (isForeignState(id)) {
+                            if (allowCreationOfForeignObjects) {
+                                adapter.setForeignObject(id, data, _ => adapter.setForeignState(id, val, () => callback && callback()));
                             } else {
-                                adapter.setState(id, undefined, function () {
-                                    callback && callback();
-                                });
+                                adapter.log.warn('Creation of foreign objects is not enabled. You can enable it in the configuration');
+                                callback && callback();
                             }
-                        });
+                        } else {
+                            adapter.setObject(id, data, _ => adapter.setState(id, val, () => callback && callback()));
+                        }
                     } else {
                         node._id = obj._id;
-                        if (val !== undefined && val !== null && val !== '__create__') {
-                            adapter.setForeignState(obj._id, val, function () {
-                                callback && callback();
-                            });
+                        if (val !== undefined) {
+                            adapter.setForeignState(obj._id, val, () => callback && callback());
                         } else {
                             callback && callback();
                         }
                     }
                 });
             } else {
-                if (val !== undefined && val !== null && val !== '__create__') {
-                    adapter.setForeignState(obj._id, val, function () {
-                        callback && callback();
-                    });
+                if (val !== undefined) {
+                    adapter.setForeignState(obj._id, val, () => callback && callback());
                 } else {
                     callback && callback();
                 }
@@ -152,19 +166,18 @@ module.exports = function(RED) {
     }
 
     function IOBrokerInNode(n) {
-        var node = this;
+        const node = this;
         RED.nodes.createNode(node,n);
         node.topic = (n.topic || '*').replace(/\//g, '.');
-        node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && node.topic.indexOf('.') === -1) {
+        if (node.topic && !isValidID.test(node.topic)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
         node.regexTopic  = getRegex(this.topic);
         node.payloadType = n.payloadType;
-        node.onlyack     = (n.onlyack == true || false);
+        node.onlyack     = (n.onlyack === true || n.onlyack === 'true' || false);
         node.func        = n.func || 'all';
         node.gap         = n.gap || '0';
         node.pc          = false;
@@ -177,12 +190,9 @@ module.exports = function(RED) {
 
         node.previous = {};
 
-        if (node.topic) {
-            var id = node.topic;
-            // If no wildchars and belongs to this adapter
-            if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
-                checkState(node, id);
-            }
+        // Create ID if not exits
+        if (node.topic && !node.topic.includes('*')) {
+            checkState(node, node.topic);
         }
 
         if (ready) {
@@ -191,16 +201,20 @@ module.exports = function(RED) {
             node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
         }
 
-        node.stateChange = function(topic, obj) {
+        node.stateChange = function (topic, obj) {
             if (node.regexTopic) {
-                if (!node.regexTopic.test(topic)) return;
+                if (!node.regexTopic.test(topic)) {
+                    return;
+                }
             } else if (node.topic !== '*' && node.topic !== topic) {
                 return;
             }
 
-			if (node.onlyack && obj.ack != true) return;
+			if (node.onlyack && !obj.ack) {
+			    return;
+            }
 
-            var t = topic.replace(/\./g, '/') || '_no_topic';
+            const t = topic.replace(/\./g, '/') || '_no_topic';
             //node.log ("Function: " + node.func);
 
 			if (node.func === 'rbe') {
@@ -208,10 +222,12 @@ module.exports = function(RED) {
                     return;
                 }
             } else if (node.func === 'deadband') {
-                var n = parseFloat(obj.val.toString());
+                const n = parseFloat(obj.val.toString());
                 if (!isNaN(n)) {
                     //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
-                    if (node.pc) { node.gap = (node.previous[t] * node.g / 100) || 0; }
+                    if (node.pc) {
+                        node.gap = (node.previous[t] * node.g / 100) || 0;
+                    }
                     if (!node.previous.hasOwnProperty(t)) {
                         node.previous[t] = n - node.gap;
                     }
@@ -226,20 +242,23 @@ module.exports = function(RED) {
             node.previous[t] = obj.val;
 
             node.send({
-                topic:       t,
-                payload:     (node.payloadType === 'object') ? obj : ((obj.val === null || obj.val === undefined) ? '' : (valueConvert ? obj.val.toString() : obj.val)),
-                acknowledged:obj.ack,
-                timestamp:   obj.ts,
-                lastchange:  obj.lc,
-                from:        obj.from
+                topic:        t,
+                payload:      node.payloadType === 'object' ? obj : (obj.val === null || obj.val === undefined ? '' : (valueConvert ? obj.val.toString() : obj.val)),
+                acknowledged: obj.ack,
+                timestamp:    obj.ts,
+                lastchange:   obj.lc,
+                from:         obj.from
             });
 
-            node.status({fill: 'green', shape: 'dot', text: (node.payloadType === 'object') ? JSON.stringify(obj) : ((obj.val === null || obj.val === undefined) ? '' : obj.val.toString() ) });
+            node.status({
+                fill: 'green',
+                shape: 'dot',
+                text: node.payloadType === 'object' ? JSON.stringify(obj) : (obj.val === null || obj.val === undefined ? '' : obj.val.toString())
+            });
         };
 
-        node.on('close', function() {
-            adapter.removeListener('stateChange', node.stateChange);
-        });
+        node.on('close', () => 
+            adapter.removeListener('stateChange', node.stateChange));
 
         if (ready) {
             adapter.on('stateChange', node.stateChange);
@@ -250,19 +269,19 @@ module.exports = function(RED) {
     RED.nodes.registerType('ioBroker in', IOBrokerInNode);
 
     function IOBrokerOutNode(n) {
-        var node = this;
+        const node = this;
         RED.nodes.createNode(node,n);
         node.topic = n.topic;
 
-        node.ack = (n.ack === 'true' || n.ack === true);
-        node.autoCreate = (n.autoCreate === 'true' || n.autoCreate === true);
+        node.ack = n.ack === 'true' || n.ack === true;
+        node.autoCreate = n.autoCreate === 'true' || n.autoCreate === true;
+
         if (node.autoCreate) {
             node.objectPreDefinedRole = n.role;
             node.objectPreDefinedType = n.payloadType;
             node.objectPreDefinedName = n.stateName || '';
-            node.objectReadonly = n.readonly || false;
+            node.objectReadonly       = n.readonly || false;
         }
-        node.regex = new RegExp('^node-red\\.' + instance + '\\.');
 
         if (ready) {
             node.status({fill: 'green', shape: 'dot', text: 'connected'});
@@ -272,21 +291,31 @@ module.exports = function(RED) {
 
         function setState(id, val, ack) {
             if (node.idChecked) {
-                if (val !== '__create__') {
-                    adapter.setState(id, {val: val, ack: ack});
+                if (val !== undefined && val !== '__create__') {
+                    // If not this adapter state
+                    if (isForeignState(id)) {
+                        adapter.setForeignState(id, {val, ack});
+                    } else {
+                        adapter.setState(id, {val, ack});
+                    }
                 }
             } else {
-                checkState(node, id, {val: val, ack: ack});
+                checkState(node, id, {val, ack});
             }
         }
 
-        node.on('input', function(msg) {
-            var id = node.topic || msg.topic;
-			if (!id.startsWith('node-red.' + instance + '.')) {
-				id = 'node-red.' + instance + '.' + id;
-			}
+        node.on('input', msg => {
+            let id = node.topic;
+            if (!id) {
+                id = msg.topic;
+                // if not starts with adapter.instance.
+                if (id && !isValidID.test(id)) {
+                    id = adapter.namespace + '.' + id;
+                }
+            }
+
             if (!ready) {
-                nodeSets.push({'node': node, 'msg': msg});
+                nodeSets.push({node, msg});
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
                 return;
             }
@@ -294,34 +323,41 @@ module.exports = function(RED) {
                 id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
-                    node.objectPreDefinedRole = node.objectPreDefinedRole || msg.role
-                    node.objectReadonly = n.objectReadonly || msg.readonly;
-                    node.objectPreDefinedType = node.objectPreDefinedType || msg.type || typeof msg.payload
-                    node.objectPreDefinedName = n.stateName || msg.stateName || '';
+                    node.objectPreDefinedRole = node.objectPreDefinedRole || msg.role;
+                    node.objectReadonly       = n.objectReadonly          || msg.readonly;
+                    node.objectPreDefinedType = node.objectPreDefinedType || msg.type      || typeof msg.payload;
+                    node.objectPreDefinedName = n.stateName               || msg.stateName || '';
                     id = id.replace(/\//g, '.');
-                    // If no wildchars and belongs to this adapter
-                    if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
+                    if (!id.includes('*') && !isForeignState(id)) {
                         checkState(node, id);
                     }
                 }
 
                 // If not this adapter state
-                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
+                if (isForeignState(id)) {
                     // Check if state exists
-                    adapter.getForeignState(id, function (err, state) {
+                    adapter.getForeignState(id, (err, state) => {
                         if (!err && state) {
                             adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
-                            node.status({fill: 'green', shape: 'dot', text: ((msg.payload === null || msg.payload === undefined) ? '' : msg.payload.toString().toString()) });
+                            node.status({
+                                fill: 'green',
+                                shape: 'dot',
+                                text: msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()
+                            });
                         } else {
                             log('State "' + id + '" does not exist in the ioBroker');
                         }
                     });
                 } else {
-                    if (id.indexOf('*') !== -1) {
+                    if (id.includes('*')) {
                         log('Invalid topic name "' + id + '" for ioBroker');
                     } else {
                         setState(id, msg.payload, node.ack);
-                        node.status({fill: 'green', shape: 'dot', text: ((msg.payload === null || msg.payload === undefined) ? '' : msg.payload.toString().toString()) });
+                        node.status({
+                            fill: 'green',
+                            shape: 'dot',
+                            text: msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()
+                        });
                     }
                 }
             } else {
@@ -341,26 +377,21 @@ module.exports = function(RED) {
     RED.nodes.registerType('ioBroker out', IOBrokerOutNode);
 
     function IOBrokerGetNode(n) {
-        var node = this;
+        const node = this;
         RED.nodes.createNode(node,n);
         node.topic =  (typeof n.topic=== 'string' && n.topic.length > 0 ?  n.topic.replace(/\//g, '.') : null) ;
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && node.topic.indexOf('.') === -1) {
+        if (node.topic && !isValidID.test(node.topic)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
-        node.regex = new RegExp('^node-red\\.' + instance + '\\.');
-        //node.regex = getRegex(this.topic);
         node.payloadType = n.payloadType;
         node.attrname = n.attrname;
 
-        if (node.topic) {
-            var id = node.topic;
-            // If no wildchars and belongs to this adapter
-            if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
-                checkState(node, id);
-            }
+        // Create ID if not exits
+        if (node.topic && !node.topic.includes('*')) {
+            checkState(node, node.topic);
         }
 
         if (ready) {
@@ -388,22 +419,21 @@ module.exports = function(RED) {
             };
         };
 
-        node.on('input', function(msg) {
-            var id = node.topic || msg.topic;
+        node.on('input', msg => {
+            let id = node.topic || msg.topic;
             if (!ready) {
-                nodeSets.push({'node': node, 'msg': msg});
+                nodeSets.push({node, msg});
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
                 return;
             }
             if (id) {
-                id = id.replace(/\//g, '.');
-                // If not this adapter state
-                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
-                    // Check if state exists
-                    adapter.getForeignState(id, node.getStateValue(msg));
+                if (id.includes('*')) {
+                    log('Invalid topic name "' + id + '" for ioBroker');
                 } else {
-                    if (id.indexOf('*') !== -1) {
-                        log('Invalid topic name "' + id + '" for ioBroker');
+                    id = id.replace(/\//g, '.');
+                    // If not this adapter state
+                    if (isForeignState(id)) {
+                        adapter.getForeignState(id, node.getStateValue(msg));
                     } else {
                         adapter.getState(id, node.getStateValue(msg));
                     }
@@ -420,32 +450,26 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType('ioBroker get', IOBrokerGetNode);
 
-
     function IOBrokerGetObjectNode(n) {
-        var node = this;
+        const node = this;
         RED.nodes.createNode(node,n);
         node.topic =  (typeof n.topic=== 'string' && n.topic.length > 0 ?  n.topic.replace(/\//g, '.') : null) ;
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && node.topic.indexOf('.') === -1) {
+        if (node.topic && !isValidID.test(node.topic)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
-
-        node.regex = new RegExp('^node-red\\.' + instance + '\\.');
         node.attrname = n.attrname;
 
-        if (node.topic) {
-            var id = node.topic;
-            // If no wildchars and belongs to this adapter
-            if (id.indexOf('*') === -1 && (node.regex.test(id) || id.indexOf('.') !== -1)) {
-                checkState(node, id);
-            }
+        // Create ID if not exits
+        if (node.topic && !node.topic.includes('*')) {
+            checkState(node, node.topic);
         }
 
         if (ready) {
-            node.status({fill: 'green', shape: 'dot', text: 'connected'});
+            node.status({fill: 'green', shape: 'dot',  text: 'connected'});
         } else {
-            node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
+            node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
         }
 
         node.getObject = function (msg) {
@@ -464,22 +488,20 @@ module.exports = function(RED) {
             };
         };
 
-        node.on('input', function(msg) {
-            var id = node.topic || msg.topic;
+        node.on('input', msg => {
+            let id = node.topic || msg.topic;
             if (!ready) {
-                nodeSets.push({'node': node, 'msg': msg});
+                nodeSets.push({node, msg});
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
-                return;
-            }
-            if (id) {
-                id = id.replace(/\//g, '.');
-                // If not this adapter state
-                if (!node.regex.test(id) && id.indexOf('.') !== -1) {
-                    // Check if state exists
-                    adapter.getForeignObject(id, node.getObject(msg));
+            } else if (id) {
+                if (id.includes('*')) {
+                    log('Invalid topic name "' + id + '" for ioBroker');
                 } else {
-                    if (id.indexOf('*') !== -1) {
-                        log('Invalid topic name "' + id + '" for ioBroker');
+                    id = id.replace(/\//g, '.');
+                    // If not this adapter state
+                    if (isForeignState(id)) {
+                        // Check if state exists
+                        adapter.getForeignObject(id, node.getObject(msg));
                     } else {
                         adapter.getObject(id, node.getObject(msg));
                     }
@@ -492,8 +514,6 @@ module.exports = function(RED) {
         if (!ready) {
             nodes.push(node);
         }
-
     }
     RED.nodes.registerType('ioBroker get object', IOBrokerGetObjectNode);
-
 };

@@ -1,7 +1,7 @@
 {
   "name": "iobroker.node-red",
   "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "author": {
     "name": "bluefox",
     "email": "dogafox@gmail.com"
@@ -27,24 +27,24 @@
     "js2xmlparser": "^4.0.0",
     "fs.notify": "^0.0.4",
     "feedparser": "^2.2.9",
-    "mongodb": "^3.3.5"
+    "mongodb": "^3.4.1"
   },
   "dependencies": {
     "node-red": "^1.0.3",
     "node-red-contrib-os": "^0.1.7",
-    "node-red-dashboard": "^2.19.0",
+    "node-red-dashboard": "^2.19.3",
     "node-red-contrib-aggregator": "^1.5.0",
     "node-red-contrib-polymer": "^0.0.22",
-    "node-red-node-email": "^1.7.2",
-    "node-red-node-feedparser": "^0.1.14",
-    "node-red-node-sentiment": "^0.1.4",
-    "node-red-node-twitter": "^1.1.5",
+    "node-red-node-email": "^1.7.3",
+    "node-red-node-feedparser": "^0.1.15",
+    "node-red-node-sentiment": "^0.1.6",
+    "node-red-node-twitter": "^1.1.6",
     "@iobroker/adapter-core": "^1.0.3"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
     "request": "^2.88.0",
-    "mocha": "^6.2.2",
+    "mocha": "^7.0.0",
     "chai": "^4.2.0"
   },
   "bugs": {

@@ -29,6 +29,7 @@ module.exports = {
     //uiHost: "127.0.0.1",
     iobrokerInstance: '%%instance%%',
     iobrokerConfig: '%%config%%',
+    allowCreationOfForeignObjects: '%%allowCreationOfForeignObjects%%',
 
     // Retry time in milliseconds for MQTT connections
     mqttReconnectTime: 15000,

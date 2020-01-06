@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "1.14.0",
+    "version": "1.15.0",
     "title": "node-red",
     "news": {
       "1.14.0": {
@@ -128,7 +128,8 @@
     "maxMemory": 128,
     "user": "",
     "pass": "",
-    "projectsEnabled": false
+    "projectsEnabled": false,
+    "allowCreationOfForeignObjects": false
   },
   "objects": [],
   "instanceObjects": [

@@ -18,15 +18,27 @@ systemDictionary = {
     "Leave blank to disable basic authentication": { "en": "Leave blank to disable basic authentication",     "de": "Leer lassen, um die Basic-Authentication zu deaktivieren", "ru": "Оставить пустым, чтобы отключить basic authentication", "pt": "Deixe em branco para desativar a autenticação básica", "nl": "Laat dit leeg om basisverificatie uit te schakelen", "fr": "Laissez vide pour désactiver l'authentification de base", "it": "Lascia vuoto per disabilitare l'autenticazione di base", "es": "Dejar en blanco para deshabilitar la autenticación básica", "pl": "Pozostaw puste, aby wyłączyć podstawowe uwierzytelnianie", "zh-cn": "留空以禁用基本身份验证"},
     "Password": {                                    "en": "Password",                                        "de": "Passwort",                                        "ru": "Пароль",                                          "pt": "Senha",                                           "nl": "Wachtwoord",                                      "fr": "Mot de passe",                                    "it": "Parola d'ordine",                                 "es": "Contraseña",                                      "pl": "Hasło",                                           "zh-cn": "密码"},
     "Enable Projects Feature:": {
-        "en": "Enable Projects Feature:",
-        "de": "Projektfunktion aktivieren:",
+        "en": "Enable Projects Feature",
+        "de": "Projektfunktion aktivieren",
         "ru": "Включить проекты",
-        "pt": "Ativar recurso de projetos:",
+        "pt": "Ativar recurso de projetos",
         "nl": "Projecten inschakelen",
-        "fr": "Activer la fonctionnalité de projets:",
-        "it": "Abilita funzionalità progetti:",
-        "es": "Habilitar característica de proyectos:",
-        "pl": "Włącz funkcję projektów:",
-        "zh-cn": "启用项目功能："
+        "fr": "Activer la fonctionnalité de projets",
+        "it": "Abilita funzionalità progetti",
+        "es": "Habilitar característica de proyectos",
+        "pl": "Włącz funkcję projektów",
+        "zh-cn": "启用项目功能"
+    },
+    "Allow creation of foreign objects": {
+        "en": "Allow creation of foreign objects",
+        "de": "Erstellung von Fremd-Objekten zulassen",
+        "ru": "Разрешить создание объектов не в этом адаптере",
+        "pt": "Permitir a criação de objetos estranhos",
+        "nl": "Maken van vreemde objecten toestaan",
+        "fr": "Autoriser la création d'objets étrangers",
+        "it": "Consentire la creazione di oggetti estranei",
+        "es": "Permitir la creación de objetos extraños.",
+        "pl": "Zezwól na tworzenie obcych obiektów",
+        "zh-cn": "允许创建异物"
     }
 };

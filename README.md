@@ -16,6 +16,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
 ## Changelog
+### 1.15.0 (2020-01-06)
+* (mobilutz/bluefox) allow creation of foreign states
+
 ### 1.14.0 (2019-11-29)
 * (SchumyHao) hide some parameters if not enable create object
 
@@ -207,7 +210,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## License
 
-Copyright 2014-2019 bluefox <dogafox@gmail.com>.
+Copyright 2014-2020 bluefox <dogafox@gmail.com>.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -80,7 +80,7 @@
 
     function bit_rol(d, _) {
         return d << _ | d >>> 32 - _
-    };
+    }
 
 </script>
 
@@ -130,6 +130,9 @@
     function load(settings, onChange) {
         if (!settings) return;
 
+        if (settings.allowCreationOfForeignObjects === undefined) {
+            settings.allowCreationOfForeignObjects = false;
+        }
         if (settings.user === undefined) {
             settings.user = '';
         }
@@ -266,6 +269,10 @@
                 <div class="input-field col s12 m4 l3">
                     <input  class="value" id="projectsEnabled" type="checkbox" />
                     <label class="translate" for="projectsEnabled">Enable Projects Feature:</label>
+                </div>
+                <div class="input-field col s12 m4 l3">
+                    <input  class="value" id="allowCreationOfForeignObjects" type="checkbox" />
+                    <label class="translate" for="allowCreationOfForeignObjects">Allow creation of foreign objects</label>
                 </div>
             </div>
             <div class="row">
