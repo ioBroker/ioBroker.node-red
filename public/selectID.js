@@ -61,6 +61,7 @@
  noColumnResize: false, // do not allow column resize
  firstMinWidth: null,  // width if ID column, default 400
  showButtonsForNotExistingObjects: false,
+ allowSelectionOfNonExistingObjects: false, // allow select of e.g. "system.adapter" object, even it is not really exists
  webServer:    null,   // link to webserver, by default ":8082"
  texts: {
  select:   'Select',
@@ -1055,7 +1056,7 @@
                             $dlg.dialog('option', 'title', _data.texts.selectid + ' - ' + (newId || ' '));
                         }
                         // Enable/ disable "Select" button
-                        if (_data.objects[newId]) { // && _data.objects[newId].type === 'state') {
+                        if (newId && (_data.objects[newId] || _data.allowSelectionOfNonExistingObjects)) { // && _data.objects[newId].type === 'state') {
                             $('#' + _data.instance + '-button-ok').removeClass('ui-state-disabled');
                         } else {
                             $('#' + _data.instance + '-button-ok').addClass('ui-state-disabled');

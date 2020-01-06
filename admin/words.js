@@ -40,5 +40,17 @@ systemDictionary = {
         "es": "Permitir la creación de objetos extraños.",
         "pl": "Zezwól na tworzenie obcych obiektów",
         "zh-cn": "允许创建异物"
+    },
+    "Safe mode": {
+        "en": "Safe mode",
+        "de": "Sicherheitsmodus",
+        "ru": "Безопасный режим",
+        "pt": "Modo de segurança",
+        "nl": "Veilige modus",
+        "fr": "Mode sans échec",
+        "it": "Modalità sicura",
+        "es": "Modo seguro",
+        "pl": "Tryb bezpieczeństwa",
+        "zh-cn": "安全模式"
     }
 };

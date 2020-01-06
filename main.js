@@ -91,7 +91,7 @@ function installLibraries(callback) {
                     }
 
                     installNpm(adapter.common.npmLibs[lib], () =>
-                        installLibraries(callback));
+                        setImmediate(() => installLibraries(callback)));
 
                     allInstalled = false;
                     break;
@@ -103,7 +103,7 @@ function installLibraries(callback) {
             }
         }
     }
-    if (allInstalled) callback();
+    allInstalled && callback();
 }
 
 // is called if a subscribed state changes
@@ -113,7 +113,7 @@ function unloadRed (callback) {
     // Stop node-red
     stopping = true;
     if (redProcess) {
-        adapter.log.info("kill node-red task");
+        adapter.log.info('kill node-red task');
         redProcess.kill();
         redProcess = null;
     }
@@ -179,6 +179,11 @@ const editorClientPath = getNodeRedEditorPath();
 function startNodeRed() {
     adapter.config.maxMemory = parseInt(adapter.config.maxMemory, 10) || 128;
     const args = ['--max-old-space-size=' + adapter.config.maxMemory, nodePath + '/red.js', '-v', '--settings', userDataDir + 'settings.js'];
+
+    if (adapter.config.safeMode) {
+        args.push('--safe');
+    }
+
     adapter.log.info('Starting node-red: ' + args.join(' '));
 
     redProcess = spawn('node', args);

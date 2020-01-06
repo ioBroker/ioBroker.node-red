@@ -587,4 +587,127 @@ module.exports = function(RED) {
         existingNodes.push(node);
     }
     RED.nodes.registerType('ioBroker get object', IOBrokerGetObjectNode);
+
+    function IOBrokerListNode(n) {
+        const node = this;
+        RED.nodes.createNode(node, n);
+        node.topic = typeof n.topic === 'string' && n.topic.length > 0 ? n.topic.replace(/\//g, '.') : null;
+
+        // If no adapter prefix, add own adapter prefix
+        if (node.topic && !isValidID.test(node.topic)) {
+            node.topic = adapter.namespace + '.' + node.topic;
+        }
+        node.objType = n.objType;
+        node.regex = n.regex;
+        node.asArray = n.asArray === 'true' || n.asArray === true;
+        node.onlyIDs = n.onlyIDs === 'true' || n.onlyIDs === true;
+        node.withValues = n.withValues === 'true' || n.withValues === true;
+        if (node.regex) {
+            node.regex = new RegExp(node.regex.replace('\\', '\\\\'));
+        }
+
+        if (ready) {
+            node.status({fill: 'green', shape: 'dot',  text: 'connected'});
+        } else {
+            node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
+        }
+
+        node.getObject = function (msg) {
+            return function (err, state) {
+                if (!err && state) {
+                    msg[node.attrname] = state;
+                    node.status({
+                        fill:  'green',
+                        shape: 'dot',
+                        text:  JSON.stringify(state)
+                    });
+                    node.send(msg);
+                } else {
+                    log('Object "' + id + '" does not exist in the ioBroker');
+                }
+            };
+        };
+
+        node.on('input', msg => {
+            let pattern = node.topic || msg.topic;
+            if (!ready) {
+                nodeSets.push({node, msg});
+            } else if (pattern) {
+                pattern = pattern.replace(/\//g, '.');
+                adapter.getForeignObjects(pattern, (err, list) => {
+                    if (!err) {
+                        list = list || {};
+                        if (node.objType) {
+                            const newList = {};
+                            Object.keys(list).forEach(id => {
+                                if (list[id].type === node.objType) {
+                                    newList[id] = list[id];
+                                }
+                            });
+                            list = newList;
+                        }
+                        if (node.regex) {
+                            const newList = {};
+                            Object.keys(list).forEach(id => {
+                                if (node.regex.test(id)) {
+                                    newList[id] = list[id];
+                                }
+                            });
+                            list = newList;
+                        }
+
+                        const ids = Object.keys(list);
+
+                        adapter.getForeignStatesAsync(!node.withValues ? [] : ids)
+                            .then(values => {
+                                if (node.asArray) {
+                                    if (node.onlyIDs) {
+                                        msg.payload = ids;
+                                        if (node.withValues) {
+                                            msg.payload = msg.payload.map(id => {
+                                                values[id]._id = id;
+                                                return values[id];
+                                            });
+                                        }
+                                    } else {
+                                        let newList = [];
+                                        ids.forEach(id => newList.push(list[id]));
+                                        // Add states values if required
+                                        node.withValues && newList.forEach(el => Object.assign(el, values[el._id] || {}));
+                                        msg.payload = newList;
+                                    }
+                                    node.send(msg);
+                                } else {
+                                    // every ID as one message
+                                    const _msg = JSON.parse(JSON.stringify(msg));
+                                    ids.forEach((id, i) => {
+                                        const __msg = !i ? msg : JSON.parse(JSON.stringify(_msg));
+                                        __msg.topic = id;
+                                        if (!node.onlyIDs) {
+                                            __msg.payload = list[id];
+                                        }
+                                        // Add states values if required
+                                        if (node.withValues) {
+                                            if (typeof __msg.payload !== 'object' || __msg.payload === null) {
+                                                __msg.payload = {};
+                                            }
+                                            node.withValues && Object.assign(__msg.payload, values[id]);
+                                        }
+                                        node.send(__msg);
+                                    });
+                                }
+                            });
+                    } else {
+                        log('Cannot get list of objects for "' + pattern + '": ' + err);
+                    }
+                });
+            } else {
+                node.warn('No pattern set');
+            }
+        });
+
+        node.on('close', () => onClose(node));
+        existingNodes.push(node);
+    }
+    RED.nodes.registerType('ioBroker list', IOBrokerListNode);
 };

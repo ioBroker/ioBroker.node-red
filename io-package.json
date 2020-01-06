@@ -4,6 +4,18 @@
     "version": "1.15.0",
     "title": "node-red",
     "news": {
+      "1.15.0": {
+        "en": "Allowed the creation of foreign objects\nAdded state unit, min and max for ioBroker out node",
+        "de": "Erlaubt die Erstellung von Foregin-Objekten\nState Unit, Min und Max für ioBroker Out Node hinzugefügt",
+        "ru": "Разрешено создание посторонних предметов\nДобавлена единица состояния, мин и макс для узла ioBroker out",
+        "pt": "Permitiu a criação de objetos estranhos\nUnidade de estado adicionada, min e max para o nó de saída ioBroker",
+        "nl": "Staat het maken van vreemde objecten toe\nStaatseenheid, min en max toegevoegd voor ioBroker-uitknooppunt",
+        "fr": "Autorisé la création d'objets étrangers\nUnité d'état ajoutée, min et max pour le nœud de sortie ioBroker",
+        "it": "Ha permesso la creazione di oggetti estranei\nAggiunta unità di stato, min e max per nodo ioBroker out",
+        "es": "Permitió la creación de objetos extraños.\nUnidad de estado agregada, min y max para el nodo de salida ioBroker",
+        "pl": "Pozwolił na tworzenie obcych obiektów\nDodano jednostkę stanu, min i max dla węzła wyjściowego ioBroker",
+        "zh-cn": "允许创建异物\n为ioBroker out节点添加了状态单位，最小值和最大值"
+      },
       "1.14.0": {
         "en": "Hide some parameters if not enable create object",
         "de": "Blenden Sie einige Parameter aus, wenn Sie das Erstellen von Objekten nicht aktivieren",
