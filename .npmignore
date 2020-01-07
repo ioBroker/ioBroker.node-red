@@ -2,6 +2,9 @@ gulpfile.js
 tasks
 tmp
 test
+.github
+.git
+node_modules
 .travis.yml
 appveyor.yml
 admin/i18n
