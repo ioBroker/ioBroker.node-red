@@ -91,7 +91,7 @@
     },
     "desc": {
       "en": "This adapter uses node-red as a service. No additional node-red instance required.",
-      "de": "Adapter benutzt node-red als Servcie. Kein zusätzliches node-red Programm nötig.",
+      "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
       "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
       "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
       "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
