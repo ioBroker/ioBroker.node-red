@@ -479,6 +479,7 @@ module.exports = function(RED) {
                     msg.acknowledged   = state.ack;
                     msg.timestamp      = state.ts;
                     msg.lastchange     = state.lc;
+                    msg.topic          = node.topic;
                     node.status({
                         fill: 'green',
                         shape: 'dot',
@@ -548,6 +549,7 @@ module.exports = function(RED) {
             return function (err, state) {
                 if (!err && state) {
                     msg[node.attrname] = state;
+                    msg.topic          = node.topic;
                     node.status({
                         fill:  'green',
                         shape: 'dot',
