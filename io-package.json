@@ -1,9 +1,21 @@
 {
   "common": {
     "name": "node-red",
-    "version": "1.15.0",
+    "version": "1.16.0",
     "title": "node-red",
     "news": {
+      "1.16.0": {
+        "en": "update dependencies, updated Node-Red to 1.0.4",
+        "de": "Abhängigkeiten aktualisieren, Node-Red auf 1.0.4 aktualisiert",
+        "ru": "обновить зависимости, обновлен Node-Red до 1.0.4",
+        "pt": "atualizar dependências, atualizado Node-Red para 1.0.4",
+        "nl": "update afhankelijkheden, update Node-Red naar 1.0.4",
+        "fr": "mise à jour des dépendances, mise à jour de Node-Red vers 1.0.4",
+        "it": "aggiornare le dipendenze, aggiornato Node-Red alla 1.0.4",
+        "es": "actualizar dependencias, actualizado Node-Red a 1.0.4",
+        "pl": "zaktualizuj zależności, zaktualizowano Node-Red do wersji 1.0.4",
+        "zh-cn": "更新依赖项，将Node-Red更新为1.0.4"
+      },
       "1.15.0": {
         "en": "Allowed the creation of foreign objects\nAdded state unit, min and max for ioBroker out node",
         "de": "Erlaubt die Erstellung von Foregin-Objekten\nState Unit, Min und Max für ioBroker Out Node hinzugefügt",
