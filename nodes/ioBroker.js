@@ -17,7 +17,7 @@
 module.exports = function(RED) {
     'use strict';
     // patch event emitter
-    require('events').EventEmitter.prototype._maxListeners = 100;
+    require('events').EventEmitter.prototype._maxListeners = 1000;
 
     const utils        = require('@iobroker/adapter-core');
     const settings     = require(process.env.NODE_RED_HOME + '/lib/red').settings;
