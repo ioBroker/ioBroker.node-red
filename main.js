@@ -417,6 +417,9 @@ function installNotifierCreds(isFirst) {
 }
 
 function main() {
+    if (adapter.config.projectsEnabled === undefined) adapter.config.projectsEnabled = false;
+    if (adapter.config.allowCreationOfForeignObjects === undefined) adapter.config.allowCreationOfForeignObjects = false;
+
     // Find userdata directory
 
     // normally /opt/iobroker/node_modules/iobroker.js-controller
