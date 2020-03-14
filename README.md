@@ -18,7 +18,10 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
 
-### 1.16.1 (2020-03-12)
+### 1.16.3 (2020-03-14)
+* (Apollon77) fix potential crash case in inout node
+
+### 1.16.2 (2020-03-12)
 * (Apollon77) update deps, node-red to 1.0.4
 * (Apollon77) update number of listeners to max 1000 before warning is displayed
 

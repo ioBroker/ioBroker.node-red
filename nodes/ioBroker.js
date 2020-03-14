@@ -163,7 +163,7 @@ module.exports = function(RED) {
         });
     }
 
-    function assembleCommon(node, msg) {
+    function assembleCommon(node, msg, id) {
         msg = msg || {};
         const common = {
             read:  true,
@@ -377,7 +377,7 @@ module.exports = function(RED) {
                 if (node.autoCreate && !node.idChecked) {
                     id = id.replace(/\//g, '.');
                     if (!id.includes('*') && isValidID.test(id)) {
-                        return checkState(node, id, assembleCommon(node, msg), {val: msg.payload, ack: node.ack}, isOk => {
+                        return checkState(node, id, assembleCommon(node, msg, id), {val: msg.payload, ack: node.ack}, isOk => {
                             if (isOk) {
                                 node.status({
                                     fill:  'green',
