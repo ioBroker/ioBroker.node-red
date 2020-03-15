@@ -39,7 +39,7 @@ module.exports = function(RED) {
     }
     const nodeSets = [];
     const checkStates = [];
-    const isValidID = new RegExp('^[-_a-z0-9]+\\.\\d+\\.');
+    const isValidID = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]*\\.\\d+\\.');
     let ready = false;
     const log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
 
