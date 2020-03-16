@@ -1,22 +1,10 @@
 {
   "common": {
     "name": "node-red",
-    "version": "1.16.3",
+    "version": "1.16.4",
     "title": "node-red",
     "news": {
-      "1.16.3": {
-        "en": "fix potential crash case of input node",
-        "de": "Behebung eines möglichen Absturzfalls des Eingabeknotens",
-        "ru": "исправить возможный сбой входного узла",
-        "pt": "corrigir caso de falha potencial do nó de entrada",
-        "nl": "potentiële crashgeval van invoerknooppunt repareren",
-        "fr": "correction d'un éventuel crash du nœud d'entrée",
-        "it": "risolve il potenziale caso di crash del nodo di input",
-        "es": "Arreglar caso de bloqueo potencial del nodo de entrada",
-        "pl": "naprawiono potencjalną awarię węzła wejściowego",
-        "zh-cn": "修复输入节点可能崩溃的情况"
-      },
-      "1.16.2": {
+      "1.16.4": {
         "en": "update dependencies, updated Node-Red to 1.0.4",
         "de": "Abhängigkeiten aktualisieren, Node-Red auf 1.0.4 aktualisiert",
         "ru": "обновить зависимости, обновлен Node-Red до 1.0.4",
