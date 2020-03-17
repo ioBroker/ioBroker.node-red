@@ -17,10 +17,11 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 - Safe mode - Flows will not be started and you can edit the flows to fix some overload problem.
 
 ## Changelog
+### 1.16.5 (2020-03-17)
+* (bluefox) Caught errors if state deleted
 
 ### 1.16.4 (2020-03-16)
 * (Apollon77) fix State ID verification regex to allow all characters
-
 
 ### 1.16.3 (2020-03-14)
 * (Apollon77) fix potential crash case in inout node

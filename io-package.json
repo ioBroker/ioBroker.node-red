@@ -1,9 +1,21 @@
 {
   "common": {
     "name": "node-red",
-    "version": "1.16.4",
+    "version": "1.16.5",
     "title": "node-red",
     "news": {
+      "1.16.5": {
+        "en": "Caught errors if state deleted",
+        "de": "Fehler beim Löschen des Status",
+        "ru": "Выявлены ошибки, если состояние удалено",
+        "pt": "Erros detectados se o estado foi excluído",
+        "nl": "Gevangen fouten als status is verwijderd",
+        "fr": "Erreurs détectées si l'état est supprimé",
+        "it": "Errori rilevati se lo stato è stato eliminato",
+        "es": "Errores atrapados si se borra el estado",
+        "pl": "Złapane błędy, jeśli stan został usunięty",
+        "zh-cn": "如果状态被删除则引发错误"
+      },
       "1.16.4": {
         "en": "update dependencies, updated Node-Red to 1.0.4",
         "de": "Abhängigkeiten aktualisieren, Node-Red auf 1.0.4 aktualisiert",

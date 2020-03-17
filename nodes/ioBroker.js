@@ -258,7 +258,7 @@ module.exports = function(RED) {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
         }
 
-        node.stateChange = function (topic, obj) {
+        node.stateChange = function (topic, state) {
             if (node.regexTopic) {
                 if (!node.regexTopic.test(topic)) {
                     return;
@@ -267,7 +267,7 @@ module.exports = function(RED) {
                 return;
             }
 
-			if (node.onlyack && !obj.ack) {
+			if (node.onlyack && state && !state.ack) {
 			    return;
             }
 
@@ -275,11 +275,11 @@ module.exports = function(RED) {
             //node.log ("Function: " + node.func);
 
 			if (node.func === 'rbe') {
-                if (obj.val === node.previous[t]) {
+                if (state && state.val === node.previous[t]) {
                     return;
                 }
-            } else if (node.func === 'deadband') {
-                const n = parseFloat(obj.val.toString());
+            } else if (state && node.func === 'deadband') {
+                const n = parseFloat(state.val.toString());
                 if (!isNaN(n)) {
                     //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
                     if (node.pc) {
@@ -296,22 +296,30 @@ module.exports = function(RED) {
                     return;
                 }
             }
-            node.previous[t] = obj.val;
+            node.previous[t] = state ? state.val : null;
 
             node.send({
                 topic:        t,
-                payload:      node.payloadType === 'object' ? obj : (obj.val === null || obj.val === undefined ? '' : (valueConvert ? obj.val.toString() : obj.val)),
-                acknowledged: obj.ack,
-                timestamp:    obj.ts,
-                lastchange:   obj.lc,
-                from:         obj.from
+                payload:      node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
+                acknowledged: state ? state.ack  : false,
+                timestamp:    state ? state.ts   : Date.now(),
+                lastchange:   state ? state.lc   : Date.now(),
+                from:         state ? state.from : ''
             });
 
-            node.status({
-                fill: 'green',
-                shape: 'dot',
-                text: node.payloadType === 'object' ? JSON.stringify(obj) : (obj.val === null || obj.val === undefined ? '' : obj.val.toString())
-            });
+            if (!state) {
+                node.status({
+                    fill: 'red',
+                    shape: 'ring',
+                    text: 'not exists'
+                });
+            } else {
+                node.status({
+                    fill: 'green',
+                    shape: 'dot',
+                    text: node.payloadType === 'object' ? JSON.stringify(state) : (!state || state.val === null || state.val === undefined ? '' : state.val.toString())
+                });
+            }
         };
 
         if (ready) {
