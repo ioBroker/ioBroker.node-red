@@ -237,7 +237,8 @@ module.exports = function(RED) {
         node.onlyack     = n.onlyack === true || n.onlyack === 'true' || false;
         node.func        = n.func || 'all';
         node.gap         = n.gap  || '0';
-        node.pc          = false;
+        node.gap         = n.gap  || '0';
+        node.fireOnStart = n.fireOnStart === true || n.fireOnStart === 'true' || false;
 
 		if (node.gap.substr(-1) === '%') {
             node.pc = true;
@@ -325,6 +326,11 @@ module.exports = function(RED) {
         if (ready) {
             adapter.on('stateChange', node.stateChange);
             node.subscribePattern && adapter.subscribeForeignStates(node.subscribePattern);
+
+            if (node.fireOnStart && !node.topic.includes('*')) {
+                adapter.getForeignState(node.topic, (err, state) =>
+                    node.stateChange(node.topic, state));
+            }
         }
 
         node.on('close', () => {

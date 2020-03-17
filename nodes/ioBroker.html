@@ -76,7 +76,7 @@
 <script type="text/x-red" data-template-name="ioBroker in">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">
@@ -107,6 +107,13 @@
         <label for="node-input-gap">&nbsp;</label>
         <input type="text" id="node-input-gap" placeholder="e.g. 10 or 5%" style="width:71%;">
     </div>
+    <div class="form-row">
+        <label for="node-input-fireOnStart"><i class="fa fa-arrow-up"></i> Fire by start</label>
+        <select id="node-input-fireOnStart" style="width:73% !important">
+            <option value="true">send message at start</option>
+            <option value="false">send no message at start</option>
+        </select>
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker in">
@@ -125,8 +132,8 @@
             payloadType: {value: 'value'},
 			onlyack: {value: ''},
             func: {value: 'all'},
-            gap: {value: '', validate: RED.validators.regex(/^(\d*[.]*\d*|)(%|)$/)}
- 			
+            gap: {value: '', validate: RED.validators.regex(/^(\d*[.]*\d*|)(%|)$/)},
+            fireOnStart: {value: 'false'}
         },
         color: '#a8bfd8',
         inputs: 0,
@@ -159,7 +166,7 @@
 <script type="text/x-red" data-template-name="ioBroker out">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
     </div>
     <div id="dialog-select-member" style="display: none"></div>
     <div class="form-row">
@@ -290,7 +297,7 @@ RED.nodes.registerType('ioBroker out', {
 <script type="text/x-red" data-template-name="ioBroker get">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">
@@ -344,7 +351,7 @@ RED.nodes.registerType('ioBroker get', {
 <script type="text/x-red" data-template-name="ioBroker get object">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">
@@ -368,7 +375,7 @@ RED.nodes.registerType('ioBroker get', {
         defaults: {
             name: {value: ''},
             topic: {value: ''},
-            attrname: {value: 'payload'},
+            attrname: {value: 'payload'}
         },
         color: '#a8bfd8',
         inputs: 1,
@@ -389,7 +396,7 @@ RED.nodes.registerType('ioBroker get', {
 <script type="text/x-red" data-template-name="ioBroker list">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">

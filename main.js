@@ -127,7 +127,7 @@ function processMessage(obj) {
     switch (obj.command) {
         case 'update':
             writeStateList(error => 
-                typeof obj.callback === 'function' && adapter.sendTo(obj.from, obj.command, error, obj.callback));
+                obj.callback && adapter.sendTo(obj.from, obj.command, error, obj.callback));
             break;
 
         case 'stopInstance':

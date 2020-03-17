@@ -158,8 +158,10 @@
                 setValue(key, settings[key], onChange);
             }
         }
-        $('#update').click(function () {
+        $('#update').on('click', function () {
+            $('#update').addClass('disabled');
             sendTo(null, 'update', null, function (error) {
+                $('#update').removeClass('disabled');
                 if (!error) {
                     showMessage(_('Successfully updated'))
                 } else {
