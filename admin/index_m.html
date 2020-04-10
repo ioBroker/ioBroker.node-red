@@ -202,8 +202,10 @@
         });
 
         if (obj.pass) {
+            var bcrypt = require('bcryptjs');
             if (obj.pass !== '__pass__') {
-                obj.pass = MD5(obj.pass);
+                obj.pass = bcrypt.hashSync(obj.pass, 8);
+                //obj.pass = MD5(obj.pass);
             } else {
                 obj.pass = oldPass;
             }

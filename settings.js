@@ -74,7 +74,7 @@ module.exports = {
     adminAuth: {
         type: "credentials",
         users: ['%%auth%%']
-    }
+    },
 
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.
