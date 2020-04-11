@@ -71,10 +71,7 @@ module.exports = {
     // The password must be an md5 hash  eg.. 5f4dcc3b5aa765d61d8327deb882cf99 ('password')
     //httpAdminAuth: '%%auth%%',
 
-    adminAuth: {
-        type: "credentials",
-        users: ['%%auth%%']
-    },
+    adminAuth: '%%auth%%',
 
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.

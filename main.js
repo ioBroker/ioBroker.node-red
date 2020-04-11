@@ -258,7 +258,7 @@ function writeSettings() {
     const nodesDir = '"' + __dirname.replace(/\\/g, '/') + '/nodes/"';
 
     const bind = '"' + (adapter.config.bind || '0.0.0.0') + '"';
-    const auth = adapter.config.user && adapter.config.pass ? JSON.stringify({username: adapter.config.user, password: adapter.config.pass, permissions: '*'}) : '""';
+    const auth = adapter.config.user && adapter.config.pass ? JSON.stringify({type: "credentials", users: [{username: adapter.config.user, password: adapter.config.pass, permissions: '*'}]}) : JSON.stringify({type: "credentials", users: [], default: {permissions: "*"}});
     const pass = '"' + adapter.config.pass + '"';
 
     for (let a = 0; a < additional.length; a++) {
