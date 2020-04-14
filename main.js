@@ -261,6 +261,14 @@ function writeSettings() {
     const auth = adapter.config.user && adapter.config.pass ? JSON.stringify({type: "credentials", users: [{username: adapter.config.user, password: adapter.config.pass, permissions: '*'}]}) : JSON.stringify({type: "credentials", users: [], default: {permissions: "*"}});
     const pass = '"' + adapter.config.pass + '"';
 
+    if (adapter.config.secure) {
+        // Load certificates
+        adapter.getCertificates((err, certificates) => {
+            const certPrivate = certificates.key;
+            const certPublic = certificates.cert;	
+        });
+    }
+
     for (let a = 0; a < additional.length; a++) {
         if (additional[a].startsWith('node-red-')) {
             continue;
@@ -290,8 +298,8 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'auth', auth);
         lines[i] = setOption(lines[i], 'pass', pass);
-        lines[i] = setOption(lines[i], 'certPrivate', adapter.config.certPrivate);
-        lines[i] = setOption(lines[i], 'certPublic', adapter.config.certPublic);
+        lines[i] = setOption(lines[i], 'certPrivate', certPrivate);
+        lines[i] = setOption(lines[i], 'certPublic', certPublic);
         lines[i] = setOption(lines[i], 'bind', bind);
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'instance', adapter.instance);
