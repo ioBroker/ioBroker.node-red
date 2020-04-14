@@ -285,10 +285,13 @@ function writeSettings() {
         adapter.config.valueConvert === 'false') {
         adapter.config.valueConvert = false;
     }
+
     for (let i = 0; i < lines.length; i++) {
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'auth', auth);
         lines[i] = setOption(lines[i], 'pass', pass);
+        lines[i] = setOption(lines[i], 'certPrivate', adapter.config.certPrivate);
+        lines[i] = setOption(lines[i], 'certPublic', adapter.config.certPublic);
         lines[i] = setOption(lines[i], 'bind', bind);
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'instance', adapter.instance);

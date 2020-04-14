@@ -158,6 +158,9 @@
   "native": {
     "bind": "0.0.0.0",
     "port": 1880,
+    "secure": false,
+    "certPublic": "",
+    "certPrivate": "",
     "httpRoot": "/",
     "npmLibs": "",
     "valueConvert": true,
