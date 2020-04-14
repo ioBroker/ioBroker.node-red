@@ -21,13 +21,14 @@
 module.exports = {
     // the tcp port that the Node-RED web server is listening on
     uiPort: '%%port%%',
-    uiHost: '%%bind%%',
 
     // By default, the Node-RED UI accepts connections on all IPv4 interfaces.
     // To listen on all IPv6 addresses, set uiHost to "::",
     // The following property can be used to listen on a specific interface. For
     // example, the following would only allow connections from the local machine.
     //uiHost: "127.0.0.1",
+    uiHost: '%%bind%%',
+
     iobrokerInstance: '%%instance%%',
     iobrokerConfig: '%%config%%',
     allowCreationOfForeignObjects: '%%allowCreationOfForeignObjects%%',
@@ -81,7 +82,7 @@ module.exports = {
     // Note: once you set this property, do not change it - doing so will prevent
     // node-red from being able to decrypt your existing credentials and they will be
     // lost.
-    //credentialSecret: "a-secret-key",
+    credentialSecret: "'%%credentialSecret%%'",
 
     // By default, all user data is stored in a directory called `.node-red` under
     // the user's home directory. To use a different location, the following
@@ -221,8 +222,6 @@ module.exports = {
     //    global.get("os")
 
     valueConvert: '%%valueConvert%%',
-
-    credentialSecret: "'%%credentialSecret%%'",
 	
     functionGlobalContext: {
         //'%%functionGlobalContext%%'
