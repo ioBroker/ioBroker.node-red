@@ -260,12 +260,14 @@ function writeSettings() {
     const bind = '"' + (adapter.config.bind || '0.0.0.0') + '"';
     const auth = adapter.config.user && adapter.config.pass ? JSON.stringify({type: "credentials", users: [{username: adapter.config.user, password: adapter.config.pass, permissions: '*'}]}) : JSON.stringify({type: "credentials", users: [], default: {permissions: "*"}});
     const pass = '"' + adapter.config.pass + '"';
+    const certPrivate = '';
+    const certPublic = '';
 
     if (adapter.config.secure) {
         // Load certificates
         adapter.getCertificates((err, certificates) => {
-            const certPrivate = certificates.key;
-            const certPublic = certificates.cert;	
+            certPrivate = certificates.key;
+            certPublic = certificates.cert;	
         });
     }
 
