@@ -294,7 +294,7 @@ function writeSettings() {
         adapter.getCertificates((err, certificates) => {
             fs.writeFileSync(certFile, certificates.cert);
             fs.writeFileSync(keyFile, certificates.key);
-        }
+        });
     }
         
     for (let i = 0; i < lines.length; i++) {
