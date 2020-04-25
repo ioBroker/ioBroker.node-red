@@ -134,9 +134,11 @@
         if ($secure.prop('checked')) {
             $('.col-certPublic').show();
             $('.col-certPrivate').show();
+            $('#s').attr("value", "s");
         } else {
             $('.col-certPublic').hide();
             $('.col-certPrivate').hide();
+            $('#s').attr("value", "");
         }
     }
 
@@ -275,6 +277,7 @@
                 <div class="col s12 m4">
                     <input class="value" id="secure" type="checkbox" />
                     <label class="translate" for="secure">Secure(HTTPS):</label>
+                    <input class="value" id="s" type="hidden" value="" />
                 </div>
                 <div class="col s12 m4 col-certPublic">
                     <select id="certPublic" class="value"></select>
