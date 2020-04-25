@@ -13,10 +13,20 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
+**Upgrade to 1.17.0:** If you already used Node-Red authentication: Please set your password in the Node-Red instance settings in ioBroker again after the upgrade! Otherwise you cannot login to Node-Red any longer after the upgrade.
+
+
 ## Settings
 - Safe mode - Flows will not be started and you can edit the flows to fix some overload problem.
 
 ## Changelog
+### 1.17.0 (2020-0x-xx)
+* (jwiesel) Updated settings.js to incorporate latest changes up to Node-RED 1.0.4
+* (jwiesel) Replaced HTTP basic authentication by Node-RED login form (adminAuth)
+* (jwiesel) Replaced MD5 password hashing by bcrypt.js as recommended in the Node-RED security guide.
+
+:exclamation: Caution: For those who already used Node-Red authentication: Please set your password in the Node-Red instance settings in ioBroker again! Otherwise you cannot login to Node-Red any longer after the upgrade.
+
 ### 1.16.5 (2020-03-17)
 * (bluefox) Caught errors if state deleted
 * (bluefox) "Fire on start" for the input node was implemented
