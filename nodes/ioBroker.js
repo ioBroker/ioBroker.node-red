@@ -376,7 +376,7 @@ module.exports = function(RED) {
             if (!id) {
                 id = msg.topic;
                 // if not starts with adapter.instance.
-                if (id && !isValidID.test(id)) {
+                if (id && !isValidID.test(id) && !id.startsWith(adapter.namespace)) {
                     id = adapter.namespace + '.' + id;
                 }
             }
@@ -389,7 +389,6 @@ module.exports = function(RED) {
                 id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
-                    id = id.replace(/\//g, '.');
                     if (!id.includes('*') && isValidID.test(id)) {
                         return checkState(node, id, assembleCommon(node, msg, id), {val: msg.payload, ack: node.ack}, isOk => {
                             if (isOk) {
@@ -486,7 +485,7 @@ module.exports = function(RED) {
             node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
         }
 
-        node.getStateValue = function (msg) {
+        node.getStateValue = function (msg, id) {
             return function (err, state) {
                 if (!err && state) {
                     msg[node.attrname] = (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
@@ -520,9 +519,9 @@ module.exports = function(RED) {
                     id = id.replace(/\//g, '.');
                     // If not this adapter state
                     if (isForeignState(id)) {
-                        adapter.getForeignState(id, node.getStateValue(msg));
+                        adapter.getForeignState(id, node.getStateValue(msg, id));
                     } else {
-                        adapter.getState(id, node.getStateValue(msg));
+                        adapter.getState(id, node.getStateValue(msg, id));
                     }
                 }
             } else {
