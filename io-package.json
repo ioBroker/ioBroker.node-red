@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "1.16.5",
+    "version": "1.17.0",
     "title": "node-red",
     "news": {
       "1.16.5": {

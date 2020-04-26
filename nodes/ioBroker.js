@@ -411,8 +411,8 @@ module.exports = function(RED) {
                 // If not this adapter state
                 if (isForeignState(id)) {
                     // Check if state exists
-                    adapter.getForeignState(id, (err, state) => {
-                        if (!err && state) {
+                    adapter.getForeignObject(id, (err, obj) => {
+                        if (!err && obj) {
                             adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
                             node.status({
                                 fill:  'green',
