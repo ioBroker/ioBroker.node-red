@@ -412,11 +412,21 @@ module.exports = function(RED) {
                     // Check if state exists
                     adapter.getForeignObject(id, (err, obj) => {
                         if (!err && obj) {
-                            adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
-                            node.status({
-                                fill:  'green',
-                                shape: 'dot',
-                                text:   msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()
+                            adapter.setForeignState(id, {val: msg.payload, ack: node.ack}, (err, _id) => {
+                                if (err) {
+                                    node.status({
+                                        fill:  'red',
+                                        shape: 'ring',
+                                        text:   'Error on setForeignState. See Log'
+                                    });
+                                    log('Error on setState for ' + id + ': ' + err);
+                                } else {
+                                    node.status({
+                                        fill: 'green',
+                                        shape: 'dot',
+                                        text: _id + ': '(msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
+                                    });
+                                }
                             });
                         } else {
                             log('State "' + id + '" does not exist in the ioBroker');
@@ -436,11 +446,21 @@ module.exports = function(RED) {
                             text:  'Invalid topic name "' + id + '" for ioBroker'
                         });
                     } else {
-                        setState(id, msg.payload, node.ack);
-                        node.status({
-                            fill: 'green',
-                            shape: 'dot',
-                            text: msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()
+                        setState(id, msg.payload, node.ack, (err, _id) => {
+                            if (err) {
+                                node.status({
+                                    fill:  'red',
+                                    shape: 'ring',
+                                    text:   'Error on setState. See Log'
+                                });
+                                log('Error on setState for ' + id + ': ' + err);
+                            } else {
+                                node.status({
+                                    fill: 'green',
+                                    shape: 'dot',
+                                    text: _id + ': '(msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
+                                });
+                            }
                         });
                     }
                 }
