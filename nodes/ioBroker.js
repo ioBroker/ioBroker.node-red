@@ -227,7 +227,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic)) {
+        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.subscribePattern = node.topic;
@@ -424,7 +424,7 @@ module.exports = function(RED) {
                                     node.status({
                                         fill: 'green',
                                         shape: 'dot',
-                                        text: _id + ': '(msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
+                                        text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
                                     });
                                 }
                             });
@@ -458,7 +458,7 @@ module.exports = function(RED) {
                                 node.status({
                                     fill: 'green',
                                     shape: 'dot',
-                                    text: _id + ': '(msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
+                                    text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
                                 });
                             }
                         });
@@ -487,7 +487,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic)) {
+        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
@@ -512,7 +512,7 @@ module.exports = function(RED) {
                     msg.acknowledged   = state.ack;
                     msg.timestamp      = state.ts;
                     msg.lastchange     = state.lc;
-                    msg.topic          = node.topic;
+                    msg.topic          = node.topic || msg.topic;
                     node.status({
                         fill: 'green',
                         shape: 'dot',
@@ -562,7 +562,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic)) {
+        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.attrname = n.attrname;
@@ -582,7 +582,7 @@ module.exports = function(RED) {
             return function (err, state) {
                 if (!err && state) {
                     msg[node.attrname] = state;
-                    msg.topic          = node.topic;
+                    msg.topic          = node.topic || msg.topic;
                     node.status({
                         fill:  'green',
                         shape: 'dot',
@@ -629,7 +629,7 @@ module.exports = function(RED) {
         node.topic = typeof n.topic === 'string' && n.topic.length > 0 ? n.topic.replace(/\//g, '.') : null;
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic)) {
+        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.objType = n.objType;
