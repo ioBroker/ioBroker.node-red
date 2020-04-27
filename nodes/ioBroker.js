@@ -227,7 +227,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.subscribePattern = node.topic;
@@ -375,10 +375,10 @@ module.exports = function(RED) {
             let id = node.topic;
             if (!id) {
                 id = msg.topic;
-                // if not starts with adapter.instance.
-                if (id && !isValidID.test(id) && !id.startsWith(adapter.namespace)) {
-                    id = adapter.namespace + '.' + id;
-                }
+            }
+            // if not starts with adapter.instance.
+            if (id && !isValidID.test(id) && !id.startsWith(adapter.namespace)) {
+                id = adapter.namespace + '.' + id;
             }
 
             if (!ready) {
@@ -487,7 +487,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
@@ -562,7 +562,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.attrname = n.attrname;
@@ -629,7 +629,7 @@ module.exports = function(RED) {
         node.topic = typeof n.topic === 'string' && n.topic.length > 0 ? n.topic.replace(/\//g, '.') : null;
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.objType = n.objType;
