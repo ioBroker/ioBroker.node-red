@@ -227,7 +227,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic)) {
+        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.subscribePattern = node.topic;
@@ -376,7 +376,7 @@ module.exports = function(RED) {
             if (!id) {
                 id = msg.topic;
                 // if not starts with adapter.instance.
-                if (id && !isValidID.test(id)) {
+                if (id && !isValidID.test(id) && !id.startsWith(adapter.namespace)) {
                     id = adapter.namespace + '.' + id;
                 }
             }
@@ -389,7 +389,6 @@ module.exports = function(RED) {
                 id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
-                    id = id.replace(/\//g, '.');
                     if (!id.includes('*') && isValidID.test(id)) {
                         return checkState(node, id, assembleCommon(node, msg, id), {val: msg.payload, ack: node.ack}, isOk => {
                             if (isOk) {
@@ -411,13 +410,23 @@ module.exports = function(RED) {
                 // If not this adapter state
                 if (isForeignState(id)) {
                     // Check if state exists
-                    adapter.getForeignState(id, (err, state) => {
-                        if (!err && state) {
-                            adapter.setForeignState(id, {val: msg.payload, ack: node.ack});
-                            node.status({
-                                fill:  'green',
-                                shape: 'dot',
-                                text:   msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()
+                    adapter.getForeignObject(id, (err, obj) => {
+                        if (!err && obj) {
+                            adapter.setForeignState(id, {val: msg.payload, ack: node.ack}, (err, _id) => {
+                                if (err) {
+                                    node.status({
+                                        fill:  'red',
+                                        shape: 'ring',
+                                        text:   'Error on setForeignState. See Log'
+                                    });
+                                    log('Error on setState for ' + id + ': ' + err);
+                                } else {
+                                    node.status({
+                                        fill: 'green',
+                                        shape: 'dot',
+                                        text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
+                                    });
+                                }
                             });
                         } else {
                             log('State "' + id + '" does not exist in the ioBroker');
@@ -437,11 +446,21 @@ module.exports = function(RED) {
                             text:  'Invalid topic name "' + id + '" for ioBroker'
                         });
                     } else {
-                        setState(id, msg.payload, node.ack);
-                        node.status({
-                            fill: 'green',
-                            shape: 'dot',
-                            text: msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()
+                        setState(id, msg.payload, node.ack, (err, _id) => {
+                            if (err) {
+                                node.status({
+                                    fill:  'red',
+                                    shape: 'ring',
+                                    text:   'Error on setState. See Log'
+                                });
+                                log('Error on setState for ' + id + ': ' + err);
+                            } else {
+                                node.status({
+                                    fill: 'green',
+                                    shape: 'dot',
+                                    text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
+                                });
+                            }
                         });
                     }
                 }
@@ -468,7 +487,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic)) {
+        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
@@ -486,14 +505,14 @@ module.exports = function(RED) {
             node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
         }
 
-        node.getStateValue = function (msg) {
+        node.getStateValue = function (msg, id) {
             return function (err, state) {
                 if (!err && state) {
                     msg[node.attrname] = (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
                     msg.acknowledged   = state.ack;
                     msg.timestamp      = state.ts;
                     msg.lastchange     = state.lc;
-                    msg.topic          = node.topic;
+                    msg.topic          = node.topic || msg.topic;
                     node.status({
                         fill: 'green',
                         shape: 'dot',
@@ -520,9 +539,9 @@ module.exports = function(RED) {
                     id = id.replace(/\//g, '.');
                     // If not this adapter state
                     if (isForeignState(id)) {
-                        adapter.getForeignState(id, node.getStateValue(msg));
+                        adapter.getForeignState(id, node.getStateValue(msg, id));
                     } else {
-                        adapter.getState(id, node.getStateValue(msg));
+                        adapter.getState(id, node.getStateValue(msg, id));
                     }
                 }
             } else {
@@ -543,7 +562,7 @@ module.exports = function(RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic)) {
+        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.attrname = n.attrname;
@@ -563,7 +582,7 @@ module.exports = function(RED) {
             return function (err, state) {
                 if (!err && state) {
                     msg[node.attrname] = state;
-                    msg.topic          = node.topic;
+                    msg.topic          = node.topic || msg.topic;
                     node.status({
                         fill:  'green',
                         shape: 'dot',
@@ -610,7 +629,7 @@ module.exports = function(RED) {
         node.topic = typeof n.topic === 'string' && n.topic.length > 0 ? n.topic.replace(/\//g, '.') : null;
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic)) {
+        if (node.topic && !isValidID.test(node.topic) && !id.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.objType = n.objType;
