@@ -384,8 +384,7 @@ module.exports = function(RED) {
             if (!ready) {
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
                 nodeSets.push({node, msg});
-            } else
-            if (id) {
+            } else if (id) {
                 id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
