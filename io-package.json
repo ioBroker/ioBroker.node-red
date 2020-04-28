@@ -1,182 +1,194 @@
 {
-  "common": {
-    "name": "node-red",
-    "version": "1.17.1",
-    "title": "node-red",
-    "news": {
-      "1.16.5": {
-        "en": "Caught errors if state deleted",
-        "de": "Fehler beim Löschen des Status",
-        "ru": "Выявлены ошибки, если состояние удалено",
-        "pt": "Erros detectados se o estado foi excluído",
-        "nl": "Gevangen fouten als status is verwijderd",
-        "fr": "Erreurs détectées si l'état est supprimé",
-        "it": "Errori rilevati se lo stato è stato eliminato",
-        "es": "Errores atrapados si se borra el estado",
-        "pl": "Złapane błędy, jeśli stan został usunięty",
-        "zh-cn": "如果状态被删除则引发错误"
-      },
-      "1.16.4": {
-        "en": "update dependencies, updated Node-Red to 1.0.4",
-        "de": "Abhängigkeiten aktualisieren, Node-Red auf 1.0.4 aktualisiert",
-        "ru": "обновить зависимости, обновлен Node-Red до 1.0.4",
-        "pt": "atualizar dependências, atualizado Node-Red para 1.0.4",
-        "nl": "update afhankelijkheden, update Node-Red naar 1.0.4",
-        "fr": "mise à jour des dépendances, mise à jour de Node-Red vers 1.0.4",
-        "it": "aggiornare le dipendenze, aggiornato Node-Red alla 1.0.4",
-        "es": "actualizar dependencias, actualizado Node-Red a 1.0.4",
-        "pl": "zaktualizuj zależności, zaktualizowano Node-Red do wersji 1.0.4",
-        "zh-cn": "更新依赖项，将Node-Red更新为1.0.4"
-      },
-      "1.15.0": {
-        "en": "Allowed the creation of foreign objects\nAdded state unit, min and max for ioBroker out node",
-        "de": "Erlaubt die Erstellung von Foregin-Objekten\nState Unit, Min und Max für ioBroker Out Node hinzugefügt",
-        "ru": "Разрешено создание посторонних предметов\nДобавлена единица состояния, мин и макс для узла ioBroker out",
-        "pt": "Permitiu a criação de objetos estranhos\nUnidade de estado adicionada, min e max para o nó de saída ioBroker",
-        "nl": "Staat het maken van vreemde objecten toe\nStaatseenheid, min en max toegevoegd voor ioBroker-uitknooppunt",
-        "fr": "Autorisé la création d'objets étrangers\nUnité d'état ajoutée, min et max pour le nœud de sortie ioBroker",
-        "it": "Ha permesso la creazione di oggetti estranei\nAggiunta unità di stato, min e max per nodo ioBroker out",
-        "es": "Permitió la creación de objetos extraños.\nUnidad de estado agregada, min y max para el nodo de salida ioBroker",
-        "pl": "Pozwolił na tworzenie obcych obiektów\nDodano jednostkę stanu, min i max dla węzła wyjściowego ioBroker",
-        "zh-cn": "允许创建异物\n为ioBroker out节点添加了状态单位，最小值和最大值"
-      },
-      "1.14.0": {
-        "en": "Hide some parameters if not enable create object",
-        "de": "Blenden Sie einige Parameter aus, wenn Sie das Erstellen von Objekten nicht aktivieren",
-        "ru": "Скрыть некоторые параметры, если не включить создание объекта",
-        "pt": "Ocultar alguns parâmetros, se não habilitar, criar objeto",
-        "nl": "Verberg enkele parameters indien niet, maak object aan",
-        "fr": "Masquer certains paramètres sinon activer créer un objet",
-        "it": "Nascondere alcuni parametri se non abilitare la creazione di oggetti",
-        "es": "Ocultar algunos parámetros si no habilita crear objeto",
-        "pl": "Ukryj niektóre parametry, jeśli nie, utwórz obiekt",
-        "zh-cn": "如果不启用创建对象，则隐藏一些参数"
-      },
-      "1.13.2": {
-        "en": "Set state name, role, type and readonly state in node and msg",
-        "de": "Legen Sie den Statusnamen, die Rolle, den Typ und den schreibgeschützten Status in Node und msg fest",
-        "ru": "Установить имя состояния, роль, тип и состояние только для чтения в узле и сообщении",
-        "pt": "Definir nome do estado, função, tipo e estado somente leitura no nó e na mensagem",
-        "nl": "Stel de statusnaam, rol, type en alleen-lezen staat in knooppunt en msg",
-        "fr": "Définir le nom de l'état, le rôle, le type et l'état en lecture seule dans le noeud et le msg",
-        "it": "Imposta il nome dello stato, il ruolo, il tipo e lo stato di sola lettura nel nodo e nel messaggio",
-        "es": "Establezca el nombre del estado, el rol, el tipo y el estado de solo lectura en el nodo y el mensaje",
-        "pl": "Ustaw nazwę stanu, rolę, typ i stan tylko do odczytu w węźle i msg",
-        "zh-cn": "在节点和消息中设置状态名称，角色，类型和只读状态"
-      },
-      "1.13.1": {
-        "en": "Elevated logging for debug-nodes",
-        "de": "Erhöhte Protokollierung für Debugknoten",
-        "ru": "Повышенное ведение журнала для отладочных узлов",
-        "pt": "Registro elevado para nós de depuração",
-        "nl": "Verhoogde logging voor debug-knooppunten",
-        "fr": "Journalisation élevée pour les nœuds de débogage",
-        "it": "Registrazione elevata per nodi di debug",
-        "es": "Registro elevado para nodos de depuración",
-        "pl": "Podwyższone rejestrowanie dla węzłów debugowania",
-        "zh-cn": "调试节点的提升日志记录"
-      },
-      "1.13.0": {
-        "en": "Get Object node added",
-        "de": "Objektknoten abrufen hinzugefügt",
-        "ru": "Добавлен узел Get Object",
-        "pt": "Adição do nó Objeto",
-        "nl": "Objectknooppunt toegevoegd",
-        "fr": "Obtenir le noeud d'objet ajouté",
-        "it": "Ottieni nodo oggetto aggiunto",
-        "es": "Obtener nodo de objeto agregado",
-        "pl": "Pobierz węzeł obiektu",
-        "zh-cn": "获取对象节点已添加"
-      },
-      "1.12.0": {
-        "en": "upgrade to nodered 1.0 and allow to enable projects feature via admin",
-        "de": "aktualisiere auf nodered 1.0 und erlaube, die projektfunktion über admin zu aktivieren",
-        "ru": "обновить до версии 1.0 и разрешить включение проектов через администратора",
-        "pt": "atualizar para a versão 1.0 e permitir ativar o recurso de projetos via admin",
-        "nl": "upgrade naar nodered 1.0 en sta projecten toe om via admin in te schakelen",
-        "fr": "mise à niveau vers nodered 1.0 et permettre d'activer la fonctionnalité de projets via admin",
-        "it": "eseguire l'aggiornamento a nodered 1.0 e consentire di abilitare la funzione progetti tramite admin",
-        "es": "actualice a nodered 1.0 y permita habilitar la función de proyectos a través del administrador",
-        "pl": "uaktualnij do nodered 1.0 i pozwól włączyć funkcję projektów przez administratora",
-        "zh-cn": "升级到nodered 1.0，并允许通过管理员启用项目功能"
-      },
-      "1.10.1": {
-        "en": "better handle object checks on initialization of the nodes",
-        "de": "Objektprüfungen bei der Initialisierung der Nodes besser handhaben",
-        "ru": "лучше обрабатывать проверки объектов при инициализации узлов",
-        "pt": "lidar melhor com verificações de objetos na inicialização dos nós",
-        "nl": "beter omgaan met objectcontroles bij initialisatie van de knooppunten",
-        "fr": "mieux gérer les vérifications d'objet lors de l'initialisation des nœuds",
-        "it": "gestire meglio i controlli degli oggetti sull'inizializzazione dei nodi",
-        "es": "manejar mejor las comprobaciones de objetos en la inicialización de los nodos",
-        "pl": "lepiej obsługiwać sprawdzanie obiektów przy inicjalizacji węzłów",
-        "zh-cn": "更好地处理节点初始化时的对象检查"
-      }
+    "common": {
+        "name": "node-red",
+        "version": "1.17.2",
+        "title": "node-red",
+        "news": {
+            "1.17.2": {
+                "en": "node-red updated to 1.0.6, several fixes and optimizations",
+                "de": "Node-Red aktualisiert auf 1.0.6, mehrere Korrekturen und Optimierungen",
+                "ru": "нод-красный обновлен до 1.0.6, несколько исправлений и оптимизаций",
+                "pt": "node-red atualizado para 1.0.6, várias correções e otimizações",
+                "nl": "knooppunt-rood bijgewerkt naar 1.0.6, verschillende fixes en optimalisaties",
+                "fr": "node-red mis à jour vers 1.0.6, plusieurs correctifs et optimisations",
+                "it": "node-red aggiornato alla 1.0.6, diverse correzioni e ottimizzazioni",
+                "es": "nodo rojo actualizado a 1.0.6, varias correcciones y optimizaciones",
+                "pl": "node-red zaktualizowany do 1.0.6, kilka poprawek i optymalizacji",
+                "zh-cn": "节点红色已更新至1.0.6，并进行了一些修复和优化"
+            },
+            "1.16.5": {
+                "en": "Caught errors if state deleted",
+                "de": "Fehler beim Löschen des Status",
+                "ru": "Выявлены ошибки, если состояние удалено",
+                "pt": "Erros detectados se o estado foi excluído",
+                "nl": "Gevangen fouten als status is verwijderd",
+                "fr": "Erreurs détectées si l'état est supprimé",
+                "it": "Errori rilevati se lo stato è stato eliminato",
+                "es": "Errores atrapados si se borra el estado",
+                "pl": "Złapane błędy, jeśli stan został usunięty",
+                "zh-cn": "如果状态被删除则引发错误"
+            },
+            "1.16.4": {
+                "en": "update dependencies, updated Node-Red to 1.0.4",
+                "de": "Abhängigkeiten aktualisieren, Node-Red auf 1.0.4 aktualisiert",
+                "ru": "обновить зависимости, обновлен Node-Red до 1.0.4",
+                "pt": "atualizar dependências, atualizado Node-Red para 1.0.4",
+                "nl": "update afhankelijkheden, update Node-Red naar 1.0.4",
+                "fr": "mise à jour des dépendances, mise à jour de Node-Red vers 1.0.4",
+                "it": "aggiornare le dipendenze, aggiornato Node-Red alla 1.0.4",
+                "es": "actualizar dependencias, actualizado Node-Red a 1.0.4",
+                "pl": "zaktualizuj zależności, zaktualizowano Node-Red do wersji 1.0.4",
+                "zh-cn": "更新依赖项，将Node-Red更新为1.0.4"
+            },
+            "1.15.0": {
+                "en": "Allowed the creation of foreign objects\nAdded state unit, min and max for ioBroker out node",
+                "de": "Erlaubt die Erstellung von Foregin-Objekten\nState Unit, Min und Max für ioBroker Out Node hinzugefügt",
+                "ru": "Разрешено создание посторонних предметов\nДобавлена единица состояния, мин и макс для узла ioBroker out",
+                "pt": "Permitiu a criação de objetos estranhos\nUnidade de estado adicionada, min e max para o nó de saída ioBroker",
+                "nl": "Staat het maken van vreemde objecten toe\nStaatseenheid, min en max toegevoegd voor ioBroker-uitknooppunt",
+                "fr": "Autorisé la création d'objets étrangers\nUnité d'état ajoutée, min et max pour le nœud de sortie ioBroker",
+                "it": "Ha permesso la creazione di oggetti estranei\nAggiunta unità di stato, min e max per nodo ioBroker out",
+                "es": "Permitió la creación de objetos extraños.\nUnidad de estado agregada, min y max para el nodo de salida ioBroker",
+                "pl": "Pozwolił na tworzenie obcych obiektów\nDodano jednostkę stanu, min i max dla węzła wyjściowego ioBroker",
+                "zh-cn": "允许创建异物\n为ioBroker out节点添加了状态单位，最小值和最大值"
+            },
+            "1.14.0": {
+                "en": "Hide some parameters if not enable create object",
+                "de": "Blenden Sie einige Parameter aus, wenn Sie das Erstellen von Objekten nicht aktivieren",
+                "ru": "Скрыть некоторые параметры, если не включить создание объекта",
+                "pt": "Ocultar alguns parâmetros, se não habilitar, criar objeto",
+                "nl": "Verberg enkele parameters indien niet, maak object aan",
+                "fr": "Masquer certains paramètres sinon activer créer un objet",
+                "it": "Nascondere alcuni parametri se non abilitare la creazione di oggetti",
+                "es": "Ocultar algunos parámetros si no habilita crear objeto",
+                "pl": "Ukryj niektóre parametry, jeśli nie, utwórz obiekt",
+                "zh-cn": "如果不启用创建对象，则隐藏一些参数"
+            },
+            "1.13.2": {
+                "en": "Set state name, role, type and readonly state in node and msg",
+                "de": "Legen Sie den Statusnamen, die Rolle, den Typ und den schreibgeschützten Status in Node und msg fest",
+                "ru": "Установить имя состояния, роль, тип и состояние только для чтения в узле и сообщении",
+                "pt": "Definir nome do estado, função, tipo e estado somente leitura no nó e na mensagem",
+                "nl": "Stel de statusnaam, rol, type en alleen-lezen staat in knooppunt en msg",
+                "fr": "Définir le nom de l'état, le rôle, le type et l'état en lecture seule dans le noeud et le msg",
+                "it": "Imposta il nome dello stato, il ruolo, il tipo e lo stato di sola lettura nel nodo e nel messaggio",
+                "es": "Establezca el nombre del estado, el rol, el tipo y el estado de solo lectura en el nodo y el mensaje",
+                "pl": "Ustaw nazwę stanu, rolę, typ i stan tylko do odczytu w węźle i msg",
+                "zh-cn": "在节点和消息中设置状态名称，角色，类型和只读状态"
+            },
+            "1.13.1": {
+                "en": "Elevated logging for debug-nodes",
+                "de": "Erhöhte Protokollierung für Debugknoten",
+                "ru": "Повышенное ведение журнала для отладочных узлов",
+                "pt": "Registro elevado para nós de depuração",
+                "nl": "Verhoogde logging voor debug-knooppunten",
+                "fr": "Journalisation élevée pour les nœuds de débogage",
+                "it": "Registrazione elevata per nodi di debug",
+                "es": "Registro elevado para nodos de depuración",
+                "pl": "Podwyższone rejestrowanie dla węzłów debugowania",
+                "zh-cn": "调试节点的提升日志记录"
+            },
+            "1.13.0": {
+                "en": "Get Object node added",
+                "de": "Objektknoten abrufen hinzugefügt",
+                "ru": "Добавлен узел Get Object",
+                "pt": "Adição do nó Objeto",
+                "nl": "Objectknooppunt toegevoegd",
+                "fr": "Obtenir le noeud d'objet ajouté",
+                "it": "Ottieni nodo oggetto aggiunto",
+                "es": "Obtener nodo de objeto agregado",
+                "pl": "Pobierz węzeł obiektu",
+                "zh-cn": "获取对象节点已添加"
+            },
+            "1.12.0": {
+                "en": "upgrade to nodered 1.0 and allow to enable projects feature via admin",
+                "de": "aktualisiere auf nodered 1.0 und erlaube, die projektfunktion über admin zu aktivieren",
+                "ru": "обновить до версии 1.0 и разрешить включение проектов через администратора",
+                "pt": "atualizar para a versão 1.0 e permitir ativar o recurso de projetos via admin",
+                "nl": "upgrade naar nodered 1.0 en sta projecten toe om via admin in te schakelen",
+                "fr": "mise à niveau vers nodered 1.0 et permettre d'activer la fonctionnalité de projets via admin",
+                "it": "eseguire l'aggiornamento a nodered 1.0 e consentire di abilitare la funzione progetti tramite admin",
+                "es": "actualice a nodered 1.0 y permita habilitar la función de proyectos a través del administrador",
+                "pl": "uaktualnij do nodered 1.0 i pozwól włączyć funkcję projektów przez administratora",
+                "zh-cn": "升级到nodered 1.0，并允许通过管理员启用项目功能"
+            },
+            "1.10.1": {
+                "en": "better handle object checks on initialization of the nodes",
+                "de": "Objektprüfungen bei der Initialisierung der Nodes besser handhaben",
+                "ru": "лучше обрабатывать проверки объектов при инициализации узлов",
+                "pt": "lidar melhor com verificações de objetos na inicialização dos nós",
+                "nl": "beter omgaan met objectcontroles bij initialisatie van de knooppunten",
+                "fr": "mieux gérer les vérifications d'objet lors de l'initialisation des nœuds",
+                "it": "gestire meglio i controlli degli oggetti sull'inizializzazione dei nodi",
+                "es": "manejar mejor las comprobaciones de objetos en la inicialización de los nodos",
+                "pl": "lepiej obsługiwać sprawdzanie obiektów przy inicjalizacji węzłów",
+                "zh-cn": "更好地处理节点初始化时的对象检查"
+            }
+        },
+        "desc": {
+            "en": "This adapter uses node-red as a service. No additional node-red instance required.",
+            "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
+            "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
+            "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
+            "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
+            "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
+            "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
+            "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
+            "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
+            "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
+        },
+        "authors": [
+            "bluefox <dogafox@gmail.com>"
+        ],
+        "license": "Apache-2.0",
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "messagebox": true,
+        "loglevel": "info",
+        "icon": "node-red.png",
+        "keywords": [
+            "node-red",
+            "logic",
+            "script"
+        ],
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
+        "localLink": "http://%ip%:%port%%httpRoot%",
+        "enabled": true,
+        "singletonHost": true,
+        "supportStopInstance": true,
+        "unsafePerm": true,
+        "materialize": true,
+        "compact": true,
+        "type": "logic",
+        "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
+        "stopBeforeUpdate": true,
+        "adminTab": {
+            "link": "http://%ip%:%port%%httpRoot%",
+            "fa-icon": "settings_input_composite"
+        }
     },
-    "desc": {
-      "en": "This adapter uses node-red as a service. No additional node-red instance required.",
-      "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
-      "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
-      "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
-      "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
-      "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
-      "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
-      "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
-      "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
-      "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
+    "native": {
+        "bind": "0.0.0.0",
+        "port": 1880,
+        "httpRoot": "/",
+        "npmLibs": "",
+        "valueConvert": true,
+        "maxMemory": 128,
+        "user": "",
+        "pass": "",
+        "projectsEnabled": false,
+        "allowCreationOfForeignObjects": false
     },
-    "authors": [
-      "bluefox <dogafox@gmail.com>"
-    ],
-    "license": "Apache-2.0",
-    "platform": "Javascript/Node.js",
-    "mode": "daemon",
-    "messagebox": true,
-    "loglevel": "info",
-    "icon": "node-red.png",
-    "keywords": [
-      "node-red",
-      "logic",
-      "script"
-    ],
-    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-    "localLink": "http://%ip%:%port%%httpRoot%",
-    "enabled": true,
-    "singletonHost": true,
-    "supportStopInstance": true,
-    "unsafePerm": true,
-    "materialize": true,
-    "compact": true,
-    "type": "logic",
-    "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
-    "stopBeforeUpdate": true,
-    "adminTab": {
-      "link": "http://%ip%:%port%%httpRoot%",
-      "fa-icon": "settings_input_composite"
-    }
-  },
-  "native": {
-    "bind": "0.0.0.0",
-    "port": 1880,
-    "httpRoot": "/",
-    "npmLibs": "",
-    "valueConvert": true,
-    "maxMemory": 128,
-    "user": "",
-    "pass": "",
-    "projectsEnabled": false,
-    "allowCreationOfForeignObjects": false
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "",
-      "type": "channel",
-      "common": {
-        "name": "States created by node-red.%INSTANCE%",
-        "role": "info"
-      },
-      "native": {}
-    }
-  ]
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "",
+            "type": "channel",
+            "common": {
+                "name": "States created by node-red.%INSTANCE%",
+                "role": "info"
+            },
+            "native": {}
+        }
+    ]
 }
