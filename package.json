@@ -1,58 +1,58 @@
 {
-  "name": "iobroker.node-red",
-  "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "1.16.5",
-  "author": {
-    "name": "bluefox",
-    "email": "dogafox@gmail.com"
-  },
-  "contributors": [
-    {
-      "name": "bluefox",
-      "email": "dogafox@gmail.com"
-    }
-  ],
-  "homepage": "https://github.com/ioBroker/ioBroker.node-red",
-  "license": "Apache-2.0",
-  "keywords": [
-    "ioBroker",
-    "node-red",
-    "home automation"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ioBroker/ioBroker.node-red"
-  },
-  "optionalDependencies": {
-    "js2xmlparser": "^4.0.1",
-    "fs.notify": "^0.0.4",
-    "feedparser": "^2.2.9",
-    "mongodb": "^3.5.4"
-  },
-  "dependencies": {
-    "node-red": "^1.0.4",
-    "node-red-contrib-os": "^0.1.7",
-    "node-red-dashboard": "^2.19.4",
-    "node-red-contrib-aggregator": "^1.5.0",
-    "node-red-contrib-polymer": "^0.0.22",
-    "node-red-node-email": "^1.7.7",
-    "node-red-node-feedparser": "^0.1.15",
-    "node-red-node-sentiment": "^0.1.6",
-    "node-red-node-twitter": "^1.1.6",
-    "@iobroker/adapter-core": "^2.2.1"
-  },
-  "devDependencies": {
-    "gulp": "^4.0.2",
-    "request": "^2.88.2",
-    "mocha": "^7.1.0",
-    "chai": "^4.2.0"
-  },
-  "bugs": {
-    "url": "https://github.com/ioBroker/ioBroker.node-red/issues"
-  },
-  "main": "main.js",
-  "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --exit"
-  },
-  "readmeFilename": "README.md"
+    "name": "iobroker.node-red",
+    "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
+    "version": "1.17.2",
+    "author": {
+        "name": "bluefox",
+        "email": "dogafox@gmail.com"
+    },
+    "contributors": [
+        {
+            "name": "bluefox",
+            "email": "dogafox@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/ioBroker/ioBroker.node-red",
+    "license": "Apache-2.0",
+    "keywords": [
+        "ioBroker",
+        "node-red",
+        "home automation"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ioBroker/ioBroker.node-red"
+    },
+    "optionalDependencies": {
+        "js2xmlparser": "^4.0.1",
+        "fs.notify": "^0.0.4",
+        "feedparser": "^2.2.9",
+        "mongodb": "^3.5.6"
+    },
+    "dependencies": {
+        "node-red": "^1.0.6",
+        "node-red-contrib-os": "^0.1.7",
+        "node-red-dashboard": "^2.22.1",
+        "node-red-contrib-aggregator": "^1.5.0",
+        "node-red-contrib-polymer": "^0.0.22",
+        "node-red-node-email": "^1.7.8",
+        "node-red-node-feedparser": "^0.1.16",
+        "node-red-node-sentiment": "^0.1.6",
+        "node-red-node-twitter": "^1.1.6",
+        "@iobroker/adapter-core": "^2.3.1"
+    },
+    "devDependencies": {
+        "gulp": "^4.0.2",
+        "request": "^2.88.2",
+        "mocha": "^7.1.2",
+        "chai": "^4.2.0"
+    },
+    "bugs": {
+        "url": "https://github.com/ioBroker/ioBroker.node-red/issues"
+    },
+    "main": "main.js",
+    "scripts": {
+        "test": "node node_modules/mocha/bin/mocha --exit"
+    },
+    "readmeFilename": "README.md"
 }
