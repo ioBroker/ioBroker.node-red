@@ -20,10 +20,13 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 - Safe mode - Flows will not be started and you can edit the flows to fix some overload problem.
 
 ## Changelog
-### 1.17.0 (2020-04-27) WIP
-* (Apollon77) check object and not state to detect if a object exists
+### 1.17.2 (2020-04-29)
+* (Apollon77) check object and not state to detect if an object exists
 * (Apollon77) update node-red to 1.0.6 and deps
-* (jwiesel) Updated settings.js to incorporate latest changes up to Node-RED 1.0.4
+* (Apollon77) make sure adapter namespace is prepended in all situations and so correct objects are created
+* (Apollon77) fix crash cases
+* (Apollon77) make sure msg topic is not overwritten by null 
+* (jwiesel) Updated settings.js to incorporate latest changes up to Node-RED 1.0.6
 * (jwiesel) Replaced HTTP basic authentication by Node-RED login form (adminAuth)
 * (jwiesel) Replaced MD5 password hashing by bcrypt.js as recommended in the Node-RED security guide.
 
