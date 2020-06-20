@@ -16,7 +16,7 @@
 
 // The `https` setting requires the `fs` module. Uncomment the following
 // to make it available:
-'%%secure%%'var fs = require("fs");
+'%%secure%%'var fs = require('fs');
 
 module.exports = {
     // the tcp port that the Node-RED web server is listening on
@@ -278,6 +278,9 @@ module.exports = {
         projects: {
             // To enable the Projects feature, set this value to true
             enabled: '%%projectsEnabled%%'
+        },
+        palette: {
+            editable: false
         }
     }
-}
+};
