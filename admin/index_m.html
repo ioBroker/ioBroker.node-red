@@ -11,6 +11,7 @@
 <script type="text/javascript" src="../../js/translate.js"></script>
 <script type="text/javascript" src="../../lib/js/materialize.js"></script>
 <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="bcrypt.min.js"></script>
 <script type="text/javascript" src="words.js"></script>
 
 <script type="text/javascript">
@@ -202,8 +203,10 @@
         });
 
         if (obj.pass) {
+            var bcrypt = dcodeIO.bcrypt;
             if (obj.pass !== '__pass__') {
-                obj.pass = MD5(obj.pass);
+                obj.pass = bcrypt.hashSync(obj.pass, 8);
+                //obj.pass = MD5(obj.pass);
             } else {
                 obj.pass = oldPass;
             }
