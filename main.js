@@ -214,16 +214,16 @@ function startNodeRed() {
     });
 
     redProcess.stderr.on('data', data => {
-		if (!data) {
-		    return;
+        if (!data) {
+            return;
         }
-		if (data[0]) {
+        if (data[0]) {
             let text = '';
-			for (let i = 0; i < data.length; i++) {
-				text += String.fromCharCode(data[i]);
-			}
-			data = text;
-		}
+            for (let i = 0; i < data.length; i++) {
+                text += String.fromCharCode(data[i]);
+            }
+            data = text;
+        }
         if (data.indexOf && data.indexOf('[warn]') === -1) {
             adapter.log.warn(data);
         } else {
@@ -264,6 +264,9 @@ function writeSettings() {
 	    JSON.stringify({type: 'credentials', users: [], default: {permissions: '*'}});
 	
     const pass = '"' + adapter.config.pass + '"';
+    const secure = adapter.config.secure ? '' : '// ';
+    const certFile = adapter.config.certPublic ? userDataDir + adapter.config.certPublic + '.crt' : '';
+    const keyFile = adapter.config.certPrivate ? userDataDir + adapter.config.certPrivate + '.key' : '';
 
     for (let a = 0; a < additional.length; a++) {
         if (additional[a].startsWith('node-red-')) {
@@ -275,24 +278,36 @@ function writeSettings() {
         }
     }
 
-	// update from 1.0.1 (new convert-option)
-	if (adapter.config.valueConvert === null      ||
+    // update from 1.0.1 (new convert-option)
+    if (adapter.config.valueConvert === null      ||
         adapter.config.valueConvert === undefined ||
         adapter.config.valueConvert === ''        ||
         adapter.config.valueConvert === 'true'    ||
         adapter.config.valueConvert === '1'       ||
         adapter.config.valueConvert === 1) {
-		adapter.config.valueConvert = true;
-	}
+        adapter.config.valueConvert = true;
+    }
     if (adapter.config.valueConvert === 0   ||
         adapter.config.valueConvert === '0' ||
         adapter.config.valueConvert === 'false') {
         adapter.config.valueConvert = false;
     }
+
+    // write certificates, if defined
+    if (adapter.config.certPublic && adapter.config.certPrivate) {
+        adapter.getCertificates((err, certificates) => {
+            fs.writeFileSync(certFile, certificates.cert);
+            fs.writeFileSync(keyFile, certificates.key);
+        });
+    }
+        
     for (let i = 0; i < lines.length; i++) {
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'auth', auth);
         lines[i] = setOption(lines[i], 'pass', pass);
+        lines[i] = setOption(lines[i], 'secure', secure);
+        lines[i] = setOption(lines[i], 'certPrivate', keyFile);
+        lines[i] = setOption(lines[i], 'certPublic', certFile);
         lines[i] = setOption(lines[i], 'bind', bind);
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'instance', adapter.instance);

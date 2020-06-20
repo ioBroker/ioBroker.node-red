@@ -127,6 +127,21 @@
         });
     }
 
+
+    function showHideSettings() {
+        var $secure = $('#secure');
+
+        if ($secure.prop('checked')) {
+            $('.col-certPublic').show();
+            $('.col-certPrivate').show();
+            $('#s').attr("value", "s");
+        } else {
+            $('.col-certPublic').hide();
+            $('.col-certPrivate').hide();
+            $('#s').attr("value", "");
+        }
+    }
+
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
         if (!settings) return;
@@ -188,7 +203,17 @@
                 $('#update').addClass('disabled');
             }
         });
+
+        $('#secure').on('change', function () {
+            showHideSettings();
+            onChange();
+        });
         onChange(false);
+
+        fillSelectCertificates('#certPublic',  'public',  settings.certPublic);
+        fillSelectCertificates('#certPrivate', 'private', settings.certPrivate);
+
+        showHideSettings();
     }
 
     function save(callback) {
@@ -210,6 +235,11 @@
             } else {
                 obj.pass = oldPass;
             }
+        }
+
+        if ($('#secure').prop('checked') && (!$('#certPrivate').val() || !$('#certPublic').val())) {
+            showToast(null, _('Set certificates or load it first in the system settings (right top).'));
+            return;
         }
 
         common.npmLibs = chips2list('.libraries');
@@ -241,6 +271,21 @@
                 <div class="input-field col s12 m4 l2">
                     <input class="value" id="port" type="number" min="1" max="65565"/>
                     <label class="translate" for="port">Web server port:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4">
+                    <input class="value" id="secure" type="checkbox" />
+                    <label class="translate" for="secure">Secure(HTTPS):</label>
+                    <input class="value" id="s" type="hidden" value="" />
+                </div>
+                <div class="col s12 m4 col-certPublic">
+                    <select id="certPublic" class="value"></select>
+                    <label class="translate" for="certPublic">Public certificate:</label>
+                </div>
+                <div class="col s12 m4 col-certPrivate">
+                    <select id="certPrivate" class="value"></select>
+                    <label class="translate" for="certPrivate">Private certificate:</label>
                 </div>
             </div>
             <div class="row">
