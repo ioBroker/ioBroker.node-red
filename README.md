@@ -25,6 +25,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 * (jwiesel) Updated settings.js to incorporate latest changes up to Node-RED 1.0.6
 * (jwiesel) Replaced HTTP basic authentication by Node-RED login form (adminAuth)
 * (jwiesel) Replaced MD5 password hashing by bcrypt.js as recommended in the Node-RED security guide.
+* (bluefox) Hide the palette manager so all the packets must be installed via ioBroker configuration dialog 
 
 **Caution: For those who already used Node-Red authentication: Please set your password in the Node-Red instance settings in ioBroker again! Otherwise you cannot login to Node-Red any longer after the upgrade.**
 
