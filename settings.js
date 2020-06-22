@@ -280,7 +280,7 @@ module.exports = {
             enabled: '%%projectsEnabled%%'
         },
         palette: {
-            editable: false
+            editable: '%%palletmanagerEnabled%%'
         }
     }
 };

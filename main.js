@@ -318,6 +318,7 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'credentialSecret', secret);
         lines[i] = setOption(lines[i], 'valueConvert');
         lines[i] = setOption(lines[i], 'projectsEnabled', adapter.config.projectsEnabled);
+        lines[i] = setOption(lines[i], 'palletmanagerEnabled', adapter.config.palletmanagerEnabled);
         lines[i] = setOption(lines[i], 'allowCreationOfForeignObjects', adapter.config.allowCreationOfForeignObjects);
     }
 

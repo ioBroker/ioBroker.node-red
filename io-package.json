@@ -189,6 +189,7 @@
         "user": "",
         "pass": "",
         "projectsEnabled": false,
+        "palletmanagerEnabled": false,
         "allowCreationOfForeignObjects": false
     },
     "objects": [],

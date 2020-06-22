@@ -142,6 +142,23 @@
         }
     }
 
+    function showHideBackupWarning() {
+        var $palletmanagerEnabled = $('#palletmanagerEnabled');
+        var $projectsEnabled = $('#projectsEnabled');
+
+        if($palletmanagerEnabled.prop('checked')) {
+            $('.npmModules').hide();
+        } else {
+            $('.npmModules').show();
+        }
+
+        if ($palletmanagerEnabled.prop('checked') || $projectsEnabled.prop('checked')) {
+            $('.backupWarn').show();
+        } else {
+            $('.backupWarn').hide();
+        }
+    }
+
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
         if (!settings) return;
@@ -163,6 +180,9 @@
         }
         if (settings.projectsEnabled === undefined) {
             settings.projectsEnabled = false;
+        }
+        if (settings.palletmanagerEnabled === undefined) {
+            settings.palletmanagerEnabled = false;
         }
         oldPass = settings.pass;
         if (settings.pass) {
@@ -213,7 +233,18 @@
         fillSelectCertificates('#certPublic',  'public',  settings.certPublic);
         fillSelectCertificates('#certPrivate', 'private', settings.certPrivate);
 
+        $('#palletmanagerEnabled').on('change', function () {
+            showHideBackupWarning();
+            onChange();
+        });
+
+        $('#projectsEnabled').on('change', function () {
+            showHideBackupWarning();
+            onChange();
+        });
+
         showHideSettings();
+        showHideBackupWarning();
     }
 
     function save(callback) {
@@ -257,7 +288,20 @@
                     <img src="node-red.png" class="logo" alt="logo"/>
                 </div>
             </div>
+            <div class="row backupWarn">
+                <div class="col s12">
+                    <div class="card-panel red">
+                        <span class="white-text translate">Backups will not contain any projects or modules installed via the Palletmanager!</span>
+                    </div>
+                </div>
+            </div>
             <div class="row">
+                <div class="col s12 m4">
+                    <input class="value" id="palletmanagerEnabled" type="checkbox" />
+                    <label class="translate" for="palletmanagerEnabled">Use palletmanager:</label>
+                </div>
+            </div>
+            <div class="row npmModules">
                 <div class="input-field col s12 m8 l6">
                     <label class="translate">Additional npm modules:</label>
                     <div class="chips libraries"></div>
