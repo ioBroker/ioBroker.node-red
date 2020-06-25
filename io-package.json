@@ -184,6 +184,8 @@
         "port": 1880,
         "secure": false,
         "s": "",
+        "certPublic": "",
+        "certPrivate": "",
         "httpRoot": "/",
         "npmLibs": "",
         "valueConvert": true,
