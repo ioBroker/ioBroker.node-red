@@ -164,7 +164,7 @@
             "script"
         ],
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-        "localLink": "http://%ip%:%port%%httpRoot%",
+        "localLink": "http%s%://%ip%:%port%%httpRoot%",
         "enabled": true,
         "singletonHost": true,
         "supportStopInstance": true,
@@ -175,13 +175,15 @@
         "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
         "stopBeforeUpdate": true,
         "adminTab": {
-            "link": "http://%ip%:%port%%httpRoot%",
+            "link": "http%s%://%ip%:%port%%httpRoot%",
             "fa-icon": "settings_input_composite"
         }
     },
     "native": {
         "bind": "0.0.0.0",
         "port": 1880,
+        "secure": false,
+        "s": "",
         "httpRoot": "/",
         "npmLibs": "",
         "valueConvert": true,
