@@ -37,7 +37,6 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     adapter.on('message', obj => obj && obj.command && processMessage(obj));
-
     adapter.on('ready', () => installLibraries(main));
 
     return adapter;
@@ -70,11 +69,13 @@ function installNpm(npmLib, callback) {
 
 function installLibraries(callback) {
     let allInstalled = true;
+    
     if (typeof adapter.common.npmLibs === 'string') {
         adapter.common.npmLibs = adapter.common.npmLibs.split(/[,;\s]+/);
     }
 
-    if (adapter.common && adapter.common.npmLibs) {
+    if (adapter.common && adapter.common.npmLibs && !adapter.config.palletmanagerEnabled) {
+        adapter.log.error('install: ' + JSON.stringify(adapter.common.npmLibs));
         for (let lib = 0; lib < adapter.common.npmLibs.length; lib++) {
             if (adapter.common.npmLibs[lib] && adapter.common.npmLibs[lib].trim()) {
                 adapter.common.npmLibs[lib] = adapter.common.npmLibs[lib].trim();
@@ -318,6 +319,7 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'credentialSecret', secret);
         lines[i] = setOption(lines[i], 'valueConvert');
         lines[i] = setOption(lines[i], 'projectsEnabled', adapter.config.projectsEnabled);
+        lines[i] = setOption(lines[i], 'palletmanagerEnabled', adapter.config.palletmanagerEnabled);
         lines[i] = setOption(lines[i], 'allowCreationOfForeignObjects', adapter.config.allowCreationOfForeignObjects);
     }
 

@@ -52,5 +52,13 @@ systemDictionary = {
         "es": "Modo seguro",
         "pl": "Tryb bezpieczeństwa",
         "zh-cn": "安全模式"
+    },
+    "Use palletmanager:": {
+        "en": "Use palletmanager",
+        "de": "Palletenmanager benutzen"
+    },
+    "Backups will not contain any projects or modules installed via the Palletmanager": {
+        "en": "Backups will not contain any projects or modules installed via the Palletmanager!",
+        "de": "Backups enthalten keine Projekte und auch keine Module die mit dem Palletenmanager installiert sind."
     }
 };
