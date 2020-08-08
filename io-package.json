@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "title": "node-red",
         "news": {
+            "2.0.1": {
+                "en": "Updated settings.js, node-red and dependencies to latest version.",
+                "de": "Aktualisierte settings.js, Node-Red und Abhängigkeiten zur neuesten Version.",
+                "ru": "Обновлены settings.js, node-red и зависимости до последней версии.",
+                "pt": "Settings.js, node-red e dependencies atualizados para a versão mais recente.",
+                "nl": "Bijgewerkte settings.js, node-red en afhankelijkheden naar de nieuwste versie.",
+                "fr": "Mise à jour de settings.js, node-red et dépendances vers la dernière version.",
+                "it": "Aggiornato settings.js, node-red e dipendenze all'ultima versione.",
+                "es": "Se actualizaron settings.js, node-red y dependencias a la última versión.",
+                "pl": "Zaktualizowano settings.js, node-red i zależności do najnowszej wersji.",
+                "zh-cn": "将settings.js，node-red和依赖项更新到最新版本。"
+            },
             "2.0.0": {
                 "en": "Checked object and non-states to detect if an object exists\nUpdated settings.js to incorporate latest changes up to Node-RED 1.0.6\nReplaced HTTP basic authentication by Node-RED login form (adminAuth)\nReplaced MD5 password hashing by bcrypt.js as recommended in the Node-RED security guide.\nBreaking change: For those who already used Node-Red authentication: Please set your password in the Node-Red instance settings in ioBroker again! Otherwise you cannot login to Node-Red any longer after the upgrade.**\n",
                 "de": "Überprüftes Objekt und Nichtzustände, um festzustellen, ob ein Objekt vorhanden ist\nDie Datei settings.js wurde aktualisiert, um die neuesten Änderungen bis zu Node-RED 1.0.6 zu berücksichtigen\nErsetzte HTTP-Basisauthentifizierung durch Node-RED-Anmeldeformular (adminAuth)\nErsetzt das MD5-Kennwort-Hashing durch bcrypt.js, wie im Node-RED-Sicherheitshandbuch empfohlen.\nAktuelle Änderung: Für diejenigen, die bereits die Node-Red-Authentifizierung verwendet haben: Bitte legen Sie Ihr Passwort in den Node-Red-Instanzeinstellungen in ioBroker erneut fest! Andernfalls können Sie sich nach dem Upgrade nicht mehr bei Node-Red anmelden. **\n",
