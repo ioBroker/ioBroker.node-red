@@ -311,4 +311,4 @@ module.exports = {
             editable: '%%palletmanagerEnabled%%'
         }
     }
-}
+};
