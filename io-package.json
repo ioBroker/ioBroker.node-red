@@ -175,7 +175,7 @@
         "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
         "stopBeforeUpdate": true,
         "adminTab": {
-            "link": "http%s%://%ip%:%port%%httpRoot%",
+            "link": "%protocol%://%ip%:%port%%httpRoot%",
             "fa-icon": "settings_input_composite"
         }
     },
@@ -183,7 +183,6 @@
         "bind": "0.0.0.0",
         "port": 1880,
         "secure": false,
-        "s": "",
         "certPublic": "",
         "certPrivate": "",
         "httpRoot": "/",
