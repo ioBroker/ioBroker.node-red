@@ -21,7 +21,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 <!--
 	Placeholder for the next version (at the beginning of the line):
-### __WORK IN PROGRESS__
+    ### __WORK IN PROGRESS__
 -->
 
 ## Changelog
