@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "title": "node-red",
         "news": {
+            "2.0.2": {
+                "en": "Updated settings.js, node-red and dependencies to latest version.",
+                "de": "Aktualisierte settings.js, Node-Red und Abhängigkeiten zur neuesten Version.",
+                "ru": "Обновлены settings.js, node-red и зависимости до последней версии.",
+                "pt": "Settings.js, node-red e dependencies atualizados para a versão mais recente.",
+                "nl": "Bijgewerkte settings.js, node-red en afhankelijkheden naar de nieuwste versie.",
+                "fr": "Mise à jour de settings.js, node-red et dépendances vers la dernière version.",
+                "it": "Aggiornato settings.js, node-red e dipendenze all'ultima versione.",
+                "es": "Se actualizó settings.js, node-red y dependencias a la última versión.",
+                "pl": "Zaktualizowano settings.js, node-red i zależności do najnowszej wersji.",
+                "zh-cn": "将settings.js，node-red和依赖项更新到最新版本。"
+            },
             "2.0.1": {
                 "en": "Updated settings.js, node-red and dependencies to latest version.",
                 "de": "Aktualisierte settings.js, Node-Red und Abhängigkeiten zur neuesten Version.",
