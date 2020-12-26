@@ -201,7 +201,12 @@
         "adminTab": {
             "link": "%protocol%://%ip%:%port%%httpRoot%",
             "fa-icon": "settings_input_composite"
-        }
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
     },
     "native": {
         "bind": "0.0.0.0",
