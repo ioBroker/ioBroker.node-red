@@ -699,6 +699,7 @@ module.exports = function(RED) {
                                         msg.payload = ids;
                                         if (node.withValues) {
                                             msg.payload = msg.payload.map(id => {
+                                                values[id] = values[id] || {};
                                                 values[id]._id = id;
                                                 return values[id];
                                             });
