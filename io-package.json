@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "2.0.2",
+        "version": "2.0.3",
         "title": "node-red",
         "news": {
+            "2.0.3": {
+                "en": "make sure empty state values do not crash list node",
+                "de": "Stellen Sie sicher, dass leere Statuswerte den Listenknoten nicht zum Absturz bringen",
+                "ru": "убедитесь, что пустые значения состояния не приводят к сбою узла списка",
+                "pt": "certifique-se de que os valores de estado vazio não travem o nó da lista",
+                "nl": "zorg ervoor dat lege statuswaarden het knooppunt van de lijst niet laten crashen",
+                "fr": "assurez-vous que les valeurs d'état vides ne plantent pas le nœud de liste",
+                "it": "assicurarsi che i valori di stato vuoto non blocchino il nodo dell'elenco",
+                "es": "asegúrese de que los valores de estado vacíos no bloqueen el nodo de la lista",
+                "pl": "upewnij się, że puste wartości stanu nie powodują awarii węzła listy",
+                "zh-cn": "确保空状态值不会使列表节点崩溃"
+            },
             "2.0.2": {
                 "en": "Updated settings.js, node-red and dependencies to latest version.",
                 "de": "Aktualisierte settings.js, Node-Red und Abhängigkeiten zur neuesten Version.",
