@@ -43,13 +43,12 @@ function startAdapter(options) {
 }
 
 function installNpm(npmLib, callback) {
-    const path = __dirname;
     if (typeof npmLib === 'function') {
         callback = npmLib;
         npmLib = undefined;
     }
 
-    const cmd = 'npm install ' + npmLib + ' --production --prefix "' + path + '" --save';
+    const cmd = 'npm install ' + npmLib + ' --production --prefix "' + userDataDir + '" --save';
     adapter.log.info(cmd + ' (System call)');
     // Install node modules as system call
 
@@ -74,12 +73,24 @@ function installLibraries(callback) {
         adapter.common.npmLibs = adapter.common.npmLibs.split(/[,;\s]+/);
     }
 
+    // Find userdata directory
+
+    // normally /opt/iobroker/node_modules/iobroker.js-controller
+    // but can be /example/ioBroker.js-controller
+    const controllerDir = utils.controllerDir;
+    const parts = controllerDir.split('/');
+    if (parts.length > 1 && parts[parts.length - 2] === 'node_modules') {
+        parts.splice(parts.length - 2, 2);
+        userDataDir = parts.join('/');
+        userDataDir += '/iobroker-data/node-red/';
+    }
+
     if (adapter.common && adapter.common.npmLibs && !adapter.config.palletmanagerEnabled) {
         adapter.log.error('install: ' + JSON.stringify(adapter.common.npmLibs));
         for (let lib = 0; lib < adapter.common.npmLibs.length; lib++) {
             if (adapter.common.npmLibs[lib] && adapter.common.npmLibs[lib].trim()) {
                 adapter.common.npmLibs[lib] = adapter.common.npmLibs[lib].trim();
-                if (!fs.existsSync(__dirname + '/node_modules/' + adapter.common.npmLibs[lib] + '/package.json')) {
+                if (!fs.existsSync(userDataDir + '/node_modules/' + adapter.common.npmLibs[lib] + '/package.json')) {
 
                     if (!attempts[adapter.common.npmLibs[lib]]) {
                         attempts[adapter.common.npmLibs[lib]] = 1;
@@ -440,18 +451,6 @@ function installNotifierCreds(isFirst) {
 function main() {
     if (adapter.config.projectsEnabled === undefined) adapter.config.projectsEnabled = false;
     if (adapter.config.allowCreationOfForeignObjects === undefined) adapter.config.allowCreationOfForeignObjects = false;
-
-    // Find userdata directory
-
-    // normally /opt/iobroker/node_modules/iobroker.js-controller
-    // but can be /example/ioBroker.js-controller
-    const controllerDir = utils.controllerDir;
-    const parts = controllerDir.split('/');
-    if (parts.length > 1 && parts[parts.length - 2] === 'node_modules') {
-        parts.splice(parts.length - 2, 2);
-        userDataDir = parts.join('/');
-        userDataDir += '/iobroker-data/node-red/';
-    }
 
     // create userData directory
     if (!fs.existsSync(userDataDir)) {
