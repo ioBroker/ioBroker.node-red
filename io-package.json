@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "2.0.3",
+        "version": "2.0.4",
         "title": "node-red",
         "news": {
+            "2.0.4": {
+                "en": "Fixed node-red modules installation",
+                "de": "Installation der knotenroten Module behoben",
+                "ru": "Установка фиксированных модулей node-red",
+                "pt": "Instalação corrigida de módulos de nó vermelho",
+                "nl": "Installatie van vaste knooppunt-rode modules",
+                "fr": "Installation de modules fixes avec nœud rouge",
+                "it": "Risolto il problema con l'installazione dei moduli rosso-nodo",
+                "es": "Instalación de módulos fijos node-red",
+                "pl": "Naprawiono instalację modułów w węzłach czerwonych",
+                "zh-cn": "固定节点红色模块的安装"
+            },
             "2.0.3": {
                 "en": "make sure empty state values do not crash list node",
                 "de": "Stellen Sie sicher, dass leere Statuswerte den Listenknoten nicht zum Absturz bringen",

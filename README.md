@@ -25,7 +25,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 -->
 
 ## Changelog
-### __WORK IN PROGRESS__
+### 2.0.4 (2021-01-20)
 * (withstu) Fixed node-red modules installation
 
 ### 2.0.3 (2020-12-27)
