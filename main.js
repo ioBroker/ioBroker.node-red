@@ -2,7 +2,7 @@
  *
  *      ioBroker node-red Adapter
  *
- *      (c) 2014-2020 bluefox<bluefox@ccu.io>
+ *      (c) 2014-2021 bluefox<bluefox@ccu.io>
  *
  *      Apache 2.0 License
  *
@@ -48,7 +48,7 @@ function installNpm(npmLib, callback) {
         npmLib = undefined;
     }
 
-    const cmd = 'npm install ' + npmLib + ' --production --prefix "' + userDataDir + '" --save';
+    const cmd = `npm install ${npmLib} --production --prefix "${userDataDir}" --save`;
     adapter.log.info(cmd + ' (System call)');
     // Install node modules as system call
 
@@ -60,7 +60,7 @@ function installNpm(npmLib, callback) {
     child.stderr.on('data', buf => adapter.log.error(buf.toString('utf8')));
 
     child.on('exit', (code, signal) => {
-        code && adapter.log.error('Cannot install ' + npmLib + ': ' + code);
+        code && adapter.log.error(`Cannot install ${npmLib}: ${code}`);
         // command succeeded
         callback && callback(npmLib);
     });
@@ -68,7 +68,7 @@ function installNpm(npmLib, callback) {
 
 function installLibraries(callback) {
     let allInstalled = true;
-    
+
     if (typeof adapter.common.npmLibs === 'string') {
         adapter.common.npmLibs = adapter.common.npmLibs.split(/[,;\s]+/);
     }
@@ -77,8 +77,7 @@ function installLibraries(callback) {
 
     // normally /opt/iobroker/node_modules/iobroker.js-controller
     // but can be /example/ioBroker.js-controller
-    const controllerDir = utils.controllerDir;
-    const parts = controllerDir.split('/');
+    const parts = utils.controllerDir.split('/');
     if (parts.length > 1 && parts[parts.length - 2] === 'node_modules') {
         parts.splice(parts.length - 2, 2);
         userDataDir = parts.join('/');
@@ -90,7 +89,7 @@ function installLibraries(callback) {
         for (let lib = 0; lib < adapter.common.npmLibs.length; lib++) {
             if (adapter.common.npmLibs[lib] && adapter.common.npmLibs[lib].trim()) {
                 adapter.common.npmLibs[lib] = adapter.common.npmLibs[lib].trim();
-                if (!fs.existsSync(userDataDir + '/node_modules/' + adapter.common.npmLibs[lib] + '/package.json')) {
+                if (!fs.existsSync(`${userDataDir}/node_modules/${adapter.common.npmLibs[lib]}/package.json`)) {
 
                     if (!attempts[adapter.common.npmLibs[lib]]) {
                         attempts[adapter.common.npmLibs[lib]] = 1;
@@ -121,7 +120,7 @@ function installLibraries(callback) {
 // is called if a subscribed state changes
 //adapter.on('stateChange', function (id, state) {
 //});
-function unloadRed (callback) {
+function unloadRed(callback) {
     // Stop node-red
     stopping = true;
     if (redProcess) {
@@ -138,7 +137,7 @@ function unloadRed (callback) {
 function processMessage(obj) {
     switch (obj.command) {
         case 'update':
-            writeStateList(error => 
+            writeStateList(error =>
                 obj.callback && adapter.sendTo(obj.from, obj.command, error, obj.callback));
             break;
 
@@ -253,7 +252,7 @@ function startNodeRed() {
 }
 
 function setOption(line, option, value) {
-    const toFind = "'%%" + option + "%%'";
+    const toFind = `'%%${option}%%'`;
     const pos = line.indexOf(toFind);
     if (pos !== -1) {
         return line.substring(0, pos) + ((value !== undefined) ? value : (adapter.config[option] === null || adapter.config[option] === undefined) ? '' : adapter.config[option]) + line.substring(pos + toFind.length);
@@ -270,11 +269,11 @@ function writeSettings() {
     const nodesDir = '"' + __dirname.replace(/\\/g, '/') + '/nodes/"';
 
     const bind = '"' + (adapter.config.bind || '0.0.0.0') + '"';
-	
-    const auth = adapter.config.user && adapter.config.pass ? 
-	    JSON.stringify({type: 'credentials', users: [{username: adapter.config.user, password: adapter.config.pass, permissions: '*'}]}) : 
+
+    const auth = adapter.config.user && adapter.config.pass ?
+	    JSON.stringify({type: 'credentials', users: [{username: adapter.config.user, password: adapter.config.pass, permissions: '*'}]}) :
 	    JSON.stringify({type: 'credentials', users: [], default: {permissions: '*'}});
-	
+
     const pass = '"' + adapter.config.pass + '"';
     const secure = adapter.config.secure ? '' : '// ';
     const certFile = adapter.config.certPublic ? userDataDir + adapter.config.certPublic + '.crt' : '';
@@ -284,7 +283,7 @@ function writeSettings() {
         if (additional[a].startsWith('node-red-')) {
             continue;
         }
-        npms += '        "' + additional[a] + '": require("' + dir + additional[a] + '")';
+        npms += `        "${additional[a]}": require("${dir}${additional[a]}")`;
         if (a !== additional.length - 1) {
             npms += ', \r\n';
         }
@@ -312,7 +311,7 @@ function writeSettings() {
             fs.writeFileSync(keyFile, certificates.key);
         });
     }
-        
+
     for (let i = 0; i < lines.length; i++) {
         lines[i] = setOption(lines[i], 'port');
         lines[i] = setOption(lines[i], 'auth', auth);
@@ -368,7 +367,7 @@ function saveObjects() {
             cred = JSON.parse(fs.readFileSync(userDataDir + 'flows_cred.json'));
         }
     } catch(e) {
-        adapter.log.error('Cannot save ' + userDataDir + 'flows_cred.json');
+        adapter.log.error(`Cannot save ${userDataDir}flows_cred.json`);
     }
     try {
         if (fs.existsSync(userDataDir + 'flows.json')) {
@@ -389,7 +388,7 @@ function saveObjects() {
             },
             type: 'config'
         },
-        () => adapter.log.info('Save ' + userDataDir + 'flows.json')
+        () => adapter.log.info(`Save ${userDataDir}flows.json`)
     );
 }
 
