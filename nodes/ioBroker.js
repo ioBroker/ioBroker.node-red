@@ -1,6 +1,6 @@
 /**
  * Copyright 2014-2020 bluefox <dogafox@gmail.com>.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,7 +17,7 @@
 module.exports = function(RED) {
     'use strict';
     // patch event emitter
-    require('events').EventEmitter.prototype._maxListeners = 1000;
+    require('events').EventEmitter.prototype._maxListeners = 10000;
 
     const utils        = require('@iobroker/adapter-core');
     const settings     = require(process.env.NODE_RED_HOME + '/lib/red').settings;
@@ -36,6 +36,9 @@ module.exports = function(RED) {
         adapter = utils.Adapter({name: 'node-red', instance, config});
     } catch(e) {
         console.log(e);
+    }
+    if (typeof adapter.setMaxListeners === 'function') {
+        adapter.setMaxListeners(10000);
     }
     const nodeSets = [];
     const checkStates = [];
