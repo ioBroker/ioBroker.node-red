@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "node-red",
-        "version": "2.0.4",
+        "version": "2.1.0",
         "title": "node-red",
         "news": {
+            "2.1.0": {
+                "en": "Try to fix the MaxSubscribes error when having many nodes\nUpdate to node-red 1.2.8",
+                "de": "Versuchen Sie, den MaxSubscribes-Fehler zu beheben, wenn Sie viele Knoten haben\nUpdate auf Node-Red 1.2.8",
+                "ru": "Попытайтесь исправить ошибку MaxSubscribes при большом количестве узлов\nОбновление до node-red 1.2.8",
+                "pt": "Tente corrigir o erro MaxSubscribes quando tiver muitos nós\nAtualização para node-red 1.2.8",
+                "nl": "Probeer de MaxSubscribes-fout op te lossen als u veel knooppunten heeft\nUpdate naar node-red 1.2.8",
+                "fr": "Essayez de corriger l'erreur MaxSubscribes lorsque vous avez plusieurs nœuds\nMise à jour vers node-red 1.2.8",
+                "it": "Prova a correggere l'errore MaxSubscribes quando hai molti nodi\nAggiornamento a node-red 1.2.8",
+                "es": "Intente corregir el error de MaxSubscribes cuando tenga muchos nodos\nActualización a node-red 1.2.8",
+                "pl": "Spróbuj naprawić błąd MaxSubscribes, gdy masz wiele węzłów\nAktualizacja do wersji node-red 1.2.8",
+                "zh-cn": "有多个节点时尝试修复MaxSubscribes错误\n更新到节点红色1.2.8"
+            },
             "2.0.4": {
                 "en": "Fixed node-red modules installation",
                 "de": "Installation der knotenroten Module behoben",
