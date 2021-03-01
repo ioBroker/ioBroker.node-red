@@ -27,7 +27,7 @@
     "js2xmlparser": "^4.0.1",
     "fs.notify": "^0.0.4",
     "feedparser": "^2.2.10",
-    "mongodb": "^3.6.3"
+    "mongodb": "^3.6.4"
   },
   "dependencies": {
     "node-red": "^1.2.8",
