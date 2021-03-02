@@ -30,7 +30,7 @@
     "mongodb": "^3.6.4"
   },
   "dependencies": {
-    "node-red": "^1.2.8",
+    "node-red": "^1.2.9",
     "node-red-contrib-os": "^0.2.0",
     "node-red-dashboard": "^2.27.0",
     "node-red-contrib-aggregator": "^1.5.0",
