@@ -669,79 +669,136 @@ module.exports = function(RED) {
             };
         };
 
-        node.on('input', msg => {
+        node.on('input', async msg => {
             let pattern = node.topic || msg.topic;
             if (!ready) {
                 nodeSets.push({node, msg});
             } else if (pattern) {
                 pattern = pattern.replace(/\//g, '.');
-                adapter.getForeignObjects(pattern, (err, list) => {
-                    if (!err) {
-                        list = list || {};
-                        if (node.objType) {
-                            const newList = {};
-                            Object.keys(list).forEach(id => {
-                                if (list[id].type === node.objType) {
-                                    newList[id] = list[id];
-                                }
-                            });
-                            list = newList;
-                        }
-                        if (node.regex) {
-                            const newList = {};
-                            Object.keys(list).forEach(id => {
-                                if (node.regex.test(id)) {
-                                    newList[id] = list[id];
-                                }
-                            });
-                            list = newList;
-                        }
 
-                        const ids = Object.keys(list);
+                let list = {};
+                // Adds result rows to the return object
+                /** @param {any[] | undefined} rows */
+                const addRows = rows => {
+                    if (rows) {
+                        for (const {id, value} of rows) {
+                            list[id] = value;
+                        }
+                    }
+                };
 
-                        adapter.getForeignStatesAsync(!node.withValues ? [] : ids)
-                            .then(values => {
-                                if (node.asArray) {
-                                    if (node.onlyIDs) {
-                                        msg.payload = ids;
-                                        if (node.withValues) {
-                                            msg.payload = msg.payload.map(id => {
-                                                values[id] = values[id] || {};
-                                                values[id]._id = id;
-                                                return values[id];
-                                            });
-                                        }
-                                    } else {
-                                        let newList = [];
-                                        ids.forEach(id => newList.push(list[id]));
-                                        // Add states values if required
-                                        node.withValues && newList.forEach(el => Object.assign(el, values[el._id] || {}));
-                                        msg.payload = newList;
-                                    }
-                                    node.send(msg);
-                                } else {
-                                    // every ID as one message
-                                    const _msg = JSON.parse(JSON.stringify(msg));
-                                    ids.forEach((id, i) => {
-                                        const __msg = !i ? msg : JSON.parse(JSON.stringify(_msg));
-                                        __msg.topic = id;
-                                        if (!node.onlyIDs) {
-                                            __msg.payload = list[id];
-                                        }
-                                        // Add states values if required
-                                        if (node.withValues) {
-                                            if (typeof __msg.payload !== 'object' || __msg.payload === null) {
-                                                __msg.payload = {};
-                                            }
-                                            node.withValues && Object.assign(__msg.payload, values[id]);
-                                        }
-                                        node.send(__msg);
+                if (!adapterObjects) {
+                    return tools.maybeCallback(callback, ret);
+                }
+
+                try {
+                    if (!node.objType || node.objType === 'folder') {
+                        const folders = await adapter.getForeignObjects(pattern, 'folder');
+                        addRows(folders.rows);
+                    }
+                } catch {
+                    /* ignore, we'll return what we get till now */
+                }
+                try {
+                    if (!node.objType || node.objType === 'device') {
+                        const devices = await adapter.getForeignObjects(pattern, 'device');
+                        addRows(devices.rows);
+                    }
+                } catch {
+                    /* ignore, we'll return what we get till now */
+                }
+                try {
+                    if (!node.objType || node.objType === 'channel') {
+                        const channels = await adapter.getForeignObjects(pattern, 'channel');
+                        addRows(channels.rows);
+                    }
+                } catch {
+                    /* ignore, we'll return what we get till now */
+                }
+                try {
+                    if (!node.objType || node.objType === 'state') {
+                        const states = await adapter.getForeignObjects(pattern, 'state');
+                        addRows(states.rows);
+                    }
+                } catch {
+                    /* ignore, we'll return what we get till now */
+                }
+                try {
+                    if (!node.objType || node.objType === 'meta') {
+                        const states = await adapter.getForeignObjects(pattern, 'meta');
+                        addRows(states.rows);
+                    }
+                } catch {
+                    /* ignore, we'll return what we get till now */
+                }
+                try {
+                    if (!node.objType || node.objType === 'instance') {
+                        const states = await adapter.getForeignObjects(pattern, 'instance');
+                        addRows(states.rows);
+                    }
+                } catch {
+                    /* ignore, we'll return what we get till now */
+                }
+                try {
+                    if (!node.objType || node.objType === 'adapter') {
+                        const states = await adapter.getForeignObjects(pattern, 'adapter');
+                        addRows(states.rows);
+                    }
+                } catch {
+                    /* ignore, we'll return what we get till now */
+                }
+
+                if (node.regex) {
+                    const newList = {};
+                    Object.keys(list).forEach(id => {
+                        if (node.regex.test(id)) {
+                            newList[id] = list[id];
+                        }
+                    });
+                    list = newList;
+                }
+
+                const ids = Object.keys(list);
+
+                adapter.getForeignStatesAsync(!node.withValues ? [] : ids)
+                    .then(values => {
+                        if (node.asArray) {
+                            if (node.onlyIDs) {
+                                msg.payload = ids;
+                                if (node.withValues) {
+                                    msg.payload = msg.payload.map(id => {
+                                        values[id] = values[id] || {};
+                                        values[id]._id = id;
+                                        return values[id];
                                     });
                                 }
+                            } else {
+                                let newList = [];
+                                ids.forEach(id => newList.push(list[id]));
+                                // Add states values if required
+                                node.withValues && newList.forEach(el => Object.assign(el, values[el._id] || {}));
+                                msg.payload = newList;
+                            }
+                            node.send(msg);
+                        } else {
+                            // every ID as one message
+                            const _msg = JSON.parse(JSON.stringify(msg));
+                            ids.forEach((id, i) => {
+                                const __msg = !i ? msg : JSON.parse(JSON.stringify(_msg));
+                                __msg.topic = id;
+                                if (!node.onlyIDs) {
+                                    __msg.payload = list[id];
+                                }
+                                // Add states values if required
+                                if (node.withValues) {
+                                    if (typeof __msg.payload !== 'object' || __msg.payload === null) {
+                                        __msg.payload = {};
+                                    }
+                                    node.withValues && Object.assign(__msg.payload, values[id]);
+                                }
+                                node.send(__msg);
                             });
-                    } else {
-                        log('Cannot get list of objects for "' + pattern + '": ' + err);
-                    }
+                        }
                 });
             } else {
                 node.warn('No pattern set');
