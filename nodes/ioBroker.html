@@ -448,6 +448,10 @@ RED.nodes.registerType('ioBroker get', {
     <p>Connects to a ioBroker and returns the list of IDs for pattern.
     The filter can be defined in topic as "node-red.0.*" or in msg.topic.
     Additionally you can provide regular expression to filter received list.
+    </br></br>
+    If only ID's is set to "Returns only IDs of object" then only the msg.topic
+    is modified in the output messages and the original payload is added to each message.</br>
+    If only ID's is set to "Returns whole objects" then payload will contain the objects
     </p>
 </script>
 
