@@ -682,6 +682,7 @@ module.exports = function(RED) {
                 const addRows = rows => {
                     if (rows) {
                         for (const {id, value} of rows) {
+                            log('AddRow: ' + id);
                             list[id] = value;
                         }
                     }
@@ -689,6 +690,7 @@ module.exports = function(RED) {
 
                 try {
                     if (!node.objType || node.objType === 'folder') {
+                        log('Add folders');
                         const folders = await adapter.getForeignObjects(pattern, 'folder');
                         addRows(folders);
                     }
@@ -697,6 +699,7 @@ module.exports = function(RED) {
                 }
                 try {
                     if (!node.objType || node.objType === 'device') {
+                        log('Add devices');
                         const devices = await adapter.getForeignObjects(pattern, 'device');
                         addRows(devices);
                     }
@@ -705,6 +708,7 @@ module.exports = function(RED) {
                 }
                 try {
                     if (!node.objType || node.objType === 'channel') {
+                        log('Add channels');
                         const channels = await adapter.getForeignObjects(pattern, 'channel');
                         addRows(channels);
                     }
@@ -713,6 +717,7 @@ module.exports = function(RED) {
                 }
                 try {
                     if (!node.objType || node.objType === 'state') {
+                        log('Add states');
                         const states = await adapter.getForeignObjects(pattern, 'state');
                         addRows(states);
                     }
@@ -721,6 +726,7 @@ module.exports = function(RED) {
                 }
                 try {
                     if (!node.objType || node.objType === 'meta') {
+                        log('Add metas');
                         const metas = await adapter.getForeignObjects(pattern, 'meta');
                         addRows(metas);
                     }
@@ -729,6 +735,7 @@ module.exports = function(RED) {
                 }
                 try {
                     if (!node.objType || node.objType === 'instance') {
+                        log('Add instances');
                         const instances = await adapter.getForeignObjects(pattern, 'instance');
                         addRows(instances);
                     }
@@ -737,12 +744,15 @@ module.exports = function(RED) {
                 }
                 try {
                     if (!node.objType || node.objType === 'adapter') {
+                        log('Add adapters');
                         const adapters = await adapter.getForeignObjects(pattern, 'adapter');
                         addRows(adapters);
                     }
                 } catch {
                     /* ignore, we'll return what we get till now */
                 }
+
+                log('Full set ids: ' + JSON.stringify(Object.keys(list)));
 
                 if (node.regex) {
                     const newList = {};
