@@ -691,7 +691,7 @@ module.exports = function(RED) {
                 try {
                     if (!node.objType || node.objType === 'folder') {
                         log('Add folders');
-                        const folders = await adapter.getForeignObjects(pattern, 'folder');
+                        const folders = await adapter.getForeignObjectsAsync(pattern, 'folder');
                         addRows(folders);
                     }
                 } catch {
@@ -700,7 +700,7 @@ module.exports = function(RED) {
                 try {
                     if (!node.objType || node.objType === 'device') {
                         log('Add devices');
-                        const devices = await adapter.getForeignObjects(pattern, 'device');
+                        const devices = await adapter.getForeignObjectsAsync(pattern, 'device');
                         addRows(devices);
                     }
                 } catch {
@@ -709,7 +709,7 @@ module.exports = function(RED) {
                 try {
                     if (!node.objType || node.objType === 'channel') {
                         log('Add channels');
-                        const channels = await adapter.getForeignObjects(pattern, 'channel');
+                        const channels = await adapter.getForeignObjectsAsync(pattern, 'channel');
                         addRows(channels);
                     }
                 } catch {
@@ -718,7 +718,7 @@ module.exports = function(RED) {
                 try {
                     if (!node.objType || node.objType === 'state') {
                         log('Add states');
-                        const states = await adapter.getForeignObjects(pattern, 'state');
+                        const states = await adapter.getForeignObjectsAsync(pattern, 'state');
                         addRows(states);
                     }
                 } catch {
@@ -727,7 +727,7 @@ module.exports = function(RED) {
                 try {
                     if (!node.objType || node.objType === 'meta') {
                         log('Add metas');
-                        const metas = await adapter.getForeignObjects(pattern, 'meta');
+                        const metas = await adapter.getForeignObjectsAsync(pattern, 'meta');
                         addRows(metas);
                     }
                 } catch {
@@ -736,7 +736,7 @@ module.exports = function(RED) {
                 try {
                     if (!node.objType || node.objType === 'instance') {
                         log('Add instances');
-                        const instances = await adapter.getForeignObjects(pattern, 'instance');
+                        const instances = await adapter.getForeignObjectsAsync(pattern, 'instance');
                         addRows(instances);
                     }
                 } catch {
@@ -745,7 +745,7 @@ module.exports = function(RED) {
                 try {
                     if (!node.objType || node.objType === 'adapter') {
                         log('Add adapters');
-                        const adapters = await adapter.getForeignObjects(pattern, 'adapter');
+                        const adapters = await adapter.getForeignObjectsAsync(pattern, 'adapter');
                         addRows(adapters);
                     }
                 } catch {
