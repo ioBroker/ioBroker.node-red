@@ -682,7 +682,6 @@ module.exports = function(RED) {
                 const addRows = rows => {
                     if (rows) {
                         for (let id in rows) {
-                            log('AddRow: ' + id);
                             list[id] = rows[id];
                         }
                     }
@@ -690,83 +689,67 @@ module.exports = function(RED) {
 
                 try {
                     if (!node.objType || node.objType === 'folder') {
-                        log('Add folders');
                         const folders = await adapter.getForeignObjectsAsync(pattern, 'folder');
-                        log('Res: ' + JSON.stringify(folders));
                         addRows(folders);
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('ERR: ' + err);
+                    log('Error while requesting folders: ' + err);
                 }
                 try {
                     if (!node.objType || node.objType === 'device') {
-                        log('Add devices');
                         const devices = await adapter.getForeignObjectsAsync(pattern, 'device');
-                        log('Res: ' + JSON.stringify(devices));
                         addRows(devices);
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('ERR: ' + err);
+                    log('Error while requesting devices: ' + err);
                 }
                 try {
                     if (!node.objType || node.objType === 'channel') {
-                        log('Add channels');
                         const channels = await adapter.getForeignObjectsAsync(pattern, 'channel');
-                        log('Res: ' + JSON.stringify(channels));
                         addRows(channels);
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('ERR: ' + err);
+                    log('Error while requesting channels: ' + err);
                 }
                 try {
                     if (!node.objType || node.objType === 'state') {
-                        log('Add states');
                         const states = await adapter.getForeignObjectsAsync(pattern, 'state');
-                        log('Res: ' + JSON.stringify(states));
                         addRows(states);
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('ERR: ' + err);
+                    log('Error while requesting states: ' + err);
                 }
                 try {
                     if (!node.objType || node.objType === 'meta') {
-                        log('Add metas');
                         const metas = await adapter.getForeignObjectsAsync(pattern, 'meta');
-                        log('Res: ' + JSON.stringify(metas));
                         addRows(metas);
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('ERR: ' + err);
+                    log('Error while requesting metas: ' + err);
                 }
                 try {
                     if (!node.objType || node.objType === 'instance') {
-                        log('Add instances');
                         const instances = await adapter.getForeignObjectsAsync(pattern, 'instance');
-                        log('Res: ' + JSON.stringify(instances));
                         addRows(instances);
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('ERR: ' + err);
+                    log('Error while requesting instances: ' + err);
                 }
                 try {
                     if (!node.objType || node.objType === 'adapter') {
-                        log('Add adapters');
                         const adapters = await adapter.getForeignObjectsAsync(pattern, 'adapter');
-                        log('Res: ' + JSON.stringify(adapters));
                         addRows(adapters);
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('ERR: ' + err);
+                    log('Error while requesting adapters: ' + err);
                 }
-
-                log('Full set ids: ' + JSON.stringify(Object.keys(list)));
 
                 if (node.regex) {
                     const newList = {};
@@ -814,7 +797,7 @@ module.exports = function(RED) {
                                     if (typeof __msg.payload !== 'object' || __msg.payload === null) {
                                         __msg.payload = {};
                                     }
-                                    node.withValues && Object.assign(__msg.payload, values[id]);
+                                    Object.assign(__msg.payload, values[id]);
                                 }
                                 node.send(__msg);
                             });
