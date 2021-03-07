@@ -681,9 +681,9 @@ module.exports = function(RED) {
                 /** @param {any[] | undefined} rows */
                 const addRows = rows => {
                     if (rows) {
-                        for (const {id, value} of rows) {
+                        for (let id in rows) {
                             log('AddRow: ' + id);
-                            list[id] = value;
+                            list[id] = rows[id];
                         }
                     }
                 };
