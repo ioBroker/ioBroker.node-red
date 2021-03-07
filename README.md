@@ -26,6 +26,12 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
 
+### __WORK IN PROGRESS__
+* (Apollon77/mickym2) Correct readonly flags. IMPORTANT: Notw Readonly works as it should be. If you worked around the issue before please adjust your nodes!
+* (Apollon77) Fix using wildcards inside the id
+* (Apollon77) Update value on out node trigger 
+* (Apollon77) Update to node-red 1.2.9
+
 ### 2.1.0 (2021-02-04)
 * (Apollon77) Try to fix the MaxSubscribes error when having many nodes
 * (Apollon77) Update to node-red 1.2.8

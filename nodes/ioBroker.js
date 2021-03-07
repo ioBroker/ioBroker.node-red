@@ -97,8 +97,8 @@ module.exports = function(RED) {
         if (pattern[0] !== '*') {
             pattern = '^' + pattern;
         }
-        pattern = pattern.replace(/\*/g, '[a-zA-Z0-9.\s]');
         pattern = pattern.replace(/\./g, '\\.');
+        pattern = pattern.replace(/\*/g, '.*');
         return new RegExp(pattern);
     }
 
@@ -177,7 +177,7 @@ module.exports = function(RED) {
             type:  node.objectPreDefinedType     || msg.stateType || typeof msg.payload || 'string'
         };
         if (msg.stateReadonly !== undefined) {
-            common.write = !(msg.stateReadonly === false || msg.stateReadonly === 'false');
+            common.write = (msg.stateReadonly === false || msg.stateReadonly === 'false');
         }
 
         if (node.objectPreDefinedUnit || msg.stateUnit) {
@@ -207,7 +207,7 @@ module.exports = function(RED) {
             node.objectPreDefinedRole     = n.role;
             node.objectPreDefinedType     = n.payloadType;
             node.objectPreDefinedName     = n.stateName || '';
-            node.objectPreDefinedReadonly = !(n.readonly === 'false' || n.readonly === false);
+            node.objectPreDefinedReadonly = (n.readonly === 'false' || n.readonly === false);
             node.objectPreDefinedUnit     = n.stateUnit;
             node.objectPreDefinedMin      = n.stateMin;
             node.objectPreDefinedMax      = n.stateMax;
@@ -359,18 +359,18 @@ module.exports = function(RED) {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
         }
 
-        function setState(id, val, ack) {
+        function setState(id, val, ack, callback) {
             if (node.idChecked) {
                 if (val !== undefined && val !== '__create__') {
                     // If not this adapter state
                     if (isForeignState(id)) {
-                        adapter.setForeignState(id, {val, ack});
+                        adapter.setForeignState(id, {val, ack}, callback);
                     } else {
-                        adapter.setState(id, {val, ack});
+                        adapter.setState(id, {val, ack}, callback);
                     }
                 }
             } else {
-                checkState(node, id, null, {val, ack});
+                checkState(node, id, null, {val, ack}, isOk => callback && callback(!isOk));
             }
         }
 
