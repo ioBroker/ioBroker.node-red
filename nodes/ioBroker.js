@@ -687,10 +687,6 @@ module.exports = function(RED) {
                     }
                 };
 
-                if (!adapterObjects) {
-                    return tools.maybeCallback(callback, ret);
-                }
-
                 try {
                     if (!node.objType || node.objType === 'folder') {
                         const folders = await adapter.getForeignObjects(pattern, 'folder');
