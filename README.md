@@ -31,6 +31,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 * (Apollon77) Fix using wildcards inside the id
 * (Apollon77) Update value on out node trigger 
 * (Apollon77) Update to node-red 1.2.9
+* (Apollon77) Add triggering in Nodes when delayed initialization on start
 
 ### 2.1.0 (2021-02-04)
 * (Apollon77) Try to fix the MaxSubscribes error when having many nodes

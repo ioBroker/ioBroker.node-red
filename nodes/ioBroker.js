@@ -63,6 +63,10 @@ module.exports = function(RED) {
             existingNodes.forEach(node => {
                 if (node instanceof IOBrokerInNode) {
                     adapter.on('stateChange', node.stateChange);
+                    if (node.fireOnStart && !node.topic.includes('*')) {
+                        adapter.getForeignState(node.topic, (err, state) =>
+                            node.stateChange(node.topic, state));
+                    }
                 }
                 node.subscribePattern && adapter.subscribeForeignStates(node.subscribePattern);
                 node.status({fill: 'green', shape: 'dot', text: 'connected'});
