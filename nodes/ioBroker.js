@@ -410,6 +410,7 @@ module.exports = function(RED) {
                                     text:  'Cannot set state'
                                 });
                             }
+                            node.done();
                         });
                     }
                 }
@@ -433,6 +434,7 @@ module.exports = function(RED) {
                                         text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
                                     });
                                 }
+                                node.done();
                             });
                         } else {
                             log('State "' + id + '" does not exist in the ioBroker');
@@ -441,6 +443,7 @@ module.exports = function(RED) {
                                 shape: 'ring',
                                 text:   'State "' + id + '" does not exist in the ioBroker'
                             });
+                            node.done();
                         }
                     });
                 } else {
@@ -451,6 +454,7 @@ module.exports = function(RED) {
                             shape: 'ring',
                             text:  'Invalid topic name "' + id + '" for ioBroker'
                         });
+                        node.done();
                     } else {
                         setState(id, msg.payload, node.ack, (err, _id) => {
                             if (err) {
@@ -467,6 +471,7 @@ module.exports = function(RED) {
                                     text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
                                 });
                             }
+                            node.done();
                         });
                     }
                 }
@@ -477,6 +482,7 @@ module.exports = function(RED) {
                     shape: 'ring',
                     text:  'No key or topic set'
                 });
+                node.done();
             }
         });
 
@@ -528,6 +534,7 @@ module.exports = function(RED) {
                 } else {
                     log('State "' + id + '" does not exist in the ioBroker');
                 }
+                node.done();
             };
         };
 
@@ -545,14 +552,15 @@ module.exports = function(RED) {
                     id = id.replace(/\//g, '.');
                     // If not this adapter state
                     if (isForeignState(id)) {
-                        adapter.getForeignState(id, node.getStateValue(msg, id));
+                        return adapter.getForeignState(id, node.getStateValue(msg, id));
                     } else {
-                        adapter.getState(id, node.getStateValue(msg, id));
+                        return adapter.getState(id, node.getStateValue(msg, id));
                     }
                 }
             } else {
                 node.warn('No key or topic set');
             }
+            node.done();
         });
 
         node.on('close', () => onClose(node));
@@ -598,6 +606,7 @@ module.exports = function(RED) {
                 } else {
                     log('Object "' + id + '" does not exist in the ioBroker');
                 }
+                node.done();
             };
         };
 
@@ -614,14 +623,15 @@ module.exports = function(RED) {
                     // If not this adapter state
                     if (isForeignState(id)) {
                         // Check if state exists
-                        adapter.getForeignObject(id, node.getObject(msg));
+                        return adapter.getForeignObject(id, node.getObject(msg));
                     } else {
-                        adapter.getObject(id, node.getObject(msg));
+                        return adapter.getObject(id, node.getObject(msg));
                     }
                 }
             } else {
                 node.warn('No key or topic set');
             }
+            node.done();
         });
 
         node.on('close', () => onClose(node));
@@ -666,6 +676,7 @@ module.exports = function(RED) {
                 } else {
                     log('Object "' + id + '" does not exist in the ioBroker');
                 }
+                node.done();
             };
         };
 
@@ -763,7 +774,7 @@ module.exports = function(RED) {
 
                 const ids = Object.keys(list);
 
-                adapter.getForeignStatesAsync(!node.withValues ? [] : ids)
+                return adapter.getForeignStatesAsync(!node.withValues ? [] : ids)
                     .then(values => {
                         if (node.asArray) {
                             if (node.onlyIDs) {
@@ -802,10 +813,12 @@ module.exports = function(RED) {
                                 node.send(__msg);
                             });
                         }
+                        node.done();
                 });
             } else {
                 node.warn('No pattern set');
             }
+            node.done();
         });
 
         node.on('close', () => onClose(node));
