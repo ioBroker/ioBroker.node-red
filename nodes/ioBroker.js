@@ -534,7 +534,6 @@ module.exports = function(RED) {
                 } else {
                     log('State "' + id + '" does not exist in the ioBroker');
                 }
-                node.done();
             };
         };
 
@@ -560,7 +559,6 @@ module.exports = function(RED) {
             } else {
                 node.warn('No key or topic set');
             }
-            node.done();
         });
 
         node.on('close', () => onClose(node));
@@ -606,7 +604,6 @@ module.exports = function(RED) {
                 } else {
                     log('Object "' + id + '" does not exist in the ioBroker');
                 }
-                node.done();
             };
         };
 
@@ -631,7 +628,6 @@ module.exports = function(RED) {
             } else {
                 node.warn('No key or topic set');
             }
-            node.done();
         });
 
         node.on('close', () => onClose(node));
@@ -676,7 +672,6 @@ module.exports = function(RED) {
                 } else {
                     log('Object "' + id + '" does not exist in the ioBroker');
                 }
-                node.done();
             };
         };
 
@@ -813,12 +808,10 @@ module.exports = function(RED) {
                                 node.send(__msg);
                             });
                         }
-                        node.done();
                 });
             } else {
                 node.warn('No pattern set');
             }
-            node.done();
         });
 
         node.on('close', () => onClose(node));
