@@ -1,0 +1,21 @@
+{
+    "Add module": "添加模块",
+    "Additional npm modules:": "额外的npm模块",
+    "Allow creation of foreign objects": "允许创建异物",
+    "Backups will not contain any projects or modules installed via the Palletmanager": "备份将不包含通过Palletmanager安装的任何项目或模块！",
+    "Convert values to string:": "将ioBroker值转换为字符串",
+    "Divided by comma": "逗号分隔",
+    "Enable Projects Feature:": "启用项目功能",
+    "Leave blank to disable basic authentication": "留空以禁用基本身份验证",
+    "Max allocated RAM:": "最大分配RAM",
+    "Module names": "模块名称",
+    "Password": "密码",
+    "Safe mode": "安全模式",
+    "Update select dialog": "更新选择对话框",
+    "Use palletmanager:": "使用托盘管理器",
+    "User": "用户",
+    "Web server port:": "Web服务器端口",
+    "http root directory:": "http根目录",
+    "node-red settings": "node-red设置",
+    "node-red update select dialog": "node-red update选择对话框"
+}

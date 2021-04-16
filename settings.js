@@ -244,7 +244,7 @@ module.exports = {
     //    global.get("os")
 
     valueConvert: '%%valueConvert%%',
-	
+
     functionGlobalContext: {
         //'%%functionGlobalContext%%'
         // os:require('os'),
@@ -303,9 +303,11 @@ module.exports = {
         projects: {
             // To enable the Projects feature, set this value to true
             enabled: '%%projectsEnabled%%'
-        },
+        }
+    },
+    externalModules: {
         palette: {
-            editable: '%%palletmanagerEnabled%%'
+            allowInstall: '%%palletmanagerEnabled%%'
         }
     }
 };

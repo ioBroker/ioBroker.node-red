@@ -1,0 +1,21 @@
+{
+    "Add module": "Adicionar módulo",
+    "Additional npm modules:": "Módulos npm adicionais",
+    "Allow creation of foreign objects": "Permitir a criação de objetos estranhos",
+    "Backups will not contain any projects or modules installed via the Palletmanager": "Os backups não conterão nenhum projeto ou módulo instalado por meio do Palletmanager!",
+    "Convert values to string:": "Converter valores de ioBroker em string",
+    "Divided by comma": "Dividido por vírgula",
+    "Enable Projects Feature:": "Ativar recurso de projetos",
+    "Leave blank to disable basic authentication": "Deixe em branco para desativar a autenticação básica",
+    "Max allocated RAM:": "RAM alocada máxima",
+    "Module names": "Nomes de módulos",
+    "Password": "Senha",
+    "Safe mode": "Modo de segurança",
+    "Update select dialog": "Atualizar caixa de diálogo de seleção",
+    "Use palletmanager:": "Use palletmanager",
+    "User": "Do utilizador",
+    "Web server port:": "Porta do servidor da Web",
+    "http root directory:": "diretório raiz http",
+    "node-red settings": "configurações de nó vermelho",
+    "node-red update select dialog": "caixa de diálogo de seleção de atualização do nó-vermelho"
+}

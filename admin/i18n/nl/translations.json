@@ -1,0 +1,21 @@
+{
+    "Add module": "Module toevoegen",
+    "Additional npm modules:": "Extra npm-modules",
+    "Allow creation of foreign objects": "Maken van vreemde objecten toestaan",
+    "Backups will not contain any projects or modules installed via the Palletmanager": "Back-ups bevatten geen projecten of modules die zijn geïnstalleerd via de Palletmanager!",
+    "Convert values to string:": "IoBroker-waarden converteren naar tekenreeks",
+    "Divided by comma": "Verdeeld door een komma",
+    "Enable Projects Feature:": "Projecten inschakelen",
+    "Leave blank to disable basic authentication": "Laat dit leeg om basisverificatie uit te schakelen",
+    "Max allocated RAM:": "Max toegewezen RAM",
+    "Module names": "Module namen",
+    "Password": "Wachtwoord",
+    "Safe mode": "Veilige modus",
+    "Update select dialog": "Update select dialoogvenster",
+    "Use palletmanager:": "Gebruik palletmanager",
+    "User": "Gebruiker",
+    "Web server port:": "Webserverpoort",
+    "http root directory:": "http root directory",
+    "node-red settings": "node-red instellingen",
+    "node-red update select dialog": "update select dialoogvenster"
+}
