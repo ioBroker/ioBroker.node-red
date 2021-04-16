@@ -26,7 +26,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 2.3.0 (2021-04-17)
 * (Apollon77) BREAKING update from node-red-contrib-aggregator: topic is NOT converted to lowercase anymore!
 * (Apollon77) update to node-red 1.3.2
 * (Apollon77) Add done calls to OutNode
