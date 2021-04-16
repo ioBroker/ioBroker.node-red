@@ -378,7 +378,7 @@ module.exports = function(RED) {
             }
         }
 
-        node.on('input', msg => {
+        node.on('input', (msg, send, done) => {
             let id = node.topic;
             if (!id) {
                 id = msg.topic;
@@ -410,7 +410,7 @@ module.exports = function(RED) {
                                     text:  'Cannot set state'
                                 });
                             }
-                            node.done();
+                            done();
                         });
                     }
                 }
@@ -434,7 +434,7 @@ module.exports = function(RED) {
                                         text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
                                     });
                                 }
-                                node.done();
+                                done();
                             });
                         } else {
                             log('State "' + id + '" does not exist in the ioBroker');
@@ -443,7 +443,7 @@ module.exports = function(RED) {
                                 shape: 'ring',
                                 text:   'State "' + id + '" does not exist in the ioBroker'
                             });
-                            node.done();
+                            done();
                         }
                     });
                 } else {
@@ -454,7 +454,7 @@ module.exports = function(RED) {
                             shape: 'ring',
                             text:  'Invalid topic name "' + id + '" for ioBroker'
                         });
-                        node.done();
+                        done();
                     } else {
                         setState(id, msg.payload, node.ack, (err, _id) => {
                             if (err) {
@@ -471,7 +471,7 @@ module.exports = function(RED) {
                                     text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
                                 });
                             }
-                            node.done();
+                            done();
                         });
                     }
                 }
@@ -482,7 +482,7 @@ module.exports = function(RED) {
                     shape: 'ring',
                     text:  'No key or topic set'
                 });
-                node.done();
+                done();
             }
         });
 
