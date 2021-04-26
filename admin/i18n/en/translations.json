@@ -1,5 +1,5 @@
 {
-    "Add module": "Add module",
+    "Add module": "Add Homebridge plugin",
     "Additional npm modules:": "Additional npm modules",
     "Allow creation of foreign objects": "Allow creation of foreign objects",
     "Backups will not contain any projects or modules installed via the Palletmanager": "Backups will not contain any projects or modules installed via the Palletmanager!",
@@ -8,7 +8,7 @@
     "Enable Projects Feature:": "Enable Projects Feature",
     "Leave blank to disable basic authentication": "Leave blank to disable basic authentication",
     "Max allocated RAM:": "Max allocated RAM",
-    "Module names": "Module names",
+    "Module names": "Homebridge Plugin names",
     "Password": "Password",
     "Safe mode": "Safe mode",
     "Update select dialog": "Update select dialog",
