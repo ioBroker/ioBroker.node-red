@@ -3,6 +3,18 @@
         "name": "node-red",
         "version": "2.3.0",
         "title": "node-red",
+        "titleLang": {
+            "en": "node-red",
+            "de": "node-red",
+            "ru": "node-red",
+            "pt": "node-red",
+            "nl": "node-red",
+            "fr": "node-red",
+            "it": "node-red",
+            "es": "node-red",
+            "pl": "node-red",
+            "zh-cn": "node-red"
+        },
         "news": {
             "2.3.0": {
                 "en": "BREAKING update from node-red-contrib-aggregator: topic is NOT converted to lowercase anymore!\nupdate to node-red 1.3.2\nAdd done calls to OutNode",
@@ -267,7 +279,9 @@
                 "js-controller": ">=2.0.0"
             }
         ],
-        "tier": 1
+        "tier": 1,
+        "connectionType": "none",
+        "dataSource": "none"
     },
     "native": {
         "bind": "0.0.0.0",

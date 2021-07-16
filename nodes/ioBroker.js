@@ -388,6 +388,8 @@ module.exports = function(RED) {
                 id = adapter.namespace + '.' + id;
             }
 
+            const msgAck = msg.ack !== undefined ? (msg.ack === 'true' || msg.ack === true) : node.ack
+
             if (!ready) {
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
                 nodeSets.push({node, msg});
@@ -396,7 +398,7 @@ module.exports = function(RED) {
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
                     if (!id.includes('*') && isValidID.test(id)) {
-                        return checkState(node, id, assembleCommon(node, msg, id), {val: msg.payload, ack: node.ack}, isOk => {
+                        return checkState(node, id, assembleCommon(node, msg, id), {val: msg.payload, ack: msgAck}, isOk => {
                             if (isOk) {
                                 node.status({
                                     fill:  'green',
@@ -419,7 +421,7 @@ module.exports = function(RED) {
                     // Check if state exists
                     adapter.getForeignObject(id, (err, obj) => {
                         if (!err && obj) {
-                            adapter.setForeignState(id, {val: msg.payload, ack: node.ack}, (err, _id) => {
+                            adapter.setForeignState(id, {val: msg.payload, ack: msgAck}, (err, _id) => {
                                 if (err) {
                                     node.status({
                                         fill:  'red',
@@ -456,7 +458,7 @@ module.exports = function(RED) {
                         });
                         done();
                     } else {
-                        setState(id, msg.payload, node.ack, (err, _id) => {
+                        setState(id, msg.payload, msgAck, (err, _id) => {
                             if (err) {
                                 node.status({
                                     fill:  'red',
