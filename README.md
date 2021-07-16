@@ -28,7 +28,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 2.4.0 (2021-07-16)
 * (Apollon77) update to node-red 1.3.5
 * (Apollon77) Optimize for js-controller 3.3
 * (Apollon77) Add option to override the default ack flag in the message for OutNode
