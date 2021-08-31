@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "node-red",
-        "version": "2.4.0",
+        "version": "2.4.1",
         "title": "node-red",
         "titleLang": {
             "en": "node-red",
@@ -16,6 +16,18 @@
             "zh-cn": "node-red"
         },
         "news": {
+            "2.4.1": {
+                "en": "Correct min7max for the object creation \nNode-red updated to 1.3.6",
+                "de": "Korrektes min7max für die Objekterstellung\nKnotenrot aktualisiert auf 1.3.6",
+                "ru": "Правильный min7max для создания объекта\nNode-red обновлен до 1.3.6",
+                "pt": "Corrigir min7max para a criação do objeto\nNode-red atualizado para 1.3.6",
+                "nl": "Corrigeer min7max voor het maken van objecten\nNode-red bijgewerkt naar 1.3.6",
+                "fr": "Corriger min7max pour la création de l'objet\nNode-red mis à jour vers la 1.3.6",
+                "it": "Correggere min7max per la creazione dell'oggetto\nNodo rosso aggiornato a 1.3.6",
+                "es": "Corregir min7max para la creación del objeto\nNode-red actualizado a 1.3.6",
+                "pl": "Popraw min7max dla tworzenia obiektu\nWęzeł czerwony zaktualizowany do 1.3.6",
+                "zh-cn": "为对象创建更正 min7max\nNode-red 更新至 1.3.6"
+            },
             "2.4.0": {
                 "en": "update to node-red 1.3.5\nOptimize for js-controller 3.3\nAdd option to override the default ack flag in the message for OutNode",
                 "de": "Update auf Knotenrot 1.3.5\nOptimieren Sie für js-Controller 3.3\nOption zum Überschreiben des Standard-Ack-Flags in der Nachricht für OutNode hinzufügen",
