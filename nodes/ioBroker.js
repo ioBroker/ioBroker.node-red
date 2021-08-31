@@ -196,9 +196,9 @@ module.exports = function(RED) {
         }
         if (node.objectPreDefinedMin || node.objectPreDefinedMin === 0 || msg.stateMin || msg.stateMin === 0) {
             if (node.objectPreDefinedMin || node.objectPreDefinedMin === 0) {
-                common.max = node.objectPreDefinedMin;
+                common.min = node.objectPreDefinedMin;
             } else {
-                common.max = msg.stateMin;
+                common.min = msg.stateMin;
             }
         }
         return common;
