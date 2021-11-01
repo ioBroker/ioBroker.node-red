@@ -24,7 +24,7 @@
     "url": "https://github.com/ioBroker/ioBroker.node-red"
   },
   "optionalDependencies": {
-    "js2xmlparser": "^4.0.1",
+    "js2xmlparser": "^4.0.2",
     "fs.notify": "^0.0.4",
     "feedparser": "^2.2.10",
     "mongodb": "^3.6.12",
