@@ -1,5 +1,5 @@
 {
-    "Add module": "Adicionar módulo",
+    "Add module": "Adicionar módulo NPM",
     "Additional npm modules:": "Módulos npm adicionais",
     "Allow creation of foreign objects": "Permitir a criação de objetos estranhos",
     "Backups will not contain any projects or modules installed via the Palletmanager": "Os backups não conterão nenhum projeto ou módulo instalado por meio do Palletmanager!",
@@ -8,7 +8,7 @@
     "Enable Projects Feature:": "Ativar recurso de projetos",
     "Leave blank to disable basic authentication": "Deixe em branco para desativar a autenticação básica",
     "Max allocated RAM:": "RAM alocada máxima",
-    "Module names": "Nomes de módulos",
+    "Module names": "Nomes de módulos NPM",
     "Password": "Senha",
     "Safe mode": "Modo de segurança",
     "Update select dialog": "Atualizar caixa de diálogo de seleção",
