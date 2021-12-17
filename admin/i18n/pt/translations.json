@@ -1,6 +1,6 @@
 {
     "Add module": "Adicionar módulo NPM",
-    "Additional npm modules:": "Módulos npm adicionais",
+    "Additional npm modules:": "Módulos NPM adicionais",
     "Allow creation of foreign objects": "Permitir a criação de objetos estranhos",
     "Backups will not contain any projects or modules installed via the Palletmanager": "Os backups não conterão nenhum projeto ou módulo instalado por meio do Palletmanager!",
     "Convert values to string:": "Converter valores de ioBroker em string",
