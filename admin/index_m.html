@@ -243,8 +243,8 @@
             onChange();
         });
         
-        $('#httpStatic').on('change', function () {
-            if($('#httpStatic').text() != "") {
+        $('#httpStatic').on('input', function () {
+            if($('#httpStatic').val() != "") {
             	$('#hStatic').val(true);
             } else {
             	$('#hStatic').val(false);

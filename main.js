@@ -278,7 +278,7 @@ function writeSettings() {
     const secure = adapter.config.secure ? '' : '// ';
     const certFile = adapter.config.certPublic ? userDataDir + adapter.config.certPublic + '.crt' : '';
     const keyFile = adapter.config.certPrivate ? userDataDir + adapter.config.certPrivate + '.key' : '';
-    const hStatic = adapter.config.hStatic ? '' : '// ';
+    const hStatic = adapter.config.hStatic == "true" ? '' : '// ';
 
     for (let a = 0; a < additional.length; a++) {
         if (additional[a].startsWith('node-red-')) {
