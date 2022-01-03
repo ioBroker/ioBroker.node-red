@@ -105,6 +105,7 @@ module.exports = {
     // following property can be used to identify a directory of static content
     // that should be served at http://localhost:1880/.
     //httpStatic: '/home/nol/node-red-static/',
+    '%%hStatic%%'httpStatic: '%%httpStatic%%',
 
     // The maximum size of HTTP request that will be accepted by the runtime api.
     // Default: 5mb
