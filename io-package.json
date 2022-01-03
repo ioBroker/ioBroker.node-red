@@ -314,6 +314,8 @@
         "certPublic": "",
         "certPrivate": "",
         "httpRoot": "/",
+        "hStatic": false,
+        "httpStatic": "",
         "npmLibs": "",
         "valueConvert": false,
         "maxMemory": 128,

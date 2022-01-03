@@ -232,6 +232,7 @@ module.exports = {
      * that should be served at http://localhost:1880/.
      */
     //httpStatic: '/home/nol/node-red-static/',
+    '%%hStatic%%'httpStatic: "'%%httpStatic%%'",
 
 /*******************************************************************************
  * Runtime Settings
