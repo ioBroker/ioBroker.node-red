@@ -27,6 +27,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 -->
 
 ## Changelog
+### 2.5.0 (2022-xx-xx)
+* (jwiesel) Changed default setting to "convert data from ioBroker nodes into Strings" to false. Setting will not be changed automatically in instances already running.
+
 ### 2.4.1 (2021-08-31)
 * (mickym2) Correct min7max for the object creation 
 * (bluefox) Node-red updated to 1.3.6
