@@ -26,9 +26,9 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
 ### 2.5.0 (2022-xx-xx)
+* (jwiesel) Changed default setting to "convert data from ioBroker nodes into Strings" to false. Setting will not be changed automatically in instances already running.
 * (jwiesel) "Tail" node has been removed from the default palette in Node-RED 2.0. You can reinstall it from node-red-node-tail.
 * (jwiesel) Node-RED updated to 2.1.4 (incl. restructuring of settings.js)
-
 
 ### 2.4.1 (2021-08-31)
 * (mickym2) Correct min7max for the object creation 
