@@ -31,7 +31,7 @@
     "node-red-contrib-os": "^0.2.1"
   },
   "dependencies": {
-    "node-red": "^2.1.4",
+    "node-red": "^2.1.6",
     "node-red-dashboard": "^2.30.0",
     "node-red-contrib-aggregator": "^2.0.0",
     "node-red-contrib-polymer": "^0.0.22",
