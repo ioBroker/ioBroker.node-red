@@ -2,7 +2,7 @@
  *
  *      ioBroker node-red Adapter
  *
- *      (c) 2014-2021 bluefox<bluefox@ccu.io>
+ *      (c) 2014-2022 bluefox<bluefox@ccu.io>
  *
  *      Apache 2.0 License
  *
@@ -278,7 +278,7 @@ function writeSettings() {
     const secure = adapter.config.secure ? '' : '// ';
     const certFile = adapter.config.certPublic ? userDataDir + adapter.config.certPublic + '.crt' : '';
     const keyFile = adapter.config.certPrivate ? userDataDir + adapter.config.certPrivate + '.key' : '';
-    const hStatic = adapter.config.hStatic == "true" ? '' : '// ';
+    const hStatic = adapter.config.hStatic === 'true' || adapter.config.hStatic === true ? '' : '// ';
 
     for (let a = 0; a < additional.length; a++) {
         if (additional[a].startsWith('node-red-')) {
