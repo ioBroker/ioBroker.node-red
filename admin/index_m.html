@@ -244,7 +244,7 @@
         });
         
         $('#httpStatic').on('input', function () {
-            if($('#httpStatic').val() != "") {
+            if($('#httpStatic').val()) {
             	$('#hStatic').val(true);
             } else {
             	$('#hStatic').val(false);
@@ -272,7 +272,7 @@
                 obj.pass = bcrypt.hashSync(obj.pass, 8);
                 //obj.pass = MD5(obj.pass);
             } else {
-                obj.pass = oldPass;
+                obj.pass = oldPass;f
             }
         }
 
