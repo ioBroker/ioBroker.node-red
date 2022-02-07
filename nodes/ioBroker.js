@@ -129,7 +129,7 @@ module.exports = function(RED) {
                     // If not exists
                     if (!obj) {
                         if (common) {
-                            log('State "' + id + '" was created in the ioBroker as ' + adapter._fixId(id));
+                            log('State "' + id + '" was created in the ioBroker');
                             // Create object
                             const data = {
                                 common,

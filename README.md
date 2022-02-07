@@ -27,6 +27,10 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 -->
 
 ## Changelog
+
+### __WORK IN PROGRESS__
+* (Apollon77) Make compatible with js-controller 4.0
+
 ### 2.4.1 (2021-08-31)
 * (mickym2) Correct min7max for the object creation 
 * (bluefox) Node-red updated to 1.3.6
