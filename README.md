@@ -28,7 +28,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 2.4.2 (2022-02-07)
 * (Apollon77) Make compatible with js-controller 4.0
 
 ### 2.4.1 (2021-08-31)

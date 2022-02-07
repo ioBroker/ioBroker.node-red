@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "node-red",
-        "version": "2.4.1",
+        "version": "2.4.2",
         "title": "node-red",
         "titleLang": {
             "en": "node-red",
@@ -16,6 +16,18 @@
             "zh-cn": "node-red"
         },
         "news": {
+            "2.4.2": {
+                "en": "Make compatible with js-controller 4.0",
+                "de": "Mit js-controller 4.0 kompatibel machen",
+                "ru": "Сделать совместимым с js-контроллером 4.0",
+                "pt": "Tornar compatível com js-controller 4.0",
+                "nl": "Compatibel maken met js-controller 4.0",
+                "fr": "Rendre compatible avec js-controller 4.0",
+                "it": "Rendi compatibile con js-controller 4.0",
+                "es": "Hacer compatible con js-controller 4.0",
+                "pl": "Zapewnij kompatybilność z kontrolerem js 4.0",
+                "zh-cn": "与 js-controller 4.0 兼容"
+            },
             "2.4.1": {
                 "en": "Correct min7max for the object creation \nNode-red updated to 1.3.6",
                 "de": "Korrektes min7max für die Objekterstellung\nKnotenrot aktualisiert auf 1.3.6",
@@ -243,18 +255,6 @@
                 "es": "actualice a nodered 1.0 y permita habilitar la función de proyectos a través del administrador",
                 "pl": "uaktualnij do nodered 1.0 i pozwól włączyć funkcję projektów przez administratora",
                 "zh-cn": "升级到nodered 1.0，并允许通过管理员启用项目功能"
-            },
-            "1.10.1": {
-                "en": "better handle object checks on initialization of the nodes",
-                "de": "Objektprüfungen bei der Initialisierung der Nodes besser handhaben",
-                "ru": "лучше обрабатывать проверки объектов при инициализации узлов",
-                "pt": "lidar melhor com verificações de objetos na inicialização dos nós",
-                "nl": "beter omgaan met objectcontroles bij initialisatie van de knooppunten",
-                "fr": "mieux gérer les vérifications d'objet lors de l'initialisation des nœuds",
-                "it": "gestire meglio i controlli degli oggetti sull'inizializzazione dei nodi",
-                "es": "manejar mejor las comprobaciones de objetos en la inicialización de los nodos",
-                "pl": "lepiej obsługiwać sprawdzanie obiektów przy inicjalizacji węzłów",
-                "zh-cn": "更好地处理节点初始化时的对象检查"
             }
         },
         "desc": {
