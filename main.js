@@ -85,7 +85,7 @@ function installLibraries(callback) {
     }
 
     if (adapter.common && adapter.common.npmLibs && !adapter.config.palletmanagerEnabled) {
-        adapter.log.error('install: ' + JSON.stringify(adapter.common.npmLibs));
+        adapter.log.info('Requested NPM packages: ' + JSON.stringify(adapter.common.npmLibs));
         for (let lib = 0; lib < adapter.common.npmLibs.length; lib++) {
             if (adapter.common.npmLibs[lib] && adapter.common.npmLibs[lib].trim()) {
                 adapter.common.npmLibs[lib] = adapter.common.npmLibs[lib].trim();

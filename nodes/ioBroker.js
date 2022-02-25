@@ -362,6 +362,12 @@ module.exports = function (RED) {
             if (node.fireOnStart && !node.topic.includes('*')) {
                 adapter.getForeignState(node.topic, (err, state) =>
                     node.stateChange(node.topic, state));
+            } else if (node.func === 'rbe' && !node.fireOnStart && !node.topic.includes('*')) {
+                const t = node.topic.replace(/\./g, '/') || '_no_topic';
+                adapter.getForeignState(node.topic, (err, state) => {
+                    if (err) return;
+                    node.previous[t] = state ? state.val : null
+                });
             }
         }
 
