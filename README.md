@@ -35,6 +35,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 * (bluefox) Added the reading of objects from admin for SelectID dialog 
 * (bluefox) Added debug output: Cannot set state of non-existing object
 * (bluefox) Allow setting of regular expression in the list node in message
+* (bluefox) Allow the filtering of `ack=false` messages for IN node
 
 ### 2.4.2 (2022-02-07)
 * (Apollon77) Make compatible with js-controller 4.0

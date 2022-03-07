@@ -262,6 +262,14 @@ module.exports = function (RED) {
         node.gap         = n.gap  || '0';
         node.fireOnStart = n.fireOnStart === true || n.fireOnStart === 'true' || false;
 
+        if (n.onlyack === 'update') {
+            node.onlyack = true;
+        } else if (n.onlyack === 'command') {
+            node.onlyack = false;
+        } else if (n.onlyack === '') {
+            node.onlyack = null;
+        }
+
 		if (node.gap.substr(-1) === '%') {
             node.pc = true;
             node.gap = parseFloat(node.gap);
@@ -292,6 +300,8 @@ module.exports = function (RED) {
 
 			if (node.onlyack && state && !state.ack) {
 			    return;
+            } else if (node.onlyack === false && state && state.ack) {
+                return;
             }
 
             const t = topic.replace(/\./g, '/') || '_no_topic';

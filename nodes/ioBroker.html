@@ -176,9 +176,12 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label>&nbsp;</label>
-        <input type="checkbox" id="node-input-onlyack" style="display: inline-block; width: auto; vertical-align: top;">
-        <label for="node-input-onlyack" style="width: 70%;">Send only on then ack==true</label>
+        <label for="node-input-onlyack"><i class="fa fa-question"></i> Ack-Flag</label>
+        <select type="text" id="node-input-onlyack" style="width:74%;">
+			<option value="">Send all events</option>
+            <option value="update">Only updates (ack==true)</option>
+            <option value="command">Only commands (ack==false)</option>
+		</select>
     </div>
     <div class="form-row">
         <label for="node-input-func"><i class="fa fa-wrench"></i> Mode</label>
@@ -203,8 +206,8 @@
 
 <script type="text/x-red" data-help-name="ioBroker in">
     <p>ioBroker input node. Connects to a ioBroker and subscribes to the specified topic. The topic may contain redis wildcards (*).</p>
-    <p>Outputs an object called <b>msg</b> containing <b>msg.topic, msg.payload, msg.timestamp, msg.lastchange and msg.acknowledged.</p>
-	<p>The checkbox determines whether only States with ack == true or all events are forwarded.</p>
+    <p>Outputs an object called <b>msg</b> containing <b>msg.topic, msg.payload, msg.timestamp, msg.lastchange</b> and <b>msg.acknowledged</b>.</p>
+	<p>The ack-flag determines whether only States with <i>ack == true</i>(updates) or <i>ack == false</i>(commands) or all events are forwarded.</p>
 	<p>The select box Mode offers further filtering options. The options are the same as for the RBE node.</p>
 </script>
 
@@ -232,6 +235,11 @@
         },
         oneditprepare: function () {
             initSelectId();
+
+            if (this.onlyack === true) {
+                this.onlyack = 'update';
+                $('#node-input-onlyack').val('update');
+            }
 
             $('#node-input-func').on('change', function () {
                 var val = $('#node-input-func').val();
