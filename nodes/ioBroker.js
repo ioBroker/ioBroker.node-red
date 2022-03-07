@@ -703,6 +703,19 @@ module.exports = function (RED) {
             } else if (pattern) {
                 pattern = pattern.replace(/\//g, '.');
 
+                let regex = node.regex;
+                if (msg.regex && (typeof msg.regex === 'string' || msg.regex instanceof RegExp)) {
+                    if (typeof msg.regex === 'string') {
+                        try {
+                            regex = new RegExp(msg.regex.replace('\\', '\\\\'));
+                        } catch (e) {
+                            log(`Cannot create regular expression from "${msg.regex}"!`);
+                        }
+                    } else {
+                        regex = msg.regex;
+                    }
+                }
+
                 let list = {};
                 // Adds result rows to the return object
                 /** @param {any[] | undefined} rows */
@@ -778,10 +791,10 @@ module.exports = function (RED) {
                     log('Error while requesting adapters: ' + err);
                 }
 
-                if (node.regex) {
+                if (regex) {
                     const newList = {};
                     Object.keys(list).forEach(id => {
-                        if (node.regex.test(id)) {
+                        if (regex.test(id)) {
                             newList[id] = list[id];
                         }
                     });

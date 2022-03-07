@@ -34,6 +34,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 * (jwiesel) Added NodeRed parameter httpStatic to instance settings
 * (bluefox) Added the reading of objects from admin for SelectID dialog 
 * (bluefox) Added debug output: Cannot set state of non-existing object
+* (bluefox) Allow setting of regular expression in the list node in message
 
 ### 2.4.2 (2022-02-07)
 * (Apollon77) Make compatible with js-controller 4.0
