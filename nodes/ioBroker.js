@@ -112,14 +112,14 @@ module.exports = function (RED) {
             return callback && callback();
         }
         if (!ready) {
-            checkStates.push({node, id, common, val, callback});
-            return;
+            return checkStates.push({node, id, common, val, callback});
         }
+
         if (node.topic) {
             node.idChecked = true;
         }
 
-        if (val === null || val === '__create__') {
+        if (val === null || val === '__create__' || (typeof val === 'object' && (val.val === '__create__' || val.val === null))) {
             val = undefined;
         }
 
@@ -139,16 +139,29 @@ module.exports = function (RED) {
 
                             if (isForeignState(id)) {
                                 if (allowCreationOfForeignObjects) {
-                                    adapter.setForeignObject(id, data, _ => adapter.setForeignState(id, val, () => callback && callback(true)));
+                                    adapter.setForeignObject(id, data, _ => {
+                                        if (val !== undefined) {
+                                            adapter.setForeignState(id, val, () => callback && callback(true));
+                                        } else {
+                                            callback && callback(true);
+                                        }
+                                    });
                                 } else {
-                                    adapter.log.info('Creation of foreign objects is not enabled. You can enable it in the configuration');
+                                    adapter.log.info(`"${node.customName}" Cannot set state of non-existing object "${id}".`);
+                                    adapter.log.info(`Creation of foreign objects is not enabled. You can enable it in the instance configuration`);
                                     callback && callback(false);
                                 }
                             } else {
-                                adapter.setObject(id, data, _ => adapter.setState(id, val, () => callback && callback(true)));
+                                adapter.setObject(id, data, _ => {
+                                    if (val !== undefined) {
+                                        adapter.setState(id, val, () => callback && callback(true));
+                                    } else {
+                                        callback && callback(true);
+                                    }
+                                });
                             }
                         } else {
-                            adapter.log.info(`[${node.customName}] Cannot set state of non-existing object "${id}".`);
+                            adapter.log.info(`"${node.customName}" Cannot set state of non-existing object "${id}".`);
                             adapter.log.info(`Automatic objects creation is not enabled. You can enable it in the node configuration`);
                             callback && callback(false);
                         }
@@ -406,7 +419,7 @@ module.exports = function (RED) {
                                 node.status({
                                     fill:  'green',
                                     shape: 'dot',
-                                    text:   msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()
+                                    text:   msg.payload === null || msg.payload === undefined ? '' : (msg.payload === '__create__' ? 'Object created' : msg.payload.toString())
                                 });
                             } else {
                                 node.status({
@@ -431,7 +444,7 @@ module.exports = function (RED) {
                                         shape: 'ring',
                                         text:   'Error on setForeignState. See Log'
                                     });
-                                    log('Error on setState for ' + id + ': ' + err);
+                                    log(`Error on setState for ${id}: ${err}`);
                                 } else {
                                     node.status({
                                         fill: 'green',
@@ -442,22 +455,22 @@ module.exports = function (RED) {
                                 done();
                             });
                         } else {
-                            log('State "' + id + '" does not exist in the ioBroker');
+                            log(`State "${id}" does not exist in the ioBroker`);
                             node.status({
                                 fill:  'red',
                                 shape: 'ring',
-                                text:   'State "' + id + '" does not exist in the ioBroker'
+                                text:   `State "${id}" does not exist in the ioBroker`
                             });
                             done();
                         }
                     });
                 } else {
                     if (id.includes('*')) {
-                        log('Invalid topic name "' + id + '" for ioBroker');
+                        log(`Invalid topic name "${id}" for ioBroker`);
                         node.status({
                             fill:  'red',
                             shape: 'ring',
-                            text:  'Invalid topic name "' + id + '" for ioBroker'
+                            text:  `Invalid topic name "${id}" for ioBroker`
                         });
                         done();
                     } else {
@@ -468,7 +481,7 @@ module.exports = function (RED) {
                                     shape: 'ring',
                                     text:   'Error on setState. See Log'
                                 });
-                                log('Error on setState for ' + id + ': ' + err);
+                                log(`Error on setState for ${id}: ${err}`);
                             } else {
                                 node.status({
                                     fill: 'green',
@@ -538,7 +551,7 @@ module.exports = function (RED) {
                     });
                     node.send(msg);
                 } else {
-                    log('State "' + id + '" does not exist in the ioBroker');
+                    log(`State "${id}" does not exist in the ioBroker`);
                 }
             };
         };
@@ -552,7 +565,7 @@ module.exports = function (RED) {
             }
             if (id) {
                 if (id.includes('*')) {
-                    log('Invalid topic name "' + id + '" for ioBroker');
+                    log(`Invalid topic name "${id}" for ioBroker`);
                 } else {
                     id = id.replace(/\//g, '.');
                     // If not this adapter state
@@ -609,7 +622,7 @@ module.exports = function (RED) {
                     });
                     node.send(msg);
                 } else {
-                    log('Object "' + id + '" does not exist in the ioBroker');
+                    log(`Object "${node.topic || msg.topic}" does not exist in the ioBroker`);
                 }
             };
         };
@@ -621,7 +634,7 @@ module.exports = function (RED) {
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
             } else if (id) {
                 if (id.includes('*')) {
-                    log('Invalid topic name "' + id + '" for ioBroker');
+                    log(`Invalid topic name "${id}" for ioBroker`);
                 } else {
                     id = id.replace(/\//g, '.');
                     // If not this adapter state
@@ -678,7 +691,7 @@ module.exports = function (RED) {
                     });
                     node.send(msg);
                 } else {
-                    log('Object "' + id + '" does not exist in the ioBroker');
+                    log(`Object "${node.topic || msg.topic}" does not exist in the ioBroker`);
                 }
             };
         };
