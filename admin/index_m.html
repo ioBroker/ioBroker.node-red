@@ -242,7 +242,7 @@
             showHideBackupWarning();
             onChange();
         });
-        
+
         $('#httpStatic').on('input', function () {
             if($('#httpStatic').val()) {
             	$('#hStatic').val(true);
@@ -386,6 +386,12 @@
                 <div class="input-field col s12 m4 l3">
                     <input  class="value" id="safeMode" type="checkbox" />
                     <label class="translate" for="safeMode">Safe mode</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input  class="value" id="doNotReadObjectsDynamically" type="checkbox" />
+                    <label class="translate" for="doNotReadObjectsDynamically">Do not read objects from admin</label>
                 </div>
             </div>
             <div class="row">

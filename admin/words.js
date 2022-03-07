@@ -21,4 +21,16 @@ systemDictionary = {
     "http root directory:": {                        "en": "http root directory",                             "de": "http Stammpfad",                                  "ru": "http root directory",                             "pt": "diretório raiz http",                             "nl": "http root directory",                             "fr": "répertoire racine http",                          "it": "directory root http",                             "es": "directorio raíz http",                            "pl": "główny katalog http",                             "zh-cn": "http根目录"},
     "node-red settings": {                           "en": "node-red settings",                               "de": "node-red Einstellungen",                          "ru": "Настройки node-red",                              "pt": "configurações de nó vermelho",                    "nl": "node-red instellingen",                           "fr": "paramètres de node-red",                          "it": "impostazioni del node-red",                       "es": "configuración de node-red",                       "pl": "ustawienia node-red",                             "zh-cn": "node-red设置"},
     "node-red update select dialog": {               "en": "node-red update select dialog",                   "de": "node-red SelectID Dialog aktualisieren",          "ru": "Обновить переменные в диалоге node-red",          "pt": "caixa de diálogo de seleção de atualização do nó-vermelho", "nl": "update select dialoogvenster",                    "fr": "boîte de dialogue de sélection de mise à jour de noeud", "it": "finestra di dialogo di selezione aggiornamento node-red", "es": "diálogo de selección de actualización node-red",  "pl": "okno dialogowe aktualizacji uaktualnienia węzła", "zh-cn": "node-red update选择对话框"},
+    "Do not read objects from admin": {
+        "en": "Do not read objects from admin in the select object dialog",
+        "de": "Keine Objekte von Admin im Objektauswahldialog lesen",
+        "ru": "Не читать объекты от администратора в диалоге выбора объекта",
+        "pt": "Não leia objetos do administrador na caixa de diálogo de seleção de objetos",
+        "nl": "Lees geen objecten van admin in het dialoogvenster object selecteren",
+        "fr": "Ne pas lire les objets de l'administrateur dans la boîte de dialogue de sélection d'objet",
+        "it": "Non leggere gli oggetti dall'amministratore nella finestra di dialogo Seleziona oggetto",
+        "es": "No lea objetos del administrador en el cuadro de diálogo de selección de objetos",
+        "pl": "Nie czytaj obiektów od administratora w oknie wyboru obiektu",
+        "zh-cn": "不要在选择对象对话框中从管理员读取对象"
+    },
 };

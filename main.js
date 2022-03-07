@@ -266,15 +266,15 @@ function writeSettings() {
     const lines = text.split('\n');
     let npms = '\r\n';
     const dir = __dirname.replace(/\\/g, '/') + '/node_modules/';
-    const nodesDir = '"' + __dirname.replace(/\\/g, '/') + '/nodes/"';
+    const nodesDir = `"${__dirname.replace(/\\/g, '/')}/nodes/"`;
 
-    const bind = '"' + (adapter.config.bind || '0.0.0.0') + '"';
+    const bind = `"${adapter.config.bind || '0.0.0.0'}"`;
 
     const auth = adapter.config.user && adapter.config.pass ?
 	    JSON.stringify({type: 'credentials', users: [{username: adapter.config.user, password: adapter.config.pass, permissions: '*'}]}) :
 	    JSON.stringify({type: 'credentials', users: [], default: {permissions: '*'}});
 
-    const pass = '"' + adapter.config.pass + '"';
+    const pass = `"${adapter.config.pass}"`;
     const secure = adapter.config.secure ? '' : '// ';
     const certFile = adapter.config.certPublic ? userDataDir + adapter.config.certPublic + '.crt' : '';
     const keyFile = adapter.config.certPrivate ? userDataDir + adapter.config.certPrivate + '.key' : '';
@@ -456,6 +456,38 @@ function installNotifierCreds(isFirst) {
     }
 }
 
+async function generateHtml() {
+    const html = fs.readFileSync(__dirname + '/nodes/ioBroker.html').toString('utf8');
+    const lines = html.split('\n');
+    const pos = lines.findIndex(line => line.includes('// THIS LINE WILL BE CHANGED FOR ADMIN'));
+    if (pos) {
+        // get settings for admin
+        const settings = await adapter.getForeignObjectAsync('system.adapter.' + adapter.namespace);
+        // read all admin adapters on this host
+        const admins = await adapter.getObjectViewAsync('system', 'instance', {startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999'}, {});
+        let admin = admins.rows.find(obj => obj.value.common.host === settings.common.host);
+
+        if (adapter.config.doNotReadObjectsDynamically) {
+            lines[pos] = `            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN`
+        } else
+        if (admin && !admin.value.native.auth) {
+            admin = admin.value;
+            if ((!!admin.native.secure) === (!!settings.native.secure)) {
+                lines[pos] = `            var socket = new WebSocket('ws${admin.native.secure ? 's' :''}://${admin.native.bind === '0.0.0.0' || admin.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : admin.native.bind}:${admin.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`
+            } else {
+                lines[pos] = `            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN`
+                adapter.log.warn(`Cannot enable the dynamic object read as admin is SSL ${admin.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`)
+            }
+        } else {
+            lines[pos] = `            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN`
+            adapter.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
+        }
+        if (html !== lines.join('\n')) {
+            fs.writeFileSync(__dirname + '/nodes/ioBroker.html', lines.join('\n'));
+        }
+    }
+}
+
 function main() {
     if (adapter.config.projectsEnabled === undefined) adapter.config.projectsEnabled = false;
     if (adapter.config.allowCreationOfForeignObjects === undefined) adapter.config.allowCreationOfForeignObjects = false;
@@ -465,38 +497,41 @@ function main() {
         fs.mkdirSync(userDataDir);
     }
 
-    syncPublic();
+    generateHtml()
+        .then(() => {
+            syncPublic();
 
-    // Read configuration
-    adapter.getObject('flows', (err, obj) => {
-        if (obj && obj.native && obj.native.cred) {
-            const c = JSON.stringify(obj.native.cred);
-            // If really not empty
-            if (c !== '{}' && c !== '[]') {
-                fs.writeFileSync(userDataDir + 'flows_cred.json', JSON.stringify(obj.native.cred));
-            }
-        }
-        if (obj && obj.native && obj.native.flows) {
-            const f = JSON.stringify(obj.native.flows);
-            // If really not empty
-            if (f !== '{}' && f !== '[]') {
-                fs.writeFileSync(userDataDir  + 'flows.json', JSON.stringify(obj.native.flows));
-            }
-        }
+            // Read configuration
+            adapter.getObject('flows', (err, obj) => {
+                if (obj && obj.native && obj.native.cred) {
+                    const c = JSON.stringify(obj.native.cred);
+                    // If really not empty
+                    if (c !== '{}' && c !== '[]') {
+                        fs.writeFileSync(userDataDir + 'flows_cred.json', JSON.stringify(obj.native.cred));
+                    }
+                }
+                if (obj && obj.native && obj.native.flows) {
+                    const f = JSON.stringify(obj.native.flows);
+                    // If really not empty
+                    if (f !== '{}' && f !== '[]') {
+                        fs.writeFileSync(userDataDir  + 'flows.json', JSON.stringify(obj.native.flows));
+                    }
+                }
 
-        installNotifierFlows(true);
-        installNotifierCreds(true);
+                installNotifierFlows(true);
+                installNotifierCreds(true);
 
-        adapter.getForeignObject('system.config', (err, obj) => {
-            if (obj && obj.native && obj.native.secret) {
-                //noinspection JSUnresolvedVariable
-                secret = obj.native.secret;
-            }
-            // Create settings for node-red
-            writeSettings();
-            writeStateList(() => startNodeRed());
+                adapter.getForeignObject('system.config', (err, obj) => {
+                    if (obj && obj.native && obj.native.secret) {
+                        //noinspection JSUnresolvedVariable
+                        secret = obj.native.secret;
+                    }
+                    // Create settings for node-red
+                    writeSettings();
+                    writeStateList(() => startNodeRed());
+                });
+            });
         });
-    });
 }
 
 // If started as allInOne/compact mode => return function to create instance

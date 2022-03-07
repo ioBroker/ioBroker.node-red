@@ -32,6 +32,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 * (jwiesel) "Tail" node has been removed from the default palette in Node-RED 2.0. You can reinstall it from node-red-node-tail.
 * (jwiesel) Node-RED updated to 2.2.0 (incl. restructuring of settings.js)
 * (jwiesel) Added NodeRed parameter httpStatic to instance settings
+* (bluefox) Added the reading of objects from admin for SelectID dialog 
 
 ### 2.4.2 (2022-02-07)
 * (Apollon77) Make compatible with js-controller 4.0

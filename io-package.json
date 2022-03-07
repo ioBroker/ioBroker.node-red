@@ -323,7 +323,8 @@
         "pass": "",
         "projectsEnabled": false,
         "palletmanagerEnabled": false,
-        "allowCreationOfForeignObjects": false
+        "allowCreationOfForeignObjects": false,
+        "doNotReadObjectsDynamically": false
     },
     "objects": [],
     "instanceObjects": [

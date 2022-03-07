@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2020 bluefox <dogafox@gmail.com>.
+ * Copyright 2014-2022 bluefox <dogafox@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-module.exports = function(RED) {
+module.exports = function (RED) {
     'use strict';
     // patch event emitter
     require('events').EventEmitter.prototype._maxListeners = 10000;

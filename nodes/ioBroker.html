@@ -1,5 +1,5 @@
 <!--
-  Copyright 2013-2020 bluefox <dogafox@gmail.com>.
+  Copyright 2013-2022 bluefox <dogafox@gmail.com>.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,10 +28,93 @@
 <script type="text/javascript" src="selectID.js"></script>
 
 <script type="text/javascript">
-    function initSelectId(allowAll, onChange) {
-        if (!window.__iobroker) {
-            $.getJSON('iobroker.json', function (data) {
-                window.__iobroker = data;
+    function readData() {
+        return new Promise((resolve, reject) => {
+            console.log('Connecting...');
+            var socket = new WebSocket('ws://localhost:8081?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN
+
+            if (!socket) {
+                console.warn('Authentication must be disabled to support the objects read!');
+                return reject();
+            }
+
+            if (window.__ioBrokerTimeout) {
+                return reject();
+            }
+
+            var timeout = setTimeout(function () {
+                window.__ioBrokerTimeout = true;
+                reject && reject('timeout');
+                reject = null;
+                resolve = null;
+
+                try {
+                    socket.close();
+                } catch (e) {
+                    // ignore
+                }
+            }, 2000);
+
+            socket.onopen = function () {
+                console.log('Connected to admin successfully!');
+            };
+            socket.onmessage = function (event) {
+                if (event.data.indexOf('___ready___') !== -1) {
+                    setTimeout(function () {
+                        socket.send('[3,2,"getObjects",[]]');
+                    }, 50);
+                } else if (resolve && event.data.indexOf('getObjects') !== -1) {
+                    clearTimeout(timeout);
+                    timeout = null;
+                    try {
+                        var data = JSON.parse(event.data)[3][1];
+                        console.log(`Could read dynamic data from admin!`);
+                        resolve(data);
+                    } catch (e) {
+                        reject(e);
+                    }
+
+                    reject = null;
+                    resolve = null;
+
+                    try {
+                        socket.close();
+                    } catch (e) {
+                        // ignore
+                    }
+                }
+            };
+
+            socket.onerror = function (error) {
+                if (resolve) {
+                    window.__ioBrokerTimeout = true;
+                    console.error('Error on connection: ' + error.message);
+                    reject && reject(error.message);
+                    reject = null;
+                    resolve = null;
+
+                    try {
+                        socket.close();
+                    } catch (e) {
+                        // ignore
+                    }
+                }
+            };
+        });
+    }
+
+    function openSelectId(allowAll, data) {
+        if (data) {
+            window.__iobroker = data;
+        }
+
+        readData()
+            .catch(() => null)
+            .then(objs => {
+                if (objs) {
+                    window.__iobroker = objs;
+                }
+
                 $('#dialog-select-member').selectId('init', {
                     objects: window.__iobroker,
                     noMultiselect: true,
@@ -41,15 +124,15 @@
                     noImg:   true
                 });
             });
-        } else {
-            $('#dialog-select-member').selectId('init', {
-                objects: window.__iobroker,
-                noMultiselect: true,
-                allowSelectionOfNonExistingObjects: !!allowAll,
-                columns: ['name', 'role', 'enum', 'room'],
-                states:  null,
-                noImg:   true
+    }
+
+    function initSelectId(allowAll, onChange) {
+        if (!window.__iobroker) {
+            $.getJSON('iobroker.json', function (data) {
+                openSelectId(allowAll, data);
             });
+        } else {
+            openSelectId(allowAll);
         }
 
         $('#node-input-topic-button').button({
