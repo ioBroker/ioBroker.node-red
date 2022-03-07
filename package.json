@@ -39,7 +39,7 @@
     "node-red-node-feedparser": "^0.2.2",
     "node-red-node-sentiment": "^0.1.6",
     "node-red-node-twitter": "^1.2.0",
-    "@iobroker/adapter-core": "^2.5.1"
+    "@iobroker/adapter-core": "^2.6.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^2.2.1",
