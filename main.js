@@ -411,6 +411,12 @@ function syncPublic(path) {
         } else {
             if (!fs.existsSync(editorClientPath + path + '/' + dir[i])) {
                 fs.createReadStream(__dirname + path + '/' + dir[i]).pipe(fs.createWriteStream(editorClientPath + path + '/' + dir[i]));
+            } else if (dir[i].endsWith('.js')) {
+                const dest = fs.readFileSync(editorClientPath + path + '/' + dir[i]).toString('utf8');
+                const src = fs.readFileSync(__dirname + path + '/' + dir[i]).toString('utf8');
+                if (dest !== src) {
+                    fs.createReadStream(__dirname + path + '/' + dir[i]).pipe(fs.createWriteStream(editorClientPath + path + '/' + dir[i]));
+                }
             }
         }
     }

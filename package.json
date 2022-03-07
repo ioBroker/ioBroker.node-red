@@ -31,7 +31,7 @@
     "node-red-contrib-os": "^0.2.1"
   },
   "dependencies": {
-    "node-red": "^2.2.0",
+    "node-red": "^2.2.2",
     "node-red-dashboard": "^3.1.6",
     "node-red-contrib-aggregator": "^2.0.0",
     "node-red-contrib-polymer": "^0.0.22",
@@ -42,7 +42,9 @@
     "@iobroker/adapter-core": "^2.6.0"
   },
   "devDependencies": {
-    "@alcalzone/release-script": "^2.2.1",
+    "@alcalzone/release-script": "^3.5.6",
+    "@alcalzone/release-script-plugin-iobroker": "^3.5.6",
+    "@alcalzone/release-script-plugin-license": "^3.5.3",
     "axios": "^0.26.0",
     "gulp": "^4.0.2",
     "request": "^2.88.2",
@@ -53,9 +55,22 @@
     "url": "https://github.com/ioBroker/ioBroker.node-red/issues"
   },
   "main": "main.js",
+  "files": [
+    "admin/",
+    "lib/",
+    "nodes/",
+    "public/",
+    "io-package.json",
+    "LICENSE",
+    "main.js",
+    "settings.js"
+  ],
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha --exit",
-    "release": "node node_modules/@alcalzone/release-script/bin/release.js"
+    "release": "release-script",
+    "release-patch": "release-script patch --yes",
+    "release-minor": "release-script minor --yes",
+    "release-major": "release-script major --yes"
   },
   "readmeFilename": "README.md"
 }

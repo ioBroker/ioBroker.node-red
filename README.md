@@ -293,7 +293,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## License
 
-Copyright 2014-2021 bluefox <dogafox@gmail.com>.
+Copyright 2014-2022 bluefox <dogafox@gmail.com>.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
