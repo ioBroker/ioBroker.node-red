@@ -304,8 +304,8 @@
             }
         ],
         "tier": 1,
-        "connectionType": "none",
-        "dataSource": "none"
+        "connectionType": "local",
+        "dataSource": "push"
     },
     "native": {
         "bind": "0.0.0.0",
