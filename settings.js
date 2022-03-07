@@ -232,6 +232,7 @@ module.exports = {
      * that should be served at http://localhost:1880/.
      */
     //httpStatic: '/home/nol/node-red-static/',
+    '%%hStatic%%'httpStatic: "'%%httpStatic%%'",
 
 /*******************************************************************************
  * Runtime Settings
@@ -340,6 +341,12 @@ module.exports = {
          * a collection of themes to chose from.
          */
         //theme: "",
+
+        /** To disable the 'Welcome to Node-RED' tour that is displayed the first
+         * time you access the editor for each release of Node-RED, set this to false
+         */
+        //tours: false,
+
         palette: {
             /** The following property can be used to order the categories in the editor
              * palette. If a node's category is not in the list, the category will get
@@ -348,6 +355,7 @@ module.exports = {
              */
             //categories: ['subflows', 'common', 'function', 'network', 'sequence', 'parser', 'storage'],
         },
+
         projects: {
             /** To enable the Projects feature, set this value to true */
             enabled: '%%projectsEnabled%%',
@@ -361,6 +369,7 @@ module.exports = {
                 mode: "manual"
             }
         },
+
         codeEditor: {
             /** Select the text editor component used by the editor.
              * Defaults to "ace", but can be set to "ace" or "monaco"

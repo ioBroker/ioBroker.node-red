@@ -30,7 +30,8 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 ### __WORK IN PROGRESS__
 * (jwiesel) Changed default setting to "convert data from ioBroker nodes into Strings" to false. Setting will not be changed automatically in instances already running.
 * (jwiesel) "Tail" node has been removed from the default palette in Node-RED 2.0. You can reinstall it from node-red-node-tail.
-* (jwiesel) Node-RED updated to 2.1.4 (incl. restructuring of settings.js)
+* (jwiesel) Node-RED updated to 2.2.0 (incl. restructuring of settings.js)
+* (jwiesel) Added NodeRed parameter httpStatic to instance settings
 
 ### 2.4.2 (2022-02-07)
 * (Apollon77) Make compatible with js-controller 4.0

@@ -242,6 +242,14 @@
             showHideBackupWarning();
             onChange();
         });
+        
+        $('#httpStatic').on('input', function () {
+            if($('#httpStatic').val()) {
+            	$('#hStatic').val(true);
+            } else {
+            	$('#hStatic').val(false);
+            }
+        });
 
         showHideSettings();
         showHideBackupWarning();
@@ -347,6 +355,13 @@
                 <div class="input-field col s12 m4 l3">
                     <input id="httpRoot" class="value" type="text" style="width: 100%"/>
                     <label class="translate" for="httpRoot">http root directory:</label>
+                    <span class="translate">(e.g. /admin)</span>
+                </div>
+                <div class="input-field col s12 m4 l3">
+                    <input id="httpStatic" class="value" type="text" style="width: 100%"/>
+                    <label class="translate" for="httpStatic">http Static directory:</label>
+                    <input class="value" id="hStatic" type="hidden" />
+                    <span class="translate">The http-static parameter can be used to identify a directory of static content on local host.</span>
                 </div>
             </div>
             <div class="row">
