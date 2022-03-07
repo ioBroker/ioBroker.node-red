@@ -129,7 +129,7 @@ module.exports = function (RED) {
                     // If not exists
                     if (!obj) {
                         if (common) {
-                            log('State "' + id + '" was created in the ioBroker');
+                            log(`State "${id}" was created in the ioBroker`);
                             // Create object
                             const data = {
                                 common,
@@ -148,7 +148,8 @@ module.exports = function (RED) {
                                 adapter.setObject(id, data, _ => adapter.setState(id, val, () => callback && callback(true)));
                             }
                         } else {
-                            adapter.log.info('Automatic objects creation is not enabled. You can enable it in the node configuration');
+                            adapter.log.info(`[${node.customName}] Cannot set state of non-existing object "${id}".`);
+                            adapter.log.info(`Automatic objects creation is not enabled. You can enable it in the node configuration`);
                             callback && callback(false);
                         }
                     } else {
@@ -230,6 +231,7 @@ module.exports = function (RED) {
         const node = this;
         RED.nodes.createNode(node, n);
         node.topic = (n.topic || '*').replace(/\//g, '.');
+        node.customName = 'ioBroker in';
 
         defineCommon(node, n);
 
@@ -352,6 +354,7 @@ module.exports = function (RED) {
         const node = this;
         RED.nodes.createNode(node, n);
         node.topic = n.topic;
+        node.customName = 'ioBroker out';
 
         node.ack = n.ack === 'true' || n.ack === true;
 
@@ -497,6 +500,7 @@ module.exports = function (RED) {
         const node = this;
         RED.nodes.createNode(node, n);
         node.topic = typeof n.topic === 'string' && n.topic.length > 0 ?  n.topic.replace(/\//g, '.') : null;
+        node.customName = 'ioBroker get';
 
         defineCommon(node, n);
 
@@ -572,6 +576,7 @@ module.exports = function (RED) {
         const node = this;
         RED.nodes.createNode(node, n);
         node.topic = typeof n.topic === 'string' && n.topic.length > 0 ?  n.topic.replace(/\//g, '.') : null;
+        node.customName = 'ioBroker get object';
 
         defineCommon(node, n);
 
@@ -641,6 +646,7 @@ module.exports = function (RED) {
         const node = this;
         RED.nodes.createNode(node, n);
         node.topic = typeof n.topic === 'string' && n.topic.length > 0 ? n.topic.replace(/\//g, '.') : null;
+        node.customName = 'ioBroker list';
 
         // If no adapter prefix, add own adapter prefix
         if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
