@@ -42,7 +42,7 @@ module.exports = function (RED) {
     }
     const nodeSets = [];
     const checkStates = [];
-    const isValidID = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]*\\.\\d+\\.');
+    const isValidIDRegExp = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]*\\.\\d+\\.');
     let ready = false;
     const log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
 
@@ -83,8 +83,12 @@ module.exports = function (RED) {
         });
     });
 
+    function isValidId(id) {
+        return isValidIDRegExp.test(id) || id.startsWith('system.');
+    }
+
     function isForeignState(id) {
-        return isValidID.test(id) && !id.startsWith(adapter.namespace + '.');
+        return isValidId(id) && !id.startsWith(adapter.namespace + '.');
     }
 
     // name is like system.state, pattern is like "*.state" or "*" or "*system*"
@@ -249,7 +253,7 @@ module.exports = function (RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.subscribePattern = node.topic;
@@ -307,11 +311,11 @@ module.exports = function (RED) {
             const t = topic.replace(/\./g, '/') || '_no_topic';
             //node.log ("Function: " + node.func);
 
-			if (node.func === 'rbe') {
+			if (node.func === 'rbe' || node.func === 'rbe-preinitvalue') {
                 if (state && state.val === node.previous[t]) {
                     return;
                 }
-            } else if (state && node.func === 'deadband') {
+            } else if (state && (node.func === 'deadband' || node.func === 'deadband-preinitvalue')) {
                 const n = parseFloat(state.val.toString());
                 if (!isNaN(n)) {
                     //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
@@ -359,14 +363,16 @@ module.exports = function (RED) {
             adapter.on('stateChange', node.stateChange);
             node.subscribePattern && adapter.subscribeForeignStates(node.subscribePattern);
 
-            if (node.fireOnStart && !node.topic.includes('*')) {
-                adapter.getForeignState(node.topic, (err, state) =>
-                    node.stateChange(node.topic, state));
-            } else if (node.func === 'rbe' && !node.fireOnStart && !node.topic.includes('*')) {
-                const t = node.topic.replace(/\./g, '/') || '_no_topic';
+            if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
                 adapter.getForeignState(node.topic, (err, state) => {
-                    if (err) return;
-                    node.previous[t] = state ? state.val : null
+                    err && adapter.log.info(`Could not read value of "${node.topic}" for initialization: ${err.message}`);
+                    if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
+                        const t = node.topic.replace(/\./g, '/') || '_no_topic';
+                        node.previous[t] = state ? state.val : null
+                    }
+                    if (node.fireOnStart) {
+                        node.stateChange(node.topic, state);
+                    }
                 });
             }
         }
@@ -416,7 +422,7 @@ module.exports = function (RED) {
                 id = msg.topic;
             }
             // if not starts with adapter.instance.
-            if (id && !isValidID.test(id) && !id.startsWith(adapter.namespace)) {
+            if (id && !isValidId(id) && !id.startsWith(adapter.namespace)) {
                 id = adapter.namespace + '.' + id;
             }
 
@@ -429,7 +435,7 @@ module.exports = function (RED) {
                 id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
-                    if (!id.includes('*') && isValidID.test(id)) {
+                    if (!id.includes('*') && isValidId(id)) {
                         return checkState(node, id, assembleCommon(node, msg, id), {val: msg.payload, ack: msgAck}, isOk => {
                             if (isOk) {
                                 node.status({
@@ -534,7 +540,7 @@ module.exports = function (RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
@@ -555,7 +561,7 @@ module.exports = function (RED) {
         node.getStateValue = function (msg, id) {
             return function (err, state) {
                 if (!err && state) {
-                    msg[node.attrname] = (node.payloadType === 'object') ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
+                    msg[node.attrname] = node.payloadType === 'object' ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
                     msg.acknowledged   = state.ack;
                     msg.timestamp      = state.ts;
                     msg.lastchange     = state.lc;
@@ -563,11 +569,26 @@ module.exports = function (RED) {
                     node.status({
                         fill: 'green',
                         shape: 'dot',
-                        text: (node.payloadType === 'object') ? JSON.stringify(state) : ((state.val === null || state.val === undefined) ? '' : state.val.toString())
+                        text: node.payloadType === 'object' ? JSON.stringify(state) : ((state.val === null || state.val === undefined) ? '' : state.val.toString())
                     });
                     node.send(msg);
                 } else {
-                    log(`State "${id}" does not exist in the ioBroker`);
+                    const getObjFunc = isForeignState(id) ? adapter.getForeignObject : adapter.getObject;
+                    getObjFunc(id, (err, obj) => {
+                        if ((err || !obj) && (node.errOnInvalidState === 'true' || node.errOnInvalidState === true)) {
+                            node.error(`Object for state ${id} do not exist`, msg);
+                            return;
+                        }
+
+                        msg[node.attrname] = node.payloadType === 'object' ? state : (valueConvert ? '' : undefined);
+                        msg.topic          = node.topic || msg.topic;
+                        node.status({
+                            fill: 'yellow',
+                            shape: 'dot',
+                            text: node.payloadType === 'object' ? JSON.stringify(state) : ''
+                        });
+                        node.send(msg);
+                    });
                 }
             };
         };
@@ -610,7 +631,7 @@ module.exports = function (RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.attrname = n.attrname;
@@ -678,7 +699,7 @@ module.exports = function (RED) {
         node.customName = 'ioBroker list';
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidID.test(node.topic) && !node.topic.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
         node.objType = n.objType;
