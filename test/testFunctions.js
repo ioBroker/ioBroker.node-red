@@ -95,11 +95,11 @@ describe('Test node-red', function() {
     });
 
     after('Test node-red: Stop js-controller', function (done) {
-        this.timeout(6000);
+        this.timeout(10000);
 
         setup.stopController(function (normalTerminated) {
             console.log('Adapter normal terminated: ' + normalTerminated);
-            done();
+            setTimeout(() => done(), 3000);
         });
     });
 });

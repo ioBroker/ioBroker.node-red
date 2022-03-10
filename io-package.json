@@ -287,7 +287,7 @@
         "localLink": "http%s%://%ip%:%port%%httpRoot%",
         "enabled": true,
         "singletonHost": true,
-        "supportStopInstance": true,
+        "supportStopInstance": 3000,
         "unsafePerm": true,
         "materialize": true,
         "compact": true,

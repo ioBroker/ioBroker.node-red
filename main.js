@@ -131,7 +131,7 @@ function unloadRed(callback) {
     notificationsCreds && notificationsCreds.close();
     notificationsFlows && notificationsFlows.close();
 
-    callback && callback();
+    setTimeout(() => callback && callback(), 2000);
 }
 
 function processMessage(obj) {
