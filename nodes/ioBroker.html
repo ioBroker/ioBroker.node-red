@@ -414,7 +414,7 @@ RED.nodes.registerType('ioBroker out', {
     <div class="form-row">
         <label for="node-input-errOnInvalidState"><i class="fa fa-envelope"></i> Return error when Object do not exist</label>
         <select id="node-input-errOnInvalidState" style="width:125px !important">
-          <option value="true" default>Return Error on non existing Object</option>
+          <option value="true">Return Error on non existing Object</option>
           <option value="false">Return state value as undefined</option>
         </select>
     </div>
@@ -433,7 +433,8 @@ RED.nodes.registerType('ioBroker get', {
             name: {value: ''},
             topic: {value: ''},
             attrname: {value: 'payload'},
-            payloadType: {value: 'value'}
+            payloadType: {value: 'value'},
+            errOnInvalidState: {value: 'false'}
          },
         color: '#a8bfd8',
         inputs: 1,
