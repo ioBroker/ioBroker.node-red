@@ -81,8 +81,8 @@ describe('Test node-red', function() {
         checkConnectionOfAdapter(done);
     });
 
-    it('Test node-red: check creation of state', function (done) {
-        this.timeout(20000);
+    it('Test node-red: check node-red startup', function (done) {
+        this.timeout(30000);
         // check if node-red is running
 
         setTimeout(function () {
@@ -91,7 +91,7 @@ describe('Test node-red', function() {
                 expect(body).to.be.ok;
                 done();
             });
-        }, 5000);
+        }, 15000);
     });
 
     after('Test node-red: Stop js-controller', function (done) {
