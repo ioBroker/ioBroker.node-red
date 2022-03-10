@@ -42,6 +42,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 * (Apollon77) Allow for GetNode to return an error if a state-id is used for which no object exists, else also return undefined
 * (Apollon77) Also allow to access system.* states directly
 * (Apollon77) When RBE function is used on InNode and not value is sent on start still initialize current value internally
+* (Apollon77) Add node-ID in front of all log lines logged by node logic
 
 ### 2.4.2 (2022-02-07)
 * (Apollon77) Make compatible with js-controller 4.0

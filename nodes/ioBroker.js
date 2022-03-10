@@ -79,7 +79,7 @@ module.exports = function (RED) {
                 nodeSetData.node.emit('input', nodeSetData.msg);
                 count++;
             }
-            count && log(count + ' queued state values set in ioBroker');
+            count && log(`${count} queued state values set in ioBroker`);
         });
     });
 
@@ -133,7 +133,7 @@ module.exports = function (RED) {
                     // If not exists
                     if (!obj) {
                         if (common) {
-                            log(`State "${id}" was created in the ioBroker`);
+                            log(`${node.id}: State "${id}" was created in the ioBroker`);
                             // Create object
                             const data = {
                                 common,
@@ -151,8 +151,8 @@ module.exports = function (RED) {
                                         }
                                     });
                                 } else {
-                                    adapter.log.info(`"${node.customName}" Cannot set state of non-existing object "${id}".`);
-                                    adapter.log.info(`Creation of foreign objects is not enabled. You can enable it in the instance configuration`);
+                                    adapter.log.info(`${node.id}: "${node.customName}" Cannot set state of non-existing object "${id}".`);
+                                    adapter.log.info(`${node.id}: Creation of foreign objects is not enabled. You can enable it in the instance configuration`);
                                     callback && callback(false);
                                 }
                             } else {
@@ -165,8 +165,8 @@ module.exports = function (RED) {
                                 });
                             }
                         } else {
-                            adapter.log.info(`"${node.customName}" Cannot set state of non-existing object "${id}".`);
-                            adapter.log.info(`Automatic objects creation is not enabled. You can enable it in the node configuration`);
+                            adapter.log.info(`${node.id}: "${node.customName}" Cannot set state of non-existing object "${id}".`);
+                            adapter.log.info(`${node.id}: Automatic objects creation is not enabled. You can enable it in the node configuration`);
                             callback && callback(false);
                         }
                     } else {
@@ -365,7 +365,7 @@ module.exports = function (RED) {
 
             if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
                 adapter.getForeignState(node.topic, (err, state) => {
-                    err && adapter.log.info(`Could not read value of "${node.topic}" for initialization: ${err.message}`);
+                    err && adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
                     if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                         const t = node.topic.replace(/\./g, '/') || '_no_topic';
                         node.previous[t] = state ? state.val : null
@@ -466,7 +466,7 @@ module.exports = function (RED) {
                                         shape: 'ring',
                                         text:   'Error on setForeignState. See Log'
                                     });
-                                    log(`Error on setState for ${id}: ${err}`);
+                                    log(`${node.id}: Error on setState for ${id}: ${err}`);
                                 } else {
                                     node.status({
                                         fill: 'green',
@@ -477,7 +477,7 @@ module.exports = function (RED) {
                                 done();
                             });
                         } else {
-                            log(`State "${id}" does not exist in the ioBroker`);
+                            log(`${node.id}: State "${id}" does not exist in the ioBroker`);
                             node.status({
                                 fill:  'red',
                                 shape: 'ring',
@@ -488,7 +488,7 @@ module.exports = function (RED) {
                     });
                 } else {
                     if (id.includes('*')) {
-                        log(`Invalid topic name "${id}" for ioBroker`);
+                        log(`${node.id}: Invalid topic name "${id}" for ioBroker`);
                         node.status({
                             fill:  'red',
                             shape: 'ring',
@@ -503,7 +503,7 @@ module.exports = function (RED) {
                                     shape: 'ring',
                                     text:   'Error on setState. See Log'
                                 });
-                                log(`Error on setState for ${id}: ${err}`);
+                                log(`${node.id}: Error on setState for ${id}: ${err}`);
                             } else {
                                 node.status({
                                     fill: 'green',
@@ -602,7 +602,7 @@ module.exports = function (RED) {
             }
             if (id) {
                 if (id.includes('*')) {
-                    log(`Invalid topic name "${id}" for ioBroker`);
+                    log(`${node.id}: Invalid topic name "${id}" for ioBroker`);
                 } else {
                     id = id.replace(/\//g, '.');
                     // If not this adapter state
@@ -659,7 +659,7 @@ module.exports = function (RED) {
                     });
                     node.send(msg);
                 } else {
-                    log(`Object "${node.topic || msg.topic}" does not exist in the ioBroker`);
+                    log(`${node.id}: Object "${node.topic || msg.topic}" does not exist in the ioBroker`);
                 }
             };
         };
@@ -671,7 +671,7 @@ module.exports = function (RED) {
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
             } else if (id) {
                 if (id.includes('*')) {
-                    log(`Invalid topic name "${id}" for ioBroker`);
+                    log(`${node.id}: Invalid topic name "${id}" for ioBroker`);
                 } else {
                     id = id.replace(/\//g, '.');
                     // If not this adapter state
@@ -728,7 +728,7 @@ module.exports = function (RED) {
                     });
                     node.send(msg);
                 } else {
-                    log(`Object "${node.topic || msg.topic}" does not exist in the ioBroker`);
+                    log(`${node.id}: Object "${node.topic || msg.topic}" does not exist in the ioBroker`);
                 }
             };
         };
@@ -746,7 +746,7 @@ module.exports = function (RED) {
                         try {
                             regex = new RegExp(msg.regex.replace('\\', '\\\\'));
                         } catch (e) {
-                            log(`Cannot create regular expression from "${msg.regex}"!`);
+                            log(`${node.id}: Cannot create regular expression from "${msg.regex}"!`);
                         }
                     } else {
                         regex = msg.regex;
@@ -771,7 +771,7 @@ module.exports = function (RED) {
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('Error while requesting folders: ' + err);
+                    log(`${node.id}: Error while requesting folders: ${err}`);
                 }
                 try {
                     if (!node.objType || node.objType === 'device') {
@@ -780,7 +780,7 @@ module.exports = function (RED) {
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('Error while requesting devices: ' + err);
+                    log(`${node.id}: Error while requesting devices: ${err}`);
                 }
                 try {
                     if (!node.objType || node.objType === 'channel') {
@@ -789,7 +789,7 @@ module.exports = function (RED) {
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('Error while requesting channels: ' + err);
+                    log(`${node.id}: Error while requesting channels: ${err}`);
                 }
                 try {
                     if (!node.objType || node.objType === 'state') {
@@ -798,7 +798,7 @@ module.exports = function (RED) {
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('Error while requesting states: ' + err);
+                    log(`${node.id}: Error while requesting states: ${err}`);
                 }
                 try {
                     if (!node.objType || node.objType === 'meta') {
@@ -816,7 +816,7 @@ module.exports = function (RED) {
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('Error while requesting instances: ' + err);
+                    log(`${node.id}: Error while requesting instances: ${err}`);
                 }
                 try {
                     if (!node.objType || node.objType === 'adapter') {
@@ -825,7 +825,7 @@ module.exports = function (RED) {
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('Error while requesting adapters: ' + err);
+                    log(`${node.id}: Error while requesting adapters: ${err}`);
                 }
 
                 if (regex) {
