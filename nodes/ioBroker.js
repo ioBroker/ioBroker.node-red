@@ -838,6 +838,7 @@ module.exports = function (RED) {
                 }
 
                 if (regex) {
+                    log(`${node.id}: process list using regex ${regex.toString()}`)
                     const newList = {};
                     Object.keys(list).forEach(id => {
                         if (regex.test(id)) {
