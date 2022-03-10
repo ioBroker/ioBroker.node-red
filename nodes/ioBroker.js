@@ -717,7 +717,7 @@ module.exports = function (RED) {
         node.onlyIDs = n.onlyIDs === 'true' || n.onlyIDs === true;
         node.withValues = n.withValues === 'true' || n.withValues === true;
         if (node.regex) {
-            node.regex = new RegExp(node.regex.replace(/\\/g, '\\\\'));
+            node.regex = new RegExp(node.regex);
         }
 
         if (ready) {
@@ -753,7 +753,7 @@ module.exports = function (RED) {
                 if (msg.regex && (typeof msg.regex === 'string' || msg.regex instanceof RegExp)) {
                     if (typeof msg.regex === 'string') {
                         try {
-                            regex = new RegExp(msg.regex.replace(/\\/g, '\\\\'));
+                            regex = new RegExp(msg.regex);
                         } catch (e) {
                             log(`${node.id}: Cannot create regular expression from "${msg.regex}"!`);
                         }
