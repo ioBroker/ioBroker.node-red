@@ -544,6 +544,7 @@ module.exports = function (RED) {
             node.topic = adapter.namespace + '.' + node.topic;
         }
 
+        node.errOnInvalidState = n.errOnInvalidState;
         node.payloadType = n.payloadType;
         node.attrname    = n.attrname;
 
