@@ -588,7 +588,15 @@ module.exports = function (RED) {
                             shape: 'dot',
                             text: node.payloadType === 'object' ? JSON.stringify(state) : ''
                         });
-                        node.send(msg);
+                        if (node.errOnInvalidState !== 'true' && node.errOnInvalidState !== true && node.errOnInvalidState !== 'false' && node.errOnInvalidState !== false) {
+                            if (err || !obj) {
+                                log(`${node.id}: Object for state ${id} do not exist`);
+                            } else if (!state) {
+                                log(`${node.id}: State ${id} has no value`);
+                            }
+                        } else {
+                            node.send(msg);
+                        }
                     });
                 }
             };

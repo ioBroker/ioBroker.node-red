@@ -416,6 +416,7 @@ RED.nodes.registerType('ioBroker out', {
         <select id="node-input-errOnInvalidState" style="width:250px !important">
           <option value="true">Return Error</option>
           <option value="false">Return state value as undefined</option>
+          <option value="nothing">Return nothing</option>
         </select>
     </div>
     <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
@@ -434,7 +435,7 @@ RED.nodes.registerType('ioBroker get', {
             topic: {value: ''},
             attrname: {value: 'payload'},
             payloadType: {value: 'value'},
-            errOnInvalidState: {value: 'false'}
+            errOnInvalidState: {value: 'nothing'}
          },
         color: '#a8bfd8',
         inputs: 1,
