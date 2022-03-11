@@ -1,341 +1,185 @@
 {
-    "common": {
-        "name": "node-red",
-        "version": "2.4.1",
-        "title": "node-red",
-        "titleLang": {
-            "en": "node-red",
-            "de": "node-red",
-            "ru": "node-red",
-            "pt": "node-red",
-            "nl": "node-red",
-            "fr": "node-red",
-            "it": "node-red",
-            "es": "node-red",
-            "pl": "node-red",
-            "zh-cn": "node-red"
-        },
-        "news": {
-            "2.4.1": {
-                "en": "Correct min7max for the object creation \nNode-red updated to 1.3.6",
-                "de": "Korrektes min7max für die Objekterstellung\nKnotenrot aktualisiert auf 1.3.6",
-                "ru": "Правильный min7max для создания объекта\nNode-red обновлен до 1.3.6",
-                "pt": "Corrigir min7max para a criação do objeto\nNode-red atualizado para 1.3.6",
-                "nl": "Corrigeer min7max voor het maken van objecten\nNode-red bijgewerkt naar 1.3.6",
-                "fr": "Corriger min7max pour la création de l'objet\nNode-red mis à jour vers la 1.3.6",
-                "it": "Correggere min7max per la creazione dell'oggetto\nNodo rosso aggiornato a 1.3.6",
-                "es": "Corregir min7max para la creación del objeto\nNode-red actualizado a 1.3.6",
-                "pl": "Popraw min7max dla tworzenia obiektu\nWęzeł czerwony zaktualizowany do 1.3.6",
-                "zh-cn": "为对象创建更正 min7max\nNode-red 更新至 1.3.6"
-            },
-            "2.4.0": {
-                "en": "update to node-red 1.3.5\nOptimize for js-controller 3.3\nAdd option to override the default ack flag in the message for OutNode",
-                "de": "Update auf Knotenrot 1.3.5\nOptimieren Sie für js-Controller 3.3\nOption zum Überschreiben des Standard-Ack-Flags in der Nachricht für OutNode hinzufügen",
-                "ru": "обновление до node-red 1.3.5\nОптимизировать под js-controller 3.3\nДобавить параметр для отмены флага подтверждения по умолчанию в сообщении для OutNode",
-                "pt": "atualização para node-red 1.3.5\nOtimize para js-controller 3.3\nAdicionar opção para substituir o sinalizador de confirmação padrão na mensagem para OutNode",
-                "nl": "update naar node-red 1.3.5\nOptimaliseren voor js-controller 3.3\nOptie toevoegen om de standaard ack-vlag in het bericht voor OutNode te negeren",
-                "fr": "mise à jour vers node-red 1.3.5\nOptimiser pour js-controller 3.3\nAjouter une option pour remplacer l'indicateur d'accusé de réception par défaut dans le message pour OutNode",
-                "it": "aggiornamento a node-red 1.3.5\nOttimizza per js-controller 3.3\nAggiungi l'opzione per sovrascrivere il flag di riconoscimento predefinito nel messaggio per OutNode",
-                "es": "actualizar a node-red 1.3.5\nOptimizar para js-controller 3.3\nAgregue la opción para anular el indicador de ack predeterminado en el mensaje para OutNode",
-                "pl": "aktualizacja do node-red 1.3.5\nOptymalizacja dla kontrolera js 3.3\nDodaj opcję zastąpienia domyślnej flagi potwierdzenia w wiadomości dla OutNode",
-                "zh-cn": "更新到节点红色 1.3.5\n针对 js-controller 3.3 优化\n添加选项以覆盖 OutNode 消息中的默认 ack 标志"
-            },
-            "2.3.0": {
-                "en": "BREAKING update from node-red-contrib-aggregator: topic is NOT converted to lowercase anymore!\nupdate to node-red 1.3.2\nAdd done calls to OutNode",
-                "de": "BREAKING-Update vom Node-Red-Contrib-Aggregator: Thema wird NICHT mehr in Kleinbuchstaben konvertiert!\nUpdate auf Node-Red 1.3.2\nFügen Sie erledigte Anrufe zu OutNode hinzu",
-                "ru": "ПРЕРЫВНОЕ обновление от node-red-contrib-aggregator: тема больше НЕ конвертируется в нижний регистр!\nобновление до node-red 1.3.2\nДобавить выполненные вызовы в OutNode",
-                "pt": "QUEBRANDO atualização do node-red-contrib-aggregator: o tópico NÃO é mais convertido para minúsculas!\natualização para node-red 1.3.2\nAdicionar chamadas feitas para OutNode",
-                "nl": "BREAKING update van node-red-contrib-aggregator: topic wordt NIET meer geconverteerd naar kleine letters!\nupdate naar node-red 1.3.2\nVoeg voltooide oproepen toe aan OutNode",
-                "fr": "BREAKING update de node-red-contrib-aggregator: le sujet n'est plus converti en minuscules!\nmise à jour vers node-red 1.3.2\nAjouter les appels effectués à OutNode",
-                "it": "BREAKING aggiornamento da node-red-contrib-aggregator: l'argomento NON è più convertito in minuscolo!\naggiornamento a node-red 1.3.2\nAggiungi chiamate completate a OutNode",
-                "es": "BREAKING actualización de node-red-contrib-aggregator: ¡el tema ya NO se convierte a minúsculas!\nactualizar a node-red 1.3.2\nAgregar llamadas realizadas a OutNode",
-                "pl": "BREAKING aktualizacja z węzła-red-contrib-Agregator: temat NIE jest już konwertowany na małe litery!\naktualizacja do node-red 1.3.2\nDodaj wykonane wywołania do OutNode",
-                "zh-cn": "BREAKING从node-red-contrib-aggregator更新：主题不再转换为小写！\n更新到节点红色1.3.2\n将已完成的呼叫添加到OutNode"
-            },
-            "2.2.0": {
-                "en": "(Apollon77/mickym2) Correct readonly flags. IMPORTANT: Notw Readonly works as it should be. If you worked around the issue before please adjust your nodes!\nFix using wildcards inside the id\nUpdate value on out node trigger \nUpdate to node-red 1.2.9\nAdd triggering in Nodes when delayed initialization on start\nFix list node to support all object types",
-                "de": "(Apollon77 / mickym2) Korrigieren Sie schreibgeschützte Flags. WICHTIG: Notw Readonly funktioniert so, wie es sein sollte. Wenn Sie das Problem zuvor umgangen haben, passen Sie bitte Ihre Knoten an!\nBehebung mit Platzhaltern innerhalb der ID\nAktualisieren Sie den Wert beim Auslösen des Knotens\nUpdate auf Node-Red 1.2.9\nFügen Sie Triggering in Nodes hinzu, wenn sich die Initialisierung beim Start verzögert\nFix Listenknoten zur Unterstützung aller Objekttypen",
-                "ru": "(Apollon77 / mickym2) Правильные флаги только для чтения. ВАЖНО: Notw Readonly работает должным образом. Если вы пытались решить эту проблему раньше, отрегулируйте узлы!\nИсправить использование подстановочных знаков внутри идентификатора\nОбновить значение триггера выходного узла\nОбновление до node-red 1.2.9\nДобавить срабатывание в узлах при отложенной инициализации при запуске\nИсправить узел списка для поддержки всех типов объектов",
-                "pt": "(Apollon77 / mickym2) Sinalizadores somente leitura corretos. IMPORTANTE: Notw Readonly funciona como deveria. Se você contornou o problema antes, ajuste seus nós!\nCorrija o uso de curingas dentro do id\nAtualizar o valor no gatilho do nó\nAtualização para node-red 1.2.9\nAdicionar acionamento em nós quando a inicialização atrasada no início\nCorrigir o nó da lista para suportar todos os tipos de objetos",
-                "nl": "(Apollon77 / mickym2) Alleen-lezen vlaggen corrigeren. BELANGRIJK: Notw Readonly werkt zoals het hoort. Als je het probleem eerder hebt omzeild, pas dan je knooppunten aan!\nHerstel het gebruik van jokertekens in de id\nUpdate waarde op uit-knooppunt-trigger\nUpdate naar node-red 1.2.9\nVoeg triggering toe in Nodes bij vertraagde initialisatie bij het starten\nLijstknooppunt repareren om alle objecttypes te ondersteunen",
-                "fr": "(Apollon77 / mickym2) Corrigez les indicateurs en lecture seule. IMPORTANT: Notw Readonly fonctionne comme il se doit. Si vous avez déjà résolu le problème, ajustez vos nœuds!\nCorrection en utilisant des caractères génériques dans l'ID\nMettre à jour la valeur sur le déclencheur de nœud\nMise à jour vers node-red 1.2.9\nAjouter le déclenchement dans les nœuds lors de l'initialisation différée au démarrage\nCorrection du nœud de liste pour prendre en charge tous les types d'objets",
-                "it": "(Apollon77 / mickym2) Correggere i flag di sola lettura. IMPORTANTE: Notw Readonly funziona come dovrebbe. Se hai risolto il problema prima, regola i tuoi nodi!\nRisolto il problema con l'utilizzo di caratteri jolly all'interno dell'id\nAggiorna il valore al trigger del nodo out\nAggiornamento a node-red 1.2.9\nAggiungere l'attivazione nei nodi quando l'inizializzazione ritardata all'avvio\nCorreggi il nodo dell'elenco per supportare tutti i tipi di oggetto",
-                "es": "(Apollon77 / mickym2) Corregir indicadores de solo lectura. IMPORTANTE: Notw Readonly funciona como debería ser. Si solucionó el problema antes, ajuste sus nodos.\nArreglar el uso de comodines dentro de la identificación\nActualizar el valor en el desencadenador de nodo\nActualización a node-red 1.2.9\nAgregue activación en nodos cuando se retrasa la inicialización al inicio\nArreglar el nodo de la lista para admitir todos los tipos de objetos",
-                "pl": "(Apollon77 / mickym2) Popraw flagi tylko do odczytu. WAŻNE: Notw Readonly działa tak, jak powinno. Jeśli rozwiązałeś ten problem wcześniej, dostosuj swoje węzły!\nNapraw użycie symboli wieloznacznych w identyfikatorze\nZaktualizuj wartość wyzwalacza z węzła wyjściowego\nZaktualizuj do wersji node-red 1.2.9\nDodaj wyzwalanie w węzłach, gdy opóźniona inicjalizacja przy starcie\nNapraw węzeł listy, aby obsługiwał wszystkie typy obiektów",
-                "zh-cn": "（Apollon77 / mickym2）更正只读标志。重要说明：Notw Readonly可以正常工作。如果您之前已解决此问题，请调整节点！\n修复ID内使用通配符的问题\n更新输出节点触发器上的值\n更新到节点红色1.2.9\n启动时延迟初始化时在节点中添加触发\n修复列表节点以支持所有对象类型"
-            },
-            "2.1.0": {
-                "en": "Try to fix the MaxSubscribes error when having many nodes\nUpdate to node-red 1.2.8",
-                "de": "Versuchen Sie, den MaxSubscribes-Fehler zu beheben, wenn Sie viele Knoten haben\nUpdate auf Node-Red 1.2.8",
-                "ru": "Попытайтесь исправить ошибку MaxSubscribes при большом количестве узлов\nОбновление до node-red 1.2.8",
-                "pt": "Tente corrigir o erro MaxSubscribes quando tiver muitos nós\nAtualização para node-red 1.2.8",
-                "nl": "Probeer de MaxSubscribes-fout op te lossen als u veel knooppunten heeft\nUpdate naar node-red 1.2.8",
-                "fr": "Essayez de corriger l'erreur MaxSubscribes lorsque vous avez plusieurs nœuds\nMise à jour vers node-red 1.2.8",
-                "it": "Prova a correggere l'errore MaxSubscribes quando hai molti nodi\nAggiornamento a node-red 1.2.8",
-                "es": "Intente corregir el error de MaxSubscribes cuando tenga muchos nodos\nActualización a node-red 1.2.8",
-                "pl": "Spróbuj naprawić błąd MaxSubscribes, gdy masz wiele węzłów\nAktualizacja do wersji node-red 1.2.8",
-                "zh-cn": "有多个节点时尝试修复MaxSubscribes错误\n更新到节点红色1.2.8"
-            },
-            "2.0.4": {
-                "en": "Fixed node-red modules installation",
-                "de": "Installation der knotenroten Module behoben",
-                "ru": "Установка фиксированных модулей node-red",
-                "pt": "Instalação corrigida de módulos de nó vermelho",
-                "nl": "Installatie van vaste knooppunt-rode modules",
-                "fr": "Installation de modules fixes avec nœud rouge",
-                "it": "Risolto il problema con l'installazione dei moduli rosso-nodo",
-                "es": "Instalación de módulos fijos node-red",
-                "pl": "Naprawiono instalację modułów w węzłach czerwonych",
-                "zh-cn": "固定节点红色模块的安装"
-            },
-            "2.0.3": {
-                "en": "make sure empty state values do not crash list node",
-                "de": "Stellen Sie sicher, dass leere Statuswerte den Listenknoten nicht zum Absturz bringen",
-                "ru": "убедитесь, что пустые значения состояния не приводят к сбою узла списка",
-                "pt": "certifique-se de que os valores de estado vazio não travem o nó da lista",
-                "nl": "zorg ervoor dat lege statuswaarden het knooppunt van de lijst niet laten crashen",
-                "fr": "assurez-vous que les valeurs d'état vides ne plantent pas le nœud de liste",
-                "it": "assicurarsi che i valori di stato vuoto non blocchino il nodo dell'elenco",
-                "es": "asegúrese de que los valores de estado vacíos no bloqueen el nodo de la lista",
-                "pl": "upewnij się, że puste wartości stanu nie powodują awarii węzła listy",
-                "zh-cn": "确保空状态值不会使列表节点崩溃"
-            },
-            "2.0.2": {
-                "en": "Updated settings.js, node-red and dependencies to latest version.",
-                "de": "Aktualisierte settings.js, Node-Red und Abhängigkeiten zur neuesten Version.",
-                "ru": "Обновлены settings.js, node-red и зависимости до последней версии.",
-                "pt": "Settings.js, node-red e dependencies atualizados para a versão mais recente.",
-                "nl": "Bijgewerkte settings.js, node-red en afhankelijkheden naar de nieuwste versie.",
-                "fr": "Mise à jour de settings.js, node-red et dépendances vers la dernière version.",
-                "it": "Aggiornato settings.js, node-red e dipendenze all'ultima versione.",
-                "es": "Se actualizó settings.js, node-red y dependencias a la última versión.",
-                "pl": "Zaktualizowano settings.js, node-red i zależności do najnowszej wersji.",
-                "zh-cn": "将settings.js，node-red和依赖项更新到最新版本。"
-            },
-            "2.0.1": {
-                "en": "Updated settings.js, node-red and dependencies to latest version.",
-                "de": "Aktualisierte settings.js, Node-Red und Abhängigkeiten zur neuesten Version.",
-                "ru": "Обновлены settings.js, node-red и зависимости до последней версии.",
-                "pt": "Settings.js, node-red e dependencies atualizados para a versão mais recente.",
-                "nl": "Bijgewerkte settings.js, node-red en afhankelijkheden naar de nieuwste versie.",
-                "fr": "Mise à jour de settings.js, node-red et dépendances vers la dernière version.",
-                "it": "Aggiornato settings.js, node-red e dipendenze all'ultima versione.",
-                "es": "Se actualizaron settings.js, node-red y dependencias a la última versión.",
-                "pl": "Zaktualizowano settings.js, node-red i zależności do najnowszej wersji.",
-                "zh-cn": "将settings.js，node-red和依赖项更新到最新版本。"
-            },
-            "2.0.0": {
-                "en": "Checked object and non-states to detect if an object exists\nUpdated settings.js to incorporate latest changes up to Node-RED 1.0.6\nReplaced HTTP basic authentication by Node-RED login form (adminAuth)\nReplaced MD5 password hashing by bcrypt.js as recommended in the Node-RED security guide.\nBreaking change: For those who already used Node-Red authentication: Please set your password in the Node-Red instance settings in ioBroker again! Otherwise you cannot login to Node-Red any longer after the upgrade.**\n",
-                "de": "Überprüftes Objekt und Nichtzustände, um festzustellen, ob ein Objekt vorhanden ist\nDie Datei settings.js wurde aktualisiert, um die neuesten Änderungen bis zu Node-RED 1.0.6 zu berücksichtigen\nErsetzte HTTP-Basisauthentifizierung durch Node-RED-Anmeldeformular (adminAuth)\nErsetzt das MD5-Kennwort-Hashing durch bcrypt.js, wie im Node-RED-Sicherheitshandbuch empfohlen.\nAktuelle Änderung: Für diejenigen, die bereits die Node-Red-Authentifizierung verwendet haben: Bitte legen Sie Ihr Passwort in den Node-Red-Instanzeinstellungen in ioBroker erneut fest! Andernfalls können Sie sich nach dem Upgrade nicht mehr bei Node-Red anmelden. **\n",
-                "ru": "Проверяется объект и не-состояния, чтобы определить, существует ли объект\nОбновлен файл settings.js для включения последних изменений до Node-RED 1.0.6\nЗаменена базовая аутентификация HTTP с помощью формы входа Node-RED (adminAuth)\nЗаменено хеширование пароля MD5 файлом bcrypt.js, как рекомендовано в руководстве по безопасности Node-RED.\nСрочные изменения: для тех, кто уже использовал аутентификацию Node-Red: пожалуйста, установите ваш пароль в настройках экземпляра Node-Red в ioBroker снова! В противном случае вы больше не сможете войти в Node-Red после обновления. **\n",
-                "pt": "Objeto verificado e não estados para detectar se um objeto existe\nAtualizado settings.js para incorporar as alterações mais recentes até o Node-RED 1.0.6\nAutenticação básica HTTP substituída pelo formulário de login do Node-RED (adminAuth)\nHash de senha MD5 substituída por bcrypt.js, conforme recomendado no guia de segurança Node-RED.\nAlterações recentes: Para aqueles que já usaram a autenticação Node-Red: defina sua senha nas configurações da instância Node-Red no ioBroker novamente! Caso contrário, você não poderá mais acessar o Node-Red após a atualização. **\n",
-                "nl": "Gecontroleerd object en niet-statussen om te detecteren of een object bestaat\nBijgewerkte settings.js om de laatste wijzigingen tot Node-RED 1.0.6 op te nemen\nHTTP-basisverificatie vervangen door Node-RED-aanmeldingsformulier (adminAuth)\nVervangen van MD5-wachtwoordhashing door bcrypt.js zoals aanbevolen in de Node-RED-beveiligingsgids.\nBrekende verandering: voor degenen die al Node-Red-authenticatie hebben gebruikt: stel uw wachtwoord opnieuw in de Node-Red-instantie-instellingen in ioBroker! Anders kunt u na de upgrade niet langer inloggen op Node-Red. **\n",
-                "fr": "Objet vérifié et non-états pour détecter si un objet existe\nSettings.js mis à jour pour intégrer les dernières modifications jusqu'à Node-RED 1.0.6\nAuthentification de base HTTP remplacée par le formulaire de connexion Node-RED (adminAuth)\nRemplacement du hachage de mot de passe MD5 par bcrypt.js comme recommandé dans le guide de sécurité Node-RED.\nChangement de rupture: Pour ceux qui ont déjà utilisé l'authentification Node-Red: Veuillez définir à nouveau votre mot de passe dans les paramètres d'instance Node-Red dans ioBroker! Sinon, vous ne pourrez plus vous connecter à Node-Red après la mise à niveau. **\n",
-                "it": "Oggetto controllato e non-stati per rilevare se esiste un oggetto\nSettings.js aggiornato per incorporare le ultime modifiche fino a Node-RED 1.0.6\nSostituito l'autenticazione di base HTTP con il modulo di accesso Node-RED (adminAuth)\nSostituito l'hash della password MD5 da bcrypt.js come raccomandato nella guida alla sicurezza Node-RED.\nUltime modifiche: per coloro che hanno già utilizzato l'autenticazione Node-Red: impostare nuovamente la password nelle impostazioni dell'istanza Node-Red in ioBroker! Altrimenti non è più possibile accedere a Node-Red dopo l'aggiornamento. **\n",
-                "es": "Objeto marcado y no estados para detectar si existe un objeto\nConfiguraciones actualizadas .js para incorporar los últimos cambios hasta Node-RED 1.0.6\nSe reemplazó la autenticación básica HTTP por el formulario de inicio de sesión Node-RED (adminAuth)\nSe reemplazó el hashing de contraseña MD5 por bcrypt.js como se recomienda en la guía de seguridad de Node-RED.\nCambio de última hora: Para aquellos que ya usaron la autenticación Node-Red: ¡Establezca su contraseña en la configuración de la instancia de Node-Red en ioBroker nuevamente! De lo contrario, no podrá iniciar sesión en Node-Red por más tiempo después de la actualización. **\n",
-                "pl": "Zaznaczony obiekt i stany inne, aby wykryć, czy obiekt istnieje\nZaktualizowano ustawienia.js, aby uwzględnić najnowsze zmiany do wersji Node-RED 1.0.6\nZastąpiono podstawowe uwierzytelnianie HTTP przez formularz logowania do Node-RED (adminAuth)\nZamieniono haszowanie hasła MD5 przez bcrypt.js zgodnie z zaleceniami w przewodniku bezpieczeństwa Node-RED.\nPrzełomowa zmiana: dla tych, którzy już korzystali z uwierzytelniania Node-Red: Proszę ponownie ustawić hasło w ustawieniach instancji Node-Red w ioBroker! W przeciwnym razie nie będziesz mógł zalogować się do Node-Red po aktualizacji. **\n",
-                "zh-cn": "检查对象和非状态以检测对象是否存在\n更新了settings.js以合并最新变化到Node-RED 1.0.6\n通过Node-RED登录表单（adminAuth）替换了HTTP基本身份验证\n根据Node-RED安全指南中的建议，使用bcrypt.js替换了MD5密码哈希。\n重大更改：对于已经使用Node-Red身份验证的用户：请在ioBroker的Node-Red实例设置中再次设置密码！否则，升级后您将无法再登录Node-Red。**\n"
-            },
-            "1.17.2": {
-                "en": "node-red updated to 1.0.6, several fixes and optimizations",
-                "de": "Node-Red aktualisiert auf 1.0.6, mehrere Korrekturen und Optimierungen",
-                "ru": "нод-красный обновлен до 1.0.6, несколько исправлений и оптимизаций",
-                "pt": "node-red atualizado para 1.0.6, várias correções e otimizações",
-                "nl": "knooppunt-rood bijgewerkt naar 1.0.6, verschillende fixes en optimalisaties",
-                "fr": "node-red mis à jour vers 1.0.6, plusieurs correctifs et optimisations",
-                "it": "node-red aggiornato alla 1.0.6, diverse correzioni e ottimizzazioni",
-                "es": "nodo rojo actualizado a 1.0.6, varias correcciones y optimizaciones",
-                "pl": "node-red zaktualizowany do 1.0.6, kilka poprawek i optymalizacji",
-                "zh-cn": "节点红色已更新至1.0.6，并进行了一些修复和优化"
-            },
-            "1.16.5": {
-                "en": "Caught errors if state deleted",
-                "de": "Fehler beim Löschen des Status",
-                "ru": "Выявлены ошибки, если состояние удалено",
-                "pt": "Erros detectados se o estado foi excluído",
-                "nl": "Gevangen fouten als status is verwijderd",
-                "fr": "Erreurs détectées si l'état est supprimé",
-                "it": "Errori rilevati se lo stato è stato eliminato",
-                "es": "Errores atrapados si se borra el estado",
-                "pl": "Złapane błędy, jeśli stan został usunięty",
-                "zh-cn": "如果状态被删除则引发错误"
-            },
-            "1.16.4": {
-                "en": "update dependencies, updated Node-Red to 1.0.4",
-                "de": "Abhängigkeiten aktualisieren, Node-Red auf 1.0.4 aktualisiert",
-                "ru": "обновить зависимости, обновлен Node-Red до 1.0.4",
-                "pt": "atualizar dependências, atualizado Node-Red para 1.0.4",
-                "nl": "update afhankelijkheden, update Node-Red naar 1.0.4",
-                "fr": "mise à jour des dépendances, mise à jour de Node-Red vers 1.0.4",
-                "it": "aggiornare le dipendenze, aggiornato Node-Red alla 1.0.4",
-                "es": "actualizar dependencias, actualizado Node-Red a 1.0.4",
-                "pl": "zaktualizuj zależności, zaktualizowano Node-Red do wersji 1.0.4",
-                "zh-cn": "更新依赖项，将Node-Red更新为1.0.4"
-            },
-            "1.15.0": {
-                "en": "Allowed the creation of foreign objects\nAdded state unit, min and max for ioBroker out node",
-                "de": "Erlaubt die Erstellung von Foregin-Objekten\nState Unit, Min und Max für ioBroker Out Node hinzugefügt",
-                "ru": "Разрешено создание посторонних предметов\nДобавлена единица состояния, мин и макс для узла ioBroker out",
-                "pt": "Permitiu a criação de objetos estranhos\nUnidade de estado adicionada, min e max para o nó de saída ioBroker",
-                "nl": "Staat het maken van vreemde objecten toe\nStaatseenheid, min en max toegevoegd voor ioBroker-uitknooppunt",
-                "fr": "Autorisé la création d'objets étrangers\nUnité d'état ajoutée, min et max pour le nœud de sortie ioBroker",
-                "it": "Ha permesso la creazione di oggetti estranei\nAggiunta unità di stato, min e max per nodo ioBroker out",
-                "es": "Permitió la creación de objetos extraños.\nUnidad de estado agregada, min y max para el nodo de salida ioBroker",
-                "pl": "Pozwolił na tworzenie obcych obiektów\nDodano jednostkę stanu, min i max dla węzła wyjściowego ioBroker",
-                "zh-cn": "允许创建异物\n为ioBroker out节点添加了状态单位，最小值和最大值"
-            },
-            "1.14.0": {
-                "en": "Hide some parameters if not enable create object",
-                "de": "Blenden Sie einige Parameter aus, wenn Sie das Erstellen von Objekten nicht aktivieren",
-                "ru": "Скрыть некоторые параметры, если не включить создание объекта",
-                "pt": "Ocultar alguns parâmetros, se não habilitar, criar objeto",
-                "nl": "Verberg enkele parameters indien niet, maak object aan",
-                "fr": "Masquer certains paramètres sinon activer créer un objet",
-                "it": "Nascondere alcuni parametri se non abilitare la creazione di oggetti",
-                "es": "Ocultar algunos parámetros si no habilita crear objeto",
-                "pl": "Ukryj niektóre parametry, jeśli nie, utwórz obiekt",
-                "zh-cn": "如果不启用创建对象，则隐藏一些参数"
-            },
-            "1.13.2": {
-                "en": "Set state name, role, type and readonly state in node and msg",
-                "de": "Legen Sie den Statusnamen, die Rolle, den Typ und den schreibgeschützten Status in Node und msg fest",
-                "ru": "Установить имя состояния, роль, тип и состояние только для чтения в узле и сообщении",
-                "pt": "Definir nome do estado, função, tipo e estado somente leitura no nó e na mensagem",
-                "nl": "Stel de statusnaam, rol, type en alleen-lezen staat in knooppunt en msg",
-                "fr": "Définir le nom de l'état, le rôle, le type et l'état en lecture seule dans le noeud et le msg",
-                "it": "Imposta il nome dello stato, il ruolo, il tipo e lo stato di sola lettura nel nodo e nel messaggio",
-                "es": "Establezca el nombre del estado, el rol, el tipo y el estado de solo lectura en el nodo y el mensaje",
-                "pl": "Ustaw nazwę stanu, rolę, typ i stan tylko do odczytu w węźle i msg",
-                "zh-cn": "在节点和消息中设置状态名称，角色，类型和只读状态"
-            },
-            "1.13.1": {
-                "en": "Elevated logging for debug-nodes",
-                "de": "Erhöhte Protokollierung für Debugknoten",
-                "ru": "Повышенное ведение журнала для отладочных узлов",
-                "pt": "Registro elevado para nós de depuração",
-                "nl": "Verhoogde logging voor debug-knooppunten",
-                "fr": "Journalisation élevée pour les nœuds de débogage",
-                "it": "Registrazione elevata per nodi di debug",
-                "es": "Registro elevado para nodos de depuración",
-                "pl": "Podwyższone rejestrowanie dla węzłów debugowania",
-                "zh-cn": "调试节点的提升日志记录"
-            },
-            "1.13.0": {
-                "en": "Get Object node added",
-                "de": "Objektknoten abrufen hinzugefügt",
-                "ru": "Добавлен узел Get Object",
-                "pt": "Adição do nó Objeto",
-                "nl": "Objectknooppunt toegevoegd",
-                "fr": "Obtenir le noeud d'objet ajouté",
-                "it": "Ottieni nodo oggetto aggiunto",
-                "es": "Obtener nodo de objeto agregado",
-                "pl": "Pobierz węzeł obiektu",
-                "zh-cn": "获取对象节点已添加"
-            },
-            "1.12.0": {
-                "en": "upgrade to nodered 1.0 and allow to enable projects feature via admin",
-                "de": "aktualisiere auf nodered 1.0 und erlaube, die projektfunktion über admin zu aktivieren",
-                "ru": "обновить до версии 1.0 и разрешить включение проектов через администратора",
-                "pt": "atualizar para a versão 1.0 e permitir ativar o recurso de projetos via admin",
-                "nl": "upgrade naar nodered 1.0 en sta projecten toe om via admin in te schakelen",
-                "fr": "mise à niveau vers nodered 1.0 et permettre d'activer la fonctionnalité de projets via admin",
-                "it": "eseguire l'aggiornamento a nodered 1.0 e consentire di abilitare la funzione progetti tramite admin",
-                "es": "actualice a nodered 1.0 y permita habilitar la función de proyectos a través del administrador",
-                "pl": "uaktualnij do nodered 1.0 i pozwól włączyć funkcję projektów przez administratora",
-                "zh-cn": "升级到nodered 1.0，并允许通过管理员启用项目功能"
-            },
-            "1.10.1": {
-                "en": "better handle object checks on initialization of the nodes",
-                "de": "Objektprüfungen bei der Initialisierung der Nodes besser handhaben",
-                "ru": "лучше обрабатывать проверки объектов при инициализации узлов",
-                "pt": "lidar melhor com verificações de objetos na inicialização dos nós",
-                "nl": "beter omgaan met objectcontroles bij initialisatie van de knooppunten",
-                "fr": "mieux gérer les vérifications d'objet lors de l'initialisation des nœuds",
-                "it": "gestire meglio i controlli degli oggetti sull'inizializzazione dei nodi",
-                "es": "manejar mejor las comprobaciones de objetos en la inicialización de los nodos",
-                "pl": "lepiej obsługiwać sprawdzanie obiektów przy inicjalizacji węzłów",
-                "zh-cn": "更好地处理节点初始化时的对象检查"
-            }
-        },
-        "desc": {
-            "en": "This adapter uses node-red as a service. No additional node-red instance required.",
-            "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
-            "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
-            "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
-            "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
-            "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
-            "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
-            "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
-            "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
-            "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
-        },
-        "authors": [
-            "bluefox <dogafox@gmail.com>"
-        ],
-        "license": "Apache-2.0",
-        "platform": "Javascript/Node.js",
-        "mode": "daemon",
-        "messagebox": true,
-        "loglevel": "info",
-        "icon": "node-red.png",
-        "keywords": [
-            "node-red",
-            "logic",
-            "script"
-        ],
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-        "localLink": "http%s%://%ip%:%port%%httpRoot%",
-        "enabled": true,
-        "singletonHost": true,
-        "supportStopInstance": 3000,
-        "unsafePerm": true,
-        "materialize": true,
-        "compact": true,
-        "type": "logic",
-        "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
-        "stopBeforeUpdate": true,
-        "adminTab": {
-            "link": "%protocol%://%ip%:%port%%httpRoot%",
-            "fa-icon": "settings_input_composite"
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ],
-        "tier": 1,
-        "connectionType": "local",
-        "dataSource": "push"
+  "common": {
+    "name": "node-red",
+    "version": "3.0.0",
+    "title": "node-red",
+    "titleLang": {
+      "en": "node-red",
+      "de": "node-red",
+      "ru": "node-red",
+      "pt": "node-red",
+      "nl": "node-red",
+      "fr": "node-red",
+      "it": "node-red",
+      "es": "node-red",
+      "pl": "node-red",
+      "zh-cn": "node-red"
     },
-    "native": {
-        "bind": "0.0.0.0",
-        "port": 1880,
-        "secure": false,
-        "certPublic": "",
-        "certPrivate": "",
-        "httpRoot": "/",
-        "hStatic": false,
-        "httpStatic": "",
-        "npmLibs": "",
-        "valueConvert": false,
-        "maxMemory": 128,
-        "user": "",
-        "pass": "",
-        "projectsEnabled": false,
-        "palletmanagerEnabled": false,
-        "allowCreationOfForeignObjects": false,
-        "doNotReadObjectsDynamically": false
+    "news": {
+      "3.0.0": {
+        "en": "IMPORTANT: Node-RED is now v2. Please check your nodes for compatibility! See also https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED updated to 2.2.2\nmany other changes, see Changelog!",
+        "de": "WICHTIG: Node-RED ist jetzt v2. Bitte überprüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED aktualisiert auf 2.2.2\nviele weitere Änderungen, siehe Changelog!",
+        "ru": "ВАЖНО: Node-RED теперь v2. Пожалуйста, проверьте ваши узлы на совместимость! См. также https://nodered.org/blog/2021/07/20/version-2-0-released и https://nodered.org/blog/2021/10/21/version-2-1-released.\nNode-RED обновлен до версии 2.2.2\nмногие другие изменения, смотрите журнал изменений!",
+        "pt": "IMPORTANTE: Node-RED agora é v2. Verifique a compatibilidade de seus nós! Veja também https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED atualizado para 2.2.2\nmuitas outras mudanças, veja Changelog!",
+        "nl": "BELANGRIJK: Node-RED is nu v2. Controleer uw nodes op compatibiliteit! Zie ook https://nodered.org/blog/2021/07/20/version-2-0-released en https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED bijgewerkt naar 2.2.2\nvele andere wijzigingen, zie Changelog!",
+        "fr": "IMPORTANT : Node-RED est maintenant v2. Veuillez vérifier la compatibilité de vos nœuds ! Voir aussi https://nodered.org/blog/2021/07/20/version-2-0-released et https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED mis à jour vers 2.2.2\nbeaucoup d'autres changements, voir Changelog !",
+        "it": "IMPORTANTE: Node-RED è ora v2. Controlla la compatibilità dei tuoi nodi! Vedi anche https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2-1-released\nNodo-RED aggiornato a 2.2.2\ntante altre modifiche, vedi Changelog!",
+        "es": "IMPORTANTE: Node-RED ahora es v2. ¡Compruebe la compatibilidad de sus nodos! Ver también https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2-1-released\nNodo-RED actualizado a 2.2.2\nmuchos otros cambios, vea Changelog!",
+        "pl": "WAŻNE: Node-RED jest teraz v2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED zaktualizowano do 2.2.2\nwiele innych zmian, zobacz Changelog!",
+        "zh-cn": "重要提示：Node-RED 现在是 v2。请检查您的节点是否兼容！另见 https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED 更新到 2.2.2\n许多其他更改，请参阅更改日志！"
+      },
+      "2.4.1": {
+        "en": "Correct min7max for the object creation \nNode-red updated to 1.3.6",
+        "de": "Korrektes min7max für die Objekterstellung\nKnotenrot aktualisiert auf 1.3.6",
+        "ru": "Правильный min7max для создания объекта\nNode-red обновлен до 1.3.6",
+        "pt": "Corrigir min7max para a criação do objeto\nNode-red atualizado para 1.3.6",
+        "nl": "Corrigeer min7max voor het maken van objecten\nNode-red bijgewerkt naar 1.3.6",
+        "fr": "Corriger min7max pour la création de l'objet\nNode-red mis à jour vers la 1.3.6",
+        "it": "Correggere min7max per la creazione dell'oggetto\nNodo rosso aggiornato a 1.3.6",
+        "es": "Corregir min7max para la creación del objeto\nNode-red actualizado a 1.3.6",
+        "pl": "Popraw min7max dla tworzenia obiektu\nWęzeł czerwony zaktualizowany do 1.3.6",
+        "zh-cn": "为对象创建更正 min7max\nNode-red 更新至 1.3.6"
+      },
+      "2.4.0": {
+        "en": "update to node-red 1.3.5\nOptimize for js-controller 3.3\nAdd option to override the default ack flag in the message for OutNode",
+        "de": "Update auf Knotenrot 1.3.5\nOptimieren Sie für js-Controller 3.3\nOption zum Überschreiben des Standard-Ack-Flags in der Nachricht für OutNode hinzufügen",
+        "ru": "обновление до node-red 1.3.5\nОптимизировать под js-controller 3.3\nДобавить параметр для отмены флага подтверждения по умолчанию в сообщении для OutNode",
+        "pt": "atualização para node-red 1.3.5\nOtimize para js-controller 3.3\nAdicionar opção para substituir o sinalizador de confirmação padrão na mensagem para OutNode",
+        "nl": "update naar node-red 1.3.5\nOptimaliseren voor js-controller 3.3\nOptie toevoegen om de standaard ack-vlag in het bericht voor OutNode te negeren",
+        "fr": "mise à jour vers node-red 1.3.5\nOptimiser pour js-controller 3.3\nAjouter une option pour remplacer l'indicateur d'accusé de réception par défaut dans le message pour OutNode",
+        "it": "aggiornamento a node-red 1.3.5\nOttimizza per js-controller 3.3\nAggiungi l'opzione per sovrascrivere il flag di riconoscimento predefinito nel messaggio per OutNode",
+        "es": "actualizar a node-red 1.3.5\nOptimizar para js-controller 3.3\nAgregue la opción para anular el indicador de ack predeterminado en el mensaje para OutNode",
+        "pl": "aktualizacja do node-red 1.3.5\nOptymalizacja dla kontrolera js 3.3\nDodaj opcję zastąpienia domyślnej flagi potwierdzenia w wiadomości dla OutNode",
+        "zh-cn": "更新到节点红色 1.3.5\n针对 js-controller 3.3 优化\n添加选项以覆盖 OutNode 消息中的默认 ack 标志"
+      },
+      "2.3.0": {
+        "en": "BREAKING update from node-red-contrib-aggregator: topic is NOT converted to lowercase anymore!\nupdate to node-red 1.3.2\nAdd done calls to OutNode",
+        "de": "BREAKING-Update vom Node-Red-Contrib-Aggregator: Thema wird NICHT mehr in Kleinbuchstaben konvertiert!\nUpdate auf Node-Red 1.3.2\nFügen Sie erledigte Anrufe zu OutNode hinzu",
+        "ru": "ПРЕРЫВНОЕ обновление от node-red-contrib-aggregator: тема больше НЕ конвертируется в нижний регистр!\nобновление до node-red 1.3.2\nДобавить выполненные вызовы в OutNode",
+        "pt": "QUEBRANDO atualização do node-red-contrib-aggregator: o tópico NÃO é mais convertido para minúsculas!\natualização para node-red 1.3.2\nAdicionar chamadas feitas para OutNode",
+        "nl": "BREAKING update van node-red-contrib-aggregator: topic wordt NIET meer geconverteerd naar kleine letters!\nupdate naar node-red 1.3.2\nVoeg voltooide oproepen toe aan OutNode",
+        "fr": "BREAKING update de node-red-contrib-aggregator: le sujet n'est plus converti en minuscules!\nmise à jour vers node-red 1.3.2\nAjouter les appels effectués à OutNode",
+        "it": "BREAKING aggiornamento da node-red-contrib-aggregator: l'argomento NON è più convertito in minuscolo!\naggiornamento a node-red 1.3.2\nAggiungi chiamate completate a OutNode",
+        "es": "BREAKING actualización de node-red-contrib-aggregator: ¡el tema ya NO se convierte a minúsculas!\nactualizar a node-red 1.3.2\nAgregar llamadas realizadas a OutNode",
+        "pl": "BREAKING aktualizacja z węzła-red-contrib-Agregator: temat NIE jest już konwertowany na małe litery!\naktualizacja do node-red 1.3.2\nDodaj wykonane wywołania do OutNode",
+        "zh-cn": "BREAKING从node-red-contrib-aggregator更新：主题不再转换为小写！\n更新到节点红色1.3.2\n将已完成的呼叫添加到OutNode"
+      },
+      "2.2.0": {
+        "en": "(Apollon77/mickym2) Correct readonly flags. IMPORTANT: Notw Readonly works as it should be. If you worked around the issue before please adjust your nodes!\nFix using wildcards inside the id\nUpdate value on out node trigger \nUpdate to node-red 1.2.9\nAdd triggering in Nodes when delayed initialization on start\nFix list node to support all object types",
+        "de": "(Apollon77 / mickym2) Korrigieren Sie schreibgeschützte Flags. WICHTIG: Notw Readonly funktioniert so, wie es sein sollte. Wenn Sie das Problem zuvor umgangen haben, passen Sie bitte Ihre Knoten an!\nBehebung mit Platzhaltern innerhalb der ID\nAktualisieren Sie den Wert beim Auslösen des Knotens\nUpdate auf Node-Red 1.2.9\nFügen Sie Triggering in Nodes hinzu, wenn sich die Initialisierung beim Start verzögert\nFix Listenknoten zur Unterstützung aller Objekttypen",
+        "ru": "(Apollon77 / mickym2) Правильные флаги только для чтения. ВАЖНО: Notw Readonly работает должным образом. Если вы пытались решить эту проблему раньше, отрегулируйте узлы!\nИсправить использование подстановочных знаков внутри идентификатора\nОбновить значение триггера выходного узла\nОбновление до node-red 1.2.9\nДобавить срабатывание в узлах при отложенной инициализации при запуске\nИсправить узел списка для поддержки всех типов объектов",
+        "pt": "(Apollon77 / mickym2) Sinalizadores somente leitura corretos. IMPORTANTE: Notw Readonly funciona como deveria. Se você contornou o problema antes, ajuste seus nós!\nCorrija o uso de curingas dentro do id\nAtualizar o valor no gatilho do nó\nAtualização para node-red 1.2.9\nAdicionar acionamento em nós quando a inicialização atrasada no início\nCorrigir o nó da lista para suportar todos os tipos de objetos",
+        "nl": "(Apollon77 / mickym2) Alleen-lezen vlaggen corrigeren. BELANGRIJK: Notw Readonly werkt zoals het hoort. Als je het probleem eerder hebt omzeild, pas dan je knooppunten aan!\nHerstel het gebruik van jokertekens in de id\nUpdate waarde op uit-knooppunt-trigger\nUpdate naar node-red 1.2.9\nVoeg triggering toe in Nodes bij vertraagde initialisatie bij het starten\nLijstknooppunt repareren om alle objecttypes te ondersteunen",
+        "fr": "(Apollon77 / mickym2) Corrigez les indicateurs en lecture seule. IMPORTANT: Notw Readonly fonctionne comme il se doit. Si vous avez déjà résolu le problème, ajustez vos nœuds!\nCorrection en utilisant des caractères génériques dans l'ID\nMettre à jour la valeur sur le déclencheur de nœud\nMise à jour vers node-red 1.2.9\nAjouter le déclenchement dans les nœuds lors de l'initialisation différée au démarrage\nCorrection du nœud de liste pour prendre en charge tous les types d'objets",
+        "it": "(Apollon77 / mickym2) Correggere i flag di sola lettura. IMPORTANTE: Notw Readonly funziona come dovrebbe. Se hai risolto il problema prima, regola i tuoi nodi!\nRisolto il problema con l'utilizzo di caratteri jolly all'interno dell'id\nAggiorna il valore al trigger del nodo out\nAggiornamento a node-red 1.2.9\nAggiungere l'attivazione nei nodi quando l'inizializzazione ritardata all'avvio\nCorreggi il nodo dell'elenco per supportare tutti i tipi di oggetto",
+        "es": "(Apollon77 / mickym2) Corregir indicadores de solo lectura. IMPORTANTE: Notw Readonly funciona como debería ser. Si solucionó el problema antes, ajuste sus nodos.\nArreglar el uso de comodines dentro de la identificación\nActualizar el valor en el desencadenador de nodo\nActualización a node-red 1.2.9\nAgregue activación en nodos cuando se retrasa la inicialización al inicio\nArreglar el nodo de la lista para admitir todos los tipos de objetos",
+        "pl": "(Apollon77 / mickym2) Popraw flagi tylko do odczytu. WAŻNE: Notw Readonly działa tak, jak powinno. Jeśli rozwiązałeś ten problem wcześniej, dostosuj swoje węzły!\nNapraw użycie symboli wieloznacznych w identyfikatorze\nZaktualizuj wartość wyzwalacza z węzła wyjściowego\nZaktualizuj do wersji node-red 1.2.9\nDodaj wyzwalanie w węzłach, gdy opóźniona inicjalizacja przy starcie\nNapraw węzeł listy, aby obsługiwał wszystkie typy obiektów",
+        "zh-cn": "（Apollon77 / mickym2）更正只读标志。重要说明：Notw Readonly可以正常工作。如果您之前已解决此问题，请调整节点！\n修复ID内使用通配符的问题\n更新输出节点触发器上的值\n更新到节点红色1.2.9\n启动时延迟初始化时在节点中添加触发\n修复列表节点以支持所有对象类型"
+      },
+      "2.1.0": {
+        "en": "Try to fix the MaxSubscribes error when having many nodes\nUpdate to node-red 1.2.8",
+        "de": "Versuchen Sie, den MaxSubscribes-Fehler zu beheben, wenn Sie viele Knoten haben\nUpdate auf Node-Red 1.2.8",
+        "ru": "Попытайтесь исправить ошибку MaxSubscribes при большом количестве узлов\nОбновление до node-red 1.2.8",
+        "pt": "Tente corrigir o erro MaxSubscribes quando tiver muitos nós\nAtualização para node-red 1.2.8",
+        "nl": "Probeer de MaxSubscribes-fout op te lossen als u veel knooppunten heeft\nUpdate naar node-red 1.2.8",
+        "fr": "Essayez de corriger l'erreur MaxSubscribes lorsque vous avez plusieurs nœuds\nMise à jour vers node-red 1.2.8",
+        "it": "Prova a correggere l'errore MaxSubscribes quando hai molti nodi\nAggiornamento a node-red 1.2.8",
+        "es": "Intente corregir el error de MaxSubscribes cuando tenga muchos nodos\nActualización a node-red 1.2.8",
+        "pl": "Spróbuj naprawić błąd MaxSubscribes, gdy masz wiele węzłów\nAktualizacja do wersji node-red 1.2.8",
+        "zh-cn": "有多个节点时尝试修复MaxSubscribes错误\n更新到节点红色1.2.8"
+      },
+      "2.0.4": {
+        "en": "Fixed node-red modules installation",
+        "de": "Installation der knotenroten Module behoben",
+        "ru": "Установка фиксированных модулей node-red",
+        "pt": "Instalação corrigida de módulos de nó vermelho",
+        "nl": "Installatie van vaste knooppunt-rode modules",
+        "fr": "Installation de modules fixes avec nœud rouge",
+        "it": "Risolto il problema con l'installazione dei moduli rosso-nodo",
+        "es": "Instalación de módulos fijos node-red",
+        "pl": "Naprawiono instalację modułów w węzłach czerwonych",
+        "zh-cn": "固定节点红色模块的安装"
+      }
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "",
-            "type": "channel",
-            "common": {
-                "name": "States created by node-red.%INSTANCE%",
-                "role": "info"
-            },
-            "native": {}
-        }
-    ]
+    "desc": {
+      "en": "This adapter uses node-red as a service. No additional node-red instance required.",
+      "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
+      "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
+      "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
+      "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
+      "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
+      "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
+      "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
+      "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
+      "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
+    },
+    "authors": [
+      "bluefox <dogafox@gmail.com>"
+    ],
+    "license": "Apache-2.0",
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "messagebox": true,
+    "loglevel": "info",
+    "icon": "node-red.png",
+    "keywords": [
+      "node-red",
+      "logic",
+      "script"
+    ],
+    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
+    "localLink": "http%s%://%ip%:%port%%httpRoot%",
+    "enabled": true,
+    "singletonHost": true,
+    "supportStopInstance": 3000,
+    "unsafePerm": true,
+    "materialize": true,
+    "compact": true,
+    "type": "logic",
+    "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
+    "stopBeforeUpdate": true,
+    "adminTab": {
+      "link": "%protocol%://%ip%:%port%%httpRoot%",
+      "fa-icon": "settings_input_composite"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
+    ],
+    "tier": 1,
+    "connectionType": "local",
+    "dataSource": "push"
+  },
+  "native": {
+    "bind": "0.0.0.0",
+    "port": 1880,
+    "secure": false,
+    "certPublic": "",
+    "certPrivate": "",
+    "httpRoot": "/",
+    "hStatic": false,
+    "httpStatic": "",
+    "npmLibs": "",
+    "valueConvert": false,
+    "maxMemory": 128,
+    "user": "",
+    "pass": "",
+    "projectsEnabled": false,
+    "palletmanagerEnabled": false,
+    "allowCreationOfForeignObjects": false,
+    "doNotReadObjectsDynamically": false
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "",
+      "type": "channel",
+      "common": {
+        "name": "States created by node-red.%INSTANCE%",
+        "role": "info"
+      },
+      "native": {}
+    }
+  ]
 }
