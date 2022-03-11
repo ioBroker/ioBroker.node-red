@@ -141,14 +141,14 @@ module.exports = function (RED) {
             verifiedObjects[idToCheck] = true;
             let obj;
             try {
-                obj = await adapter.getObjectAsync(idToCheck);
+                obj = await adapter.getForeignObjectAsync(idToCheck);
             } catch (err) {
                 // ignore
             }
             if (!obj || !obj.common) {
                 adapter.log.debug(`Create folder object for ${idToCheck}`);
                 try {
-                    await adapter.setObjectAsync(idToCheck, {
+                    await adapter.setForeignObjectAsync(idToCheck, {
                         type: 'folder',
                         common: {
                             name: part
@@ -161,7 +161,7 @@ module.exports = function (RED) {
                     adapter.log.info(`Could not automatically create folder object ${idToCheck}: ${err.message}`);
                 }
             } else {
-                adapter.log.debug(`    already existing "${idToCheck}"`);
+                adapter.log.debug(`    already existing "${idToCheck}": ${JSON.stringify(obj)}`);
             }
         }
     }
