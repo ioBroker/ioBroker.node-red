@@ -235,6 +235,7 @@ module.exports = function (RED) {
                         } else {
                             callback && callback(true);
                         }
+                        ensureObjectStructure(obj._id);
                     }
                 });
             } else {
@@ -243,6 +244,7 @@ module.exports = function (RED) {
                 } else {
                     callback && callback(true);
                 }
+                ensureObjectStructure(obj._id);
             }
         });
     }
