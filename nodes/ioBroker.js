@@ -112,14 +112,16 @@ module.exports = function (RED) {
     }
 
     function validIdForAutomaticFolderCreation(id) {
-        return id.startsWith('javascript.') || id.startsWith('0_userdata.0') || id.startsWith('node-red.');
+        return id.startsWith('javascript.') || id.startsWith('0_userdata.0.') || id.startsWith('node-red.');
     }
 
     async function ensureObjectStructure(id) {
         if (!validIdForAutomaticFolderCreation(id)) {
             return;
         }
-
+        if (verifiedObjects[id] === true) {
+            return;
+        }
         const idArr = id.split('.');
         idArr.pop(); // the last is created as object in any way
         if (idArr.length < 3) {
@@ -128,6 +130,7 @@ module.exports = function (RED) {
         // We just create sub level projects
         let idToCheck = idArr.splice(0, 2).join('.');
 
+        verifiedObjects[id] = true;
         for (const part of idArr) {
             idToCheck += '.' + part;
             if (verifiedObjects[idToCheck] === true) {
@@ -176,13 +179,13 @@ module.exports = function (RED) {
             val = undefined;
         }
 
-        adapter.getObject(id, (err, obj) => {
+        adapter.getObject(id, async (err, obj) => {
             if (obj && obj._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
                 // ignore default created object because we now have a more defined one
                 obj = null;
             }
             if (!obj) {
-                adapter.getForeignObject(id, (err, obj) => {
+                adapter.getForeignObject(id, async (err, obj) => {
                     if (obj && obj._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
                         // ignore default created object because we now have a more defined one
                         obj = null;
@@ -190,7 +193,7 @@ module.exports = function (RED) {
                     // If not exists
                     if (!obj) {
                         if (common) {
-                            log(`${node.id}: State "${id}" was created in the ioBroker`);
+                            log(`${node.id}: State "${id}" was created in ioBroker`);
                             // Create object
                             const data = {
                                 common,
@@ -200,13 +203,12 @@ module.exports = function (RED) {
 
                             if (isForeignState(id)) {
                                 if (allowCreationOfForeignObjects) {
-                                    adapter.setForeignObject(id, data, _ => {
+                                    adapter.setForeignObject(id, data, async _ => {
+                                        await ensureObjectStructure(id);
                                         if (val !== undefined) {
-                                            adapter.setForeignState(id, val, () => callback && callback(true));
-                                        } else {
-                                            callback && callback(true);
+                                            await adapter.setForeignStateAsync(id, val);
                                         }
-                                        ensureObjectStructure(id);
+                                        callback && callback(true);
                                     });
                                 } else {
                                     adapter.log.info(`${node.id}: "${node.customName}" Cannot set state of non-existing object "${id}".`);
@@ -214,13 +216,12 @@ module.exports = function (RED) {
                                     callback && callback(false);
                                 }
                             } else {
-                                adapter.setObject(id, data, _ => {
+                                adapter.setObject(id, data, async _ => {
+                                    await ensureObjectStructure(`${adapter.namespace}.${id}`);
                                     if (val !== undefined) {
-                                        adapter.setState(id, val, () => callback && callback(true));
-                                    } else {
-                                        callback && callback(true);
+                                        await adapter.setStateAsync(id, val);
                                     }
-                                    ensureObjectStructure(`${adapter.namespace}.${id}`);
+                                    callback && callback(true);
                                 });
                             }
                         } else {
@@ -230,21 +231,19 @@ module.exports = function (RED) {
                         }
                     } else {
                         node._id = obj._id;
+                        await ensureObjectStructure(obj._id);
                         if (val !== undefined) {
-                            adapter.setForeignState(obj._id, val, () => callback && callback(true));
-                        } else {
-                            callback && callback(true);
+                            await adapter.setForeignStateAsync(obj._id, val);
                         }
-                        ensureObjectStructure(obj._id);
+                        callback && callback(true);
                     }
                 });
             } else {
+                await ensureObjectStructure(obj._id);
                 if (val !== undefined) {
-                    adapter.setForeignState(obj._id, val, () => callback && callback(true));
-                } else {
-                    callback && callback(true);
+                    await adapter.setForeignStateAsync(obj._id, val);
                 }
-                ensureObjectStructure(obj._id);
+                callback && callback(true);
             }
         });
     }
