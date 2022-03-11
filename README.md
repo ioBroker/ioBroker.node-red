@@ -28,10 +28,10 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 
 ## Changelog
 ### __WORK IN PROGRESS__
-* IMPORTANT: Node-RED is now v2. Please check your nodes for compatibility!
+* IMPORTANT: Node-RED is now v2. Please check your nodes for compatibility! See also https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released
 * (jwiesel) Node-RED updated to 2.2.2 (incl. restructuring of settings.js)
 * (jwiesel) "Tail" node has been removed from the default palette in Node-RED 2.0. You can reinstall it from node-red-node-tail.
-* (jwiesel) Changed default setting to "convert data from ioBroker nodes into Strings" to false. Setting will not be changed automatically in instances already existing
+* (Apollon77) Automatically create missing folders when node-red creates objects in javascript.*, node-red.* and 0_userdata.0.*
 * (jwiesel) Added NodeRed parameter httpStatic to instance settings
 * (bluefox) Added the reading of objects from admin for SelectID dialog 
 * (bluefox) Added debug output: Cannot set state of non-existing object
@@ -43,6 +43,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 * (Apollon77) Also allow to access system.* states directly
 * (Apollon77) When RBE function is used on InNode and not value is sent on start still initialize current value internally
 * (Apollon77) Add node-ID in front of all log lines logged by node logic
+* (jwiesel) Changed default setting to "convert data from ioBroker nodes into Strings" to false. Setting will not be changed automatically in instances already existing
 
 ### 2.4.2 (2022-02-07)
 * (Apollon77) Make compatible with js-controller 4.0

@@ -42,6 +42,7 @@ module.exports = function (RED) {
     }
     const nodeSets = [];
     const checkStates = [];
+    const verifiedObjects = {};
     const isValidIDRegExp = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]*\\.\\d+\\.');
     let ready = false;
     const log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
@@ -110,6 +111,54 @@ module.exports = function (RED) {
         return new RegExp(pattern);
     }
 
+    function validIdForAutomaticFolderCreation(id) {
+        return id.startsWith('javascript.') || id.startsWith('0_userdata.0') || id.startsWith('node-red.');
+    }
+
+    async function ensureObjectStructure(id) {
+        if (!validIdForAutomaticFolderCreation(id)) {
+            return;
+        }
+
+        const idArr = id.split('.');
+        idArr.pop(); // the last is created as object in any way
+        if (idArr.length < 3) {
+            return; // Nothing to do
+        }
+        // We just create sub level projects
+        let idToCheck = idArr.splice(0, 2).join('.');
+
+        for (const part of idArr) {
+            idToCheck += '.' + part;
+            if (verifiedObjects[idToCheck] === true) {
+                continue;
+            }
+            let obj;
+            try {
+                obj = await adapter.getObjectAsync(idToCheck);
+            } catch (err) {
+                // ignore
+            }
+            if (!obj || !obj.common) {
+                adapter.log.debug(`Create folder object for ${idToCheck}`);
+                try {
+                    await adapter.setObjectAsync(idToCheck, {
+                        type: 'folder',
+                        common: {
+                            name: part
+                        },
+                        native: {
+                            autocreated: 'by automatic ensure logic'
+                        }
+                    });
+                } catch (err) {
+                    adapter.log.info(`Could not automatically create folder object ${idToCheck}: ${err.message}`);
+                }
+            }
+            verifiedObjects[idToCheck] = true;
+        }
+    }
+
     // check if object exists and sets its value if provided
     function checkState(node, id, common, val, callback) {
         if (node.idChecked) {
@@ -128,8 +177,16 @@ module.exports = function (RED) {
         }
 
         adapter.getObject(id, (err, obj) => {
+            if (obj && obj._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
+                // ignore default created object because we now have a more defined one
+                obj = null;
+            }
             if (!obj) {
                 adapter.getForeignObject(id, (err, obj) => {
+                    if (obj && obj._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
+                        // ignore default created object because we now have a more defined one
+                        obj = null;
+                    }
                     // If not exists
                     if (!obj) {
                         if (common) {
@@ -149,6 +206,7 @@ module.exports = function (RED) {
                                         } else {
                                             callback && callback(true);
                                         }
+                                        ensureObjectStructure(id);
                                     });
                                 } else {
                                     adapter.log.info(`${node.id}: "${node.customName}" Cannot set state of non-existing object "${id}".`);
@@ -162,6 +220,7 @@ module.exports = function (RED) {
                                     } else {
                                         callback && callback(true);
                                     }
+                                    ensureObjectStructure(`${adapter.namespace}.${id}`);
                                 });
                             }
                         } else {
@@ -477,11 +536,11 @@ module.exports = function (RED) {
                                 done();
                             });
                         } else {
-                            log(`${node.id}: State "${id}" does not exist in the ioBroker`);
+                            log(`${node.id}: State "${id}" does not exist in ioBroker`);
                             node.status({
                                 fill:  'red',
                                 shape: 'ring',
-                                text:   `State "${id}" does not exist in the ioBroker`
+                                text:   `State "${id}" does not exist in ioBroker`
                             });
                             done();
                         }
@@ -668,7 +727,7 @@ module.exports = function (RED) {
                     });
                     node.send(msg);
                 } else {
-                    log(`${node.id}: Object "${node.topic || msg.topic}" does not exist in the ioBroker`);
+                    log(`${node.id}: Object "${node.topic || msg.topic}" does not exist in ioBroker`);
                 }
             };
         };
@@ -737,7 +796,7 @@ module.exports = function (RED) {
                     });
                     node.send(msg);
                 } else {
-                    log(`${node.id}: Object "${node.topic || msg.topic}" does not exist in the ioBroker`);
+                    log(`${node.id}: Object "${node.topic || msg.topic}" does not exist in ioBroker`);
                 }
             };
         };
