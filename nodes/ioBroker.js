@@ -138,6 +138,7 @@ module.exports = function (RED) {
             if (verifiedObjects[idToCheck] === true) {
                 continue;
             }
+            verifiedObjects[idToCheck] = true;
             let obj;
             try {
                 obj = await adapter.getObjectAsync(idToCheck);
@@ -162,7 +163,6 @@ module.exports = function (RED) {
             } else {
                 adapter.log.debug(`    already existing "${idToCheck}"`);
             }
-            verifiedObjects[idToCheck] = true;
         }
     }
 
