@@ -116,7 +116,7 @@ module.exports = function (RED) {
     }
 
     async function ensureObjectStructure(id) {
-        adapter.log.debug(`ensure Logic called for "${id}": ${verifiedObjects[id]}`);
+        //adapter.log.debug(`ensure Logic called for "${id}": ${verifiedObjects[id]}`);
         if (!validIdForAutomaticFolderCreation(id)) {
             return;
         }
@@ -134,7 +134,7 @@ module.exports = function (RED) {
         verifiedObjects[id] = true;
         for (const part of idArr) {
             idToCheck += '.' + part;
-            adapter.log.debug(`    check "${idToCheck}": ${verifiedObjects[idToCheck]}`);
+            //adapter.log.debug(`    check "${idToCheck}": ${verifiedObjects[idToCheck]}`);
             if (verifiedObjects[idToCheck] === true) {
                 continue;
             }
@@ -161,7 +161,7 @@ module.exports = function (RED) {
                     adapter.log.info(`Could not automatically create folder object ${idToCheck}: ${err.message}`);
                 }
             } else {
-                adapter.log.debug(`    already existing "${idToCheck}": ${JSON.stringify(obj)}`);
+                //adapter.log.debug(`    already existing "${idToCheck}": ${JSON.stringify(obj)}`);
             }
         }
     }
