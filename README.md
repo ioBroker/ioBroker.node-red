@@ -29,6 +29,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 ## Changelog
 ### 3.0.0 (2022-03-11)
 * IMPORTANT: Node-RED is now v2. Please check your nodes for compatibility! See also https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released
+* Detailed overview (in german): https://forum.iobroker.net/post/775767
 * (jwiesel) Node-RED updated to 2.2.2
 * (jwiesel) "Tail" node has been removed from the default palette in Node-RED 2.0. You can reinstall it from node-red-node-tail.
 * (Apollon77) Automatically create missing folders when node-red creates objects in javascript.*, node-red.* and 0_userdata.0.*
