@@ -333,7 +333,7 @@
 <script type="text/x-red" data-help-name="ioBroker out">
     <p>Connects to a ioBroker and publishes <b>msg.payload</b> either to the <b>msg.topic</b> or to the topic specified in the edit window. The value in the edit window has precedence.</p>
     <p>If <b>msg.payload</b> contains an object it will be stringified before being sent.</p>
-    <p>If <b>msg.payload</b> contains "__create__", the object will be only created, but no value will be written.</p>
+    <p>If <b>msg.payload</b> is not provided or contains "__create__", the object will be only created, but no value will be set.</p>
     <p>If <b>msg.ack</b> if present (Boolean true/"true") overrides the default ack from the node config.</p>
     <p>If <b>msg.stateName</b> is defined, the created object name will be set as this value. If <b>msg.stateName</b> is not defined, but <b>Name</b> is set, use this instead.  If both node and msg do not set state name, the name will same as topic</p>
     <p>If <b>msg.stateRole</b> is defined, the created object role will be set as this value. If <b>msg.stateRole</b> is not defined, but <b>Role</b> is set, use this instead.</p>
