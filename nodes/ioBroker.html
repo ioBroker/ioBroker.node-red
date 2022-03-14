@@ -204,12 +204,20 @@
             <option value="false">send no message at start</option>
         </select>
     </div>
+    <div class="form-row">
+        <label for="node-input-outFormat"><i class="fa fa-arrow-up"></i> Topic format</label>
+        <select id="node-input-outFormat" style="width:73% !important">
+            <option value="MQTT">format topic to MQTT (with /)</option>
+            <option value="ioBroker">format topic to ioBroker (with .)</option>
+        </select>
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker in">
     <p>ioBroker input node. Connects to a ioBroker and subscribes to the specified topic. The topic may contain redis wildcards (*).</p>
     <p>Outputs an object called <b>msg</b> containing <b>msg.topic, msg.payload, msg.timestamp, msg.lastchange</b> and <b>msg.acknowledged</b>.</p>
 	<p>The ack-flag determines whether only States with <i>ack == true</i>(updates) or <i>ack == false</i>(commands) or all events are forwarded.</p>
+    <p>In default the Node outputs the topic in MQTT format. This can be changed to the ioBroker database Format (with .)</p>
 	<p>The select box Mode offers further filtering options. The options are the same as for the RBE node.</p>
 </script>
 
@@ -223,7 +231,8 @@
 			onlyack: {value: ''},
             func: {value: 'all'},
             gap: {value: '', validate: RED.validators.regex(/^(\d*[.]*\d*|)(%|)$/)},
-            fireOnStart: {value: 'false'}
+            fireOnStart: {value: 'false'},
+            outFormat: {value: 'MQTT'}
         },
         color: '#a8bfd8',
         inputs: 0,
