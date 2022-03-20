@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "title": "node-red",
     "titleLang": {
       "en": "node-red",
@@ -16,6 +16,18 @@
       "zh-cn": "node-red"
     },
     "news": {
+      "3.0.1": {
+        "en": "added option for in Node to choose topic format (MQTT with / or ioBroker with .). Default: MQTT\n",
+        "de": "Option für in Node hinzugefügt, um das Themenformat auszuwählen (MQTT mit / oder ioBroker mit .). Standard: MQTT\n",
+        "ru": "добавлена возможность в Node выбирать формат темы (MQTT с / или ioBroker с .). По умолчанию: MQTT\n",
+        "pt": "adicionada opção para no Node escolher o formato do tópico (MQTT com / ou ioBroker com .). Padrão: MQTT\n",
+        "nl": "optie toegevoegd om in Node een onderwerpformaat te kiezen (MQTT met / of ioBroker met .). Standaard: MQTT\n",
+        "fr": "ajout d'une option dans Node pour choisir le format de sujet (MQTT avec / ou ioBroker avec .). Par défaut : MQTT\n",
+        "it": "aggiunta opzione per in Node per scegliere il formato dell'argomento (MQTT con / o ioBroker con .). Predefinito: MQTT\n",
+        "es": "Opción agregada para que en Node elija el formato del tema (MQTT con / o ioBroker con .). Valor predeterminado: MQTT\n",
+        "pl": "dodano opcję w Node, aby wybrać format tematu (MQTT z / lub ioBroker z .). Domyślnie: MQTT\n",
+        "zh-cn": "在 Node 中添加了选项以选择主题格式（MQTT with / 或 ioBroker with .）。默认值：MQTT\n"
+      },
       "3.0.0": {
         "en": "IMPORTANT: Node-RED is now v2. Please check your nodes for compatibility! See also https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED updated to 2.2.2\nmany other changes, see Changelog!",
         "de": "WICHTIG: Node-RED ist jetzt v2. Bitte überprüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED aktualisiert auf 2.2.2\nviele weitere Änderungen, siehe Changelog!",
@@ -87,18 +99,6 @@
         "es": "Intente corregir el error de MaxSubscribes cuando tenga muchos nodos\nActualización a node-red 1.2.8",
         "pl": "Spróbuj naprawić błąd MaxSubscribes, gdy masz wiele węzłów\nAktualizacja do wersji node-red 1.2.8",
         "zh-cn": "有多个节点时尝试修复MaxSubscribes错误\n更新到节点红色1.2.8"
-      },
-      "2.0.4": {
-        "en": "Fixed node-red modules installation",
-        "de": "Installation der knotenroten Module behoben",
-        "ru": "Установка фиксированных модулей node-red",
-        "pt": "Instalação corrigida de módulos de nó vermelho",
-        "nl": "Installatie van vaste knooppunt-rode modules",
-        "fr": "Installation de modules fixes avec nœud rouge",
-        "it": "Risolto il problema con l'installazione dei moduli rosso-nodo",
-        "es": "Instalación de módulos fijos node-red",
-        "pl": "Naprawiono instalację modułów w węzłach czerwonych",
-        "zh-cn": "固定节点红色模块的安装"
       }
     },
     "desc": {
