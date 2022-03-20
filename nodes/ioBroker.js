@@ -329,6 +329,7 @@ module.exports = function (RED) {
         node.gap         = n.gap  || '0';
         node.gap         = n.gap  || '0';
         node.fireOnStart = n.fireOnStart === true || n.fireOnStart === 'true' || false;
+        node.outFormat   = n.outFormat || 'MQTT';
 
         if (n.onlyack === 'update') {
             node.onlyack = true;
@@ -400,7 +401,7 @@ module.exports = function (RED) {
             node.previous[t] = state ? state.val : null;
 
             node.send({
-                topic:        t,
+                topic:        node.outFormat === 'ioBroker' ? t.replace(/\//g, '.') : t,
                 payload:      node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
                 acknowledged: state ? state.ack  : false,
                 timestamp:    state ? state.ts   : Date.now(),
