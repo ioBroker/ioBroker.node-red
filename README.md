@@ -27,7 +27,7 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 -->
 
 ## Changelog
-### 3.0.2 (2022-0x-xx)
+### **WORK IN PROGRESS**
 * (jwiesel) Added new parameter "httpNodeRoot" as httpRoot has been replaced by httpAdminRoot in version 3.0.0.
 
 ### 3.0.1 (2022-03-20)
