@@ -278,6 +278,7 @@ function writeSettings() {
     const secure = adapter.config.secure ? '' : '// ';
     const certFile = adapter.config.certPublic ? userDataDir + adapter.config.certPublic + '.crt' : '';
     const keyFile = adapter.config.certPrivate ? userDataDir + adapter.config.certPrivate + '.key' : '';
+    const hNodeRoot = adapter.config.httpNodeRoot ? adapter.config.httpNodeRoot : '/';
     const hStatic = adapter.config.hStatic === 'true' || adapter.config.hStatic === true ? '' : '// ';
 
     for (let a = 0; a < additional.length; a++) {
@@ -326,7 +327,8 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'config', config);
         lines[i] = setOption(lines[i], 'functionGlobalContext', npms);
         lines[i] = setOption(lines[i], 'nodesdir', nodesDir);
-        lines[i] = setOption(lines[i], 'httpRoot');
+        lines[i] = setOption(lines[i], 'httpAdminRoot');
+        lines[i] = setOption(lines[i], 'httpNodeRoot', hNodeRoot);
         lines[i] = setOption(lines[i], 'hStatic', hStatic);
         lines[i] = setOption(lines[i], 'httpStatic');
         lines[i] = setOption(lines[i], 'credentialSecret', secret);
