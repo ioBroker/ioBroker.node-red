@@ -27,9 +27,11 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 -->
 
 ## Changelog
+### 3.0.2 (2022-0x-xx)
+* (jwiesel) Added new parameter "httpNodeRoot" as httpRoot has been replaced by httpAdminRoot in version 3.0.0.
+
 ### 3.0.1 (2022-03-20)
-* (Bannsaenger) added option for in Node to choose topic format (MQTT with / or ioBroker with .). Default: MQTT
-*
+* (Bannsaenger) Added option for in Node to choose topic format (MQTT with / or ioBroker with .). Default: MQTT
 
 ### 3.0.0 (2022-03-11)
 * IMPORTANT: Node-RED is now v2. Please check your nodes for compatibility! See also https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released
