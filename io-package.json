@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "3.0.1",
+    "version": "3.1.0",
     "title": "node-red",
     "titleLang": {
       "en": "node-red",
@@ -16,6 +16,18 @@
       "zh-cn": "node-red"
     },
     "news": {
+      "3.1.0": {
+        "en": "Added new parameter \"httpNodeRoot\" as httpRoot has been replaced by httpAdminRoot in version 3.0.0.\nAdjust description of RBE cases for In-Node to match Filter node",
+        "de": "Neuer Parameter \"httpNodeRoot\" hinzugefügt, da httpRoot in Version 3.0.0 durch httpAdminRoot ersetzt wurde.\nPassen Sie die Beschreibung der RBE-Fälle für den In-Node an den Filter-Node an",
+        "ru": "Добавлен новый параметр «httpNodeRoot», так как httpRoot был заменен на httpAdminRoot в версии 3.0.0.\nНастройте описание вариантов RBE для In-Node, чтобы оно соответствовало узлу Filter.",
+        "pt": "Adicionado novo parâmetro \"httpNodeRoot\" pois httpRoot foi substituído por httpAdminRoot na versão 3.0.0.\nAjustar a descrição dos casos RBE para In-Node para corresponder ao nó Filter",
+        "nl": "Nieuwe parameter \"httpNodeRoot\" toegevoegd omdat httpRoot is vervangen door httpAdminRoot in versie 3.0.0.\nPas de beschrijving van RBE-gevallen voor In-Node aan om overeen te komen met Filterknooppunt",
+        "fr": "Ajout du nouveau paramètre \"httpNodeRoot\" car httpRoot a été remplacé par httpAdminRoot dans la version 3.0.0.\nAjuster la description des cas RBE pour In-Node afin qu'elle corresponde au nœud Filter",
+        "it": "Aggiunto nuovo parametro \"httpNodeRoot\" poiché httpRoot è stato sostituito da httpAdminRoot nella versione 3.0.0.\nRegola la descrizione dei casi RBE per In-Node in modo che corrisponda al nodo Filtro",
+        "es": "Se agregó el nuevo parámetro \"httpNodeRoot\", ya que httpRoot se reemplazó por httpAdminRoot en la versión 3.0.0.\nAjuste la descripción de los casos de RBE para In-Node para que coincida con el nodo de filtro",
+        "pl": "Dodano nowy parametr \"httpNodeRoot\", ponieważ httpRoot został zastąpiony przez httpAdminRoot w wersji 3.0.0.\nDostosuj opis przypadków RBE dla In-Node, aby pasował do węzła filtra",
+        "zh-cn": "添加了新参数“httpNodeRoot”，因为 httpRoot 在 3.0.0 版本中已被 httpAdminRoot 替换。\n调整 In-Node 的 RBE 案例描述以匹配 Filter 节点"
+      },
       "3.0.1": {
         "en": "added option for in Node to choose topic format (MQTT with / or ioBroker with .). Default: MQTT\n",
         "de": "Option für in Node hinzugefügt, um das Themenformat auszuwählen (MQTT mit / oder ioBroker mit .). Standard: MQTT\n",
@@ -87,18 +99,6 @@
         "es": "(Apollon77 / mickym2) Corregir indicadores de solo lectura. IMPORTANTE: Notw Readonly funciona como debería ser. Si solucionó el problema antes, ajuste sus nodos.\nArreglar el uso de comodines dentro de la identificación\nActualizar el valor en el desencadenador de nodo\nActualización a node-red 1.2.9\nAgregue activación en nodos cuando se retrasa la inicialización al inicio\nArreglar el nodo de la lista para admitir todos los tipos de objetos",
         "pl": "(Apollon77 / mickym2) Popraw flagi tylko do odczytu. WAŻNE: Notw Readonly działa tak, jak powinno. Jeśli rozwiązałeś ten problem wcześniej, dostosuj swoje węzły!\nNapraw użycie symboli wieloznacznych w identyfikatorze\nZaktualizuj wartość wyzwalacza z węzła wyjściowego\nZaktualizuj do wersji node-red 1.2.9\nDodaj wyzwalanie w węzłach, gdy opóźniona inicjalizacja przy starcie\nNapraw węzeł listy, aby obsługiwał wszystkie typy obiektów",
         "zh-cn": "（Apollon77 / mickym2）更正只读标志。重要说明：Notw Readonly可以正常工作。如果您之前已解决此问题，请调整节点！\n修复ID内使用通配符的问题\n更新输出节点触发器上的值\n更新到节点红色1.2.9\n启动时延迟初始化时在节点中添加触发\n修复列表节点以支持所有对象类型"
-      },
-      "2.1.0": {
-        "en": "Try to fix the MaxSubscribes error when having many nodes\nUpdate to node-red 1.2.8",
-        "de": "Versuchen Sie, den MaxSubscribes-Fehler zu beheben, wenn Sie viele Knoten haben\nUpdate auf Node-Red 1.2.8",
-        "ru": "Попытайтесь исправить ошибку MaxSubscribes при большом количестве узлов\nОбновление до node-red 1.2.8",
-        "pt": "Tente corrigir o erro MaxSubscribes quando tiver muitos nós\nAtualização para node-red 1.2.8",
-        "nl": "Probeer de MaxSubscribes-fout op te lossen als u veel knooppunten heeft\nUpdate naar node-red 1.2.8",
-        "fr": "Essayez de corriger l'erreur MaxSubscribes lorsque vous avez plusieurs nœuds\nMise à jour vers node-red 1.2.8",
-        "it": "Prova a correggere l'errore MaxSubscribes quando hai molti nodi\nAggiornamento a node-red 1.2.8",
-        "es": "Intente corregir el error de MaxSubscribes cuando tenga muchos nodos\nActualización a node-red 1.2.8",
-        "pl": "Spróbuj naprawić błąd MaxSubscribes, gdy masz wiele węzłów\nAktualizacja do wersji node-red 1.2.8",
-        "zh-cn": "有多个节点时尝试修复MaxSubscribes错误\n更新到节点红色1.2.8"
       }
     },
     "desc": {
