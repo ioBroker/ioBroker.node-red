@@ -15,7 +15,8 @@
   "Use palletmanager:": "Использовать palletmanager",
   "User": "Пользователь",
   "Web server port:": "Порт веб сервера",
-  "http root directory:": "http root directory",
+  "http Admin directory:": "http Admin directory",
+  "http Node directory:": "http Node directory",
   "node-red settings": "Настройки node-red",
   "node-red update select dialog": "Обновить переменные в диалоге node-red",
   "Do not read objects from admin": "Не читать объекты из admin"

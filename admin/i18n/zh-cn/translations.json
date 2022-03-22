@@ -15,7 +15,7 @@
   "Use palletmanager:": "使用托盘管理器",
   "User": "用户",
   "Web server port:": "Web服务器端口",
-  "http root directory:": "http根目录",
+  "http Admin directory:": "http根目录",
   "node-red settings": "node-red设置",
   "node-red update select dialog": "node-red update选择对话框",
   "Do not read objects from admin": "不要从管理员读取对象"

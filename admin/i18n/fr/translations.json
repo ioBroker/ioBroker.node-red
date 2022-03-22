@@ -15,7 +15,7 @@
   "Use palletmanager:": "Utiliser Palletmanager",
   "User": "Utilisateur",
   "Web server port:": "Port du serveur Web",
-  "http root directory:": "répertoire racine http",
+  "http Admin directory:": "répertoire racine http",
   "node-red settings": "paramètres de node-red",
   "node-red update select dialog": "boîte de dialogue de sélection de mise à jour de noeud",
   "Do not read objects from admin": "Ne pas lire les objets de l'administrateur"

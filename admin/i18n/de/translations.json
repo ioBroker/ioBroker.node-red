@@ -15,7 +15,8 @@
   "Use palletmanager:": "Palletenmanager benutzen",
   "User": "Benutzer",
   "Web server port:": "Webserver Port",
-  "http root directory:": "http Stammpfad",
+  "http Admin directory:": "http Admin Stammpfad",
+  "http Node directory:": "http Nodes Stammpfad",
   "node-red settings": "node-red Einstellungen",
   "node-red update select dialog": "node-red SelectID Dialog aktualisieren",
   "Do not read objects from admin": "Keine Objekte von admin lesen"

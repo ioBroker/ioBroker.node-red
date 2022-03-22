@@ -15,7 +15,7 @@
   "Use palletmanager:": "Użyj menedżera palet",
   "User": "Użytkownik",
   "Web server port:": "Port serwera internetowego",
-  "http root directory:": "główny katalog http",
+  "http Admin directory:": "główny katalog http",
   "node-red settings": "ustawienia node-red",
   "node-red update select dialog": "okno dialogowe aktualizacji uaktualnienia węzła",
   "Do not read objects from admin": "Nie czytaj obiektów od administratora"

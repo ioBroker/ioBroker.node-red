@@ -175,7 +175,7 @@ module.exports = {
      * If set to false, this is disabled.
      */
     //httpAdminRoot: '/admin',
-    httpAdminRoot: "'%%httpRoot%%'",
+    httpAdminRoot: "'%%httpAdminRoot%%'",
     /** httpRoot: "'%%httpRoot%%'", - has been deprecated: https://github.com/node-red/node-red/pull/2953 */
 
     /** The following property can be used to add a custom middleware function
@@ -195,7 +195,7 @@ module.exports = {
      * can be used to specifiy a different root path. If set to false, this is
      * disabled.
      */
-    //httpNodeRoot: '/red-nodes',
+    httpNodeRoot: "'%%httpNodeRoot%%'",
 
     /** The following property can be used to configure cross-origin resource sharing
      * in the HTTP nodes.
