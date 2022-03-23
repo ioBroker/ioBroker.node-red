@@ -63,7 +63,7 @@ module.exports = function (RED) {
         ready = true;
         checkQueuedStates(() => {
             existingNodes.forEach(node => {
-                adapter.log.debug(`${node.id} Initialized (ready=was-false`);
+                adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
                 if (node instanceof IOBrokerInNode) {
                     if (!stateChangeSubscribedNodes.includes(node.id)) {
                         adapter.on('stateChange', node.stateChange);
@@ -75,6 +75,7 @@ module.exports = function (RED) {
                                 if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                                     const t = node.topic.replace(/\./g, '/') || '_no_topic';
                                     node.previous[t] = state ? state.val : null
+                                    node.log(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
                                 }
                                 if (node.fireOnStart) {
                                     node.stateChange(node.topic, state);
@@ -391,6 +392,7 @@ module.exports = function (RED) {
             //node.log ("Function: " + node.func);
 
 			if (node.func === 'rbe' || node.func === 'rbe-preinitvalue') {
+                node.log(`${node.id} RBE check ${JSON.stringify(state && state.val)} vs. ${JSON.stringify(node.previous[t])}`);
                 if (state && state.val === node.previous[t]) {
                     return;
                 }
@@ -404,6 +406,7 @@ module.exports = function (RED) {
                     if (!node.previous.hasOwnProperty(t)) {
                         node.previous[t] = n - node.gap;
                     }
+                    node.log(`${node.id} Deadband check ${n} vs. ${node.previous[t]} : ${Math.abs(n - node.previous[t]) >= node.gap}`);
                     if (!Math.abs(n - node.previous[t]) >= node.gap) {
                         return;
                     }
@@ -453,6 +456,7 @@ module.exports = function (RED) {
                     if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                         const t = node.topic.replace(/\./g, '/') || '_no_topic';
                         node.previous[t] = state ? state.val : null
+                        node.log(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
                     }
                     if (node.fireOnStart) {
                         node.stateChange(node.topic, state);
