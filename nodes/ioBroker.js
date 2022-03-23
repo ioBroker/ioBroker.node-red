@@ -392,7 +392,7 @@ module.exports = function (RED) {
             //node.log ("Function: " + node.func);
 
 			if (node.func === 'rbe' || node.func === 'rbe-preinitvalue') {
-                node.log(`${node.id} RBE check ${JSON.stringify(state && state.val)} vs. ${JSON.stringify(node.previous[t])}`);
+                node.log(`${node.id} RBE check ${JSON.stringify(state && state.val)} vs. ${JSON.stringify(node.previous[t])}: send value: ${!(state && state.val === node.previous[t])}`);
                 if (state && state.val === node.previous[t]) {
                     return;
                 }
@@ -406,7 +406,7 @@ module.exports = function (RED) {
                     if (!node.previous.hasOwnProperty(t)) {
                         node.previous[t] = n - node.gap;
                     }
-                    node.log(`${node.id} Deadband check ${n} vs. ${node.previous[t]} : ${Math.abs(n - node.previous[t]) >= node.gap}`);
+                    node.log(`${node.id} Deadband check ${n} vs. ${node.previous[t]} with gap ${node.gap}: Send value ${Math.abs(n - node.previous[t]) >= node.gap}`);
                     if (!Math.abs(n - node.previous[t]) >= node.gap) {
                         return;
                     }
