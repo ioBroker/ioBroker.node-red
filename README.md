@@ -29,6 +29,8 @@ This adapter uses the node-red server from https://github.com/node-red/node-red
 ## Changelog
 ### **WORK IN PROGRESS**
 * (Bannsaenger) Added extended authentication to instance settings and config
+* (Apollon77) Fix Deadband Filter logic in InNode
+* (Apollon77/mickym2) Several In-Node optimizations
 
 ### 3.1.0 (2022-03-22)
 * (jwiesel) Added new parameter "httpNodeRoot" as httpRoot has been replaced by httpAdminRoot in version 3.0.0.
