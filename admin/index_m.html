@@ -226,7 +226,7 @@
                 if (typeof obj.permissions === 'object') {
                     obj.permissions = obj.permissions.join(',');
                 }
-                addUser(obj.username, obj.password, obj.permissions, onChange);
+                addUser(obj.username, obj.password, obj.permissions);
             }
         } else {
             settings.authExt = [];
