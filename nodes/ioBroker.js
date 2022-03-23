@@ -407,7 +407,7 @@ module.exports = function (RED) {
                         node.previous[t] = n - node.gap;
                     }
                     node.log(`${node.id} Deadband check ${n} vs. ${node.previous[t]} with gap ${node.gap}: Send value ${Math.abs(n - node.previous[t]) >= node.gap}`);
-                    if (!Math.abs(n - node.previous[t]) >= node.gap) {
+                    if (Math.abs(n - node.previous[t]) < node.gap) {
                         return;
                     }
                 } else {
