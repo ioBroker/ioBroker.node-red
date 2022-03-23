@@ -63,6 +63,7 @@ module.exports = function (RED) {
         ready = true;
         checkQueuedStates(() => {
             existingNodes.forEach(node => {
+                adapter.log.debug(`${node.id} Initialized (ready=was-false`);
                 if (node instanceof IOBrokerInNode) {
                     if (!stateChangeSubscribedNodes.includes(node.id)) {
                         adapter.on('stateChange', node.stateChange);
@@ -371,8 +372,6 @@ module.exports = function (RED) {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
         }
 
-        adapter.log.debug(`${node.id} Initialized (ready=${ready}`);
-
         node.stateChange = function (topic, state) {
             if (node.regexTopic) {
                 if (!node.regexTopic.test(topic)) {
@@ -440,6 +439,8 @@ module.exports = function (RED) {
         };
 
         if (ready) {
+            adapter.log.debug(`${node.id} Initialized (ready=${ready}`);
+
             if (!stateChangeSubscribedNodes.includes(node.id)) {
                 adapter.on('stateChange', node.stateChange);
                 stateChangeSubscribedNodes.push(node.id);
