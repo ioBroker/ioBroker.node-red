@@ -271,6 +271,14 @@ function writeSettings() {
     const bind = `"${adapter.config.bind || '0.0.0.0'}"`;
 
     let authObj = {type: 'credentials'};
+    if ((adapter.config.authType === undefined) || (adapter.config.authType === '')) {
+        // first time after upgrade or fresh install
+        if (adapter.config.user) {
+            adapter.config.authType = 'Simple';
+        } else {
+            adapter.config.authType = 'None';
+        }
+    }
     switch (adapter.config.authType) {
         case 'None':
             authObj = {type: 'credentials', users: [], default: {permissions: '*'}};
@@ -285,7 +293,7 @@ function writeSettings() {
             if (adapter.config.hasDefaultPermissions) {
                 authObj.default = {permissions: adapter.config.defaultPermissions};
             }
-            break;    
+            break;
     }
     const auth = JSON.stringify(authObj);
     adapter.log.debug(`Writing extended authentication for authType: "${adapter.config.authType}" : ${JSON.stringify(authObj)}`);
