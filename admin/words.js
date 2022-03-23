@@ -33,4 +33,27 @@ systemDictionary = {
         "pl": "Nie czytaj obiektów od administratora w oknie wyboru obiektu",
         "zh-cn": "不要在选择对象对话框中从管理员读取对象"
     },
+    "Authentication": {                 "en": "Authentication", "de": "Authentifizierung", "ru": "Аутентификация", "pt": "Autenticação", "nl": "authenticatie", "fr": "Authentification", "it": "Autenticazione", "es": "Autenticación", "pl": "Uwierzytelnianie", "zh-cn": "验证"},
+    "None": {                           "en": "None", "de": "Keine", "ru": "Никто", "pt": "Nenhum", "nl": "Geen", "fr": "Aucun", "it": "Nessuno", "es": "Ninguna", "pl": "Nic", "zh-cn": "没有"},
+    "Simple": {                         "en": "Simple", "de": "Einfach", "ru": "Простой", "pt": "Simples", "nl": "Eenvoudig", "fr": "Simple", "it": "Semplice", "es": "Sencillo", "pl": "Prosty", "zh-cn": "简单的" },
+    "Extended": {                       "en": "Extended", "de": "Erweitert", "ru": "Расширенный", "pt": "Estendido", "nl": "Verlengd", "fr": "Élargi", "it": "Esteso", "es": "Extendido", "pl": "Przedłużony", "zh-cn": "扩展"},
+    "General": {                        "en": "General", "de": "Allgemein", "ru": "Общий",  "pt": "Em geral", "nl": "Algemeen", "fr": "Général", "it": "Generale", "es": "General", "pl": "Ogólny", "zh-cn": "一般的"},
+    "Extended Authentication": {        "en": "Extended Authentication", "de": "Erweiterte Authentifizierung", "ru": "Расширенная аутентификация", "pt": "Autenticação estendida", "nl": "Uitgebreide authenticatie", "fr": "Authentification étendue", "it": "Autenticazione estesa", "es": "Autenticación extendida", "pl": "Uwierzytelnianie rozszerzone", "zh-cn": "扩展认证"},
+    "Add user": {                       "en": "Add user", "de": "Benutzer hinzufügen", "ru": "Добавить пользователя", "pt": "Adicionar usuário", "nl": "Voeg gebruiker toe", "fr": "Ajouter un utilisateur", "it": "Aggiungi utente", "es": "Agregar usuario", "pl": "Dodaj użytkownika", "zh-cn": "添加用户"},
+    "Delete user": {                    "en": "Delete user", "de": "Benutzer löschen", "ru": "Удалить пользователя", "pt": "Deletar usuário", "nl": "Verwijder gebruiker", "fr": "Supprimer l'utilisateur", "it": "Elimina utente", "es": "Borrar usuario", "pl": "Usuń użytkownika", "zh-cn": "删除用户"},
+    "Help Text Extended Auth": {
+        "en": "Add users and a optional default permission. Possible values for permission: * (full access), read (read-only access), or a list of e.g. settings.read,flows.write,nodes.read etc.",
+        "de": "Fügen Sie Benutzer und eine optionale Standardberechtigung hinzu. Mögliche Werte für die Berechtigung: * (Vollzugriff), read (Nur-Lese-Zugriff) oder eine Liste von z.B. settings.read,flows.write,nodes.read usw.",
+        "ru": "Добавьте пользователей и дополнительное разрешение по умолчанию. Возможные значения разрешения: * (полный доступ), read (доступ только для чтения) или список, например. settings.read,flows.write,nodes.read и т. д.",
+        "pt": "Adicione usuários e uma permissão padrão opcional. Valores possíveis para permissão: * (acesso total), read (acesso somente leitura) ou uma lista de, por exemplo, settings.read,flows.write,nodes.read etc.",
+        "nl": "Voeg gebruikers toe en een optionele standaardmachtiging. Mogelijke waarden voor toestemming: * (volledige toegang), read (alleen-lezen toegang), of een lijst van b.v. settings.read,flows.write,nodes.read etc.",
+        "fr": "Ajoutez des utilisateurs et une autorisation par défaut facultative. Valeurs possibles pour l'autorisation : * (accès complet), read (accès en lecture seule) ou une liste, par ex. settings.read,flows.write,nodes.read etc.",
+        "it": "Aggiungi utenti e un'autorizzazione predefinita facoltativa. Possibili valori per l'autorizzazione: * (accesso completo), read (accesso in sola lettura) o un elenco di ad es. settings.read,flows.write,nodes.read ecc.",
+        "es": "Agregue usuarios y un permiso predeterminado opcional. Valores posibles para el permiso: * (acceso completo), read (acceso de solo lectura) o una lista de, p. settings.read,flows.write,nodes.read, etc.",
+        "pl": "Dodaj użytkowników i opcjonalne uprawnienia domyślne. Możliwe wartości uprawnień: * (pełny dostęp), read (dostęp tylko do odczytu) lub lista np. settings.read,flows.write,nodes.read itp.",
+        "zh-cn": "添加用户和可选的默认权限。权限的可能值：*（完全访问）、read（只读访问）或列表，例如 settings.read,flows.write,nodes.read 等"
+    },
+    "Default permissions": {            "en": "Default permissions", "de": "Standardberechtigungen", "ru": "Разрешения по умолчанию", "pt": "Permissões padrão", "nl": "Standaardrechten", "fr": "Autorisations par défaut", "it": "Autorizzazioni predefinite", "es": "Permisos predeterminados", "pl": "Uprawnienia domyślne", "zh-cn": "默认权限"},
+    "No default permissions": {         "en": "No default permissions", "de": "Keine Standardberechtigungen", "ru": "Нет разрешений по умолчанию", "pt": "Sem permissões padrão", "nl": "Geen standaardrechten", "fr": "Aucune autorisation par défaut", "it": "Nessuna autorizzazione predefinita", "es": "Sin permisos predeterminados", "pl": "Brak domyślnych uprawnień", "zh-cn": "没有默认权限"},
+    "Permissions": {                    "en": "Permissions", "de": "Berechtigungen", "ru": "Разрешения", "pt": "Permissões", "nl": "Rechten", "fr": "Autorisations", "it": "Permessi", "es": "permisos", "pl": "Uprawnienia", "zh-cn": "权限"}
 };
