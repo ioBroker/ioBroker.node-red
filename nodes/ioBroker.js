@@ -31,6 +31,7 @@ module.exports = function (RED) {
     }
     let adapter;
     const existingNodes = [];
+    const stateChangeSubscribedNodes = [];
 
     try {
         adapter = utils.Adapter({name: 'node-red', instance, config});
@@ -63,10 +64,22 @@ module.exports = function (RED) {
         checkQueuedStates(() => {
             existingNodes.forEach(node => {
                 if (node instanceof IOBrokerInNode) {
-                    adapter.on('stateChange', node.stateChange);
-                    if (node.fireOnStart && !node.topic.includes('*')) {
-                        adapter.getForeignState(node.topic, (err, state) =>
-                            node.stateChange(node.topic, state));
+                    if (!stateChangeSubscribedNodes.includes(node.id)) {
+                        adapter.on('stateChange', node.stateChange);
+                        stateChangeSubscribedNodes.push(node.id);
+
+                        if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
+                            adapter.getForeignState(node.topic, (err, state) => {
+                                err && adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
+                                if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
+                                    const t = node.topic.replace(/\./g, '/') || '_no_topic';
+                                    node.previous[t] = state ? state.val : null
+                                }
+                                if (node.fireOnStart) {
+                                    node.stateChange(node.topic, state);
+                                }
+                            });
+                        }
                     }
                 }
                 node.subscribePattern && adapter.subscribeForeignStates(node.subscribePattern);
@@ -358,6 +371,8 @@ module.exports = function (RED) {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
         }
 
+        adapter.log.debug(`${node.id} Initialized (ready=${ready}`);
+
         node.stateChange = function (topic, state) {
             if (node.regexTopic) {
                 if (!node.regexTopic.test(topic)) {
@@ -425,7 +440,10 @@ module.exports = function (RED) {
         };
 
         if (ready) {
-            adapter.on('stateChange', node.stateChange);
+            if (!stateChangeSubscribedNodes.includes(node.id)) {
+                adapter.on('stateChange', node.stateChange);
+                stateChangeSubscribedNodes.push(node.id);
+            }
             node.subscribePattern && adapter.subscribeForeignStates(node.subscribePattern);
 
             if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
