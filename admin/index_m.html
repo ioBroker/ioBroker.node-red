@@ -1,6 +1,6 @@
 <html>
-
 <head>
+<meta charset="UTF-8">
 <!-- Materialze style -->
 <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
 <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
@@ -88,6 +88,10 @@
 <!-- you have to define 2 functions in the global scope: -->
 <script type="text/javascript">
     var oldPass = '';
+    var userData = [];
+    var userId = 0;
+    var onChange;
+
     function setValue(id, value, onChange) {
         var $value = $('#' + id + '.value');
         if ($value.attr('type') === 'checkbox') {
@@ -159,8 +163,31 @@
         }
     }
 
+    function showHideAuthSettings() {
+        var $authType = $('#authType');
+
+        if ($authType.val() == 'Simple') {
+            $('.col-user').show();
+            $('.col-pass').show();
+        } else {
+            $('.col-user').hide();
+            $('.col-pass').hide();
+        }
+        if ($authType.val() == 'Extended') {
+            $('#authtab').removeClass('disabled');
+        } else {
+            $('#authtab').addClass('disabled');
+        }
+        if ($('#hasDefaultPermissions').prop('checked')) {
+            $('#defaultPermissions').show();
+        } else {
+            $('#defaultPermissions').hide();
+        }
+    }
+
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
+        globalThis.onChange = onChange;
         if (!settings) return;
 
         if (settings.allowCreationOfForeignObjects === undefined) {
@@ -184,6 +211,30 @@
         if (settings.palletmanagerEnabled === undefined) {
             settings.palletmanagerEnabled = false;
         }
+        if ((settings.authType === undefined) || (settings.authType === '')) {
+            // first time after upgrade or fresh install
+            if (settings.user) {
+                settings.authType = 'Simple';
+            } else {
+                settings.authType = 'None';
+            }
+        }
+        $('#authType.value').val(settings.authType).select();
+        
+        if (typeof settings.authExt === 'object') {
+            for (var obj of settings.authExt) {
+                if (typeof obj.permissions === 'object') {
+                    obj.permissions = obj.permissions.join(',');
+                }
+                addUser(obj.username, obj.password, obj.permissions);
+            }
+        } else {
+            settings.authExt = [];
+        }
+        if (typeof settings.defaultPermissions === 'object') {
+            settings.defaultPermissions = settings.defaultPermissions.join(',');
+        }
+    
         oldPass = settings.pass;
         if (settings.pass) {
             settings.pass = '__pass__';
@@ -251,23 +302,37 @@
             }
         });
 
+        $('#authType').on('change', function () {
+            showHideAuthSettings();
+            onChange();
+        });
+
+        $('#hasDefaultPermissions').on('change', function () {
+            showHideAuthSettings();
+            onChange();
+        });
+
         showHideSettings();
         showHideBackupWarning();
+        showHideAuthSettings();
     }
 
     function save(callback) {
         var obj = {};
+        var bcrypt = dcodeIO.bcrypt;
+
         $('.value').each(function () {
             var $this = $(this);
-            if ($this.attr('type') === 'checkbox') {
-                obj[$this.attr('id')] = $this.prop('checked');
-            } else {
-                obj[$this.attr('id')] = $this.val();
+            if (!$this.attr('id').startsWith('ae_')) {
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+                } else {
+                    obj[$this.attr('id')] = $this.val();
+                }
             }
         });
 
         if (obj.pass) {
-            var bcrypt = dcodeIO.bcrypt;
             if (obj.pass !== '__pass__') {
                 obj.pass = bcrypt.hashSync(obj.pass, 8);
                 //obj.pass = MD5(obj.pass);
@@ -275,6 +340,39 @@
                 obj.pass = oldPass;
             }
         }
+
+        obj.authExt = [];
+        for (var userObj of userData) {
+            console.log(`saving user: ${userObj.userId}`);
+            var user = $(`#ae_user_${userObj.userId}`).val() || '';
+            var pass = $(`#ae_pass_${userObj.userId}`).val() || '';
+            var perm = $(`#ae_perm_${userObj.userId}`).val() || '';
+            if (pass !== '__pass__') {
+                pass = bcrypt.hashSync(pass, 8);
+                //console.log(`generating new password: ${pass}`);
+            } else {
+                pass = userObj.oldPass;
+                //console.log(`using old password: ${pass}`);
+            }
+            if (perm.includes(',')) {
+                perm = perm.split(',');
+            } else {
+                console.log(`no array in permissions: ${perm}`)
+            }
+
+            obj.authExt.push({
+                "username": user,
+                "password": pass,
+                "permissions": perm
+            });
+        }
+        if (obj.defaultPermissions.includes(',')) {
+            obj.defaultPermissions = obj.defaultPermissions.split(',');
+        } else {
+            console.log(`no array in defaultPermissions: ${obj.defaultPermissions}`);
+        }
+
+        console.log(`saving new auhExt: ${JSON.stringify(obj.authExt)}`);
 
         if ($('#secure').prop('checked') && (!$('#certPrivate').val() || !$('#certPublic').val())) {
             showToast(null, _('Set certificates or load it first in the system settings (right top).'));
@@ -285,12 +383,57 @@
 
         callback(obj, {localLink: 'http://%ip%:' + obj.port, npmLibs: common.npmLibs});
     }
+
+    function addUser(user, pass, perm) {
+        user = user || '';
+        pass = pass || '';
+        perm = perm || '';
+        userId++;
+        var newUser = $("<div></div>").addClass("row");
+        newUser.append($(`<div class="input-field col s12 m6 l2"><input class="value translateT translateP" id="ae_user_${userId}" type="text" title="User" placeholder="User"/></div>`));
+        newUser.append($(`<div class="input-field col s6 m3 l2"><input class="value translateT translateP" id="ae_pass_${userId}" type="password" title="Password" placeholder="Password"/></div>`));
+        newUser.append($(`<div class="input-field col s5 m3 l2"><input class="value translateT translateP" id="ae_perm_${userId}" type="text" title="Permissions" placeholder="Permissions"/></div>`));
+        newUser.append($(`<div class="col s1" style="text-align:right"><a class="btn-floating btn-small waves-effect waves-light center-allign translateT" style="margin-top:2rem" title="Delete user" onclick="deleteUser(this,${userId})"><i class="material-icons">delete</i></a></div>`));
+        translateAll(newUser);
+        $("#tab-auth").append(newUser);
+        setValue(`ae_user_${userId}`, user, onChange);
+        setValue(`ae_pass_${userId}`, pass !== '' ? '__pass__' : '', onChange);
+        setValue(`ae_perm_${userId}`, perm, onChange);
+        userData.push({
+            userId: userId,
+            oldPass: pass
+        });
+        onChange();
+        //console.log(`addUser -> userData: ${JSON.stringify(userData)}`);
+    }
+    function deleteUser(elem, user) {
+        user =  user || 0;
+        var body = document.querySelector('body');
+        var toDelete = elem.parentNode.parentNode;
+        for (var i in userData) {
+            if (userData[i].userId == user) {
+                userData.splice(i, 1);
+            }
+        }
+        if (body != toDelete) {
+            var parent = toDelete.parentNode;
+            parent.removeChild(toDelete);
+            onChange();
+        }
+        //console.log(`deleteUser Id:${user} -> userData: ${JSON.stringify(userData)}`);
+    }
 </script>
 </head>
 <body>
 <div class="m adapter-container">
     <div class="row">
         <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s6" id="maintab"><a href="#tab-main" class="translate">General</a></li>
+                <li class="tab col s6" id="authtab"><a href="#tab-auth" class="translate">Extended Authentication</a></li>
+            </ul>
+        </div>
+        <div id="tab-main" class="col s12 page">
             <div class="row">
                 <div class="col s6">
                     <img src="node-red.png" class="logo" alt="logo"/>
@@ -341,12 +484,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s12 m4 l3">
+                <div class="input-field col s12 m2 l1">
+                    <select class="value" id="authType">
+                        <option value="None" class="translate">None</option>
+                        <option value="Simple" class="translate">Simple</option>
+                        <option value="Extended" class="translate">Extended</option>
+                    </select>
+                    <label class="translate" for="authType">Authentication</label>
+                </div>
+                <div class="input-field col s12 m4 l3 col-user">
                     <input id="user" class="value" type="text"/>
                     <label class="translate" for="user">User</label>
-                    <span class="translate">Leave blank to disable basic authentication</span>
                 </div>
-                <div class="input-field col s12 m4 l3">
+                <div class="input-field col s12 m4 l2 col-pass">
                     <input id="pass" class="value" type="password"/>
                     <label class="translate" for="pass">Password</label>
                 </div>
@@ -404,6 +554,41 @@
                     <a id="update" class="waves-effect waves-light btn"><i class="material-icons right">cloud</i><span class="translate">Update select dialog</span></a>
                 </div>
             </div>
+        </div>
+        <div id="tab-auth" class="col s12 page">
+            <div class="row">
+                <div class="col s11">
+                    <h5 class="translate">Extended Authentication</h5>
+                    <p class="translate">Help Text Extended Auth</p>
+                </div>
+                <div class="col s1" style="text-align:right">
+                    <a class="btn-floating btn-small waves-effect waves-light center-allign translateT" style="margin-top:1rem" title="Add user" onclick="addUser()">
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="row" style="padding-top:1rem">
+                <div class="label col s12 m6 l2">
+                    <label class="translate">User</label>
+                </div>
+                <div class="label col s12 m6 l2">
+                    <label class="translate">Password</label>
+                </div>
+                <div class="label col s12 m6 l2">
+                    <label class="translate">Permissions</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l2">
+                    <input class="value" id="hasDefaultPermissions" type="checkbox"/>
+                    <label class="translate" for="hasDefaultPermissions">Default permissions</label>
+                </div>
+                <div class="input-field col s6 m3 l2 offset-m3 offset-l2">
+                    <input class="value translateT" id="defaultPermissions" type="text" title="Permissions"/>
+                </div>
+            </div>
+            <div class="divider" id="startUserData"></div>
         </div>
     </div>
 </div>

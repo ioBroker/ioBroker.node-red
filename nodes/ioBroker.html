@@ -31,7 +31,7 @@
     function readData() {
         return new Promise((resolve, reject) => {
             console.log('Connecting...');
-            var socket = new WebSocket('ws://localhost:8081?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN
+            var socket = new WebSocket('ws://' + window.location.hostname + ':8081?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN
 
             if (!socket) {
                 console.warn('Authentication must be disabled to support the objects read!');

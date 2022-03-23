@@ -270,9 +270,25 @@ function writeSettings() {
 
     const bind = `"${adapter.config.bind || '0.0.0.0'}"`;
 
-    const auth = adapter.config.user && adapter.config.pass ?
-	    JSON.stringify({type: 'credentials', users: [{username: adapter.config.user, password: adapter.config.pass, permissions: '*'}]}) :
-	    JSON.stringify({type: 'credentials', users: [], default: {permissions: '*'}});
+    let authObj = {type: 'credentials'};
+    switch (adapter.config.authType) {
+        case 'None':
+            authObj = {type: 'credentials', users: [], default: {permissions: '*'}};
+            break;
+
+        case 'Simple':
+            authObj.users = [{username: adapter.config.user, password: adapter.config.pass, permissions: '*'}];
+            break;
+
+        case 'Extended':
+            authObj.users = adapter.config.authExt;
+            if (adapter.config.hasDefaultPermissions) {
+                authObj.default = {permissions: adapter.config.defaultPermissions};
+            }
+            break;    
+    }
+    const auth = JSON.stringify(authObj);
+    adapter.log.debug(`Writing extended authentication for authType: "${adapter.config.authType}" : ${JSON.stringify(authObj)}`);
 
     const pass = `"${adapter.config.pass}"`;
     const secure = adapter.config.secure ? '' : '// ';
