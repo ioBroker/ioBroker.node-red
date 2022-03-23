@@ -189,8 +189,8 @@
 			<option value="all">Send all events</option>
             <option value="rbe">block unless value changes</option>
             <option value="rbe-preinitvalue">block unless value changes (Initialize with value)</option>
-            <option value="deadband">block unless changes by more than</option>
-            <option value="deadband-preinitvalue">block unless changes by more than (Initialize with value)</option>
+            <option value="deadband">block until changes will by more or equal than</option>
+            <option value="deadband-preinitvalue">block until changes will by more or equal than (Initialize with value)</option>
 		</select>
     </div>
     <div class="form-row" id="node-bandgap">
@@ -218,7 +218,7 @@
     <p>Outputs an object called <b>msg</b> containing <b>msg.topic, msg.payload, msg.timestamp, msg.lastchange</b> and <b>msg.acknowledged</b>.</p>
 	<p>The ack-flag determines whether only States with <i>ack == true</i>(updates) or <i>ack == false</i>(commands) or all events are forwarded.</p>
     <p>In default the Node outputs the topic in MQTT format. This can be changed to the ioBroker database Format (with .)</p>
-	<p>The select box Mode offers further filtering options. The options are the same as for the RBE node.</p>
+	<p>The select box Mode offers further filtering options. The options are compareble to the RBE node. Both filter options can be configured to pre-initialize with the value on start or not - with this it behaves different if the filter options are in effect directly fot the first value change, or if the first change is always sent out.</p>
 </script>
 
 <script type="text/javascript">
