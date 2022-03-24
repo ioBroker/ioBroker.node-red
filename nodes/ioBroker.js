@@ -66,6 +66,7 @@ module.exports = function (RED) {
                 adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
                 if (node instanceof IOBrokerInNode) {
                     if (!stateChangeSubscribedNodes.includes(node.id)) {
+                        adapter.log.debug(`${node.id} Init stateChange listener`);
                         adapter.on('stateChange', node.stateChange);
                         stateChangeSubscribedNodes.push(node.id);
 
@@ -75,7 +76,7 @@ module.exports = function (RED) {
                                 if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                                     const t = node.topic.replace(/\./g, '/') || '_no_topic';
                                     node.previous[t] = state ? state.val : null
-                                    //node.log(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
+                                    adapter.log.debug(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
                                 }
                                 if (node.fireOnStart) {
                                     node.stateChange(node.topic, state);
@@ -84,7 +85,10 @@ module.exports = function (RED) {
                         }
                     }
                 }
-                node.subscribePattern && adapter.subscribeForeignStates(node.subscribePattern);
+                if (node.subscribePattern) {
+                    adapter.subscribeForeignStates(node.subscribePattern);
+                    adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}"`);
+                }
                 node.status({fill: 'green', shape: 'dot', text: 'connected'});
             });
 
@@ -374,6 +378,7 @@ module.exports = function (RED) {
         }
 
         node.stateChange = function (topic, state) {
+            adapter.log.debug(`Go stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
             if (node.regexTopic) {
                 if (!node.regexTopic.test(topic)) {
                     return;
@@ -411,7 +416,7 @@ module.exports = function (RED) {
                         return;
                     }
                 } else {
-                    node.warn('no number found in value');
+                    node.warn(`${node.id}: Ignore deadband filter because no number found in value ${state.val}`);
                     return;
                 }
             }
@@ -447,8 +452,12 @@ module.exports = function (RED) {
             if (!stateChangeSubscribedNodes.includes(node.id)) {
                 adapter.on('stateChange', node.stateChange);
                 stateChangeSubscribedNodes.push(node.id);
+                adapter.log.debug(`${node.id} Init stateChange listener`);
             }
-            node.subscribePattern && adapter.subscribeForeignStates(node.subscribePattern);
+            if (node.subscribePattern) {
+                adapter.subscribeForeignStates(node.subscribePattern);
+                adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}"`);
+            }
 
             if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
                 adapter.getForeignState(node.topic, (err, state) => {
@@ -456,7 +465,7 @@ module.exports = function (RED) {
                     if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                         const t = node.topic.replace(/\./g, '/') || '_no_topic';
                         node.previous[t] = state ? state.val : null
-                        //node.log(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
+                        adapter.log.debug(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
                     }
                     if (node.fireOnStart) {
                         node.stateChange(node.topic, state);
@@ -468,7 +477,10 @@ module.exports = function (RED) {
         node.on('close', () => {
             adapter.removeListener('stateChange', node.stateChange);
             const index = stateChangeSubscribedNodes.indexOf(node.id);
-            index !==-1 && stateChangeSubscribedNodes.splice(index, 1);
+            if (index !== -1) {
+                stateChangeSubscribedNodes.splice(index, 1);
+                adapter.log.debug(`${node.id} Removed stateChange listener`);
+            }
             onClose(node);
         });
         existingNodes.push(node);
