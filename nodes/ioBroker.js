@@ -61,6 +61,7 @@ module.exports = function (RED) {
         }
 
         ready = true;
+        adapter.log.debug(`Ready< event received ... start to check ${checkStates.length} Nodes`);
         checkQueuedStates(() => {
             existingNodes.forEach(node => {
                 adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
