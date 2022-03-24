@@ -467,6 +467,8 @@ module.exports = function (RED) {
 
         node.on('close', () => {
             adapter.removeListener('stateChange', node.stateChange);
+            const index = stateChangeSubscribedNodes.indexOf(node.id);
+            index !==-1 && stateChangeSubscribedNodes.splice(index, 1);
             onClose(node);
         });
         existingNodes.push(node);
