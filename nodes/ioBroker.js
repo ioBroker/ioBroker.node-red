@@ -44,6 +44,7 @@ module.exports = function (RED) {
     const nodeSets = [];
     const checkStates = [];
     const verifiedObjects = {};
+    const subscribedIds = {};
     const isValidIDRegExp = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]*\\.\\d+\\.');
     let ready = false;
     const log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
@@ -87,8 +88,13 @@ module.exports = function (RED) {
                     }
                 }
                 if (node.subscribePattern) {
-                    adapter.subscribeForeignStates(node.subscribePattern);
-                    adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}"`);
+                    if (!subscribedIds[node.subscribePattern]) {
+                        subscribedIds[node.subscribePattern] = 1;
+                        adapter.subscribeForeignStates(node.subscribePattern);
+                    } else {
+                        subscribedIds[node.subscribePattern]++;
+                    }
+                    adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
                 }
                 node.status({fill: 'green', shape: 'dot', text: 'connected'});
             });
@@ -325,7 +331,11 @@ module.exports = function (RED) {
         if (pos !== -1) {
             existingNodes.splice(pos, 1);
         }
-        node.subscribePattern && adapter.unsubscribeForeignStates(node.subscribePattern);
+        this.log.debug(`${node.id} Close node (with pattern "${node.subscribePattern}")`)
+        if (node.subscribePattern && !--subscribedIds[node.subscribePattern]) {
+            adapter.log.debug(`${node.id} Unsubscribe for "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
+            adapter.unsubscribeForeignStates(node.subscribePattern);
+        }
     }
 
     function IOBrokerInNode(n) {
@@ -379,7 +389,7 @@ module.exports = function (RED) {
         }
 
         node.stateChange = function (topic, state) {
-            adapter.log.debug(`Go stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
+            adapter.log.debug(`${node.id} Got stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
             if (node.regexTopic) {
                 if (!node.regexTopic.test(topic)) {
                     return;
@@ -448,7 +458,7 @@ module.exports = function (RED) {
         };
 
         if (ready) {
-            adapter.log.debug(`${node.id} Initialized (ready=${ready}`);
+            adapter.log.debug(`${node.id} Initialized (ready=${ready})`);
 
             if (!stateChangeSubscribedNodes.includes(node.id)) {
                 adapter.on('stateChange', node.stateChange);
@@ -456,8 +466,13 @@ module.exports = function (RED) {
                 adapter.log.debug(`${node.id} Init stateChange listener`);
             }
             if (node.subscribePattern) {
-                adapter.subscribeForeignStates(node.subscribePattern);
-                adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}"`);
+                if (!subscribedIds[node.subscribePattern]) {
+                    subscribedIds[node.subscribePattern] = 1;
+                    adapter.subscribeForeignStates(node.subscribePattern);
+                } else {
+                    subscribedIds[node.subscribePattern]++;
+                }
+                adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
             }
 
             if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
@@ -478,9 +493,9 @@ module.exports = function (RED) {
         node.on('close', () => {
             adapter.removeListener('stateChange', node.stateChange);
             const index = stateChangeSubscribedNodes.indexOf(node.id);
+            adapter.log.debug(`${node.id} Remove stateChange listener (${index})`);
             if (index !== -1) {
                 stateChangeSubscribedNodes.splice(index, 1);
-                adapter.log.debug(`${node.id} Removed stateChange listener`);
             }
             onClose(node);
         });
