@@ -417,57 +417,61 @@ module.exports = function (RED) {
                 return;
             }
 
-            const t = topic.replace(/\./g, '/') || '_no_topic';
-            //node.log ("Function: " + node.func);
+            try {
+                const t = topic.replace(/\./g, '/') || '_no_topic';
+                //node.log ("Function: " + node.func);
 
-			if (node.func === 'rbe' || node.func === 'rbe-preinitvalue') {
-                //node.log(`${node.id} RBE check ${JSON.stringify(state && state.val)} vs. ${JSON.stringify(node.previous[t])}: send value: ${!(state && state.val === node.previous[t])}`);
-                if (state && state.val === node.previous[t]) {
-                    return;
-                }
-            } else if (state && (node.func === 'deadband' || node.func === 'deadband-preinitvalue')) {
-                const n = parseFloat(state.val.toString());
-                if (!isNaN(n)) {
-                    //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
-                    if (node.pc) {
-                        node.gap = (node.previous[t] * node.g / 100) || 0;
-                    }
-                    if (!node.previous.hasOwnProperty(t)) {
-                        node.previous[t] = n - node.gap;
-                    }
-                    //node.log(`${node.id} Deadband check ${n} vs. ${node.previous[t]} with gap ${node.gap}: Send value ${Math.abs(n - node.previous[t]) >= node.gap}`);
-                    if (Math.abs(n - node.previous[t]) < node.gap) {
+                if (node.func === 'rbe' || node.func === 'rbe-preinitvalue') {
+                    //node.log(`${node.id} RBE check ${JSON.stringify(state && state.val)} vs. ${JSON.stringify(node.previous[t])}: send value: ${!(state && state.val === node.previous[t])}`);
+                    if (state && state.val === node.previous[t]) {
                         return;
                     }
-                } else {
-                    node.warn(`${node.id}: Ignore deadband filter because no number found in value ${state.val}`);
-                    return;
+                } else if (state && (node.func === 'deadband' || node.func === 'deadband-preinitvalue')) {
+                    const n = parseFloat(state.val.toString());
+                    if (!isNaN(n)) {
+                        //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
+                        if (node.pc) {
+                            node.gap = (node.previous[t] * node.g / 100) || 0;
+                        }
+                        if (!node.previous.hasOwnProperty(t)) {
+                            node.previous[t] = n - node.gap;
+                        }
+                        //node.log(`${node.id} Deadband check ${n} vs. ${node.previous[t]} with gap ${node.gap}: Send value ${Math.abs(n - node.previous[t]) >= node.gap}`);
+                        if (Math.abs(n - node.previous[t]) < node.gap) {
+                            return;
+                        }
+                    } else {
+                        node.warn(`${node.id}: Ignore deadband filter because no number found in value ${state.val}`);
+                        return;
+                    }
                 }
-            }
-            node.previous[t] = state ? state.val : null;
+                node.previous[t] = state ? state.val : null;
 
-            adapter.log.debug(`${node.id} Node.send payload: ${(node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)))}`);
-            node.send({
-                topic:        node.outFormat === 'ioBroker' ? t.replace(/\//g, '.') : t,
-                payload:      node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
-                acknowledged: state ? state.ack  : false,
-                timestamp:    state ? state.ts   : Date.now(),
-                lastchange:   state ? state.lc   : Date.now(),
-                from:         state ? state.from : ''
-            });
+                adapter.log.debug(`${node.id} Node.send payload: ${(node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)))}`);
+                node.send({
+                    topic: node.outFormat === 'ioBroker' ? t.replace(/\//g, '.') : t,
+                    payload: node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
+                    acknowledged: state ? state.ack : false,
+                    timestamp: state ? state.ts : Date.now(),
+                    lastchange: state ? state.lc : Date.now(),
+                    from: state ? state.from : ''
+                });
 
-            if (!state) {
-                node.status({
-                    fill: 'red',
-                    shape: 'ring',
-                    text: 'not exists'
-                });
-            } else {
-                node.status({
-                    fill: 'green',
-                    shape: 'dot',
-                    text: node.payloadType === 'object' ? JSON.stringify(state) : (!state || state.val === null || state.val === undefined ? '' : state.val.toString())
-                });
+                if (!state) {
+                    node.status({
+                        fill: 'red',
+                        shape: 'ring',
+                        text: 'not exists'
+                    });
+                } else {
+                    node.status({
+                        fill: 'green',
+                        shape: 'dot',
+                        text: node.payloadType === 'object' ? JSON.stringify(state) : (!state || state.val === null || state.val === undefined ? '' : state.val.toString())
+                    });
+                }
+            } catch (err) {
+                adapter.log.error(`${node.id} ERROR Statechange: ${err.message} : ${err.stack}`);
             }
         };
 
