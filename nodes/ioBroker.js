@@ -446,6 +446,7 @@ module.exports = function (RED) {
             }
             node.previous[t] = state ? state.val : null;
 
+            adapter.log.debug(`${node.id} Node.send payload: ${(node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)))}`);
             node.send({
                 topic:        node.outFormat === 'ioBroker' ? t.replace(/\//g, '.') : t,
                 payload:      node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
