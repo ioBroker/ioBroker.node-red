@@ -71,6 +71,9 @@ module.exports = function (RED) {
         checkQueuedStates(async () => {
             adapter.log.debug(`... delay-initialize ${existingNodes.length} Nodes`);
             for (const node of existingNodes) {
+                if (node.isReady) {
+                    continue;
+                }
                 node.status({fill: 'green', shape: 'dot', text: 'connected'});
                 adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
                 if (node instanceof IOBrokerInNode) {
@@ -468,6 +471,7 @@ module.exports = function (RED) {
         };
 
         if (ready) {
+            node.isReady = true;
             adapter.log.debug(`${node.id} Initialized (ready=${ready})`);
 
             if (!stateChangeSubscribedNodes.includes(node.id)) {
@@ -524,6 +528,7 @@ module.exports = function (RED) {
         defineCommon(node, n);
 
         if (ready) {
+            node.isReady = true;
             node.status({fill: 'green', shape: 'dot',  text: 'connected'});
         } else {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
@@ -682,6 +687,7 @@ module.exports = function (RED) {
         }
 
         if (ready) {
+            node.isReady = true;
             node.status({fill: 'green', shape: 'dot', text: 'connected'});
         } else {
             node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
@@ -779,6 +785,7 @@ module.exports = function (RED) {
         }
 
         if (ready) {
+            node.isReady = true;
             node.status({fill: 'green', shape: 'dot',  text: 'connected'});
         } else {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
@@ -849,6 +856,7 @@ module.exports = function (RED) {
         }
 
         if (ready) {
+            node.isReady = true;
             node.status({fill: 'green', shape: 'dot',  text: 'connected'});
         } else {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
