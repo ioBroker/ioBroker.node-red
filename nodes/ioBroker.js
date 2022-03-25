@@ -14,6 +14,10 @@
  * limitations under the License.
  **/
 
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time))
+}
+
 module.exports = function (RED) {
     'use strict';
     // patch event emitter
@@ -55,16 +59,18 @@ module.exports = function (RED) {
                 return callback && callback();
             }
             const check = checkStates.shift();
+            adapter.log.debug(`${node.id} Delayed check state ...`)
             checkState(check.node, check.id, check.common, check.val, () => {
                 check.callback && check.callback();
-                setImmediate(() => checkQueuedStates(callback));
+                setTimeout(() => checkQueuedStates(callback), 100);
             });
         }
 
         ready = true;
-        adapter.log.debug(`Ready< event received ... start to check ${checkStates.length} Nodes`);
-        checkQueuedStates(() => {
-            existingNodes.forEach(node => {
+        adapter.log.debug(`Ready event received ... start to check ${checkStates.length} Nodes`);
+        checkQueuedStates(async () => {
+            adapter.log.debug(`... delay-initialize ${existingNodes.length} Nodes`);
+            for (const node of existingNodes) {
                 adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
                 if (node instanceof IOBrokerInNode) {
                     if (!stateChangeSubscribedNodes.includes(node.id)) {
@@ -73,8 +79,8 @@ module.exports = function (RED) {
                         stateChangeSubscribedNodes.push(node.id);
 
                         if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
-                            adapter.getForeignState(node.topic, (err, state) => {
-                                err && adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
+                            try {
+                                const state = await adapter.getForeignStateAsync(node.topic);
                                 if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                                     const t = node.topic.replace(/\./g, '/') || '_no_topic';
                                     node.previous[t] = state ? state.val : null
@@ -82,25 +88,29 @@ module.exports = function (RED) {
                                 }
                                 if (node.fireOnStart) {
                                     node.stateChange(node.topic, state);
+                                    delay(100);
                                 }
-                            });
+                            } catch (err) {
+                                adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
+                            }
                         }
                     }
                 }
                 if (node.subscribePattern) {
                     if (!subscribedIds[node.subscribePattern]) {
                         subscribedIds[node.subscribePattern] = 1;
-                        adapter.subscribeForeignStates(node.subscribePattern);
+                        await adapter.subscribeForeignStatesAsync(node.subscribePattern);
                     } else {
                         subscribedIds[node.subscribePattern]++;
                     }
                     adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
                 }
                 node.status({fill: 'green', shape: 'dot', text: 'connected'});
-            });
+            };
 
             let count = 0;
 
+            adapter.log.debug(`... delay-set ${nodeSets.length} Node values`);
             while (nodeSets.length) {
                 const nodeSetData = nodeSets.pop();
                 nodeSetData.node.emit('input', nodeSetData.msg);
