@@ -62,7 +62,7 @@ module.exports = function (RED) {
             adapter.log.debug(`${check.node.id} Delayed check state ...`)
             checkState(check.node, check.id, check.common, check.val, () => {
                 check.callback && check.callback();
-                setTimeout(() => checkQueuedStates(callback), 100);
+                setTimeout(() => checkQueuedStates(callback), 20);
             });
         }
 
@@ -88,7 +88,7 @@ module.exports = function (RED) {
                                 }
                                 if (node.fireOnStart) {
                                     node.stateChange(node.topic, state);
-                                    delay(100);
+                                    delay(20);
                                 }
                             } catch (err) {
                                 adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
@@ -106,7 +106,7 @@ module.exports = function (RED) {
                     adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
                 }
                 node.status({fill: 'green', shape: 'dot', text: 'connected'});
-            };
+            }
 
             let count = 0;
 
@@ -399,7 +399,6 @@ module.exports = function (RED) {
         }
 
         node.stateChange = function (topic, state) {
-            adapter.log.debug(`${node.id} Got stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
             if (node.regexTopic) {
                 if (!node.regexTopic.test(topic)) {
                     return;
@@ -407,6 +406,7 @@ module.exports = function (RED) {
             } else if (node.topic !== '*' && node.topic !== topic) {
                 return;
             }
+            adapter.log.debug(`${node.id} Got stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
 
 			if (node.onlyack && state && !state.ack) {
 			    return;
