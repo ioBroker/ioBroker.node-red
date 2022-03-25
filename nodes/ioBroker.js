@@ -59,7 +59,7 @@ module.exports = function (RED) {
                 return callback && callback();
             }
             const check = checkStates.shift();
-            adapter.log.debug(`${node.id} Delayed check state ...`)
+            adapter.log.debug(`${check.node.id} Delayed check state ...`)
             checkState(check.node, check.id, check.common, check.val, () => {
                 check.callback && check.callback();
                 setTimeout(() => checkQueuedStates(callback), 100);
