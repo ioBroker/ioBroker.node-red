@@ -71,6 +71,7 @@ module.exports = function (RED) {
         checkQueuedStates(async () => {
             adapter.log.debug(`... delay-initialize ${existingNodes.length} Nodes`);
             for (const node of existingNodes) {
+                node.status({fill: 'green', shape: 'dot', text: 'connected'});
                 adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
                 if (node instanceof IOBrokerInNode) {
                     if (!stateChangeSubscribedNodes.includes(node.id)) {
@@ -105,7 +106,6 @@ module.exports = function (RED) {
                     }
                     adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
                 }
-                node.status({fill: 'green', shape: 'dot', text: 'connected'});
             }
 
             let count = 0;
