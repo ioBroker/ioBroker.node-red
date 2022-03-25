@@ -718,7 +718,7 @@ module.exports = function (RED) {
                         });
                         if (node.errOnInvalidState !== 'true' && node.errOnInvalidState !== true && node.errOnInvalidState !== 'false' && node.errOnInvalidState !== false) {
                             if (err || !obj) {
-                                log(`${node.id}: Object for state ${id} do not exist`);
+                                log(`${node.id}: Object for state ${id} do not exist: ${err ? err.message : 'unknown'}`);
                             } else if (!state) {
                                 log(`${node.id}: State ${id} has no value`);
                             }
