@@ -344,7 +344,7 @@ module.exports = function (RED) {
         if (pos !== -1) {
             existingNodes.splice(pos, 1);
         }
-        this.log.debug(`${node.id} Close node (with pattern "${node.subscribePattern}")`)
+        adapter.log.debug(`${node.id} Close node (with pattern "${node.subscribePattern}")`)
         if (node.subscribePattern && !--subscribedIds[node.subscribePattern]) {
             adapter.log.debug(`${node.id} Unsubscribe for "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
             adapter.unsubscribeForeignStates(node.subscribePattern);
