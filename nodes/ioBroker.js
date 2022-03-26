@@ -59,7 +59,7 @@ module.exports = function (RED) {
                 return callback && callback();
             }
             const check = checkStates.shift();
-            adapter.log.debug(`${check.node.id} Delayed check state ...`)
+            //adapter.log.debug(`${check.node.id} Delayed check state ...`)
             checkState(check.node, check.id, check.common, check.val, () => {
                 check.callback && check.callback();
                 setTimeout(() => checkQueuedStates(callback), 20);
@@ -75,10 +75,10 @@ module.exports = function (RED) {
                     continue;
                 }
                 node.status({fill: 'green', shape: 'dot', text: 'connected'});
-                adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
+                //adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
                 if (node instanceof IOBrokerInNode) {
                     if (!stateChangeSubscribedNodes.includes(node.id)) {
-                        adapter.log.debug(`${node.id} Init stateChange listener`);
+                        //adapter.log.debug(`${node.id} Init stateChange listener`);
                         adapter.on('stateChange', node.stateChange);
                         stateChangeSubscribedNodes.push(node.id);
 
@@ -88,14 +88,14 @@ module.exports = function (RED) {
                                 if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                                     const t = node.topic.replace(/\./g, '/') || '_no_topic';
                                     node.previous[t] = state ? state.val : null
-                                    adapter.log.debug(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
+                                    //adapter.log.debug(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
                                 }
                                 if (node.fireOnStart) {
                                     node.stateChange(node.topic, state);
                                     delay(20);
                                 }
                             } catch (err) {
-                                adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
+                                //adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
                             }
                         }
                     }
@@ -107,13 +107,13 @@ module.exports = function (RED) {
                     } else {
                         subscribedIds[node.subscribePattern]++;
                     }
-                    adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
+                    //adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
                 }
             }
 
             let count = 0;
 
-            adapter.log.debug(`... delay-set ${nodeSets.length} Node values`);
+            //adapter.log.debug(`... delay-set ${nodeSets.length} Node values`);
             while (nodeSets.length) {
                 const nodeSetData = nodeSets.pop();
                 nodeSetData.node.emit('input', nodeSetData.msg);
@@ -185,7 +185,7 @@ module.exports = function (RED) {
                 // ignore
             }
             if (!obj || !obj.common) {
-                adapter.log.debug(`Create folder object for ${idToCheck}`);
+                //adapter.log.debug(`Create folder object for ${idToCheck}`);
                 try {
                     await adapter.setForeignObjectAsync(idToCheck, {
                         type: 'folder',
@@ -339,16 +339,12 @@ module.exports = function (RED) {
         }
     }
 
-    function onClose(node) {
+    async function onClose(node, done) {
         const pos = existingNodes.indexOf(node);
         if (pos !== -1) {
             existingNodes.splice(pos, 1);
         }
-        adapter.log.debug(`${node.id} Close node (with pattern "${node.subscribePattern}")`)
-        if (node.subscribePattern && !--subscribedIds[node.subscribePattern]) {
-            adapter.log.debug(`${node.id} Unsubscribe for "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
-            adapter.unsubscribeForeignStates(node.subscribePattern);
-        }
+        done();
     }
 
     function IOBrokerInNode(n) {
@@ -409,7 +405,7 @@ module.exports = function (RED) {
             } else if (node.topic !== '*' && node.topic !== topic) {
                 return;
             }
-            adapter.log.debug(`${node.id} Got stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
+            //adapter.log.debug(`${node.id} Got stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
 
 			if (node.onlyack && state && !state.ack) {
 			    return;
@@ -447,7 +443,7 @@ module.exports = function (RED) {
                 }
                 node.previous[t] = state ? state.val : null;
 
-                adapter.log.debug(`${node.id} Node.send payload: ${(node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)))}`);
+                //adapter.log.debug(`${node.id} Node.send payload: ${(node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)))}`);
                 node.send({
                     topic: node.outFormat === 'ioBroker' ? t.replace(/\//g, '.') : t,
                     payload: node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
@@ -477,12 +473,12 @@ module.exports = function (RED) {
 
         if (ready) {
             node.isReady = true;
-            adapter.log.debug(`${node.id} Initialized (ready=${ready})`);
+            //adapter.log.debug(`${node.id} Initialized (ready=${ready})`);
 
             if (!stateChangeSubscribedNodes.includes(node.id)) {
                 adapter.on('stateChange', node.stateChange);
                 stateChangeSubscribedNodes.push(node.id);
-                adapter.log.debug(`${node.id} Init stateChange listener`);
+                //adapter.log.debug(`${node.id} Init stateChange listener`);
             }
             if (node.subscribePattern) {
                 if (!subscribedIds[node.subscribePattern]) {
@@ -491,7 +487,7 @@ module.exports = function (RED) {
                 } else {
                     subscribedIds[node.subscribePattern]++;
                 }
-                adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
+                //adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
             }
 
             if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
@@ -500,7 +496,7 @@ module.exports = function (RED) {
                     if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                         const t = node.topic.replace(/\./g, '/') || '_no_topic';
                         node.previous[t] = state ? state.val : null
-                        adapter.log.debug(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
+                        //adapter.log.debug(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
                     }
                     if (node.fireOnStart) {
                         node.stateChange(node.topic, state);
@@ -509,14 +505,23 @@ module.exports = function (RED) {
             }
         }
 
-        node.on('close', () => {
+        node.on('close', async done => {
+            //adapter.log.debug(`${node.id} Close node (with pattern "${node.subscribePattern}")`)
+            if (node.subscribePattern && !--subscribedIds[node.subscribePattern]) {
+                //adapter.log.debug(`${node.id} Unsubscribe for "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
+                try {
+                    await adapter.unsubscribeForeignStates(node.subscribePattern);
+                } catch {
+                    // ignore
+                }
+            }
             adapter.removeListener('stateChange', node.stateChange);
             const index = stateChangeSubscribedNodes.indexOf(node.id);
-            adapter.log.debug(`${node.id} Remove stateChange listener (${index})`);
+            //adapter.log.debug(`${node.id} Remove stateChange listener (${index})`);
             if (index !== -1) {
                 stateChangeSubscribedNodes.splice(index, 1);
             }
-            onClose(node);
+            await onClose(node, done);
         });
         existingNodes.push(node);
     }
@@ -664,7 +669,7 @@ module.exports = function (RED) {
             }
         });
 
-        node.on('close', () => onClose(node));
+        node.on('close', done => onClose(node, done));
         existingNodes.push(node);
     }
     RED.nodes.registerType('ioBroker out', IOBrokerOutNode);
@@ -765,7 +770,7 @@ module.exports = function (RED) {
             }
         });
 
-        node.on('close', () => onClose(node));
+        node.on('close', done => onClose(node, done));
         existingNodes.push(node);
     }
     RED.nodes.registerType('ioBroker get', IOBrokerGetNode);
@@ -836,7 +841,7 @@ module.exports = function (RED) {
             }
         });
 
-        node.on('close', () => onClose(node));
+        node.on('close', done => onClose(node, done));
         existingNodes.push(node);
     }
     RED.nodes.registerType('ioBroker get object', IOBrokerGetObjectNode);
@@ -1036,7 +1041,7 @@ module.exports = function (RED) {
             }
         });
 
-        node.on('close', () => onClose(node));
+        node.on('close', done => onClose(node, done));
         existingNodes.push(node);
     }
     RED.nodes.registerType('ioBroker list', IOBrokerListNode);
