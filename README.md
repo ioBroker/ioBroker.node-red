@@ -29,7 +29,7 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 3.2.0 (2022-03-27)
 * (Bannsaenger) Added extended authentication to instance settings and config
 * (Apollon77) Fix Deadband Filter logic in InNode
 * (Apollon77/mickym2) Several In-Node optimizations and error preventions
