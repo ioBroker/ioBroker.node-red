@@ -147,9 +147,67 @@
         "js-controller": ">=2.0.0"
       }
     ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.1.28"
+      }
+    ],
     "tier": 1,
     "connectionType": "local",
-    "dataSource": "push"
+    "dataSource": "push",
+    "messages": [
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<3.0.0",
+            "newVersion>=3.0.0"
+          ]
+        },
+        "title": {
+          "en": "Node-red upgraded to 2.x",
+          "de": "Node-Red auf 2.x aktualisiert",
+          "ru": "Node-red обновлен до версии 2.x",
+          "pt": "Node-red atualizado para 2.x",
+          "nl": "Node-rood geüpgraded naar 2.x",
+          "fr": "Node-red mis à niveau vers 2.x",
+          "it": "Node-red aggiornato a 2.x",
+          "es": "Nodo-rojo actualizado a 2.x",
+          "pl": "Węzeł-czerwony uaktualniony do 2.x",
+          "zh-cn": "Node-red升级到2.x"
+        },
+        "text": {
+          "en": "This adapter upgrade includes an upgrade of Node-RED to v2. Please check your nodes for compatibility! See also the adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released and https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "de": "Dieses Adapter-Upgrade beinhaltet ein Upgrade von Node-RED auf v2. Bitte prüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch Adapter Changelog, https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2- 1-freigegeben und https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "ru": "Это обновление адаптера включает в себя обновление Node-RED до v2. Пожалуйста, проверьте ваши узлы на совместимость! См. также журнал изменений адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released и https://nodered.org/blog/2021/10/21/version-2-. 1-релиз и https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "pt": "Esta atualização do adaptador inclui uma atualização do Node-RED para v2. Verifique a compatibilidade de seus nós! Consulte também o log de alterações do adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-lançado e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "nl": "Deze adapter-upgrade omvat een upgrade van Node-RED naar v2. Controleer uw nodes op compatibiliteit! Zie ook de adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released en https://nodered.org/blog/2021/10/21/version-2- 1-released en https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "fr": "Cette mise à niveau de l'adaptateur inclut une mise à niveau de Node-RED vers v2. Veuillez vérifier la compatibilité de vos nœuds ! Voir aussi le changelog de l'adaptateur, https://nodered.org/blog/2021/07/20/version-2-0-released et https://nodered.org/blog/2021/10/21/version-2- 1-publié et https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "it": "Questo aggiornamento dell'adattatore include un aggiornamento di Node-RED alla v2. Controlla la compatibilità dei tuoi nodi! Vedi anche il log delle modifiche dell'adattatore, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-rilasciato e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "es": "Esta actualización del adaptador incluye una actualización de Node-RED a v2. ¡Compruebe la compatibilidad de sus nodos! Consulte también el registro de cambios del adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2- 1-lanzado y https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "pl": "To uaktualnienie adaptera obejmuje aktualizację Node-RED do wersji 2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także dziennik zmian adaptera, https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2- 1-wydany i https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "zh-cn": "此适配器升级包括将 Node-RED 升级到 v2。请检查您的节点是否兼容！另请参阅适配器更改日志，https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2- 1-发布和 https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository"
+        },
+        "link": "https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+        "level": "warn",
+        "linkText": {
+          "en": "Forum-Thread (German)",
+          "de": "Forum-Thread",
+          "ru": "Тема форума (немецкий)",
+          "pt": "Fórum-Tópico (alemão)",
+          "nl": "Forum-Thread (Duits)",
+          "fr": "Fil de discussion du forum (allemand)",
+          "it": "Forum-Thread (tedesco)",
+          "es": "Tema del foro (alemán)",
+          "pl": "Forum-wątek (niemiecki)",
+          "zh-cn": "论坛主题（德语）"
+        },
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      }
+    ]
   },
   "native": {
     "bind": "0.0.0.0",
