@@ -27,7 +27,7 @@
     "js2xmlparser": "^4.0.2",
     "fs.notify": "^0.0.4",
     "feedparser": "^2.2.10",
-    "mongodb": "^4.4.1",
+    "mongodb": "^4.5.0",
     "node-red-contrib-os": "^0.2.1"
   },
   "dependencies": {
@@ -35,7 +35,7 @@
     "node-red-dashboard": "^3.1.6",
     "node-red-contrib-aggregator": "^2.0.0",
     "node-red-contrib-polymer": "^0.0.22",
-    "node-red-node-email": "^1.15.0",
+    "node-red-node-email": "^1.15.1",
     "node-red-node-feedparser": "^0.2.2",
     "node-red-node-sentiment": "^0.1.6",
     "node-red-node-twitter": "^1.2.0",

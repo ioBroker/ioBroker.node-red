@@ -130,7 +130,6 @@
     "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
     "localLink": "http%s%://%ip%:%port%%httpAdminRoot%",
     "enabled": true,
-    "singletonHost": true,
     "supportStopInstance": 5000,
     "unsafePerm": true,
     "materialize": true,
