@@ -421,7 +421,7 @@ function saveObjects() {
             },
             type: 'config'
         },
-        () => adapter.log.info(`Save ${userDataDir}flows.json`)
+        () => adapter.log.debug(`Save ${userDataDir}flows.json`)
     );
 }
 

@@ -29,6 +29,10 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 -->
 
 ## Changelog
+
+### __WORK IN PROGRESS__
+* (Apollon77) Lower loglevel of a log line
+
 ### 3.3.0 (2022-04-18)
 * (Apollon77/Stefan592) Allow installation of multiple node-red instances on one host
 
