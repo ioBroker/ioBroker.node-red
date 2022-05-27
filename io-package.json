@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "3.3.0",
+    "version": "3.3.1",
     "title": "node-red",
     "titleLang": {
       "en": "node-red",
@@ -16,6 +16,18 @@
       "zh-cn": "node-red"
     },
     "news": {
+      "3.3.1": {
+        "en": "Lower loglevel of a log line",
+        "de": "Unterer Loglevel einer Logzeile",
+        "ru": "Нижний уровень журнала строки журнала",
+        "pt": "Nível de log inferior de uma linha de log",
+        "nl": "Lager logniveau van een logregel",
+        "fr": "Niveau de log inférieur d'une ligne de log",
+        "it": "Livello di registro inferiore di una riga di registro",
+        "es": "Nivel de registro inferior de una línea de registro",
+        "pl": "Dolny poziom logarytmu linii logu",
+        "zh-cn": "日志行的较低日志级别"
+      },
       "3.3.0": {
         "en": "Allow installation of multiple node-red instances on one host",
         "de": "Erlauben Sie die Installation mehrerer Node-Red-Instanzen auf einem Host",
@@ -87,18 +99,6 @@
         "es": "Corregir min7max para la creación del objeto\nNode-red actualizado a 1.3.6",
         "pl": "Popraw min7max dla tworzenia obiektu\nWęzeł czerwony zaktualizowany do 1.3.6",
         "zh-cn": "为对象创建更正 min7max\nNode-red 更新至 1.3.6"
-      },
-      "2.4.0": {
-        "en": "update to node-red 1.3.5\nOptimize for js-controller 3.3\nAdd option to override the default ack flag in the message for OutNode",
-        "de": "Update auf Knotenrot 1.3.5\nOptimieren Sie für js-Controller 3.3\nOption zum Überschreiben des Standard-Ack-Flags in der Nachricht für OutNode hinzufügen",
-        "ru": "обновление до node-red 1.3.5\nОптимизировать под js-controller 3.3\nДобавить параметр для отмены флага подтверждения по умолчанию в сообщении для OutNode",
-        "pt": "atualização para node-red 1.3.5\nOtimize para js-controller 3.3\nAdicionar opção para substituir o sinalizador de confirmação padrão na mensagem para OutNode",
-        "nl": "update naar node-red 1.3.5\nOptimaliseren voor js-controller 3.3\nOptie toevoegen om de standaard ack-vlag in het bericht voor OutNode te negeren",
-        "fr": "mise à jour vers node-red 1.3.5\nOptimiser pour js-controller 3.3\nAjouter une option pour remplacer l'indicateur d'accusé de réception par défaut dans le message pour OutNode",
-        "it": "aggiornamento a node-red 1.3.5\nOttimizza per js-controller 3.3\nAggiungi l'opzione per sovrascrivere il flag di riconoscimento predefinito nel messaggio per OutNode",
-        "es": "actualizar a node-red 1.3.5\nOptimizar para js-controller 3.3\nAgregue la opción para anular el indicador de ack predeterminado en el mensaje para OutNode",
-        "pl": "aktualizacja do node-red 1.3.5\nOptymalizacja dla kontrolera js 3.3\nDodaj opcję zastąpienia domyślnej flagi potwierdzenia w wiadomości dla OutNode",
-        "zh-cn": "更新到节点红色 1.3.5\n针对 js-controller 3.3 优化\n添加选项以覆盖 OutNode 消息中的默认 ack 标志"
       }
     },
     "desc": {

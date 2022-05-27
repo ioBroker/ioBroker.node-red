@@ -29,8 +29,7 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 -->
 
 ## Changelog
-
-### __WORK IN PROGRESS__
+### 3.3.1 (2022-05-27)
 * (Apollon77) Lower loglevel of a log line
 
 ### 3.3.0 (2022-04-18)
