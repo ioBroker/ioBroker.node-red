@@ -24,11 +24,11 @@
     "Permissions": "Berechtigungen",
     "Safe mode": "Sicherheitsmodus",
     "Simple": "Einfach",
-    "Update select dialog": "Update Dialog um ID auszuwählen",
+    "Update select dialog": "ioBroker-Objekte in Node-Red aktualisieren",
     "Use palletmanager:": "Palletenmanager benutzen",
     "User": "Benutzer",
     "Web server port:": "Webserver Port",
     "http root directory:": "http Stammpfad",
     "node-red settings": "node-red Einstellungen",
-    "node-red update select dialog": "node-red SelectID Dialog aktualisieren"
+    "node-red update select dialog": "ioBroker-Objekte in Node-Red aktualisieren"
 }
