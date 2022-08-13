@@ -86,7 +86,7 @@ describe('Test node-red', function() {
         // check if node-red is running
 
         setTimeout(function () {
-            request('http://localhost:' + port, function (error, response, body) {
+            request('http://127.0.0.1:' + port, function (error, response, body) {
                 expect(error).to.be.not.ok;
                 expect(body).to.be.ok;
                 done();
