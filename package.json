@@ -31,7 +31,7 @@
     "node-red-contrib-os": "^0.2.1"
   },
   "dependencies": {
-    "node-red": "^2.2.2",
+    "node-red": "^3.0.2",
     "node-red-dashboard": "^3.1.7",
     "node-red-contrib-aggregator": "^2.0.0",
     "node-red-contrib-polymer": "^0.0.22",
@@ -64,6 +64,9 @@
     "main.js",
     "settings.js"
   ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha --exit",
     "release": "release-script",

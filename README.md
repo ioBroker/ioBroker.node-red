@@ -29,6 +29,12 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 -->
 
 ## Changelog
+
+### __WORK IN PROGRESS__
+* IMPORTANT: Node.js 14.x now needed at least
+* (Apollon77) Upgrade to node-red 3.0.2
+* (Apollon77) Correctly escape backslashes when writing setting file on Windows
+
 ### 3.3.1 (2022-05-27)
 * (Apollon77) Lower loglevel of a log line
 
