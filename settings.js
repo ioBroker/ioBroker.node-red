@@ -289,9 +289,9 @@ module.exports = {
      */
     runtimeState: {
         /** enable or disable flows/state endpoint. Must be set to `false` to disable */
-        enabled: false,
+        enabled: true,
         /** show or hide runtime stop/start options in the node-red editor. Must be set to `false` to hide */
-        ui: false,
+        ui: true,
     },
      /** Configure the logging output */
      logging: {
