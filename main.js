@@ -261,7 +261,7 @@ function setOption(line, option, value) {
     if (pos !== -1) {
         let setValue = (value !== undefined) ? value : (adapter.config[option] === null || adapter.config[option] === undefined) ? '' : adapter.config[option];
         if (typeof setValue === 'string') {
-            setValue = setValue.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+            setValue = setValue.replace(/\\/g, "\\\\");
         }
         return `${line.substring(0, pos)}${setValue}${line.substring(pos + toFind.length)}`;
     }
