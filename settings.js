@@ -230,13 +230,32 @@ module.exports = {
     /** When httpAdminRoot is used to move the UI to a different root path, the
      * following property can be used to identify a directory of static content
      * that should be served at http://localhost:1880/.
+     * When httpStaticRoot is set differently to httpAdminRoot, there is no need
+     * to move httpAdminRoot
      */
-    //httpStatic: '/home/nol/node-red-static/',
+    //httpStatic: '/home/nol/node-red-static/', //single static source
+    /* OR multiple static sources can be created using an array of objects... */
+    //httpStatic: [
+    //    {path: '/home/nol/pics/',    root: "/img/"},
+    //    {path: '/home/nol/reports/', root: "/doc/"},
+    //],
     '%%hStatic%%'httpStatic: "'%%httpStatic%%'",
+
+    /**
+     * All static routes will be appended to httpStaticRoot
+     * e.g. if httpStatic = "/home/nol/docs" and  httpStaticRoot = "/static/"
+     *      then "/home/nol/docs" will be served at "/static/"
+     * e.g. if httpStatic = [{path: '/home/nol/pics/', root: "/img/"}]
+     *      and httpStaticRoot = "/static/"
+     *      then "/home/nol/pics/" will be served at "/static/img/"
+     */
+    //httpStaticRoot: '/static/',
 
 /*******************************************************************************
  * Runtime Settings
  *  - lang
+ *  - runtimeState
+ *  - diagnostics
  *  - logging
  *  - contextStorage
  *  - exportGlobalContextKeys
@@ -249,6 +268,31 @@ module.exports = {
       */
      // lang: "de",
 
+    /** Configure diagnostics options
+     * - enabled:  When `enabled` is `true` (or unset), diagnostics data will
+     *   be available at http://localhost:1880/diagnostics
+     * - ui: When `ui` is `true` (or unset), the action `show-system-info` will
+     *   be available to logged in users of node-red editor
+    */
+    diagnostics: {
+        /** enable or disable diagnostics endpoint. Must be set to `false` to disable */
+        enabled: true,
+        /** enable or disable diagnostics display in the node-red editor. Must be set to `false` to disable */
+        ui: true,
+    },
+    /** Configure runtimeState options
+     * - enabled:  When `enabled` is `true` flows runtime can be Started/Stoped
+     *   by POSTing to available at http://localhost:1880/flows/state
+     * - ui: When `ui` is `true`, the action `core:start-flows` and
+     *   `core:stop-flows` will be available to logged in users of node-red editor
+     *   Also, the deploy menu (when set to default) will show a stop or start button
+     */
+    runtimeState: {
+        /** enable or disable flows/state endpoint. Must be set to `false` to disable */
+        enabled: false,
+        /** show or hide runtime stop/start options in the node-red editor. Must be set to `false` to hide */
+        ui: false,
+    },
      /** Configure the logging output */
      logging: {
          /** Only console logging is currently supported */
@@ -372,9 +416,9 @@ module.exports = {
 
         codeEditor: {
             /** Select the text editor component used by the editor.
-             * Defaults to "ace", but can be set to "ace" or "monaco"
+             * As of Node-RED V3, this defaults to "monaco", but can be set to "ace" if desired
              */
-            lib: "ace",
+            lib: "monaco",
             options: {
                 /** The follow options only apply if the editor is set to "monaco"
                  *
@@ -384,7 +428,7 @@ module.exports = {
                  */
                 theme: "vs",
                 /** other overrides can be set e.g. fontSize, fontFamily, fontLigatures etc.
-                 * for the full list, see https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandaloneeditorconstructionoptions.html
+                 * for the full list, see https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html
                  */
                 //fontSize: 14,
                 //fontFamily: "Cascadia Code, Fira Code, Consolas, 'Courier New', monospace",
