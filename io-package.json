@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "3.3.1",
+    "version": "4.0.0",
     "title": "node-red",
     "titleLang": {
       "en": "node-red",
@@ -16,6 +16,18 @@
       "zh-cn": "node-red"
     },
     "news": {
+      "4.0.0": {
+        "en": "IMPORTANT: Node.js 14.x now needed at least\nUpgrade to node-red 3.0.2, enable runtime-state features and switch editor to monaco-editor\nCorrectly escape backslashes when writing setting file on Windows",
+        "de": "WICHTIG: Node.js 14.x benötigt nun mindestens\nUpgrade auf node-red 3.0.2, Runtime-state-Features und Switch Editor zu monaco-editor\nFehler beim Schreiben der Einstellungsdatei unter Windows richtig entkommen",
+        "ru": "ВАЖНО: Node.js 14.x теперь нужно по крайней мере\nОбновите до node-red 3.0.2, включите функции runtime-state и переключите редактор для monaco-editor\nПравильно бежать ресниц при написании файла на Windows",
+        "pt": "IMPORTANTE: Node.js 14.x agora necessário pelo menos\nAtualize para o nó-red 3.0.2, ative recursos de runtime-state e alterne o editor para monaco-editor\nEscapa corretamente backslashes ao escrever o arquivo de configuração no Windows",
+        "nl": "Node is 14.X\nQuality over Quantity (QoQ) Releases Vertaling:\nOntsnappingsinstrumenten als het schrijven van dossiers over Windows",
+        "fr": "IMPORTANT: Node.js 14.x maintenant nécessaire au moins\nMettez à niveau jusqu'à la version 3.0.2, activez les fonctionnalités de l'état d'exécution et changez l'éditeur de monaco-editor\nS'échapper correctement backslashes lorsque l'écriture de fichier de réglage sur Windows",
+        "it": "IMPORTANTE: Node.js 14.x ora aveva bisogno di almeno\nAggiornamento a node-red 3.0.2, abilitare funzioni runtime-state e commutare l'editor a monaco-editor\nEliminare correttamente i backslashes quando si scrive l'impostazione del file su Windows",
+        "es": "IMPORTANTE: Node.js 14.x ahora necesita al menos\nActualizar a node-red 3.0.2, habilitar las funciones de estado de ejecución y cambiar editor a monaco-editor\nCorrectamente escapar retrocesos al escribir el archivo de configuración en Windows",
+        "pl": "IMPORTANT: Nodejs 14.x (ang.)\nUpgrade do węzłowo-czerwonego 3.0.2 pozwala na funkcje wykonawcze i edytor przełączania do monaco\nKorzyści uciekają, gdy pisanie pliku ustawionego na Windows",
+        "zh-cn": "IMPORTANT:目前至少需要14x。\n降到3 0.2年级后,可采用时间特点,并把编辑转换成模块naco-edor\n在撰写关于视窗的书时,很难逃避冲突。"
+      },
       "3.3.1": {
         "en": "Lower loglevel of a log line",
         "de": "Unterer Loglevel einer Logzeile",
@@ -87,18 +99,6 @@
         "es": "IMPORTANTE: Node-RED ahora es v2. ¡Compruebe la compatibilidad de sus nodos! Ver también https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2-1-released\nNodo-RED actualizado a 2.2.2\nmuchos otros cambios, vea Changelog!",
         "pl": "WAŻNE: Node-RED jest teraz v2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED zaktualizowano do 2.2.2\nwiele innych zmian, zobacz Changelog!",
         "zh-cn": "重要提示：Node-RED 现在是 v2。请检查您的节点是否兼容！另见 https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED 更新到 2.2.2\n许多其他更改，请参阅更改日志！"
-      },
-      "2.4.1": {
-        "en": "Correct min7max for the object creation \nNode-red updated to 1.3.6",
-        "de": "Korrektes min7max für die Objekterstellung\nKnotenrot aktualisiert auf 1.3.6",
-        "ru": "Правильный min7max для создания объекта\nNode-red обновлен до 1.3.6",
-        "pt": "Corrigir min7max para a criação do objeto\nNode-red atualizado para 1.3.6",
-        "nl": "Corrigeer min7max voor het maken van objecten\nNode-red bijgewerkt naar 1.3.6",
-        "fr": "Corriger min7max pour la création de l'objet\nNode-red mis à jour vers la 1.3.6",
-        "it": "Correggere min7max per la creazione dell'oggetto\nNodo rosso aggiornato a 1.3.6",
-        "es": "Corregir min7max para la creación del objeto\nNode-red actualizado a 1.3.6",
-        "pl": "Popraw min7max dla tworzenia obiektu\nWęzeł czerwony zaktualizowany do 1.3.6",
-        "zh-cn": "为对象创建更正 min7max\nNode-red 更新至 1.3.6"
       }
     },
     "desc": {
