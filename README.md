@@ -32,7 +32,7 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 
 ### __WORK IN PROGRESS__
 * IMPORTANT: Node.js 14.x now needed at least
-* (Apollon77) Upgrade to node-red 3.0.2, enable runtime-state feature and switch editor to monaco-editor
+* (Apollon77) Upgrade to node-red 3.0.2, enable runtime-state features and switch editor to monaco-editor
 * (Apollon77) Correctly escape backslashes when writing setting file on Windows
 
 ### 3.3.1 (2022-05-27)
