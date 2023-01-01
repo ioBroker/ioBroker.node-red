@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "node-red": "^3.0.2",
-    "node-red-dashboard": "^3.2.3",
+    "node-red-dashboard": "^3.3.0",
     "node-red-contrib-aggregator": "^2.0.0",
     "node-red-contrib-polymer": "^0.0.22",
     "node-red-node-email": "^1.18.4",
