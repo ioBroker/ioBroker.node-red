@@ -13,7 +13,7 @@
     "Enable Projects Feature:": "Projektfunktion aktivieren",
     "Extended": "Erweitert",
     "Extended Authentication": "Erweiterte Authentifizierung",
-    "General": "Allgemeines",
+    "General": "Allgemein",
     "Help Text Extended Auth": "Fügen Sie Benutzer und eine optionale Standardberechtigung hinzu. Mögliche Werte für die Berechtigung: * (Vollzugriff), read (Nur-Lese-Zugriff) oder eine Liste von z.B. settings.read,flows.write,nodes.read usw.",
     "Leave blank to disable basic authentication": "Leer lassen, um die Basic-Authentifizierung zu deaktivieren",
     "Max allocated RAM:": "Maximal zugewiesener RAM",
