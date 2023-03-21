@@ -75,17 +75,10 @@ function installLibraries(callback) {
 
     // Find userdata directory
 
-    // normally /opt/iobroker/node_modules/iobroker.js-controller
-    // but can be /example/ioBroker.js-controller
-    const parts = utils.controllerDir.split('/');
-    if (parts.length > 1 && parts[parts.length - 2] === 'node_modules') {
-        parts.splice(parts.length - 2, 2);
-        userDataDir = parts.join('/');
-        if (adapter.instance === 0) {
-            userDataDir += '/iobroker-data/node-red/';
-        } else {
-            userDataDir += `/iobroker-data/node-red.${adapter.instance}/`;
-        }
+    if (adapter.instance === 0) {
+        userDataDir = path.join(utils.getAbsoluteDefaultDataDir(),'node-red') + path.sep;
+    } else {
+        userDataDir += path.join(utils.getAbsoluteDefaultDataDir(),`node-red.${adapter.instance}`) + path.sep;
     }
 
     if (adapter.common && adapter.common.npmLibs && !adapter.config.palletmanagerEnabled) {

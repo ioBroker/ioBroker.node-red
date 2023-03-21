@@ -29,6 +29,10 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 -->
 
 ## Changelog
+
+### __WORK IN PROGRESS__
+* (Apollon77) Prepare for js-controller 5.0
+
 ### 4.0.0 (2022-08-14)
 * IMPORTANT: Node.js 14.x now needed at least
 * (Apollon77) Upgrade to node-red 3.0.2, enable runtime-state features and switch editor to monaco-editor
