@@ -1,246 +1,258 @@
 {
-  "common": {
-    "name": "node-red",
-    "version": "4.0.0",
-    "title": "node-red",
-    "titleLang": {
-      "en": "node-red",
-      "de": "node-red",
-      "ru": "node-red",
-      "pt": "node-red",
-      "nl": "node-red",
-      "fr": "node-red",
-      "it": "node-red",
-      "es": "node-red",
-      "pl": "node-red",
-      "zh-cn": "node-red"
-    },
-    "news": {
-      "4.0.0": {
-        "en": "IMPORTANT: Node.js 14.x now needed at least\nUpgrade to node-red 3.0.2, enable runtime-state features and switch editor to monaco-editor\nCorrectly escape backslashes when writing setting file on Windows",
-        "de": "WICHTIG: Node.js 14.x benötigt nun mindestens\nUpgrade auf node-red 3.0.2, Runtime-state-Features und Switch Editor zu monaco-editor\nFehler beim Schreiben der Einstellungsdatei unter Windows richtig entkommen",
-        "ru": "ВАЖНО: Node.js 14.x теперь нужно по крайней мере\nОбновите до node-red 3.0.2, включите функции runtime-state и переключите редактор для monaco-editor\nПравильно бежать ресниц при написании файла на Windows",
-        "pt": "IMPORTANTE: Node.js 14.x agora necessário pelo menos\nAtualize para o nó-red 3.0.2, ative recursos de runtime-state e alterne o editor para monaco-editor\nEscapa corretamente backslashes ao escrever o arquivo de configuração no Windows",
-        "nl": "Node is 14.X\nQuality over Quantity (QoQ) Releases Vertaling:\nOntsnappingsinstrumenten als het schrijven van dossiers over Windows",
-        "fr": "IMPORTANT: Node.js 14.x maintenant nécessaire au moins\nMettez à niveau jusqu'à la version 3.0.2, activez les fonctionnalités de l'état d'exécution et changez l'éditeur de monaco-editor\nS'échapper correctement backslashes lorsque l'écriture de fichier de réglage sur Windows",
-        "it": "IMPORTANTE: Node.js 14.x ora aveva bisogno di almeno\nAggiornamento a node-red 3.0.2, abilitare funzioni runtime-state e commutare l'editor a monaco-editor\nEliminare correttamente i backslashes quando si scrive l'impostazione del file su Windows",
-        "es": "IMPORTANTE: Node.js 14.x ahora necesita al menos\nActualizar a node-red 3.0.2, habilitar las funciones de estado de ejecución y cambiar editor a monaco-editor\nCorrectamente escapar retrocesos al escribir el archivo de configuración en Windows",
-        "pl": "IMPORTANT: Nodejs 14.x (ang.)\nUpgrade do węzłowo-czerwonego 3.0.2 pozwala na funkcje wykonawcze i edytor przełączania do monaco\nKorzyści uciekają, gdy pisanie pliku ustawionego na Windows",
-        "zh-cn": "IMPORTANT:目前至少需要14x。\n降到3 0.2年级后,可采用时间特点,并把编辑转换成模块naco-edor\n在撰写关于视窗的书时,很难逃避冲突。"
-      },
-      "3.3.1": {
-        "en": "Lower loglevel of a log line",
-        "de": "Unterer Loglevel einer Logzeile",
-        "ru": "Нижний уровень журнала строки журнала",
-        "pt": "Nível de log inferior de uma linha de log",
-        "nl": "Lager logniveau van een logregel",
-        "fr": "Niveau de log inférieur d'une ligne de log",
-        "it": "Livello di registro inferiore di una riga di registro",
-        "es": "Nivel de registro inferior de una línea de registro",
-        "pl": "Dolny poziom logarytmu linii logu",
-        "zh-cn": "日志行的较低日志级别"
-      },
-      "3.3.0": {
-        "en": "Allow installation of multiple node-red instances on one host",
-        "de": "Erlauben Sie die Installation mehrerer Node-Red-Instanzen auf einem Host",
-        "ru": "Разрешить установку нескольких экземпляров node-red на одном хосте",
-        "pt": "Permitir a instalação de várias instâncias de node-red em um host",
-        "nl": "Installatie van meerdere node-red-instanties op één host toestaan",
-        "fr": "Autoriser l'installation de plusieurs instances node-red sur un hôte",
-        "it": "Consenti l'installazione di più istanze node-red su un host",
-        "es": "Permitir la instalación de múltiples instancias de nodo rojo en un host",
-        "pl": "Zezwalaj na instalację wielu instancji czerwonych węzłów na jednym hoście",
-        "zh-cn": "允许在一台主机上安装多个 node-red 实例"
-      },
-      "3.2.0": {
-        "en": "Added extended authentication to instance settings and config\nFix Deadband Filter logic in InNode\nSeveral In-Node optimizations and error preventions",
-        "de": "Erweiterte Authentifizierung zu Instanzeinstellungen und -konfiguration hinzugefügt\nBehebung der Deadband-Filterlogik in InNode\nMehrere In-Node-Optimierungen und Fehlervermeidungen",
-        "ru": "Добавлена расширенная аутентификация в настройки и конфигурацию экземпляра.\nИсправить логику фильтра мертвой зоны в InNode\nНесколько оптимизаций In-Node и предотвращение ошибок",
-        "pt": "Adicionada autenticação estendida às configurações e configurações da instância\nCorrigir a lógica do filtro de banda morta no InNode\nVárias otimizações no nó e prevenções de erros",
-        "nl": "Uitgebreide authenticatie toegevoegd aan instantie-instellingen en configuratie\nFix Dodeband Filter-logica in InNode\nVerschillende In-Node-optimalisaties en foutpreventie",
-        "fr": "Ajout de l'authentification étendue aux paramètres et à la configuration de l'instance\nCorrection de la logique du filtre de bande morte dans InNode\nPlusieurs optimisations In-Node et préventions d'erreurs",
-        "it": "Aggiunta l'autenticazione estesa alle impostazioni dell'istanza e alla configurazione\nRisolto il problema con la logica del filtro banda morta in InNode\nDiverse ottimizzazioni In-Node e prevenzione degli errori",
-        "es": "Se agregó autenticación extendida a la configuración y configuración de la instancia.\nArreglar la lógica del filtro de banda muerta en InNode\nVarias optimizaciones en el nodo y prevención de errores",
-        "pl": "Dodano rozszerzone uwierzytelnianie do ustawień instancji i konfiguracji\nNapraw logikę Deadband Filter w InNode\nKilka optymalizacji In-Node i zapobieganie błędom",
-        "zh-cn": "向实例设置和配置添加了扩展身份验证\n修复 InNode 中的死区过滤器逻辑\n几个节点内优化和错误预防"
-      },
-      "3.1.0": {
-        "en": "Added new parameter \"httpNodeRoot\" as httpRoot has been replaced by httpAdminRoot in version 3.0.0.\nAdjust description of RBE cases for In-Node to match Filter node",
-        "de": "Neuer Parameter \"httpNodeRoot\" hinzugefügt, da httpRoot in Version 3.0.0 durch httpAdminRoot ersetzt wurde.\nPassen Sie die Beschreibung der RBE-Fälle für den In-Node an den Filter-Node an",
-        "ru": "Добавлен новый параметр «httpNodeRoot», так как httpRoot был заменен на httpAdminRoot в версии 3.0.0.\nНастройте описание вариантов RBE для In-Node, чтобы оно соответствовало узлу Filter.",
-        "pt": "Adicionado novo parâmetro \"httpNodeRoot\" pois httpRoot foi substituído por httpAdminRoot na versão 3.0.0.\nAjustar a descrição dos casos RBE para In-Node para corresponder ao nó Filter",
-        "nl": "Nieuwe parameter \"httpNodeRoot\" toegevoegd omdat httpRoot is vervangen door httpAdminRoot in versie 3.0.0.\nPas de beschrijving van RBE-gevallen voor In-Node aan om overeen te komen met Filterknooppunt",
-        "fr": "Ajout du nouveau paramètre \"httpNodeRoot\" car httpRoot a été remplacé par httpAdminRoot dans la version 3.0.0.\nAjuster la description des cas RBE pour In-Node afin qu'elle corresponde au nœud Filter",
-        "it": "Aggiunto nuovo parametro \"httpNodeRoot\" poiché httpRoot è stato sostituito da httpAdminRoot nella versione 3.0.0.\nRegola la descrizione dei casi RBE per In-Node in modo che corrisponda al nodo Filtro",
-        "es": "Se agregó el nuevo parámetro \"httpNodeRoot\", ya que httpRoot se reemplazó por httpAdminRoot en la versión 3.0.0.\nAjuste la descripción de los casos de RBE para In-Node para que coincida con el nodo de filtro",
-        "pl": "Dodano nowy parametr \"httpNodeRoot\", ponieważ httpRoot został zastąpiony przez httpAdminRoot w wersji 3.0.0.\nDostosuj opis przypadków RBE dla In-Node, aby pasował do węzła filtra",
-        "zh-cn": "添加了新参数“httpNodeRoot”，因为 httpRoot 在 3.0.0 版本中已被 httpAdminRoot 替换。\n调整 In-Node 的 RBE 案例描述以匹配 Filter 节点"
-      },
-      "3.0.1": {
-        "en": "added option for in Node to choose topic format (MQTT with / or ioBroker with .). Default: MQTT\n",
-        "de": "Option für in Node hinzugefügt, um das Themenformat auszuwählen (MQTT mit / oder ioBroker mit .). Standard: MQTT\n",
-        "ru": "добавлена возможность в Node выбирать формат темы (MQTT с / или ioBroker с .). По умолчанию: MQTT\n",
-        "pt": "adicionada opção para no Node escolher o formato do tópico (MQTT com / ou ioBroker com .). Padrão: MQTT\n",
-        "nl": "optie toegevoegd om in Node een onderwerpformaat te kiezen (MQTT met / of ioBroker met .). Standaard: MQTT\n",
-        "fr": "ajout d'une option dans Node pour choisir le format de sujet (MQTT avec / ou ioBroker avec .). Par défaut : MQTT\n",
-        "it": "aggiunta opzione per in Node per scegliere il formato dell'argomento (MQTT con / o ioBroker con .). Predefinito: MQTT\n",
-        "es": "Opción agregada para que en Node elija el formato del tema (MQTT con / o ioBroker con .). Valor predeterminado: MQTT\n",
-        "pl": "dodano opcję w Node, aby wybrać format tematu (MQTT z / lub ioBroker z .). Domyślnie: MQTT\n",
-        "zh-cn": "在 Node 中添加了选项以选择主题格式（MQTT with / 或 ioBroker with .）。默认值：MQTT\n"
-      },
-      "3.0.0": {
-        "en": "IMPORTANT: Node-RED is now v2. Please check your nodes for compatibility! See also https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED updated to 2.2.2\nmany other changes, see Changelog!",
-        "de": "WICHTIG: Node-RED ist jetzt v2. Bitte überprüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED aktualisiert auf 2.2.2\nviele weitere Änderungen, siehe Changelog!",
-        "ru": "ВАЖНО: Node-RED теперь v2. Пожалуйста, проверьте ваши узлы на совместимость! См. также https://nodered.org/blog/2021/07/20/version-2-0-released и https://nodered.org/blog/2021/10/21/version-2-1-released.\nNode-RED обновлен до версии 2.2.2\nмногие другие изменения, смотрите журнал изменений!",
-        "pt": "IMPORTANTE: Node-RED agora é v2. Verifique a compatibilidade de seus nós! Veja também https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED atualizado para 2.2.2\nmuitas outras mudanças, veja Changelog!",
-        "nl": "BELANGRIJK: Node-RED is nu v2. Controleer uw nodes op compatibiliteit! Zie ook https://nodered.org/blog/2021/07/20/version-2-0-released en https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED bijgewerkt naar 2.2.2\nvele andere wijzigingen, zie Changelog!",
-        "fr": "IMPORTANT : Node-RED est maintenant v2. Veuillez vérifier la compatibilité de vos nœuds ! Voir aussi https://nodered.org/blog/2021/07/20/version-2-0-released et https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED mis à jour vers 2.2.2\nbeaucoup d'autres changements, voir Changelog !",
-        "it": "IMPORTANTE: Node-RED è ora v2. Controlla la compatibilità dei tuoi nodi! Vedi anche https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2-1-released\nNodo-RED aggiornato a 2.2.2\ntante altre modifiche, vedi Changelog!",
-        "es": "IMPORTANTE: Node-RED ahora es v2. ¡Compruebe la compatibilidad de sus nodos! Ver también https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2-1-released\nNodo-RED actualizado a 2.2.2\nmuchos otros cambios, vea Changelog!",
-        "pl": "WAŻNE: Node-RED jest teraz v2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED zaktualizowano do 2.2.2\nwiele innych zmian, zobacz Changelog!",
-        "zh-cn": "重要提示：Node-RED 现在是 v2。请检查您的节点是否兼容！另见 https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED 更新到 2.2.2\n许多其他更改，请参阅更改日志！"
-      }
-    },
-    "desc": {
-      "en": "This adapter uses node-red as a service. No additional node-red instance required.",
-      "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
-      "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
-      "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
-      "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
-      "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
-      "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
-      "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
-      "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
-      "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
-    },
-    "authors": [
-      "bluefox <dogafox@gmail.com>"
-    ],
-    "license": "Apache-2.0",
-    "platform": "Javascript/Node.js",
-    "mode": "daemon",
-    "messagebox": true,
-    "loglevel": "info",
-    "icon": "node-red.png",
-    "keywords": [
-      "node-red",
-      "logic",
-      "script"
-    ],
-    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-    "localLink": "http%s%://%ip%:%port%%httpAdminRoot%",
-    "enabled": true,
-    "supportStopInstance": 5000,
-    "unsafePerm": true,
-    "materialize": true,
-    "compact": true,
-    "type": "logic",
-    "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
-    "stopBeforeUpdate": true,
-    "adminTab": {
-      "link": "%protocol%://%ip%:%port%%httpAdminRoot%",
-      "fa-icon": "settings_input_composite"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.1.28"
-      }
-    ],
-    "tier": 1,
-    "connectionType": "local",
-    "dataSource": "push",
-    "messages": [
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<3.0.0",
-            "newVersion>=3.0.0"
-          ]
+    "common": {
+        "name": "node-red",
+        "version": "4.0.0",
+        "title": "node-red",
+        "titleLang": {
+            "en": "node-red",
+            "de": "node-red",
+            "ru": "node-red",
+            "pt": "node-red",
+            "nl": "node-red",
+            "fr": "node-red",
+            "it": "node-red",
+            "es": "node-red",
+            "pl": "node-red",
+            "zh-cn": "node-red",
+            "uk": "вузол-червоний"
         },
-        "title": {
-          "en": "Node-red upgraded to 2.x",
-          "de": "Node-Red auf 2.x aktualisiert",
-          "ru": "Node-red обновлен до версии 2.x",
-          "pt": "Node-red atualizado para 2.x",
-          "nl": "Node-rood geüpgraded naar 2.x",
-          "fr": "Node-red mis à niveau vers 2.x",
-          "it": "Node-red aggiornato a 2.x",
-          "es": "Nodo-rojo actualizado a 2.x",
-          "pl": "Węzeł-czerwony uaktualniony do 2.x",
-          "zh-cn": "Node-red升级到2.x"
+        "news": {
+            "4.0.0": {
+                "en": "IMPORTANT: Node.js 14.x now needed at least\nUpgrade to node-red 3.0.2, enable runtime-state features and switch editor to monaco-editor\nCorrectly escape backslashes when writing setting file on Windows",
+                "de": "WICHTIG: Node.js 14.x benötigt nun mindestens\nUpgrade auf node-red 3.0.2, Runtime-state-Features und Switch Editor zu monaco-editor\nFehler beim Schreiben der Einstellungsdatei unter Windows richtig entkommen",
+                "ru": "ВАЖНО: Node.js 14.x теперь нужно по крайней мере\nОбновите до node-red 3.0.2, включите функции runtime-state и переключите редактор для monaco-editor\nПравильно бежать ресниц при написании файла на Windows",
+                "pt": "IMPORTANTE: Node.js 14.x agora necessário pelo menos\nAtualize para o nó-red 3.0.2, ative recursos de runtime-state e alterne o editor para monaco-editor\nEscapa corretamente backslashes ao escrever o arquivo de configuração no Windows",
+                "nl": "Node is 14.X\nQuality over Quantity (QoQ) Releases Vertaling:\nOntsnappingsinstrumenten als het schrijven van dossiers over Windows",
+                "fr": "IMPORTANT: Node.js 14.x maintenant nécessaire au moins\nMettez à niveau jusqu'à la version 3.0.2, activez les fonctionnalités de l'état d'exécution et changez l'éditeur de monaco-editor\nS'échapper correctement backslashes lorsque l'écriture de fichier de réglage sur Windows",
+                "it": "IMPORTANTE: Node.js 14.x ora aveva bisogno di almeno\nAggiornamento a node-red 3.0.2, abilitare funzioni runtime-state e commutare l'editor a monaco-editor\nEliminare correttamente i backslashes quando si scrive l'impostazione del file su Windows",
+                "es": "IMPORTANTE: Node.js 14.x ahora necesita al menos\nActualizar a node-red 3.0.2, habilitar las funciones de estado de ejecución y cambiar editor a monaco-editor\nCorrectamente escapar retrocesos al escribir el archivo de configuración en Windows",
+                "pl": "IMPORTANT: Nodejs 14.x (ang.)\nUpgrade do węzłowo-czerwonego 3.0.2 pozwala na funkcje wykonawcze i edytor przełączania do monaco\nKorzyści uciekają, gdy pisanie pliku ustawionego na Windows",
+                "zh-cn": "IMPORTANT:目前至少需要14x。\n降到3 0.2年级后,可采用时间特点,并把编辑转换成模块naco-edor\n在撰写关于视窗的书时,很难逃避冲突。",
+                "uk": "ВАЖЛИВО: тепер потрібен принаймні Node.js 14.x\nОновіть до node-red 3.0.2, увімкніть функції стану виконання та переключіть редактор на monaco-editor\nПравильно знімайте зворотні косі риски під час запису файлу налаштувань у Windows"
+            },
+            "3.3.1": {
+                "en": "Lower loglevel of a log line",
+                "de": "Unterer Loglevel einer Logzeile",
+                "ru": "Нижний уровень журнала строки журнала",
+                "pt": "Nível de log inferior de uma linha de log",
+                "nl": "Lager logniveau van een logregel",
+                "fr": "Niveau de log inférieur d'une ligne de log",
+                "it": "Livello di registro inferiore di una riga di registro",
+                "es": "Nivel de registro inferior de una línea de registro",
+                "pl": "Dolny poziom logarytmu linii logu",
+                "zh-cn": "日志行的较低日志级别",
+                "uk": "Нижній рівень журналу рядка журналу"
+            },
+            "3.3.0": {
+                "en": "Allow installation of multiple node-red instances on one host",
+                "de": "Erlauben Sie die Installation mehrerer Node-Red-Instanzen auf einem Host",
+                "ru": "Разрешить установку нескольких экземпляров node-red на одном хосте",
+                "pt": "Permitir a instalação de várias instâncias de node-red em um host",
+                "nl": "Installatie van meerdere node-red-instanties op één host toestaan",
+                "fr": "Autoriser l'installation de plusieurs instances node-red sur un hôte",
+                "it": "Consenti l'installazione di più istanze node-red su un host",
+                "es": "Permitir la instalación de múltiples instancias de nodo rojo en un host",
+                "pl": "Zezwalaj na instalację wielu instancji czerwonych węzłów na jednym hoście",
+                "zh-cn": "允许在一台主机上安装多个 node-red 实例",
+                "uk": "Дозволити встановлення кількох екземплярів node-red на одному хості"
+            },
+            "3.2.0": {
+                "en": "Added extended authentication to instance settings and config\nFix Deadband Filter logic in InNode\nSeveral In-Node optimizations and error preventions",
+                "de": "Erweiterte Authentifizierung zu Instanzeinstellungen und -konfiguration hinzugefügt\nBehebung der Deadband-Filterlogik in InNode\nMehrere In-Node-Optimierungen und Fehlervermeidungen",
+                "ru": "Добавлена расширенная аутентификация в настройки и конфигурацию экземпляра.\nИсправить логику фильтра мертвой зоны в InNode\nНесколько оптимизаций In-Node и предотвращение ошибок",
+                "pt": "Adicionada autenticação estendida às configurações e configurações da instância\nCorrigir a lógica do filtro de banda morta no InNode\nVárias otimizações no nó e prevenções de erros",
+                "nl": "Uitgebreide authenticatie toegevoegd aan instantie-instellingen en configuratie\nFix Dodeband Filter-logica in InNode\nVerschillende In-Node-optimalisaties en foutpreventie",
+                "fr": "Ajout de l'authentification étendue aux paramètres et à la configuration de l'instance\nCorrection de la logique du filtre de bande morte dans InNode\nPlusieurs optimisations In-Node et préventions d'erreurs",
+                "it": "Aggiunta l'autenticazione estesa alle impostazioni dell'istanza e alla configurazione\nRisolto il problema con la logica del filtro banda morta in InNode\nDiverse ottimizzazioni In-Node e prevenzione degli errori",
+                "es": "Se agregó autenticación extendida a la configuración y configuración de la instancia.\nArreglar la lógica del filtro de banda muerta en InNode\nVarias optimizaciones en el nodo y prevención de errores",
+                "pl": "Dodano rozszerzone uwierzytelnianie do ustawień instancji i konfiguracji\nNapraw logikę Deadband Filter w InNode\nKilka optymalizacji In-Node i zapobieganie błędom",
+                "zh-cn": "向实例设置和配置添加了扩展身份验证\n修复 InNode 中的死区过滤器逻辑\n几个节点内优化和错误预防",
+                "uk": "До налаштувань і конфігурації екземпляра додано розширену автентифікацію\nВиправте логіку фільтра зони нечутливості в InNode\nКілька оптимізацій In-Node і запобігання помилкам"
+            },
+            "3.1.0": {
+                "en": "Added new parameter \"httpNodeRoot\" as httpRoot has been replaced by httpAdminRoot in version 3.0.0.\nAdjust description of RBE cases for In-Node to match Filter node",
+                "de": "Neuer Parameter \"httpNodeRoot\" hinzugefügt, da httpRoot in Version 3.0.0 durch httpAdminRoot ersetzt wurde.\nPassen Sie die Beschreibung der RBE-Fälle für den In-Node an den Filter-Node an",
+                "ru": "Добавлен новый параметр «httpNodeRoot», так как httpRoot был заменен на httpAdminRoot в версии 3.0.0.\nНастройте описание вариантов RBE для In-Node, чтобы оно соответствовало узлу Filter.",
+                "pt": "Adicionado novo parâmetro \"httpNodeRoot\" pois httpRoot foi substituído por httpAdminRoot na versão 3.0.0.\nAjustar a descrição dos casos RBE para In-Node para corresponder ao nó Filter",
+                "nl": "Nieuwe parameter \"httpNodeRoot\" toegevoegd omdat httpRoot is vervangen door httpAdminRoot in versie 3.0.0.\nPas de beschrijving van RBE-gevallen voor In-Node aan om overeen te komen met Filterknooppunt",
+                "fr": "Ajout du nouveau paramètre \"httpNodeRoot\" car httpRoot a été remplacé par httpAdminRoot dans la version 3.0.0.\nAjuster la description des cas RBE pour In-Node afin qu'elle corresponde au nœud Filter",
+                "it": "Aggiunto nuovo parametro \"httpNodeRoot\" poiché httpRoot è stato sostituito da httpAdminRoot nella versione 3.0.0.\nRegola la descrizione dei casi RBE per In-Node in modo che corrisponda al nodo Filtro",
+                "es": "Se agregó el nuevo parámetro \"httpNodeRoot\", ya que httpRoot se reemplazó por httpAdminRoot en la versión 3.0.0.\nAjuste la descripción de los casos de RBE para In-Node para que coincida con el nodo de filtro",
+                "pl": "Dodano nowy parametr \"httpNodeRoot\", ponieważ httpRoot został zastąpiony przez httpAdminRoot w wersji 3.0.0.\nDostosuj opis przypadków RBE dla In-Node, aby pasował do węzła filtra",
+                "zh-cn": "添加了新参数“httpNodeRoot”，因为 httpRoot 在 3.0.0 版本中已被 httpAdminRoot 替换。\n调整 In-Node 的 RBE 案例描述以匹配 Filter 节点",
+                "uk": "Додано новий параметр \"httpNodeRoot\", оскільки httpRoot було замінено на httpAdminRoot у версії 3.0.0.\nНалаштуйте опис випадків RBE для In-Node відповідно до вузла Filter"
+            },
+            "3.0.1": {
+                "en": "added option for in Node to choose topic format (MQTT with / or ioBroker with .). Default: MQTT\n",
+                "de": "Option für in Node hinzugefügt, um das Themenformat auszuwählen (MQTT mit / oder ioBroker mit .). Standard: MQTT\n",
+                "ru": "добавлена возможность в Node выбирать формат темы (MQTT с / или ioBroker с .). По умолчанию: MQTT\n",
+                "pt": "adicionada opção para no Node escolher o formato do tópico (MQTT com / ou ioBroker com .). Padrão: MQTT\n",
+                "nl": "optie toegevoegd om in Node een onderwerpformaat te kiezen (MQTT met / of ioBroker met .). Standaard: MQTT\n",
+                "fr": "ajout d'une option dans Node pour choisir le format de sujet (MQTT avec / ou ioBroker avec .). Par défaut : MQTT\n",
+                "it": "aggiunta opzione per in Node per scegliere il formato dell'argomento (MQTT con / o ioBroker con .). Predefinito: MQTT\n",
+                "es": "Opción agregada para que en Node elija el formato del tema (MQTT con / o ioBroker con .). Valor predeterminado: MQTT\n",
+                "pl": "dodano opcję w Node, aby wybrać format tematu (MQTT z / lub ioBroker z .). Domyślnie: MQTT\n",
+                "zh-cn": "在 Node 中添加了选项以选择主题格式（MQTT with / 或 ioBroker with .）。默认值：MQTT\n",
+                "uk": "у Node додано можливість вибору формату теми (MQTT з / або ioBroker з .). За замовчуванням: MQTT"
+            },
+            "3.0.0": {
+                "en": "IMPORTANT: Node-RED is now v2. Please check your nodes for compatibility! See also https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED updated to 2.2.2\nmany other changes, see Changelog!",
+                "de": "WICHTIG: Node-RED ist jetzt v2. Bitte überprüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED aktualisiert auf 2.2.2\nviele weitere Änderungen, siehe Changelog!",
+                "ru": "ВАЖНО: Node-RED теперь v2. Пожалуйста, проверьте ваши узлы на совместимость! См. также https://nodered.org/blog/2021/07/20/version-2-0-released и https://nodered.org/blog/2021/10/21/version-2-1-released.\nNode-RED обновлен до версии 2.2.2\nмногие другие изменения, смотрите журнал изменений!",
+                "pt": "IMPORTANTE: Node-RED agora é v2. Verifique a compatibilidade de seus nós! Veja também https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED atualizado para 2.2.2\nmuitas outras mudanças, veja Changelog!",
+                "nl": "BELANGRIJK: Node-RED is nu v2. Controleer uw nodes op compatibiliteit! Zie ook https://nodered.org/blog/2021/07/20/version-2-0-released en https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED bijgewerkt naar 2.2.2\nvele andere wijzigingen, zie Changelog!",
+                "fr": "IMPORTANT : Node-RED est maintenant v2. Veuillez vérifier la compatibilité de vos nœuds ! Voir aussi https://nodered.org/blog/2021/07/20/version-2-0-released et https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED mis à jour vers 2.2.2\nbeaucoup d'autres changements, voir Changelog !",
+                "it": "IMPORTANTE: Node-RED è ora v2. Controlla la compatibilità dei tuoi nodi! Vedi anche https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2-1-released\nNodo-RED aggiornato a 2.2.2\ntante altre modifiche, vedi Changelog!",
+                "es": "IMPORTANTE: Node-RED ahora es v2. ¡Compruebe la compatibilidad de sus nodos! Ver también https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2-1-released\nNodo-RED actualizado a 2.2.2\nmuchos otros cambios, vea Changelog!",
+                "pl": "WAŻNE: Node-RED jest teraz v2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED zaktualizowano do 2.2.2\nwiele innych zmian, zobacz Changelog!",
+                "zh-cn": "重要提示：Node-RED 现在是 v2。请检查您的节点是否兼容！另见 https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED 更新到 2.2.2\n许多其他更改，请参阅更改日志！",
+                "uk": "ВАЖЛИВО: Node-RED тепер v2. Будь ласка, перевірте свої вузли на сумісність! Дивіться також https://nodered.org/blog/2021/07/20/version-2-0-released і https://nodered.org/blog/2021/10/21/version-2-1-released\nNode-RED оновлено до 2.2.2\nбагато інших змін, дивіться журнал змін!"
+            }
         },
-        "text": {
-          "en": "This adapter upgrade includes an upgrade of Node-RED to v2. Please check your nodes for compatibility! See also the adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released and https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "de": "Dieses Adapter-Upgrade beinhaltet ein Upgrade von Node-RED auf v2. Bitte prüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch Adapter Changelog, https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2- 1-freigegeben und https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "ru": "Это обновление адаптера включает в себя обновление Node-RED до v2. Пожалуйста, проверьте ваши узлы на совместимость! См. также журнал изменений адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released и https://nodered.org/blog/2021/10/21/version-2-. 1-релиз и https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "pt": "Esta atualização do adaptador inclui uma atualização do Node-RED para v2. Verifique a compatibilidade de seus nós! Consulte também o log de alterações do adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-lançado e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "nl": "Deze adapter-upgrade omvat een upgrade van Node-RED naar v2. Controleer uw nodes op compatibiliteit! Zie ook de adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released en https://nodered.org/blog/2021/10/21/version-2- 1-released en https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "fr": "Cette mise à niveau de l'adaptateur inclut une mise à niveau de Node-RED vers v2. Veuillez vérifier la compatibilité de vos nœuds ! Voir aussi le changelog de l'adaptateur, https://nodered.org/blog/2021/07/20/version-2-0-released et https://nodered.org/blog/2021/10/21/version-2- 1-publié et https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "it": "Questo aggiornamento dell'adattatore include un aggiornamento di Node-RED alla v2. Controlla la compatibilità dei tuoi nodi! Vedi anche il log delle modifiche dell'adattatore, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-rilasciato e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "es": "Esta actualización del adaptador incluye una actualización de Node-RED a v2. ¡Compruebe la compatibilidad de sus nodos! Consulte también el registro de cambios del adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2- 1-lanzado y https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "pl": "To uaktualnienie adaptera obejmuje aktualizację Node-RED do wersji 2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także dziennik zmian adaptera, https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2- 1-wydany i https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "zh-cn": "此适配器升级包括将 Node-RED 升级到 v2。请检查您的节点是否兼容！另请参阅适配器更改日志，https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2- 1-发布和 https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository"
+        "desc": {
+            "en": "This adapter uses node-red as a service. No additional node-red instance required.",
+            "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
+            "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
+            "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
+            "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
+            "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
+            "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
+            "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
+            "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
+            "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例.",
+            "uk": "Цей адаптер використовує node-red як службу. Додатковий екземпляр node-red не потрібен."
         },
-        "link": "https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-        "level": "warn",
-        "linkText": {
-          "en": "Forum-Thread (German)",
-          "de": "Forum-Thread",
-          "ru": "Тема форума (немецкий)",
-          "pt": "Fórum-Tópico (alemão)",
-          "nl": "Forum-Thread (Duits)",
-          "fr": "Fil de discussion du forum (allemand)",
-          "it": "Forum-Thread (tedesco)",
-          "es": "Tema del foro (alemán)",
-          "pl": "Forum-wątek (niemiecki)",
-          "zh-cn": "论坛主题（德语）"
+        "authors": [
+            "bluefox <dogafox@gmail.com>"
+        ],
+        "license": "Apache-2.0",
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "messagebox": true,
+        "loglevel": "info",
+        "icon": "node-red.png",
+        "keywords": [
+            "node-red",
+            "logic",
+            "script"
+        ],
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
+        "localLink": "http%s%://%ip%:%port%%httpAdminRoot%",
+        "enabled": true,
+        "supportStopInstance": 5000,
+        "unsafePerm": true,
+        "materialize": true,
+        "compact": true,
+        "type": "logic",
+        "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
+        "stopBeforeUpdate": true,
+        "adminTab": {
+            "link": "%protocol%://%ip%:%port%%httpAdminRoot%",
+            "fa-icon": "settings_input_composite"
         },
-        "buttons": [
-          "agree",
-          "cancel"
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.1.28"
+            }
+        ],
+        "tier": 1,
+        "connectionType": "local",
+        "dataSource": "push",
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<3.0.0",
+                        "newVersion>=3.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "Node-red upgraded to 2.x",
+                    "de": "Node-Red auf 2.x aktualisiert",
+                    "ru": "Node-red обновлен до версии 2.x",
+                    "pt": "Node-red atualizado para 2.x",
+                    "nl": "Node-rood geüpgraded naar 2.x",
+                    "fr": "Node-red mis à niveau vers 2.x",
+                    "it": "Node-red aggiornato a 2.x",
+                    "es": "Nodo-rojo actualizado a 2.x",
+                    "pl": "Węzeł-czerwony uaktualniony do 2.x",
+                    "zh-cn": "Node-red升级到2.x",
+                    "uk": "Node-red оновлено до 2.x"
+                },
+                "text": {
+                    "en": "This adapter upgrade includes an upgrade of Node-RED to v2. Please check your nodes for compatibility! See also the adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released and https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "de": "Dieses Adapter-Upgrade beinhaltet ein Upgrade von Node-RED auf v2. Bitte prüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch Adapter Changelog, https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2- 1-freigegeben und https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "ru": "Это обновление адаптера включает в себя обновление Node-RED до v2. Пожалуйста, проверьте ваши узлы на совместимость! См. также журнал изменений адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released и https://nodered.org/blog/2021/10/21/version-2-. 1-релиз и https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "pt": "Esta atualização do adaptador inclui uma atualização do Node-RED para v2. Verifique a compatibilidade de seus nós! Consulte também o log de alterações do adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-lançado e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "nl": "Deze adapter-upgrade omvat een upgrade van Node-RED naar v2. Controleer uw nodes op compatibiliteit! Zie ook de adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released en https://nodered.org/blog/2021/10/21/version-2- 1-released en https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "fr": "Cette mise à niveau de l'adaptateur inclut une mise à niveau de Node-RED vers v2. Veuillez vérifier la compatibilité de vos nœuds ! Voir aussi le changelog de l'adaptateur, https://nodered.org/blog/2021/07/20/version-2-0-released et https://nodered.org/blog/2021/10/21/version-2- 1-publié et https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "it": "Questo aggiornamento dell'adattatore include un aggiornamento di Node-RED alla v2. Controlla la compatibilità dei tuoi nodi! Vedi anche il log delle modifiche dell'adattatore, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-rilasciato e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "es": "Esta actualización del adaptador incluye una actualización de Node-RED a v2. ¡Compruebe la compatibilidad de sus nodos! Consulte también el registro de cambios del adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2- 1-lanzado y https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "pl": "To uaktualnienie adaptera obejmuje aktualizację Node-RED do wersji 2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także dziennik zmian adaptera, https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2- 1-wydany i https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "zh-cn": "此适配器升级包括将 Node-RED 升级到 v2。请检查您的节点是否兼容！另请参阅适配器更改日志，https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2- 1-发布和 https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "uk": "Це оновлення адаптера включає оновлення Node-RED до v2. Будь ласка, перевірте свої вузли на сумісність! Перегляньте також журнал змін адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released і https://nodered.org/blog/2021/10/21/version-2- 1-випущено та https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository"
+                },
+                "link": "https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                "level": "warn",
+                "linkText": {
+                    "en": "Forum-Thread (German)",
+                    "de": "Forum-Thread",
+                    "ru": "Тема форума (немецкий)",
+                    "pt": "Fórum-Tópico (alemão)",
+                    "nl": "Forum-Thread (Duits)",
+                    "fr": "Fil de discussion du forum (allemand)",
+                    "it": "Forum-Thread (tedesco)",
+                    "es": "Tema del foro (alemán)",
+                    "pl": "Forum-wątek (niemiecki)",
+                    "zh-cn": "论坛主题（德语）",
+                    "uk": "Тема форуму (німецька)"
+                },
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            }
         ]
-      }
+    },
+    "native": {
+        "bind": "0.0.0.0",
+        "port": 1880,
+        "secure": false,
+        "certPublic": "",
+        "certPrivate": "",
+        "httpAdminRoot": "/",
+        "hStatic": false,
+        "httpStatic": "",
+        "npmLibs": "",
+        "valueConvert": false,
+        "maxMemory": 128,
+        "authType": "",
+        "authExt": "",
+        "hasDefaultPermissions": false,
+        "defaultPermissions": "",
+        "user": "",
+        "pass": "",
+        "projectsEnabled": false,
+        "palletmanagerEnabled": false,
+        "allowCreationOfForeignObjects": false,
+        "doNotReadObjectsDynamically": false
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "",
+            "type": "channel",
+            "common": {
+                "name": "States created by node-red.%INSTANCE%",
+                "role": "info"
+            },
+            "native": {}
+        }
     ]
-  },
-  "native": {
-    "bind": "0.0.0.0",
-    "port": 1880,
-    "secure": false,
-    "certPublic": "",
-    "certPrivate": "",
-    "httpAdminRoot": "/",
-    "hStatic": false,
-    "httpStatic": "",
-    "npmLibs": "",
-    "valueConvert": false,
-    "maxMemory": 128,
-    "authType": "",
-    "authExt": "",
-    "hasDefaultPermissions": false,
-    "defaultPermissions": "",
-    "user": "",
-    "pass": "",
-    "projectsEnabled": false,
-    "palletmanagerEnabled": false,
-    "allowCreationOfForeignObjects": false,
-    "doNotReadObjectsDynamically": false
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "",
-      "type": "channel",
-      "common": {
-        "name": "States created by node-red.%INSTANCE%",
-        "role": "info"
-      },
-      "native": {}
-    }
-  ]
 }
