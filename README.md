@@ -29,8 +29,7 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 -->
 
 ## Changelog
-
-### __WORK IN PROGRESS__
+### 4.0.1 (2023-03-22)
 * (Apollon77) Prepare for js-controller 5.0
 
 ### 4.0.0 (2022-08-14)
