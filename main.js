@@ -59,7 +59,7 @@ function installNpm(npmLib, callback) {
     child.stdout.on('data', buf => adapter.log.info(buf.toString('utf8')));
     child.stderr.on('data', buf => adapter.log.error(buf.toString('utf8')));
 
-    child.on('exit', (code, signal) => {
+    child.on('exit', (code, _signal) => {
         code && adapter.log.error(`Cannot install ${npmLib}: ${code}`);
         // command succeeded
         callback && callback(npmLib);
@@ -76,9 +76,9 @@ function installLibraries(callback) {
     // Find userdata directory
 
     if (adapter.instance === 0) {
-        userDataDir = path.join(utils.getAbsoluteDefaultDataDir(),'node-red') + path.sep;
+        userDataDir = path.join(utils.getAbsoluteDefaultDataDir(),'node-red');
     } else {
-        userDataDir = path.join(utils.getAbsoluteDefaultDataDir(),`node-red.${adapter.instance}`) + path.sep;
+        userDataDir = path.join(utils.getAbsoluteDefaultDataDir(),`node-red.${adapter.instance}`);
     }
 
     if (adapter.common && adapter.common.npmLibs && !adapter.config.palletmanagerEnabled) {
@@ -86,7 +86,7 @@ function installLibraries(callback) {
         for (let lib = 0; lib < adapter.common.npmLibs.length; lib++) {
             if (adapter.common.npmLibs[lib] && adapter.common.npmLibs[lib].trim()) {
                 adapter.common.npmLibs[lib] = adapter.common.npmLibs[lib].trim();
-                if (!fs.existsSync(`${userDataDir}/node_modules/${adapter.common.npmLibs[lib]}/package.json`)) {
+                if (!fs.existsSync(path.join(userDataDir, `node_modules/${adapter.common.npmLibs[lib]}/package.json`))) {
 
                     if (!attempts[adapter.common.npmLibs[lib]]) {
                         attempts[adapter.common.npmLibs[lib]] = 1;
@@ -186,7 +186,7 @@ const editorClientPath = getNodeRedEditorPath();
 
 function startNodeRed() {
     adapter.config.maxMemory = parseInt(adapter.config.maxMemory, 10) || 128;
-    const args = [`--max-old-space-size=${adapter.config.maxMemory}`, `${nodePath}/red.js`, '-v', '--settings', `${userDataDir}settings.js`];
+    const args = [`--max-old-space-size=${adapter.config.maxMemory}`, path.join(nodePath, 'red.js'), '-v', '--settings', path.join(userDataDir, 'settings.js')];
 
     if (adapter.config.safeMode) {
         args.push('--safe');
@@ -305,8 +305,8 @@ function writeSettings() {
 
     const pass = `"${adapter.config.pass}"`;
     const secure = adapter.config.secure ? '' : '// ';
-    const certFile = adapter.config.certPublic ? `${userDataDir + adapter.config.certPublic}.crt` : '';
-    const keyFile = adapter.config.certPrivate ? `${userDataDir + adapter.config.certPrivate}.key` : '';
+    const certFile = adapter.config.certPublic ? path.join(userDataDir, `${adapter.config.certPublic}.crt`) : '';
+    const keyFile = adapter.config.certPrivate ? path.join(userDataDir, `${adapter.config.certPrivate}.key`) : '';
     const hNodeRoot = adapter.config.httpNodeRoot ? adapter.config.httpNodeRoot : '/';
     const hStatic = adapter.config.hStatic === 'true' || adapter.config.hStatic === true ? '' : '// ';
 
@@ -367,10 +367,11 @@ function writeSettings() {
         lines[i] = setOption(lines[i], 'allowCreationOfForeignObjects', adapter.config.allowCreationOfForeignObjects);
     }
 
-    const oldText = fs.existsSync(`${userDataDir}settings.js`) ? fs.readFileSync(`${userDataDir}settings.js`).toString('utf8') : '';
+    const settingsPath = path.join(userDataDir, 'settings.js');
+    const oldText = fs.existsSync(settingsPath) ? fs.readFileSync(settingsPath, 'utf8') : '';
     const newText = lines.join('\n');
     if (oldText !== newText) {
-        fs.writeFileSync(`${userDataDir}settings.js`, newText);
+        fs.writeFileSync(settingsPath, newText);
     }
 }
 
@@ -396,19 +397,21 @@ function saveObjects() {
     let cred  = undefined;
     let flows = undefined;
 
+    const flowCredPath = path.join(userDataDir, 'flows_cred.json');
     try {
-        if (fs.existsSync(`${userDataDir}flows_cred.json`)) {
-            cred = JSON.parse(fs.readFileSync(`${userDataDir}flows_cred.json`));
+        if (fs.existsSync(flowCredPath)) {
+            cred = JSON.parse(fs.readFileSync(flowCredPath, 'utf8'));
         }
     } catch(e) {
-        adapter.log.error(`Cannot save ${userDataDir}flows_cred.json`);
+        adapter.log.error(`Cannot read ${flowCredPath}`);
     }
+    const flowsPath = path.join(userDataDir, 'flows.json');
     try {
-        if (fs.existsSync(`${userDataDir}flows.json`)) {
-            flows = JSON.parse(fs.readFileSync(`${userDataDir}flows.json`));
+        if (fs.existsSync(flowsPath)) {
+            flows = JSON.parse(fs.readFileSync(flowsPath, 'utf8'));
         }
     } catch(e) {
-        adapter.log.error(`Cannot save ${userDataDir}flows.json`);
+        adapter.log.error(`Cannot save ${flowsPath}`);
     }
     //upload it to config
     adapter.setObject('flows',
@@ -422,7 +425,7 @@ function saveObjects() {
             },
             type: 'config'
         },
-        () => adapter.log.debug(`Save ${userDataDir}flows.json`)
+        () => adapter.log.debug(`Save ${flowsPath}`)
     );
 }
 
@@ -455,10 +458,11 @@ function syncPublic(path) {
 
 function installNotifierFlows(isFirst) {
     if (!notificationsFlows) {
-        if (fs.existsSync(`${userDataDir}flows.json`)) {
+        const flowsPath = path.join(userDataDir, 'flows.json');
+        if (fs.existsSync(flowsPath)) {
             if (!isFirst) saveObjects();
             // monitor project file
-            notificationsFlows = new Notify([`${userDataDir}flows.json`]);
+            notificationsFlows = new Notify([flowsPath]);
             notificationsFlows.on('change', () => {
                 saveTimer && clearTimeout(saveTimer);
                 saveTimer = setTimeout(saveObjects, 500);
@@ -472,10 +476,11 @@ function installNotifierFlows(isFirst) {
 
 function installNotifierCreds(isFirst) {
     if (!notificationsCreds) {
-        if (fs.existsSync(`${userDataDir}flows_cred.json`)) {
+        const flowsCredPath = path.join(userDataDir, 'flows_cred.json');
+        if (fs.existsSync(flowsCredPath)) {
             if (!isFirst) saveObjects();
             // monitor project file
-            notificationsCreds = new Notify([`${userDataDir}flows_cred.json`]);
+            notificationsCreds = new Notify([flowsCredPath]);
             notificationsCreds.on('change', () => {
                 saveTimer && clearTimeout(saveTimer);
                 saveTimer = setTimeout(saveObjects, 500);
@@ -538,14 +543,14 @@ function main() {
                     const c = JSON.stringify(obj.native.cred);
                     // If really not empty
                     if (c !== '{}' && c !== '[]') {
-                        fs.writeFileSync(`${userDataDir}flows_cred.json`, JSON.stringify(obj.native.cred));
+                        fs.writeFileSync(path.join(userDataDir, 'flows_cred.json'), JSON.stringify(obj.native.cred));
                     }
                 }
                 if (obj && obj.native && obj.native.flows) {
                     const f = JSON.stringify(obj.native.flows);
                     // If really not empty
                     if (f !== '{}' && f !== '[]') {
-                        fs.writeFileSync(`${userDataDir}flows.json`, JSON.stringify(obj.native.flows));
+                        fs.writeFileSync(path.join(userDataDir, 'flows.json'), JSON.stringify(obj.native.flows));
                     }
                 }
 
