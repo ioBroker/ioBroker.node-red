@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "title": "node-red",
     "titleLang": {
       "en": "node-red",
@@ -17,6 +17,19 @@
       "uk": "вузол-червоний"
     },
     "news": {
+      "4.0.2": {
+        "en": "Fix broken data directory when using multiple instances",
+        "de": "Beheben Sie das defekte Datenverzeichnis, wenn Sie mehrere Instanzen verwenden",
+        "ru": "Исправление сломанной директории данных при использовании нескольких инстанций",
+        "pt": "Corrigir diretório de dados quebrados ao usar várias instâncias",
+        "nl": "Vertaling:",
+        "fr": "Réparer le répertoire de données cassées lorsque vous utilisez plusieurs instances",
+        "it": "Fissare la directory dei dati rotta quando si utilizzano più istanze",
+        "es": "Arreglar el directorio de datos rotos al utilizar múltiples instancias",
+        "pl": "Fix złamał katalogi danych, gdy wykorzystuje wiele instancji",
+        "uk": "Виправлено зламані дані каталогу при використанні декількох екземплярів",
+        "zh-cn": "在使用多种情况时,固定数据主任破碎。"
+      },
       "4.0.1": {
         "en": "Prepare for js-controller 5.0",
         "de": "Bereiten Sie sich auf js-controller ANHANG",
@@ -94,19 +107,6 @@
         "pl": "Dodano nowy parametr \"httpNodeRoot\", ponieważ httpRoot został zastąpiony przez httpAdminRoot w wersji 3.0.0.\nDostosuj opis przypadków RBE dla In-Node, aby pasował do węzła filtra",
         "zh-cn": "添加了新参数“httpNodeRoot”，因为 httpRoot 在 3.0.0 版本中已被 httpAdminRoot 替换。\n调整 In-Node 的 RBE 案例描述以匹配 Filter 节点",
         "uk": "Додано новий параметр \"httpNodeRoot\", оскільки httpRoot було замінено на httpAdminRoot у версії 3.0.0.\nНалаштуйте опис випадків RBE для In-Node відповідно до вузла Filter"
-      },
-      "3.0.1": {
-        "en": "added option for in Node to choose topic format (MQTT with / or ioBroker with .). Default: MQTT\n",
-        "de": "Option für in Node hinzugefügt, um das Themenformat auszuwählen (MQTT mit / oder ioBroker mit .). Standard: MQTT\n",
-        "ru": "добавлена возможность в Node выбирать формат темы (MQTT с / или ioBroker с .). По умолчанию: MQTT\n",
-        "pt": "adicionada opção para no Node escolher o formato do tópico (MQTT com / ou ioBroker com .). Padrão: MQTT\n",
-        "nl": "optie toegevoegd om in Node een onderwerpformaat te kiezen (MQTT met / of ioBroker met .). Standaard: MQTT\n",
-        "fr": "ajout d'une option dans Node pour choisir le format de sujet (MQTT avec / ou ioBroker avec .). Par défaut : MQTT\n",
-        "it": "aggiunta opzione per in Node per scegliere il formato dell'argomento (MQTT con / o ioBroker con .). Predefinito: MQTT\n",
-        "es": "Opción agregada para que en Node elija el formato del tema (MQTT con / o ioBroker con .). Valor predeterminado: MQTT\n",
-        "pl": "dodano opcję w Node, aby wybrać format tematu (MQTT z / lub ioBroker z .). Domyślnie: MQTT\n",
-        "zh-cn": "在 Node 中添加了选项以选择主题格式（MQTT with / 或 ioBroker with .）。默认值：MQTT\n",
-        "uk": "у Node додано можливість вибору формату теми (MQTT з / або ioBroker з .). За замовчуванням: MQTT"
       }
     },
     "desc": {
