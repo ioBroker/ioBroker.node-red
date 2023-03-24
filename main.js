@@ -78,7 +78,7 @@ function installLibraries(callback) {
     if (adapter.instance === 0) {
         userDataDir = path.join(utils.getAbsoluteDefaultDataDir(),'node-red') + path.sep;
     } else {
-        userDataDir += path.join(utils.getAbsoluteDefaultDataDir(),`node-red.${adapter.instance}`) + path.sep;
+        userDataDir = path.join(utils.getAbsoluteDefaultDataDir(),`node-red.${adapter.instance}`) + path.sep;
     }
 
     if (adapter.common && adapter.common.npmLibs && !adapter.config.palletmanagerEnabled) {
