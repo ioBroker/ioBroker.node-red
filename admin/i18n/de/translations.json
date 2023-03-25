@@ -22,7 +22,7 @@
     "None": "Keine",
     "Password": "Passwort",
     "Permissions": "Berechtigungen",
-    "Safe mode": "Sicherheitsmodus",
+    "Safe mode": "Abgesicherter Modus",
     "Simple": "Einfach",
     "Update select dialog": "ioBroker-Objekte in Node-Red aktualisieren",
     "Use palletmanager:": "Palletenmanager benutzen",
