@@ -1,7 +1,7 @@
 {
-    "Add module": "Dodaj moduł",
+    "Add module": "Dodaj moduł NPM",
     "Add user": "Dodaj użytkownika",
-    "Additional npm modules:": "Dodatkowe moduły npm",
+    "Additional npm modules:": "Dodatkowe moduły NPM",
     "Allow creation of foreign objects": "Zezwól na tworzenie obcych obiektów",
     "Authentication": "Uwierzytelnianie",
     "Backups will not contain any projects or modules installed via the Palletmanager": "Kopie zapasowe nie będą zawierać żadnych projektów ani modułów zainstalowanych za pośrednictwem Palletmanager!",
@@ -17,7 +17,7 @@
     "Help Text Extended Auth": "Dodaj użytkowników i opcjonalne uprawnienia domyślne. Możliwe wartości uprawnień: * (pełny dostęp), read (dostęp tylko do odczytu) lub lista np. settings.read,flows.write,nodes.read itp.",
     "Leave blank to disable basic authentication": "Pozostaw puste, aby wyłączyć podstawowe uwierzytelnianie",
     "Max allocated RAM:": "Maksymalna przydzielona pamięć RAM",
-    "Module names": "Nazwy modułów",
+    "Module names": "Nazwy modułów npm",
     "No default permissions": "Brak domyślnych uprawnień",
     "None": "Nic",
     "Password": "Hasło",
