@@ -17,7 +17,7 @@
     "Help Text Extended Auth": "Dodaj użytkowników i opcjonalne uprawnienia domyślne. Możliwe wartości uprawnień: * (pełny dostęp), read (dostęp tylko do odczytu) lub lista np. settings.read,flows.write,nodes.read itp.",
     "Leave blank to disable basic authentication": "Pozostaw puste, aby wyłączyć podstawowe uwierzytelnianie",
     "Max allocated RAM:": "Maksymalna przydzielona pamięć RAM",
-    "Module names": "Nazwy modułów npm",
+    "Module names": "Nazwy modułów NPM",
     "No default permissions": "Brak domyślnych uprawnień",
     "None": "Nic",
     "Password": "Hasło",
