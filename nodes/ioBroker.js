@@ -15,7 +15,7 @@
  **/
 
 function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time))
+    return new Promise(resolve => setTimeout(resolve, time));
 }
 
 module.exports = function (RED) {
@@ -28,8 +28,8 @@ module.exports = function (RED) {
 
     const instance     = settings.get('iobrokerInstance') || 0;
     let config         = settings.get('iobrokerConfig');
-	const valueConvert = settings.get('valueConvert');
-	const allowCreationOfForeignObjects = settings.get('allowCreationOfForeignObjects');
+    const valueConvert = settings.get('valueConvert');
+    const allowCreationOfForeignObjects = settings.get('allowCreationOfForeignObjects');
     if (typeof config === 'string') {
         config = JSON.parse(config);
     }
@@ -87,7 +87,7 @@ module.exports = function (RED) {
                                 const state = await adapter.getForeignStateAsync(node.topic);
                                 if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                                     const t = node.topic.replace(/\./g, '/') || '_no_topic';
-                                    node.previous[t] = state ? state.val : null
+                                    node.previous[t] = state ? state.val : null;
                                     //adapter.log.debug(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
                                 }
                                 if (node.fireOnStart) {
@@ -378,7 +378,7 @@ module.exports = function (RED) {
             node.onlyack = null;
         }
 
-		if (node.gap.substr(-1) === '%') {
+        if (node.gap.substr(-1) === '%') {
             node.pc = true;
             node.gap = parseFloat(node.gap);
         }
@@ -407,7 +407,7 @@ module.exports = function (RED) {
             }
             //adapter.log.debug(`${node.id} Got stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
 
-			if (node.onlyack && state && !state.ack) {
+            if (node.onlyack && state && !state.ack) {
 			    return;
             } else if (node.onlyack === false && state && state.ack) {
                 return;
@@ -495,7 +495,7 @@ module.exports = function (RED) {
                     err && adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
                     if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                         const t = node.topic.replace(/\./g, '/') || '_no_topic';
-                        node.previous[t] = state ? state.val : null
+                        node.previous[t] = state ? state.val : null;
                         //adapter.log.debug(`${node.id} Pre-Initialize Value ${JSON.stringify(node.previous[t])}`);
                     }
                     if (node.fireOnStart) {
@@ -569,7 +569,7 @@ module.exports = function (RED) {
                 id = adapter.namespace + '.' + id;
             }
 
-            const msgAck = msg.ack !== undefined ? (msg.ack === 'true' || msg.ack === true) : node.ack
+            const msgAck = msg.ack !== undefined ? (msg.ack === 'true' || msg.ack === true) : node.ack;
 
             if (!ready) {
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
@@ -913,7 +913,7 @@ module.exports = function (RED) {
                 /** @param {any[] | undefined} rows */
                 const addRows = rows => {
                     if (rows) {
-                        for (let id in rows) {
+                        for (const id in rows) {
                             list[id] = rows[id];
                         }
                     }
@@ -984,7 +984,7 @@ module.exports = function (RED) {
                 }
 
                 if (regex) {
-                    log(`${node.id}: process list using regex ${regex.toString()}`)
+                    log(`${node.id}: process list using regex ${regex.toString()}`);
                     const newList = {};
                     Object.keys(list).forEach(id => {
                         if (regex.test(id)) {
@@ -1009,7 +1009,7 @@ module.exports = function (RED) {
                                     });
                                 }
                             } else {
-                                let newList = [];
+                                const newList = [];
                                 ids.forEach(id => newList.push(list[id]));
                                 // Add states values if required
                                 node.withValues && newList.forEach(el => Object.assign(el, values[el._id] || {}));
@@ -1035,7 +1035,7 @@ module.exports = function (RED) {
                                 node.send(__msg);
                             });
                         }
-                });
+                    });
             } else {
                 node.warn('No pattern set');
             }

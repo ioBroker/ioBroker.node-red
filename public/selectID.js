@@ -195,7 +195,7 @@
 
  */
 
-var addAll2FilterCombobox = false;
+const addAll2FilterCombobox = false;
 
 function tdp(x, decimals) {
     // TODO support of US format too
@@ -204,25 +204,25 @@ function tdp(x, decimals) {
 
 function removeImageFromSettings(data) {
     if (!data || !data.columns) return;
-    var idx = data.columns.indexOf('image');
+    const idx = data.columns.indexOf('image');
     if (idx >= 0) data.columns.splice(idx, 1);
 }
 
-var lineIndent = '5px';
+const lineIndent = '5px';
 
 function span(txt, attr) {
     //if (txt === undefined) txt = '';
     //return txt;
 
-    var style = 'padding-left: ' + lineIndent + ';';
+    let style = 'padding-left: ' + lineIndent + ';';
     if (attr) style += attr;
     return '<span style="' + style + '">' + txt + '</span>';
 }
 
 function filterChanged(e) {
-    var $e  = $(e);
-    var val = $e.val();
-    var td  = $e.parent();
+    const $e  = $(e);
+    const val = $e.val();
+    const td  = $e.parent();
     if (val) {
         td.addClass('filter-active');
     } else {
@@ -244,7 +244,7 @@ if (typeof systemLang === 'undefined') {
         return;
     }
 
-    var isMaterial;
+    let isMaterial;
 
     function getNameObj(obj, id) {
         if (obj && obj.common) {
@@ -266,8 +266,8 @@ if (typeof systemLang === 'undefined') {
             return '';
         }
 
-        var text = dateObj.getFullYear();
-        var v = dateObj.getMonth() + 1;
+        let text = dateObj.getFullYear();
+        let v = dateObj.getMonth() + 1;
         if (v < 10) {
             text += '-0' + v;
         } else {
@@ -335,7 +335,7 @@ if (typeof systemLang === 'undefined') {
             if (data.filter.common && data.filter.common.custom) {
                 if (!data.objects[id].common) return false;
                 // todo: remove history sometime 09.2016
-                var custom = data.objects[id].common.custom || data.objects[id].common.history;
+                const custom = data.objects[id].common.custom || data.objects[id].common.history;
 
                 if (!custom) return false;
                 if (data.filter.common.custom === true) {
@@ -350,11 +350,11 @@ if (typeof systemLang === 'undefined') {
 
     function getExpandeds(data) {
         if (!data.$tree) return null;
-        var expandeds = {};
+        const expandeds = {};
         (function getIt(nodes) {
             if (!Array.isArray(nodes.children)) return;
-            for (var i = 0, len = nodes.children.length; i < len; i++) {
-                var node = nodes.children[i];
+            for (let i = 0, len = nodes.children.length; i < len; i++) {
+                const node = nodes.children[i];
                 if (node.expanded) {
                     expandeds[node.key] = true;
                 }
@@ -368,8 +368,8 @@ if (typeof systemLang === 'undefined') {
         if (!expandeds || !data.$tree) return;
         (function setIt(nodes) {
             if (!Array.isArray(nodes.children)) return;
-            for (var i = 0, len = nodes.children.length; i < len; i++) {
-                var node = nodes.children[i];
+            for (let i = 0, len = nodes.children.length; i < len; i++) {
+                const node = nodes.children[i];
                 if (expandeds[node.key]) {
                     try {
                         node.setExpanded();
@@ -385,12 +385,12 @@ if (typeof systemLang === 'undefined') {
     }
 
     function sortTree(data) {
-        var objects = data.objects;
-        var checkStatesFirst;
+        const objects = data.objects;
+        let checkStatesFirst;
         switch (data.sortConfig.statesFirst) {
-            case undefined: checkStatesFirst = function () { return 0 }; break;
-            case true:      checkStatesFirst = function (child1, child2) { return ((~~child2.folder) - (~~child1.folder))}; break;
-            case false:     checkStatesFirst = function (child1, child2) { return ((~~child1.folder) - (~~child2.folder))}; break;
+            case undefined: checkStatesFirst = function () { return 0; }; break;
+            case true:      checkStatesFirst = function (child1, child2) { return ((~~child2.folder) - (~~child1.folder));}; break;
+            case false:     checkStatesFirst = function (child1, child2) { return ((~~child1.folder) - (~~child2.folder));}; break;
         }
 
         // function compAdapterAndInstance(c1, c2) {
@@ -403,12 +403,12 @@ if (typeof systemLang === 'undefined') {
         // }
 
         function sortByName(child1, child2) {
-            var ret = checkStatesFirst(child1, child2);
+            const ret = checkStatesFirst(child1, child2);
             if (ret) return ret;
 
-            var o1 = objects[child1.key], o2 = objects[child2.key];
+            const o1 = objects[child1.key], o2 = objects[child2.key];
             if (o1 && o2) {
-                var c1 = o1.common, c2 = o2.common;
+                const c1 = o1.common, c2 = o2.common;
                 if (c1 && c2) {
 
                     // var s1 = child1.key.substr(0, child1.key.lastIndexOf('.')); // faster than regexp.
@@ -421,8 +421,8 @@ if (typeof systemLang === 'undefined') {
                         if (c1.sortOrder < c2.sortOrder) return -1;
                         return 0;
                     }
-                    var name1;
-                    var name2;
+                    let name1;
+                    let name2;
                     if (c1.name) {
                         name1 = c1.name;
                         if (typeof name1 === 'object') {
@@ -453,12 +453,12 @@ if (typeof systemLang === 'undefined') {
         }
 
         function sortByKey(child1, child2) {
-            var ret = checkStatesFirst(child1, child2);
+            const ret = checkStatesFirst(child1, child2);
             if (ret) return ret;
             if (!data.sortConfig.ignoreSortOrder) {
-                var o1 = objects[child1.key], o2 = objects[child2.key];
+                const o1 = objects[child1.key], o2 = objects[child2.key];
                 if (o1 && o2) {
-                    var c1 = o1.common, c2 = o2.common;
+                    const c1 = o1.common, c2 = o2.common;
                     if (c1 && c2 && c1.sortOrder && c2.sortOrder) {
                         // var s1 = child1.key.substr(0, child1.key.lastIndexOf('.'));  // faster than regexp.
                         // var s2 = child2.key.substr(0, child2.key.lastIndexOf('.'));
@@ -476,8 +476,8 @@ if (typeof systemLang === 'undefined') {
             return 0;
         }
 
-        var sortFunc = data.sort ? sortByName : sortByKey;
-        var sfunc = sortByKey; // sort the root always by key
+        const sortFunc = data.sort ? sortByName : sortByKey;
+        let sfunc = sortByKey; // sort the root always by key
         return (function sort(tree) {
             if (!tree || !tree.children) return;
             try {
@@ -486,7 +486,7 @@ if (typeof systemLang === 'undefined') {
                 console.log(e);
             }
             sfunc = sortFunc;
-            for (var i=tree.children.length-1; i>=0; i--) {
+            for (let i=tree.children.length-1; i>=0; i--) {
                 sort(tree.children[i]);
             }
         })(data.$tree.fancytree('getRootNode'));
@@ -511,20 +511,20 @@ if (typeof systemLang === 'undefined') {
     }
 
     function getAllStates(data) {
-        var stats   = data.stats ? {objs: 0, states: 0} : null;
-        var objects = data.objects;
-        var isType  = data.columns.indexOf('type') !== -1;
-        var isRoom  = data.columns.indexOf('room') !== -1;
-        var isFunc  = data.columns.indexOf('function') !== -1;
-        var isRole  = data.columns.indexOf('role') !== -1;
-        var isHist  = data.columns.indexOf('button') !== -1;
+        const stats   = data.stats ? {objs: 0, states: 0} : null;
+        const objects = data.objects;
+        const isType  = data.columns.indexOf('type') !== -1;
+        const isRoom  = data.columns.indexOf('room') !== -1;
+        const isFunc  = data.columns.indexOf('function') !== -1;
+        const isRole  = data.columns.indexOf('role') !== -1;
+        const isHist  = data.columns.indexOf('button') !== -1;
 
         data.tree = {title: '', children: [], count: 0, root: true};
         data.roomEnums = [];
         data.funcEnums = [];
         data.ids       = [];
 
-        for (var id in objects) {
+        for (const id in objects) {
             if (!objects.hasOwnProperty(id)) continue;
             if (!id) {
                 console.error('Invalid empty ID found! Please fix it');
@@ -587,9 +587,9 @@ if (typeof systemLang === 'undefined') {
 
             if (isRole && objects[id].common && objects[id].common.role) {
                 try {
-                    var parts = objects[id].common.role.split('.');
-                    var role = '';
-                    for (var u = 0; u < parts.length; u++) {
+                    const parts = objects[id].common.role.split('.');
+                    let role = '';
+                    for (let u = 0; u < parts.length; u++) {
                         role += (role ? '.' : '') + parts[u];
                         if (data.roles.indexOf(role) === -1) data.roles.push(role);
                     }
@@ -598,7 +598,7 @@ if (typeof systemLang === 'undefined') {
                 }
             }
             if (isHist && objects[id].type === 'instance' && (objects[id].common.type === 'storage' || objects[id].common.supportCustoms)) {
-                var h = id.substring('system.adapter.'.length);
+                const h = id.substring('system.adapter.'.length);
                 if (data.histories.indexOf(h) === -1) {
                     data.histories.push(h);
                 }
@@ -609,7 +609,7 @@ if (typeof systemLang === 'undefined') {
             treeInsert(data, id, data.currentId === id);
 
             if (objects[id].enums) {
-                for (var ee in objects[id].enums) {
+                for (const ee in objects[id].enums) {
                     if (objects[id].enums.hasOwnProperty(ee) &&
                         objects[ee] &&
                         objects[ee].common &&
@@ -641,7 +641,7 @@ if (typeof systemLang === 'undefined') {
             id = id.substring(data.root.length);
         }
 
-        var parts = id.split('.');
+        const parts = id.split('.');
         if (data.regexSystemAdapter.test(id)) {
             if (parts.length > 3) {
                 parts[0] = 'system.adapter.' + parts[2] + '.' + parts[3];
@@ -670,11 +670,11 @@ if (typeof systemLang === 'undefined') {
             if (deletedNodes && node.id) {
                 deletedNodes.push(node);
             }
-            var p = node.parent;
+            const p = node.parent;
             if (p.children.length <= 1) {
                 _deleteTree(node.parent);
             } else {
-                for (var z = 0; z < p.children.length; z++) {
+                for (let z = 0; z < p.children.length; z++) {
                     if (node.key === p.children[z].key) {
                         p.children.splice(z, 1);
                         break;
@@ -687,7 +687,7 @@ if (typeof systemLang === 'undefined') {
     }
 
     function deleteTree(data, id, deletedNodes) {
-        var node = findTree(data, id);
+        const node = findTree(data, id);
         if (!node) {
             console.log('deleteTree: Id ' + id + ' not found');
             return;
@@ -698,8 +698,8 @@ if (typeof systemLang === 'undefined') {
     function findTree(data, id) {
         return (function find(tree) {
             if (!tree.children) return;
-            for (var i = tree.children.length - 1; i >= 0; i--) {
-                var child = tree.children[i];
+            for (let i = tree.children.length - 1; i >= 0; i--) {
+                const child = tree.children[i];
                 if (id === child.key) return child;
                 if (id.startsWith(child.key + '.')) {
                     //if (id === child.key) return child;
@@ -781,8 +781,8 @@ if (typeof systemLang === 'undefined') {
             return;
         }
 
-        var num = -1;
-        var j;
+        let num = -1;
+        let j;
         for (j = 0; j < tree.children.length; j++) {
             if (tree.children[j].title === parts[index]) {
                 num = j;
@@ -795,11 +795,11 @@ if (typeof systemLang === 'undefined') {
             tree.folder   = true;
             tree.expanded = isExpanded;
 
-            var fullName = '';
-            for (var i = 0; i <= index; i++) {
+            let fullName = '';
+            for (let i = 0; i <= index; i++) {
                 fullName += ((fullName) ? '.' : '') + parts[i];
             }
-            var obj = {
+            const obj = {
                 key:      (data.root || '') + fullName,
                 children: [],
                 title:    parts[index],
@@ -827,7 +827,7 @@ if (typeof systemLang === 'undefined') {
     }
 
     function showActive($dlg, scrollIntoView)  {
-        var data = $dlg.data('selectId');
+        const data = $dlg.data('selectId');
         // Select current element
         if (data.selectedID) {
             data.$tree.fancytree('getTree').visit(function (node) {
@@ -846,14 +846,14 @@ if (typeof systemLang === 'undefined') {
     }
 
     function syncHeader($dlg) {
-        var data = $dlg.data('selectId');
+        const data = $dlg.data('selectId');
         if (!data) return;
-        var $header = $dlg.find('.main-header-table');
-        var thDest  = $header.find('>tbody>tr>th');	//if table headers are specified in its semantically correct tag, are obtained
-        var thSrc   = data.$tree.find('>tbody>tr>td');
+        const $header = $dlg.find('.main-header-table');
+        const thDest  = $header.find('>tbody>tr>th');	//if table headers are specified in its semantically correct tag, are obtained
+        const thSrc   = data.$tree.find('>tbody>tr>td');
 
-        var x, o;
-        for (var i = 0; i < thDest.length - 1; i++) {
+        let x, o;
+        for (let i = 0; i < thDest.length - 1; i++) {
             if ((x = $(thSrc[i]).width())) {
                 $(thDest[i]).attr('width', x);
                 if ((o = $(thSrc[i + 1]).offset().left)) {
@@ -878,9 +878,9 @@ if (typeof systemLang === 'undefined') {
             return [];
         }
         rooms = rooms || [];
-        for (var i = 0; i < data.roomEnums.length; i++) {
-            var common = data.objects[data.roomEnums[i]] && data.objects[data.roomEnums[i]].common;
-            var name = getName(common.name);
+        for (let i = 0; i < data.roomEnums.length; i++) {
+            const common = data.objects[data.roomEnums[i]] && data.objects[data.roomEnums[i]].common;
+            const name = getName(common.name);
 
             if (common.members && common.members.indexOf(id) !== -1 && rooms.indexOf(name) === -1) {
                 if (!withParentInfo) {
@@ -890,7 +890,7 @@ if (typeof systemLang === 'undefined') {
                 }
             }
         }
-        var parts = id.split('.');
+        const parts = id.split('.');
         parts.pop();
         id = parts.join('.');
         if (data.objects[id]) findRoomsForObject(data, id, withParentInfo, rooms);
@@ -903,8 +903,8 @@ if (typeof systemLang === 'undefined') {
             return [];
         }
         rooms = rooms || [];
-        for (var i = 0; i < data.roomEnums.length; i++) {
-            var common = data.objects[data.roomEnums[i]] && data.objects[data.roomEnums[i]].common;
+        for (let i = 0; i < data.roomEnums.length; i++) {
+            const common = data.objects[data.roomEnums[i]] && data.objects[data.roomEnums[i]].common;
             if (common && common.members && common.members.indexOf(id) !== -1 &&
                 rooms.indexOf(data.roomEnums[i]) === -1) {
                 rooms.push(data.roomEnums[i]);
@@ -918,9 +918,9 @@ if (typeof systemLang === 'undefined') {
             return [];
         }
         funcs = funcs || [];
-        for (var i = 0; i < data.funcEnums.length; i++) {
-            var common = data.objects[data.funcEnums[i]] && data.objects[data.funcEnums[i]].common;
-            var name = getName(common.name);
+        for (let i = 0; i < data.funcEnums.length; i++) {
+            const common = data.objects[data.funcEnums[i]] && data.objects[data.funcEnums[i]].common;
+            const name = getName(common.name);
             if (common && common.members && common.members.indexOf(id) !== -1 && funcs.indexOf(name) === -1) {
                 if (!withParentInfo) {
                     funcs.push(name);
@@ -929,7 +929,7 @@ if (typeof systemLang === 'undefined') {
                 }
             }
         }
-        var parts = id.split('.');
+        const parts = id.split('.');
         parts.pop();
         id = parts.join('.');
         if (data.objects[id]) findFunctionsForObject(data, id, withParentInfo, funcs);
@@ -942,8 +942,8 @@ if (typeof systemLang === 'undefined') {
             return [];
         }
         funcs = funcs || [];
-        for (var i = 0; i < data.funcEnums.length; i++) {
-            var common = data.objects[data.funcEnums[i]] && data.objects[data.funcEnums[i]].common;
+        for (let i = 0; i < data.funcEnums.length; i++) {
+            const common = data.objects[data.funcEnums[i]] && data.objects[data.funcEnums[i]].common;
             if (common && common.members && common.members.indexOf(id) !== -1 &&
                 funcs.indexOf(data.funcEnums[i]) === -1) {
                 funcs.push(data.funcEnums[i]);
@@ -954,7 +954,7 @@ if (typeof systemLang === 'undefined') {
     }
 
     function clippyCopy(e) {
-        var $input = $('<input>');
+        const $input = $('<input>');
         $(this).append($input);
         $input.val($(this).parent().data('clippy'));
         $input.trigger('select');
@@ -965,26 +965,26 @@ if (typeof systemLang === 'undefined') {
     }
 
     function editValueDialog() {
-        var data    = $(this).data('data');
-        var $parent = $(this).parent();
-        var value   = $parent.data('clippy');
-        var id      = $parent.data('id');
-        var $dlg    = $('#dialog-value-edit');
+        const data    = $(this).data('data');
+        const $parent = $(this).parent();
+        let value   = $parent.data('clippy');
+        const id      = $parent.data('id');
+        const $dlg    = $('#dialog-value-edit');
         if (typeof M !== 'undefined' && $dlg.length) {
             $dlg.find('textarea').val(value);
             $dlg.find('input[type="checkbox"]').prop('checked', false);
 
             // workaround for materialize checkbox problem
             $dlg.find('input[type="checkbox"]+span').off('click').on('click', function () {
-                var $input = $(this).prev();
+                const $input = $(this).prev();
                 if (!$input.prop('disabled')) {
                     $input.prop('checked', !$input.prop('checked')).trigger('change');
                 }
             });
 
             $dlg.find('.btn-set').off('click').on('click', function () {
-                var val = $dlg.find('textarea').val();
-                var ack = $dlg.find('input[type="checkbox"]').prop('checked');
+                const val = $dlg.find('textarea').val();
+                const ack = $dlg.find('input[type="checkbox"]').prop('checked');
                 if (val !== value || ack) {
                     data.quickEditCallback(id, 'value', val, value, ack);
                     value = '<span style="color: darkviolet; width: 100%;">' + value + '</span>';
@@ -1012,8 +1012,8 @@ if (typeof systemLang === 'undefined') {
                         {
                             text: data.texts.select,
                             click: function () {
-                                var val = $(this).find('textarea').val();
-                                var ack = $(this).find('input[type="checkbox"]').prop('checked');
+                                const val = $(this).find('textarea').val();
+                                const ack = $(this).find('input[type="checkbox"]').prop('checked');
                                 if (val !== value || ack) {
                                     data.quickEditCallback(id, 'value', val, value, ack);
                                     value = '<span style="color: darkviolet; width: 100%;">' + value + '</span>';
@@ -1034,23 +1034,23 @@ if (typeof systemLang === 'undefined') {
     }
 
     function editEnumsDialog() {
-        var data    = $(this).data('data');
-        var $parent = $(this).parent();
-        var id      = $parent.data('id');
-        var oldVal  = $parent.data('old-value');
-        var $dlg    = $('#dialog-enum-edit');
-        var attr    = $parent.data('name');
+        const data    = $(this).data('data');
+        const $parent = $(this).parent();
+        const id      = $parent.data('id');
+        const oldVal  = $parent.data('old-value');
+        const $dlg    = $('#dialog-enum-edit');
+        const attr    = $parent.data('name');
         if (typeof M !== 'undefined' && $dlg.length) {
-            var funcs = [];
-            var text = '';
+            const funcs = [];
+            let text = '';
             $dlg.find('.name').html(getNameObj(data.objects[id], id));
-            var enums = attr === 'function' ? data.funcEnums : data.roomEnums;
-            for (var i = 0; i < enums.length; i++) {
-                var common = data.objects[enums[i]] && data.objects[enums[i]].common;
-                var name = getName(common.name);
+            const enums = attr === 'function' ? data.funcEnums : data.roomEnums;
+            for (let i = 0; i < enums.length; i++) {
+                const common = data.objects[enums[i]] && data.objects[enums[i]].common;
+                const name = getName(common.name);
                 if (funcs.indexOf(name) === -1) {
                     funcs.push(name);
-                    var checked = common && common.members && common.members.indexOf(id) !== -1;
+                    const checked = common && common.members && common.members.indexOf(id) !== -1;
                     text +=
                         '<li class="collection-item">' +
                         getSelectIdIcon(data, data.objects[enums[i]]) +
@@ -1068,26 +1068,26 @@ if (typeof systemLang === 'undefined') {
 
             // workaround for materialize checkbox problem
             $dlg.find('input[type="checkbox"]').off('click').on('click', function () {
-                var $input = $(this).prev();
+                const $input = $(this).prev();
                 if (!$input.prop('disabled')) {
                     $input.prop('checked', !$input.prop('checked')).trigger('change');
                 }
             });
 
             $dlg.find('.btn-set').off('click').on('click', function () {
-                var checks = $dlg.find('input[type="checkbox"]');
-                var val = [];
-                var names = [];
+                const checks = $dlg.find('input[type="checkbox"]');
+                const val = [];
+                const names = [];
                 checks.each(function () {
                     if ($(this).prop('checked')) {
                         val.push($(this).data('id'));
-                        names.push($(this).data('name'))
+                        names.push($(this).data('name'));
                     }
                 });
 
                 if (JSON.stringify(oldVal) !== JSON.stringify(val)) {
                     data.quickEditCallback(id, attr, val, oldVal);
-                    var value = '<span style="color: darkviolet; width: 100%;">' + names.join(', ') + '</span>';
+                    const value = '<span style="color: darkviolet; width: 100%;">' + names.join(', ') + '</span>';
                     $parent.html(value);
                 }
                 $dlg.modal('close');
@@ -1098,9 +1098,9 @@ if (typeof systemLang === 'undefined') {
         }
     }
     function getSelectIdIcon(data, obj, key) {
-        var icon = '';
-        var alt  = '';
-        var _id_ = 'system.adapter.' + key;
+        let icon = '';
+        let alt  = '';
+        const _id_ = 'system.adapter.' + key;
         if (key && data.objects[_id_] && data.objects[_id_].common && data.objects[_id_].common.icon) {
             // if not BASE64
             if (!data.objects[_id_].common.icon.match(/^data:image\//)) {
@@ -1113,48 +1113,48 @@ if (typeof systemLang === 'undefined') {
                 icon = data.objects[_id_].common.icon;
             }
         } else
-        if (obj && obj.common) {
-            if (obj.common.icon) {
-                if (!obj.common.icon.match(/^data:image\//)) {
-                    if (obj.common.icon.indexOf('.') !== -1) {
-                        var instance;
-                        if (obj.type === 'instance') {
-                            icon = '/adapter/' + obj.common.name + '/' + obj.common.icon;
-                        } else if (key && key.match(/^system\.adapter\./)) {
-                            instance = key.split('.', 3);
-                            if (obj.common.icon[0] === '/') {
-                                instance[2] += obj.common.icon;
+            if (obj && obj.common) {
+                if (obj.common.icon) {
+                    if (!obj.common.icon.match(/^data:image\//)) {
+                        if (obj.common.icon.indexOf('.') !== -1) {
+                            let instance;
+                            if (obj.type === 'instance') {
+                                icon = '/adapter/' + obj.common.name + '/' + obj.common.icon;
+                            } else if (key && key.match(/^system\.adapter\./)) {
+                                instance = key.split('.', 3);
+                                if (obj.common.icon[0] === '/') {
+                                    instance[2] += obj.common.icon;
+                                } else {
+                                    instance[2] += '/' + obj.common.icon;
+                                }
+                                icon = '/adapter/' + instance[2];
                             } else {
-                                instance[2] += '/' + obj.common.icon;
+                                instance = key.split('.', 2);
+                                if (obj.common.icon[0] === '/') {
+                                    instance[0] += obj.common.icon;
+                                } else {
+                                    instance[0] += '/' + obj.common.icon;
+                                }
+                                icon = '/adapter/' + instance[0];
                             }
-                            icon = '/adapter/' + instance[2];
                         } else {
-                            instance = key.split('.', 2);
-                            if (obj.common.icon[0] === '/') {
-                                instance[0] += obj.common.icon;
-                            } else {
-                                instance[0] += '/' + obj.common.icon;
-                            }
-                            icon = '/adapter/' + instance[0];
+                            return '<i class="material-icons iob-list-icon">' + obj.common.icon + '</i>';
                         }
                     } else {
-                        return '<i class="material-icons iob-list-icon">' + obj.common.icon + '</i>';
-                    }
-                } else {
                     // base 64 image
-                    icon = obj.common.icon;
+                        icon = obj.common.icon;
+                    }
+                } else if (obj.type === 'device') {
+                    icon = data.imgPath + 'device.png';
+                    alt  = 'device';
+                } else if (obj.type === 'channel') {
+                    icon = data.imgPath + 'channel.png';
+                    alt  = 'channel';
+                } else if (obj.type === 'state') {
+                    icon = data.imgPath + 'state.png';
+                    alt  = 'state';
                 }
-            } else if (obj.type === 'device') {
-                icon = data.imgPath + 'device.png';
-                alt  = 'device';
-            } else if (obj.type === 'channel') {
-                icon = data.imgPath + 'channel.png';
-                alt  = 'channel';
-            } else if (obj.type === 'state') {
-                icon = data.imgPath + 'state.png';
-                alt  = 'state';
             }
-        }
 
         if (icon) {
             return '<img class="iob-list-icon" onerror="this.src=\'img/info-big.png\';" src="' + icon + '" alt="' + alt + '"/>';
@@ -1164,21 +1164,21 @@ if (typeof systemLang === 'undefined') {
     }
 
     function clippyShow(e) {
-        var text;
-        var data;
+        let text;
+        let data;
         if ($(this).hasClass('clippy') && !$(this).find('.clippy-button').length) {
             data = data || $(this).data('data');
             text = '<button class="clippy-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only td-button m" ' +
                 'role="button" title="' + data.texts.copyToClipboard + '">';
             if (typeof M !== 'undefined') {
-                text += '<i class="material-icons tiny">content_copy</i>'
+                text += '<i class="material-icons tiny">content_copy</i>';
             } else {
-                text += '<span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>'
+                text += '<span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>';
             }
             text += '</button>';
 
             $(this).append(text);
-            var $clippy = $(this).find('.clippy-button');
+            const $clippy = $(this).find('.clippy-button');
             $clippy.on('click', clippyCopy);
         }
 
@@ -1187,13 +1187,13 @@ if (typeof systemLang === 'undefined') {
             text = '<button class="edit-dialog-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only td-button m" ' +
                 'role="button" title="' + (data.texts.editDialog || '') + '">';
             if (typeof M !== 'undefined') {
-                text += '<i class="material-icons tiny">edit</i>'
+                text += '<i class="material-icons tiny">edit</i>';
             } else {
                 text += '<span class="ui-button-icon-primary ui-icon ui-icon-pencil"></span>';
             }
             text += '</button>';
             $(this).append(text);
-            var name = $(this).data('name');
+            const name = $(this).data('name');
             if (name === 'function' || name === 'room') {
                 $(this).find('.edit-dialog-button').on('click', editEnumsDialog).data('data', data);
             } else {
@@ -1229,12 +1229,12 @@ if (typeof systemLang === 'undefined') {
         } else {
             setTimeout(function () {
                 installColResize(data, $dlg);
-            }, 400)
+            }, 400);
         }
     }
 
     function getStates(data, id) {
-        var states;
+        let states;
         if (data.objects[id] &&
             data.objects[id].common &&
             data.objects[id].common.states) {
@@ -1250,14 +1250,14 @@ if (typeof systemLang === 'undefined') {
                 }
             } else
             // if old format val1:text1;val2:text2
-            if (typeof states === 'string') {
-                var parts = states.split(';');
-                states = {};
-                for (var p = 0; p < parts.length; p++) {
-                    var s = parts[p].split(':');
-                    states[s[0]] = s[1];
+                if (typeof states === 'string') {
+                    const parts = states.split(';');
+                    states = {};
+                    for (let p = 0; p < parts.length; p++) {
+                        const s = parts[p].split(':');
+                        states[s[0]] = s[1];
+                    }
                 }
-            }
         }
         return states;
     }
@@ -1268,20 +1268,20 @@ if (typeof systemLang === 'undefined') {
     }
 
     function onQuickEditField(event) {
-        var $this   = $(this);
-        var id      = $this.data('id');
-        var attr    = $this.data('name');
-        var data    = $this.data('selectId');
-        var type    = $this.data('type');
-        var innerHTML = this.innerHTML;
-        var $parentTR = $(event.currentTarget).parent();
+        const $this   = $(this);
+        const id      = $this.data('id');
+        const attr    = $this.data('name');
+        const data    = $this.data('selectId');
+        let type    = $this.data('type');
+        let innerHTML = this.innerHTML;
+        const $parentTR = $(event.currentTarget).parent();
         // actually $parentTR === $thisParent, but I dont know
-        var $thisParent = $this.parent();
-        var clippy  = $thisParent.hasClass('clippy');
-        var editDialog = $thisParent.hasClass('edit-dialog');
-        var options = $this.data('options');
-        var oldVal  = $this.data('old-value');
-        var states  = null;
+        const $thisParent = $this.parent();
+        const clippy  = $thisParent.hasClass('clippy');
+        const editDialog = $thisParent.hasClass('edit-dialog');
+        const options = $this.data('options');
+        const oldVal  = $this.data('old-value');
+        let states  = null;
         //var activeNode = $(this).fancytree('getTree').getActiveNode();
 
         if (clippy)  {
@@ -1298,8 +1298,8 @@ if (typeof systemLang === 'undefined') {
         $this.off('click').removeClass('select-id-quick-edit').css('position', 'relative');
 
         type = type === 'boolean' ? 'checkbox' : 'text';
-        var text;
-        var editType = type;
+        let text;
+        let editType = type;
         data.editing = true; // ignore pressing of DEL button
 
         switch (attr) {
@@ -1307,7 +1307,7 @@ if (typeof systemLang === 'undefined') {
                 states = getStates(data, id);
                 if (states) {
                     text = '<select style="width: calc(100% - 50px); z-index: 2">';
-                    for (var s in states) {
+                    for (const s in states) {
                         if (!states.hasOwnProperty(s) || typeof states[s] !== 'string') continue;
                         text += '<option value="' + s + '">' + states[s] + '</option>';
                     }
@@ -1318,8 +1318,8 @@ if (typeof systemLang === 'undefined') {
             case 'room':
                 states = findRoomsForObjectAsIds (data, id) || [];
                 text = '<select style="width: calc(100% - 50px); z-index: 2" multiple="multiple">';
-                for (var ee = 0; ee < data.roomEnums.length; ee++) {
-                    var room = data.objects[data.roomEnums[ee]];
+                for (let ee = 0; ee < data.roomEnums.length; ee++) {
+                    const room = data.objects[data.roomEnums[ee]];
                     var rName;
                     if (room && room.common && room.common.name) {
                         rName = getName(room.common.name);
@@ -1335,8 +1335,8 @@ if (typeof systemLang === 'undefined') {
             case 'function':
                 states = findFunctionsForObjectAsIds (data, id) || [];
                 text = '<select style="width: calc(100% - 50px); z-index: 2" multiple="multiple">';
-                for (var e = 0; e < data.funcEnums.length; e++) {
-                    var func = data.objects[data.funcEnums[e]];
+                for (let e = 0; e < data.funcEnums.length; e++) {
+                    const func = data.objects[data.funcEnums[e]];
                     var fName;
                     if (func && func.common && func.common.name) {
                         fName = getName(func.common.name);
@@ -1356,7 +1356,7 @@ if (typeof systemLang === 'undefined') {
                 }
                 if (states) {
                     text = '<select style="width: calc(100% - 50px); z-index: 2">';
-                    for (var t in states) {
+                    for (const t in states) {
                         if (states.hasOwnProperty(t)) {
                             text += '<option value="' + t + '">' + states[t] + '</option>';
                         }
@@ -1371,15 +1371,15 @@ if (typeof systemLang === 'undefined') {
 
         text = text || '<input style="z-index: 2" type="' + type + '"' + (type !== 'checkbox' ? 'class="objects-inline-edit"' : '') + '/>';
 
-        var timeout = null;
+        let timeout = null;
 
         if (attr === 'room' || attr === 'function' || attr === 'role') {
             editType = 'select';
         }
 
-        var oldLeftPadding = $this.css('padding-left');
-        var oldWidth       = $this.css('width');
-        var isTitleEdit    = $this.is('.objects-name-coll-title');
+        const oldLeftPadding = $this.css('padding-left');
+        const oldWidth       = $this.css('width');
+        const isTitleEdit    = $this.is('.objects-name-coll-title');
 
         $this.html(text +
             '<div class="select-id-quick-edit-buttons m ' + editType + '">' +
@@ -1389,7 +1389,7 @@ if (typeof systemLang === 'undefined') {
 
         $this.css({'padding-left': 2, width: isTitleEdit ? 'calc(100% - 28px)' : '100%'});
 
-        var $input = (attr === 'function' || attr === 'room' || states) ? $this.find('select') : $this.find('input');
+        const $input = (attr === 'function' || attr === 'room' || states) ? $this.find('select') : $this.find('input');
 
         if (attr === 'room' || attr === 'function') {
             $input.multiselect({
@@ -1410,7 +1410,7 @@ if (typeof systemLang === 'undefined') {
 
         if (editType === 'select') {
             if ($input.width() > $this.width() - 34) {
-                var x = Math.max($input.width() - ($this.width() - 34), 34);
+                const x = Math.max($input.width() - ($this.width() - 34), 34);
                 $input.css({'padding-right': x});
             }
         }
@@ -1459,7 +1459,7 @@ if (typeof systemLang === 'undefined') {
         $this
             .find('.select-id-quick-edit-ok')
             .on('click', function ()  {
-                var _$input = (attr === 'function' || attr === 'room' || states) ? $this.find('select') : $this.find('input');
+                const _$input = (attr === 'function' || attr === 'room' || states) ? $this.find('select') : $this.find('input');
                 _$input.trigger('blur');
             });
 
@@ -1474,8 +1474,8 @@ if (typeof systemLang === 'undefined') {
         $input.blur(function () {
             if (timeout) clearTimeout(timeout);
             timeout = setTimeout(function () {
-                var _oldText = $this.data('old-value');
-                var val = $(this).attr('type') === 'checkbox' ? $(this).prop('checked') : $(this).val();
+                let _oldText = $this.data('old-value');
+                let val = $(this).attr('type') === 'checkbox' ? $(this).prop('checked') : $(this).val();
                 if ((attr === 'room' || attr === 'function') && !val) {
                     val = [];
                 }
@@ -1505,8 +1505,8 @@ if (typeof systemLang === 'undefined') {
 
     function quality2text(q) {
         if (!q) return 'ok';
-        var custom = q & 0xFFFF0000;
-        var text = '';
+        const custom = q & 0xFFFF0000;
+        let text = '';
         if (q & 0x40) text += 'device';
         if (q & 0x80) text += 'sensor';
         if (q & 0x01) text += ' bad';
@@ -1517,8 +1517,8 @@ if (typeof systemLang === 'undefined') {
     }
 
     function forEachColumn (data, cb) {
-        for (var c = 0; c < data.columns.length; c++) {
-            var name = data.columns[c];
+        for (let c = 0; c < data.columns.length; c++) {
+            let name = data.columns[c];
             if (typeof name === 'object') {
                 if (name.hasOwnProperty('name')) {
                     name = name.name;
@@ -1531,9 +1531,9 @@ if (typeof systemLang === 'undefined') {
     }
 
     function initTreeDialog($dlg) {
-        var c;
+        let c;
         $dlg.addClass('dialog-select-object-ids');
-        var data = $dlg.data('selectId');
+        const data = $dlg.data('selectId');
         if (!data) {
             return;
         }
@@ -1545,7 +1545,7 @@ if (typeof systemLang === 'undefined') {
         }
 
         //var noStates = (data.objects && !data.states);
-        var multiselect = (!data.noDialog && !data.noMultiselect);
+        const multiselect = (!data.noDialog && !data.noMultiselect);
 
         // load expert mode flag
         if (typeof Storage !== 'undefined') {
@@ -1579,16 +1579,16 @@ if (typeof systemLang === 'undefined') {
         removeImageFromSettings(data);
 
         // Get all states
-        var expandeds = getExpandeds(data);
+        const expandeds = getExpandeds(data);
         getAllStates(data);
 
-        var filter = {};
+        const filter = {};
         forEachColumn(data, function (name) {
             filter[name] = $dlg.find('.filter[data-index="' + name + '"]').val();
         });
 
         function getComboBoxEnums(kind) {
-            var i, ret = [];
+            let i, ret = [];
             switch (kind) {
                 case 'room':
                     for (i = 0; i < data.roomEnums.length; i++) {
@@ -1605,12 +1605,12 @@ if (typeof systemLang === 'undefined') {
                     // if (data.funcsColored) delete data.funcsColored;
                     return ret;
                 case 'role':
-                    for (var j = 0; j < data.roles.length; j++) {
+                    for (let j = 0; j < data.roles.length; j++) {
                         ret.push(data.roles[j]);
                     }
                     return ret;
                 case 'type':
-                    for (var k = 0; k < data.types.length; k++) {
+                    for (let k = 0; k < data.types.length; k++) {
                         ret.push(data.types[k]);
                     }
                     return ret;
@@ -1618,7 +1618,7 @@ if (typeof systemLang === 'undefined') {
                     ret.push([data.texts.all, '']);
                     ret.push([data.texts.with, 'true']);
                     ret.push([data.texts.without, 'false']);
-                    for (var h = 0; h < data.histories.length; h++) {
+                    for (let h = 0; h < data.histories.length; h++) {
                         ret.push(data.histories[h]);
                     }
                     return ret;
@@ -1627,7 +1627,7 @@ if (typeof systemLang === 'undefined') {
         }
 
         // toolbar buttons
-        var tds =
+        let tds =
             '<button class="ui-button-icon-only panel-button btn-refresh"></button>\n' +
             '<button class="panel-button btn-list"></button>\n' +
             '<button class="panel-button btn-collapse"></button>\n'  +
@@ -1668,12 +1668,12 @@ if (typeof systemLang === 'undefined') {
                 '<span class="objects-val-states">' + data.stats.states + '</span></div>';
         }
 
-        var height = '100%';
+        let height = '100%';
         if (!data.noDialog && !isMaterial) {
             height = Math.round(window.innerHeight * 0.6) + 'px';
         }
 
-        var text =
+        let text =
             '<div class="dialog-select-container' + (isMaterial ? ' material' : ' old-style') + '" style="width: 100%; height: ' + height + '">\n' +
             '    <div class="main-toolbar-table m">' + tds + '</div>\n' +
             '       <table class="main-header-table">\n'
@@ -1688,16 +1688,16 @@ if (typeof systemLang === 'undefined') {
         }
 
         function textCombobox(filterNo, placeholder) {
-            var txt = '';
+            let txt = '';
             if (data.columns.indexOf(filterNo) !== -1) {
                 if (placeholder === undefined) placeholder = data.texts[filterNo.toLowerCase()] || '';
-                var cbEntries = getComboBoxEnums(filterNo);
-                var cbText = '<select data-index="' + filterNo + '" class="filter">';
+                const cbEntries = getComboBoxEnums(filterNo);
+                let cbText = '<select data-index="' + filterNo + '" class="filter">';
 
-                var add = function (a, b) {
+                const add = function (a, b) {
                     if (Array.isArray(a)) {
                         b = a[0];
-                        a = a[1]
+                        a = a[1];
                     } else if (b === undefined) {
                         b = a;
                     }
@@ -1708,7 +1708,7 @@ if (typeof systemLang === 'undefined') {
                 } else {
                     add('', placeholder);
                 }
-                for (var i = 0, len = cbEntries.length; i < len; i++) {
+                for (let i = 0, len = cbEntries.length; i < len; i++) {
                     add (cbEntries[i]);
                 }
                 cbText += '</select>';
@@ -1728,9 +1728,9 @@ if (typeof systemLang === 'undefined') {
 
         function detectStates(node, patterns) {
             if (node && node.children) {
-                var hasStates = false;
-                var someExpanded = false;
-                for (var c = 0; c < node.children.length; c++) {
+                let hasStates = false;
+                let someExpanded = false;
+                for (let c = 0; c < node.children.length; c++) {
                     if (!node.children[c].expanded) {
                         if (data.objects[node.children[c].data.id] && data.objects[node.children[c].data.id].type === 'state') {
                             hasStates = true;
@@ -1743,7 +1743,7 @@ if (typeof systemLang === 'undefined') {
                 if (hasStates) {
                     patterns.push(node.data.id || node.key);
                 } else if (someExpanded) {
-                    for (var cc = 0; cc < node.children.length; cc++) {
+                    for (let cc = 0; cc < node.children.length; cc++) {
                         if (node.children[cc].expanded) {
                             detectStates(node.children[cc], patterns);
                         }
@@ -1786,9 +1786,9 @@ if (typeof systemLang === 'undefined') {
         text += '   <table class="iob-list-font objects-list-table" cellspacing="0" cellpadding="0">\n';
         text += '        <colgroup>\n';
 
-        var thead = '<thead class="grid-objects-head"><tr>\n';
+        let thead = '<thead class="grid-objects-head"><tr>\n';
 
-        var widths = {
+        const widths = {
             ID: data.firstMinWidth ? data.firstMinWidth : '20%',
             name: '20%',
             type: '6%',
@@ -1807,7 +1807,7 @@ if (typeof systemLang === 'undefined') {
         };
 
         forEachColumn(data, function (name, i) {
-            var w = data.widths ? data.widths[i] : widths[name] || '2%';
+            const w = data.widths ? data.widths[i] : widths[name] || '2%';
             text  += '<col width="' + w + '"/>';
             thead += '<th style="width: ' + w + ';"></th>';
         });
@@ -1821,7 +1821,7 @@ if (typeof systemLang === 'undefined') {
         if (isMaterial) {
             text += '<div class="objects-list-running loader"><svg class="spinner" width="100%" height="100%" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">\n' +
                 '      <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>\n' +
-                '</svg></div>\n'
+                '</svg></div>\n';
         } else {
             text += '<div class="objects-list-running" style="display: none;">' + data.texts.wait + '</div>\n';
         }
@@ -1830,7 +1830,7 @@ if (typeof systemLang === 'undefined') {
 
         function addClippyToElement($elem, key, objectId) {
             if (!data.noCopyToClipboard) {
-                var name = $elem.data('name');
+                const name = $elem.data('name');
                 if (name === 'function' || name === 'room') {
                     $elem.addClass('edit-enum edit-dialog');
                 } else {
@@ -1853,7 +1853,7 @@ if (typeof systemLang === 'undefined') {
         }
 
         if (typeof M !== 'undefined' && (!data.noDialog || data.buttonsDlg)) {
-            var $content = $dlg.find('.dialog-content');
+            let $content = $dlg.find('.dialog-content');
             if (!$content.length) {
                 $dlg.html('<div class="modal-content">\n' +
                     '                <div class="row">\n' +
@@ -1870,13 +1870,13 @@ if (typeof systemLang === 'undefined') {
                     '            </div>');
                 $content = $dlg.find('.dialog-content');
                 if (!$dlg.closest('.m').length) {
-                    var $body = $('body');
+                    const $body = $('body');
                     $body.append('<div class="m material-dialogs"></div>');
                     $dlg.appendTo($body.find('.material-dialogs'));
                 }
             }
 
-            $content.html(text)
+            $content.html(text);
         } else {
             $dlg.html(text);
         }
@@ -1902,13 +1902,13 @@ if (typeof systemLang === 'undefined') {
                 //     </div>
                 // </div>
                 $dlg.find('.btn-set').off('click').on('click', function () {
-                    var _data = $dlg.data('selectId');
+                    const _data = $dlg.data('selectId');
                     if (_data && _data.onSuccess) _data.onSuccess(_data.selectedID, _data.currentId, _data.objects[_data.selectedID]);
                     _data.currentId = _data.selectedID;
                     storeSettings(_data);
                 });
                 $dlg.find('.btn-close').off('click').on('click', function () {
-                    var _data = $dlg.data('selectId');
+                    const _data = $dlg.data('selectId');
                     storeSettings(_data);
                 });
                 $dlg.modal({
@@ -1920,7 +1920,7 @@ if (typeof systemLang === 'undefined') {
                         id:     'button-ok',
                         text:   data.texts.select,
                         click:  function () {
-                            var _data = $dlg.data('selectId');
+                            const _data = $dlg.data('selectId');
                             if (_data && _data.onSuccess) _data.onSuccess(_data.selectedID, _data.currentId, _data.objects[_data.selectedID]);
                             _data.currentId = _data.selectedID;
                             storeSettings(_data);
@@ -1930,7 +1930,7 @@ if (typeof systemLang === 'undefined') {
                     {
                         text:   data.texts.cancel,
                         click:  function () {
-                            var _data = $dlg.data('selectId');
+                            const _data = $dlg.data('selectId');
                             storeSettings(_data);
                             $(this).dialog('close');
                         }
@@ -1952,7 +1952,7 @@ if (typeof systemLang === 'undefined') {
                     buttons: data.buttonsDlg
                 });
                 if (data.zindex !== null) {
-                    $('div[aria-describedby="' + $dlg.attr('id') + '"]').css({'z-index': data.zindex})
+                    $('div[aria-describedby="' + $dlg.attr('id') + '"]').css({'z-index': data.zindex});
                 }
             }
         }
@@ -1963,7 +1963,7 @@ if (typeof systemLang === 'undefined') {
         }
         data.$tree[0]._onChange = data.onSuccess || data.onChange;
 
-        var foptions = {
+        const foptions = {
             titlesTabbable: true,     // Add all node titles to TAB chain
             quicksearch:    true,
             ///////////////////////////
@@ -2024,15 +2024,15 @@ if (typeof systemLang === 'undefined') {
                 // A node was activated: display its title:
                 // On change
                 if (!multiselect) {
-                    var _data = $dlg.data('selectId');
-                    var newId = data.node.key;
+                    const _data = $dlg.data('selectId');
+                    const newId = data.node.key;
 
                     if (_data.onChange) _data.onChange(newId, _data.selectedID, _data.objects[newId]);
 
                     _data.selectedID = newId;
                     if (!_data.noDialog) {
                         // Set title of dialog box
-                        var title = _data.texts.selectid + ' - ' + getNameObj(_data.objects[newId], newId);
+                        const title = _data.texts.selectid + ' - ' + getNameObj(_data.objects[newId], newId);
                         if (typeof M !== 'undefined') {
                             $dlg.find('.title').text(title);
                         } else {
@@ -2052,10 +2052,10 @@ if (typeof systemLang === 'undefined') {
                 }
             },
             select: function (event, data) {
-                var _data = $dlg.data('selectId');
-                var newIds = [];
-                var selectedNodes = data.tree.getSelectedNodes();
-                for	(var i = 0; i < selectedNodes.length; i++) {
+                const _data = $dlg.data('selectId');
+                const newIds = [];
+                const selectedNodes = data.tree.getSelectedNodes();
+                for	(let i = 0; i < selectedNodes.length; i++) {
                     newIds.push(selectedNodes[i].key);
                 }
 
@@ -2075,17 +2075,17 @@ if (typeof systemLang === 'undefined') {
                 }
             },
             renderColumns: function (event, _data) {
-                var node = _data.node;
-                var key = node.key;
-                var obj = data.objects[key];
+                const node = _data.node;
+                const key = node.key;
+                const obj = data.objects[key];
 
-                var $tr     = $(node.tr);
-                var $tdList = $tr.find('>td');
+                const $tr     = $(node.tr);
+                const $tdList = $tr.find('>td');
 
-                var isCommon = obj && obj.common;
-                var $firstTD = $tdList.eq(0);
+                const isCommon = obj && obj.common;
+                const $firstTD = $tdList.eq(0);
                 $firstTD.css({'overflow': 'hidden'});
-                var cnt = countChildren(key, data);
+                const cnt = countChildren(key, data);
 
                 if (isCommon && obj.type) {
                     $tr.addClass('fancytree-type-' + obj.type + (data.draggable && data.draggable.indexOf(obj.type) !== -1 ? ' fancytree-type-draggable' : ' fancytree-type-not-draggable'));
@@ -2098,7 +2098,7 @@ if (typeof systemLang === 'undefined') {
                 $tr.attr('data-id', key);
 
                 // Show number of all children as small grey number
-                var $cnt = $firstTD.find('.select-id-cnt');
+                const $cnt = $firstTD.find('.select-id-cnt');
                 // If node has some children
                 if (cnt) {
                     if ($cnt.length) {
@@ -2113,7 +2113,7 @@ if (typeof systemLang === 'undefined') {
                     $cnt.remove();
                 }
 
-                var base = 0;
+                let base = 0;
 
                 // hide checkbox if only states should be selected
                 if (data.filter && data.filter.type === 'state' && (!obj || obj.type !== 'state')) {
@@ -2141,13 +2141,13 @@ if (typeof systemLang === 'undefined') {
                     $firstTD.find('.fancytree-title').html(getNameObj(obj, key));
                 }
 
-                var $elem;
+                let $elem;
                 var val;
-                for (var c = 0; c < data.columns.length; c++) {
-                    var name = data.columns[c];
+                for (let c = 0; c < data.columns.length; c++) {
+                    let name = data.columns[c];
                     $elem = $tdList.eq(base);
 
-                    var setText = function (txt) {
+                    const setText = function (txt) {
                         $elem.html(span(txt));
                     };
 
@@ -2202,7 +2202,7 @@ if (typeof systemLang === 'undefined') {
                         case 'room':
                             // Try to find room
                             if (data.roomsColored) {
-                                var room = data.roomsColored[node.key];
+                                let room = data.roomsColored[node.key];
                                 if (!room) room = data.roomsColored[node.key] = findRoomsForObject(data, node.key, true);
                                 val = room.map(function (e) {
                                     return getName(e.name);
@@ -2340,7 +2340,7 @@ if (typeof systemLang === 'undefined') {
                                     };
                                 }
                                 var val = state.val;
-                                var ack = state.ack;
+                                const ack = state.ack;
 
                                 var states = getStates(data, node.key);
 
@@ -2354,9 +2354,9 @@ if (typeof systemLang === 'undefined') {
                                 if (val === undefined) {
                                     val = '&nbsp;';
                                 } else
-                                if (val === null || val === '') {
-                                    val = '&nbsp;';
-                                }
+                                    if (val === null || val === '') {
+                                        val = '&nbsp;';
+                                    }
                                 if (typeof val === 'string' && val !== '$nbsp;') {
                                     val = val.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
                                 }
@@ -2400,7 +2400,7 @@ if (typeof systemLang === 'undefined') {
 
                                 var $btnPush = $tr.find('.select-button-push[data-id="' + node.key + '"]');
                                 $btnPush.on('click', function () {
-                                    var id = $(this).data('id');
+                                    const id = $(this).data('id');
                                     data.quickEditCallback(id, 'value', true);
                                 }).attr('title', data.texts.push);
 
@@ -2412,7 +2412,7 @@ if (typeof systemLang === 'undefined') {
                                         }
                                     });
                                 } else {
-                                    $btnPush.prepend('<i class="material-icons">room_service</i>')
+                                    $btnPush.prepend('<i class="material-icons">room_service</i>');
                                 }
                             }
 
@@ -2449,7 +2449,7 @@ if (typeof systemLang === 'undefined') {
                                     state.val = state.val ? (new Date(state.val)).toString() : state.val;
                                 }
 
-                                var originalVal = state.val;
+                                const originalVal = state.val;
 
                                 if (states && states[state.val] !== undefined) {
                                     state.val = states[state.val] + '(' + state.val + ')';
@@ -2482,7 +2482,7 @@ if (typeof systemLang === 'undefined') {
                                 $elem.html('<span class="highlight select-value">' + state.val + '</span>')
                                     .attr('title', fullVal);
 
-                                var $span = $elem.find('span');
+                                const $span = $elem.find('span');
                                 $span.css({color: state.ack ? (state.q ? 'orange' : '') : '#c00000'});
 
                                 if (obj && obj.type === 'state' && isCommon && isCommon.type !== 'file') {
@@ -2524,7 +2524,7 @@ if (typeof systemLang === 'undefined') {
 
                                 var $btnPush = $tr.find('.select-button-push[data-id="' + node.key + '"]');
                                 $btnPush.on('click', function () {
-                                    var id = $(this).data('id');
+                                    const id = $(this).data('id');
                                     data.quickEditCallback(id, 'value', true);
                                 }).attr('title', data.texts.push);
 
@@ -2536,7 +2536,7 @@ if (typeof systemLang === 'undefined') {
                                         }
                                     });
                                 } else {
-                                    $btnPush.prepend('<i class="material-icons">room_service</i>')
+                                    $btnPush.prepend('<i class="material-icons">room_service</i>');
                                 }
                             }
 
@@ -2562,20 +2562,20 @@ if (typeof systemLang === 'undefined') {
                                             '<button data-id="' + node.key + '" class="m select-button-cancel"></button>';
                                     }
 
-                                    for (var j = 0; j < data.buttons.length; j++) {
+                                    for (let j = 0; j < data.buttons.length; j++) {
                                         text += '<button data-id="' + node.key + '" class="m select-button-' + j + ' select-button-custom td-button"></button>';
                                     }
 
                                     setText(text);
 
-                                    for (var p = 0; p < data.buttons.length; p++) {
-                                        var $btn = $tr.find('.select-button-' + p + '[data-id="' + node.key + '"]');
+                                    for (let p = 0; p < data.buttons.length; p++) {
+                                        const $btn = $tr.find('.select-button-' + p + '[data-id="' + node.key + '"]');
 
                                         if ($btn.length === 0) continue;
 
                                         $btn
                                             .on('click', function () {
-                                                var cb = $(this).data('callback');
+                                                const cb = $(this).data('callback');
                                                 if (cb) cb.call($(this), $(this).data('id'));
                                             })
                                             .data('callback', data.buttons[p].click)
@@ -2600,7 +2600,7 @@ if (typeof systemLang === 'undefined') {
                             }
 
                             if (data.editEnd) {
-                                var $btnEdit = $tr.find('.select-button-edit[data-id="' + node.key + '"]');
+                                let $btnEdit = $tr.find('.select-button-edit[data-id="' + node.key + '"]');
                                 $btnEdit
                                     .on('click', function () {
                                         $(this).data('node').editStart();
@@ -2621,7 +2621,7 @@ if (typeof systemLang === 'undefined') {
 
                                 $btnEdit = $tr.find('.select-button-ok[data-id="' + node.key + '"]');
                                 $btnEdit.on('click', function () {
-                                    var node = $(this).data('node');
+                                    const node = $(this).data('node');
                                     node.editFinished = true;
                                     node.editEnd (true);
                                 }).attr('title', data.texts.ok).data('node', node).hide();
@@ -2639,7 +2639,7 @@ if (typeof systemLang === 'undefined') {
 
                                 $btnEdit = $tr.find('.select-button-cancel[data-id="' + node.key + '"]');
                                 $btnEdit.on('click', function () {
-                                    var node = $(this).data('node');
+                                    const node = $(this).data('node');
                                     node.editFinished = true;
                                     node.editEnd (false);
                                 }).attr('title', data.texts.cancel).data('node', node).hide();
@@ -2677,7 +2677,7 @@ if (typeof systemLang === 'undefined') {
                             if (typeof data.columns[c].data === 'function') {
                                 //$elem = $tdList.eq(base);
                                 var val = data.columns[c].data(node.key, data.columns[c].name);
-                                var title = '';
+                                let title = '';
                                 if (data.columns[c].title) {
                                     title = data.columns[c].title(node.key, data.columns[c].name);
                                 }
@@ -2718,9 +2718,9 @@ if (typeof systemLang === 'undefined') {
                         }
                     }
                 } else if (data.dblclick) {
-                    var tree = data.$tree.fancytree('getTree');
+                    const tree = data.$tree.fancytree('getTree');
 
-                    var node = tree.getActiveNode();
+                    const node = tree.getActiveNode();
                     if (node) {
                         data.dblclick(node.key);
                     }
@@ -2731,9 +2731,9 @@ if (typeof systemLang === 'undefined') {
                     if (_data && _data.node) {
                         // if will be expanded
                         if (!_data.node.expanded) {
-                            var childrenCount = 0;
-                            var hasStates = false;
-                            var patterns  = [];
+                            let childrenCount = 0;
+                            let hasStates = false;
+                            const patterns  = [];
                             if (_data.node.children) {
                                 childrenCount = _data.node.children.length;
                                 detectStates(_data.node, patterns);
@@ -2776,10 +2776,10 @@ if (typeof systemLang === 'undefined') {
                     $dlg.find('.select-button-ok[data-id="'     + _data.node.key + '"]').show();
                     $dlg.find('.select-button-custom[data-id="' + _data.node.key + '"]').hide();
 
-                    var node = _data.node;
-                    var $tdList = $(node.tr).find('>td');
+                    const node = _data.node;
+                    const $tdList = $(node.tr).find('>td');
                     // Editor was opened (available as data.input)
-                    var inputs = {id: _data.input};
+                    const inputs = {id: _data.input};
 
                     forEachColumn(data, function (name, c) {
                         if (name === 'name') {
@@ -2788,9 +2788,9 @@ if (typeof systemLang === 'undefined') {
                         }
                     });
 
-                    for (var i in inputs) {
+                    for (const i in inputs) {
                         inputs[i].keyup(function (e) {
-                            var node;
+                            let node;
                             if (e.which === 13) {
                                 // end edit
                                 node = $(this).data('node');
@@ -2813,7 +2813,7 @@ if (typeof systemLang === 'undefined') {
                     return _data.node.editFinished;
                 },
                 save: function (event, _data) {
-                    var editValues = {id: _data.input.val()};
+                    const editValues = {id: _data.input.val()};
 
                     forEachColumn (data, function (name) {
                         if (name === 'name') {
@@ -2847,9 +2847,9 @@ if (typeof systemLang === 'undefined') {
         data.$tree.fancytree(foptions).on('nodeCommand', function (event, bData) {
             // Custom event handler that is triggered by keydown-handler and
             // context menu:
-            var refNode;
-            var tree = $(this).fancytree('getTree');
-            var node = tree.getActiveNode();
+            let refNode;
+            const tree = $(this).fancytree('getTree');
+            const node = tree.getActiveNode();
 
             switch (bData.cmd) {
                 case 'moveUp':
@@ -2903,7 +2903,7 @@ if (typeof systemLang === 'undefined') {
             if (data.editing) {
                 return;
             }
-            var cmd = null;
+            let cmd = null;
             if (e.ctrlKey) {
                 switch (e.which) {
                     case 'c':
@@ -2944,7 +2944,7 @@ if (typeof systemLang === 'undefined') {
             // Read all filter settings
             if (data.filterVals === null) {
                 data.filterVals = {length: 0};
-                var value_;
+                let value_;
 
                 forEachColumn (data, function (name) {
                     //if (name === 'image') return;
@@ -2962,11 +2962,11 @@ if (typeof systemLang === 'undefined') {
                 if (data.noDialog) storeSettings(data);
             }
 
-            var obj = data.objects[node.key];
-            var isCommon = obj && obj.common;
-            var value;
+            const obj = data.objects[node.key];
+            const isCommon = obj && obj.common;
+            let value;
 
-            for (var f in data.filterVals) {
+            for (const f in data.filterVals) {
                 //if (f === 'length') continue;
                 //if (isCommon === null) isCommon = obj && obj.common;
                 if (!data.filterVals.hasOwnProperty(f)) continue;
@@ -3030,7 +3030,7 @@ if (typeof systemLang === 'undefined') {
         }
 
         restoreExpandeds(data, expandeds);
-        var resizeTimer;
+        let resizeTimer;
         $(window).on('resize', function (/* x, y */) {
             if (resizeTimer) clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function () {
@@ -3039,7 +3039,7 @@ if (typeof systemLang === 'undefined') {
         });
         $dlg.trigger('resize');
 
-        var changeTimer;
+        let changeTimer;
 
         $dlg.find('.filter').change(function (event) {
             data.filterVals = null;
@@ -3049,22 +3049,22 @@ if (typeof systemLang === 'undefined') {
                 filterChanged(event.target);
             }
 
-            var $ee = $dlg.find('.objects-list-running');
+            const $ee = $dlg.find('.objects-list-running');
             $ee.show();
             data.$tree.fancytree('getTree').filterNodes(customFilter, false);
             $ee.hide();
             //}, 0);
         }).keyup(function () {
-            var tree = data.$tree[0];
+            const tree = data.$tree[0];
             if (tree._timer) tree._timer = clearTimeout(tree._timer);
 
-            var that = this;
+            const that = this;
             tree._timer = setTimeout(function () {
                 $(that).trigger('change');
             }, 200);
         });
 
-        var $btn = $dlg.find('.filter-btn');
+        let $btn = $dlg.find('.filter-btn');
 
         $btn.on('click', function () {
             $dlg.find('.filter[data-index="' + $(this).data('index') + '"]').val('').trigger('change');  //filter buttons action
@@ -3329,16 +3329,16 @@ if (typeof systemLang === 'undefined') {
             $btn.prepend('<i class="material-icons">looks_one</i>');
         }
 
-        for (var f in filter) {
+        for (const f in filter) {
             try {
                 if (f) setFilterVal(data, f, filter[f]);
             } catch (err) {
-                console.error('Cannot apply filter: ' + err)
+                console.error('Cannot apply filter: ' + err);
             }
         }
 
         if (data.panelButtons) {
-            for (var z = 0; z < data.panelButtons.length; z++) {
+            for (let z = 0; z < data.panelButtons.length; z++) {
                 $btn = $dlg.find('.btn-custom-' + z);
                 $btn.attr('title', data.panelButtons[z].title || '');
 
@@ -3369,7 +3369,7 @@ if (typeof systemLang === 'undefined') {
         }
 
         // set preset filters
-        for (var field in data.filterPresets) {
+        for (const field in data.filterPresets) {
             if (!data.filterPresets.hasOwnProperty(field) || !data.filterPresets[field]) continue;
             if (typeof data.filterPresets[field] === 'object') {
                 setFilterVal(data, field, data.filterPresets[field][0]);
@@ -3403,13 +3403,13 @@ if (typeof systemLang === 'undefined') {
 
     function loadSettings(data) {
         if (typeof Storage !== 'undefined' && data.name) {
-            var f = window.localStorage.getItem(data.name + '-filter');
+            let f = window.localStorage.getItem(data.name + '-filter');
             if (f) {
                 try{
                     f = JSON.parse(f);
                     removeImageFromSettings(f);
                     //setTimeout(function () {
-                    for (var field in f) {
+                    for (const field in f) {
                         if (!f.hasOwnProperty(field) || field === 'length') continue;
                         if (data.filterPresets[field]) continue;
                         setFilterVal(data, field, f[field]);
@@ -3434,9 +3434,9 @@ if (typeof systemLang === 'undefined') {
     }
 
     function countChildren(id, data) {
-        var pos = data.ids.indexOf(id);
-        var len = data.ids.length;
-        var cnt = 0;
+        let pos = data.ids.indexOf(id);
+        const len = data.ids.length;
+        let cnt = 0;
         if (id.indexOf('.') === -1 || (
             data.objects[id] && (data.objects[id].type === 'state' || data.objects[id].type === 'adapter'))) {
             return cnt;
@@ -3464,12 +3464,12 @@ if (typeof systemLang === 'undefined') {
     }
 
     function recalcChildrenCounters(node, data) {
-        var id  = node.key;
-        var $tr = $(node.tr);
-        var $firstTD = $tr.find('>td').eq(0);
-        var cnt = countChildren(id, data);
+        const id  = node.key;
+        const $tr = $(node.tr);
+        const $firstTD = $tr.find('>td').eq(0);
+        const cnt = countChildren(id, data);
         if (cnt) {
-            var $cnt = $firstTD.find('.select-id-cnt');
+            const $cnt = $firstTD.find('.select-id-cnt');
             if ($cnt.length) {
                 $cnt.text('#' + cnt);
             } else {
@@ -3480,17 +3480,17 @@ if (typeof systemLang === 'undefined') {
             $firstTD.find('.select-id-cnt').remove();
         }
         if (node.children && node.children.length) {
-            for (var c = 0; c < node.children.length; c++) {
+            for (let c = 0; c < node.children.length; c++) {
                 recalcChildrenCounters(node.children[c], data);
             }
         }
     }
 
-    var methods = {
+    const methods = {
         init: function (options) {
             isMaterial = typeof M !== 'undefined'; // is material UI
             // done, just to show possible settings, this is not required
-            var settings = $.extend({
+            const settings = $.extend({
                 currentId:  '',
                 objects:    null,
                 states:     null,
@@ -3550,10 +3550,10 @@ if (typeof systemLang === 'undefined') {
                 toggleValues: 'Toggle states view'
             }, settings.texts);
 
-            var that = this;
-            for (var i = 0; i < this.length; i++) {
-                var dlg = this[i];
-                var $dlg = $(dlg);
+            const that = this;
+            for (let i = 0; i < this.length; i++) {
+                const dlg = this[i];
+                const $dlg = $(dlg);
                 var data = $dlg.data('selectId');
                 // Init data
                 if (!data) {
@@ -3586,7 +3586,7 @@ if (typeof systemLang === 'undefined') {
                     }
                     if (data.inited && settings.currentId !== undefined && (data.currentId !== settings.currentId)) {
                         // Deactivate current line
-                        var tree = data.$tree.fancytree('getTree');
+                        const tree = data.$tree.fancytree('getTree');
                         tree.visit(function (node) {
                             if (node.key === data.currentId) {
                                 node.setActive(false);
@@ -3622,7 +3622,7 @@ if (typeof systemLang === 'undefined') {
 
                     var connectTimeout = setTimeout(function () {
                         // noinspection JSJQueryEfficiency
-                        var $dlg = $('#select-id-dialog');
+                        let $dlg = $('#select-id-dialog');
                         if (!$dlg.length) {
                             $('body').append('<div id="select-id-dialog"><span class="ui-icon ui-icon-alert"></span><span>' + (data.texts.noconnection || 'No connection to server') + '</span></div>');
                             $dlg = $('#select-id-dialog');
@@ -3685,9 +3685,9 @@ if (typeof systemLang === 'undefined') {
                 currentId = undefined;
             }
 
-            for (var i = 0; i < this.length; i++) {
-                var dlg = this[i];
-                var $dlg = $(dlg);
+            for (let i = 0; i < this.length; i++) {
+                const dlg = this[i];
+                const $dlg = $(dlg);
                 var data = $dlg.data('selectId');
                 if (!data) continue;
                 if (data.inited) {
@@ -3700,7 +3700,7 @@ if (typeof systemLang === 'undefined') {
 
                     if (data.inited && currentId !== undefined && (data.currentId !== currentId)) {
                         // Deactivate current line
-                        var tree_ = data.$tree.fancytree('getTree');
+                        const tree_ = data.$tree.fancytree('getTree');
                         tree_.visit(function (node) {
                             if (node.key === data.currentId) {
                                 node.setActive(false);
@@ -3723,7 +3723,7 @@ if (typeof systemLang === 'undefined') {
                     initTreeDialog($dlg);
                 } else {
                     if (data.selectedID) {
-                        var tree__ = data.$tree.fancytree('getTree');
+                        const tree__ = data.$tree.fancytree('getTree');
                         tree__.visit(function (node) {
                             if (node.key === data.selectedID) {
                                 node.setActive();
@@ -3763,10 +3763,10 @@ if (typeof systemLang === 'undefined') {
             return this;
         },
         hide: function () {
-            for (var i = 0; i < this.length; i++) {
-                var dlg = this[i];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let i = 0; i < this.length; i++) {
+                const dlg = this[i];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 if (data && !data.noDialog) {
                     $dlg.dialog('hide');
                 } else {
@@ -3776,10 +3776,10 @@ if (typeof systemLang === 'undefined') {
             return this;
         },
         clear: function () {
-            for (var i = 0; i < this.length; i++) {
-                var dlg = this[i];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let i = 0; i < this.length; i++) {
+                const dlg = this[i];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 // Init data
                 if (data) {
                     data.tree      = {title: '', children: [], count: 0, root: true};
@@ -3795,10 +3795,10 @@ if (typeof systemLang === 'undefined') {
             return this;
         },
         getInfo: function (id) {
-            for (var i = 0; i < this.length; i++) {
-                var dlg = this[i];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let i = 0; i < this.length; i++) {
+                const dlg = this[i];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 if (data && data.objects) {
                     return data.objects[id];
                 }
@@ -3806,14 +3806,14 @@ if (typeof systemLang === 'undefined') {
             return null;
         },
         getTreeInfo: function (id) {
-            for (var i = 0; i < this.length; i++) {
-                var dlg = this[i];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let i = 0; i < this.length; i++) {
+                const dlg = this[i];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 if (!data || !data.$tree) continue;
 
-                var tree = data.$tree.fancytree('getTree');
-                var node = tree && tree.getNodeByKey(id);
+                const tree = data.$tree.fancytree('getTree');
+                const node = tree && tree.getNodeByKey(id);
                 // var node = null;
                 // tree.visit(function (n) {
                 //     if (n.key === id) {
@@ -3821,7 +3821,7 @@ if (typeof systemLang === 'undefined') {
                 //         return false;
                 //     }
                 // });
-                var result = {
+                const result = {
                     id: id,
                     parent: (node && node.parent && node.parent.parent) ? node.parent.key : null,
                     children: null,
@@ -3829,7 +3829,7 @@ if (typeof systemLang === 'undefined') {
                 };
                 if (node && node.children) {
                     result.children = [];
-                    for (var t = 0; t < node.children.length; t++) {
+                    for (let t = 0; t < node.children.length; t++) {
                         result.children.push(node.children[t].key);
                     }
                     if (!result.children.length) delete result.children;
@@ -3840,9 +3840,9 @@ if (typeof systemLang === 'undefined') {
             return null;
         },
         destroy: function () {
-            for (var i = 0; i < this.length; i++) {
-                var $dlg = $(this[i]);
-                var data = $dlg.data('selectId');
+            for (let i = 0; i < this.length; i++) {
+                const $dlg = $(this[i]);
+                const data = $dlg.data('selectId');
                 if (data) {
                     $dlg.data('selectId', null);
                     $dlg.find('.dialog-select-container').remove();
@@ -3851,10 +3851,10 @@ if (typeof systemLang === 'undefined') {
             return this;
         },
         reinit: function () {
-            for (var i = 0; i < this.length; i++) {
-                var dlg = this[i];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let i = 0; i < this.length; i++) {
+                const dlg = this[i];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 if (data) {
                     data.inited = false;
                     initTreeDialog(data.$dlg);
@@ -3864,10 +3864,10 @@ if (typeof systemLang === 'undefined') {
         },
         // update states
         state: function (id, state) {
-            for (var i = 0; i < this.length; i++) {
-                var dlg  = this[i];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let i = 0; i < this.length; i++) {
+                const dlg  = this[i];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 if (!data || !data.states || !data.$tree) continue;
                 /*if (data.states[id] &&
                     state &&
@@ -3879,8 +3879,8 @@ if (typeof systemLang === 'undefined') {
                 ) return;*/
 
                 data.states[id] = state;
-                var tree = data.$tree.fancytree('getTree');
-                var node = tree.getNodeByKey(id);
+                const tree = data.$tree.fancytree('getTree');
+                const node = tree.getNodeByKey(id);
                 // var node = null;
                 // tree.visit(function (n) {
                 //     if (n.key === id) {
@@ -3894,10 +3894,10 @@ if (typeof systemLang === 'undefined') {
         },
         // update objects
         object: function (id, obj, action) {
-            for (var k = 0, len = this.length; k < len; k++) {
-                var dlg = this[k];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let k = 0, len = this.length; k < len; k++) {
+                const dlg = this[k];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 if (!data || !data.$tree || !data.objects) continue;
 
                 if (id.match(/^enum\.rooms/))     {
@@ -3909,8 +3909,8 @@ if (typeof systemLang === 'undefined') {
                     data.funcsColored = {};
                 }
 
-                var tree = data.$tree.fancytree('getTree');
-                var node = tree.getNodeByKey(id);
+                const tree = data.$tree.fancytree('getTree');
+                let node = tree.getNodeByKey(id);
                 // var node = null;
                 // tree.visit(function (n) {
                 //     if (n.key === id) {
@@ -3931,14 +3931,14 @@ if (typeof systemLang === 'undefined') {
                     }
 
                     data.objects[id] = obj;
-                    var addedNodes = [];
+                    const addedNodes = [];
 
                     if (!filterId(data, id)) {
                         return;
                     }
                     // add ID to IDS;
                     if (data.ids.length) {
-                        var p = 0;
+                        let p = 0;
                         while (data.ids[p] < id) {
                             p++;
                         }
@@ -3946,7 +3946,7 @@ if (typeof systemLang === 'undefined') {
                     }
                     treeInsert(data, id, false, addedNodes);
 
-                    for (var i = 0; i < addedNodes.length; i++) {
+                    for (let i = 0; i < addedNodes.length; i++) {
                         if (!addedNodes[i].parent.root) {
                             node = tree.getNodeByKey(addedNodes[i].parent.key);
                             // tree.visit(function (n) {
@@ -3999,21 +3999,21 @@ if (typeof systemLang === 'undefined') {
                     deleteTree(data, id);
 
                     if (data.ids.length) {
-                        var pos = data.ids.indexOf(id);
+                        const pos = data.ids.indexOf(id);
                         if (pos !== -1) {
                             data.ids.splice(pos, 1);
                         }
                     }
 
                     if (node) {
-                        var prev = node.getPrevSibling();
-                        var parent = node.parent;
+                        const prev = node.getPrevSibling();
+                        let parent = node.parent;
                         node.removeChildren();
                         node.remove();
                         prev && prev.setActive();
 
                         while (parent && (!parent.children || !parent.children.length)) {
-                            var _parent = parent.parent;
+                            const _parent = parent.parent;
                             parent.remove();
                             if (_parent) {
                                 _parent.setActive();
@@ -4050,10 +4050,10 @@ if (typeof systemLang === 'undefined') {
             return this;
         },
         option: function (name, value) {
-            for (var k = 0; k < this.length; k++) {
-                var dlg = this[k];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let k = 0; k < this.length; k++) {
+                const dlg = this[k];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 if (!data) continue;
 
                 if (data[name] !== undefined) {
@@ -4070,13 +4070,13 @@ if (typeof systemLang === 'undefined') {
             $('.select-id-dialog-marker').selectId('state', id, state);
         },
         getFilteredIds: function () {
-            for (var k = 0; k < this.length; k++) {
-                var dlg = this[k];
-                var $dlg = $(dlg);
-                var data = $dlg.data('selectId');
+            for (let k = 0; k < this.length; k++) {
+                const dlg = this[k];
+                const $dlg = $(dlg);
+                const data = $dlg.data('selectId');
                 if (!data || !data.$tree || !data.objects) continue;
 
-                var tree = data.$tree.fancytree('getTree');
+                const tree = data.$tree.fancytree('getTree');
                 var nodes = [];
                 tree.visit(function (n) {
                     if (n.match) {
@@ -4091,9 +4091,9 @@ if (typeof systemLang === 'undefined') {
             //for (var k = 0; k < this.length; k++) {
             //
             //}
-            var dlg = this[0];
-            var $dlg = $(dlg);
-            var data = $dlg.data('selectId');
+            const dlg = this[0];
+            const $dlg = $(dlg);
+            const data = $dlg.data('selectId');
             return data ? data.selectedID : null;
         }
     };
