@@ -606,8 +606,12 @@ RED.nodes.registerType('ioBroker get', {
         <input type="text" id="node-input-instance" placeholder="Instance">
     </div>
     <div class="form-row">
-        <label for="node-input-command"><i class="fa fa-tag"></i> Command</label>
+        <label for="node-input-command"><i class="fa fa-envelope"></i> Command</label>
         <input type="text" id="node-input-command" placeholder="Command">
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeout"><i class="fa fa-clock"></i> Timeout</label>
+        <input type="text" id="node-input-timeout" placeholder="Timeout">
     </div>
 </script>
 
@@ -620,7 +624,8 @@ RED.nodes.registerType('ioBroker get', {
         category: 'ioBroker',
         defaults: {
             instance: {value: ''},
-            command: {value: ''}
+            command: {value: ''},
+            timeout: {value: 1000}
         },
         color: '#a8bfd8',
         inputs: 1,

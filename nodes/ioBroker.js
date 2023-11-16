@@ -1055,6 +1055,7 @@ module.exports = function (RED) {
 
         node.instance = n.instance;
         node.command = n.command || 'send';
+        node.timeout = n.timeout || 1000;
 
         if (ready) {
             node.isReady = true;
@@ -1063,34 +1064,20 @@ module.exports = function (RED) {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
         }
 
-        /*
-        node.getObject = function (msg) {
-            return function (err, state) {
-                if (!err && state) {
-                    msg[node.attrname] = state;
-                    node.status({
-                        fill:  'green',
-                        shape: 'dot',
-                        text:  JSON.stringify(state)
-                    });
-                    node.send(msg);
-                } else {
-                    log(`${node.id}: Object "${node.topic || msg.topic}" does not exist in ioBroker`);
-                }
-            };
-        };
-        */
-
         node.on('input', async msg => {
             if (!ready) {
                 nodeSets.push({node, msg});
             } else {
-                adapter.sendTo(node.instance, node.command, msg.payload, (data) => {
+                const instance = msg.instance || node.instance;
+                const command = msg.command || node.command;
+                const timeout = parseInt(msg.timeout || node.timeout);
+
+                adapter.sendTo(instance, command, msg.payload, (data) => {
                     if (data) {
                         msg.payload = data;
                         node.send(msg);
                     }
-                }, { timeout: 1000 });
+                }, { timeout });
             }
         });
 
