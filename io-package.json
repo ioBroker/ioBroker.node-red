@@ -131,24 +131,41 @@
     "messagebox": true,
     "loglevel": "info",
     "icon": "node-red.png",
-    "keywords": [
-      "node-red",
-      "logic",
-      "script"
-    ],
+    "keywords": ["node-red", "logic", "script"],
     "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-    "localLink": "http%s%://%ip%:%port%%httpAdminRoot%",
+    "localLinks": {
+      "_default": {
+        "link": "http%s%://%ip%:%port%%httpAdminRoot%"
+      }
+    },
     "enabled": true,
     "supportStopInstance": 5000,
     "unsafePerm": true,
-    "materialize": true,
     "compact": true,
     "type": "logic",
     "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
     "stopBeforeUpdate": true,
     "adminTab": {
       "link": "%protocol%://%ip%:%port%%httpAdminRoot%",
+      "name": {
+        "en": "Node-RED",
+        "de": "Node-RED",
+        "ru": "Node-RED",
+        "pt": "Node-RED",
+        "nl": "Node-RED",
+        "fr": "Node-RED",
+        "it": "Node-RED",
+        "es": "Node-RED",
+        "pl": "Node-RED",
+        "uk": "Node-RED",
+        "zh-cn": "Node-RED"
+      },
+      "singleton": false,
       "fa-icon": "settings_input_composite"
+    },
+    "adminUI": {
+      "config": "json",
+      "tab": "html"
     },
     "dependencies": [
       {
@@ -167,10 +184,7 @@
       {
         "condition": {
           "operand": "and",
-          "rules": [
-            "oldVersion<3.0.0",
-            "newVersion>=3.0.0"
-          ]
+          "rules": ["oldVersion<3.0.0", "newVersion>=3.0.0"]
         },
         "title": {
           "en": "Node-red upgraded to 2.x",
@@ -213,10 +227,7 @@
           "uk": "Тема форуму (німецька)",
           "zh-cn": "论坛主题（德语）"
         },
-        "buttons": [
-          "agree",
-          "cancel"
-        ]
+        "buttons": ["agree", "cancel"]
       }
     ]
   },
