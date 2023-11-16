@@ -31,7 +31,7 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 ### **WORK IN PROGRESS**
 NodeJS 16.x is required
 
-* (klein0r) Updated Node-RED to 3.1.0
+* (klein0r) Updated Node-RED to 3.1.0. Please check your nodes for compatibility!
 
 ### 4.0.3 (2023-03-24)
 * (Apollon77) Optimized path handling

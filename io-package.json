@@ -2,19 +2,18 @@
   "common": {
     "name": "node-red",
     "version": "4.0.3",
-    "title": "node-red",
     "titleLang": {
-      "en": "node-red",
-      "de": "node-red",
-      "ru": "node-red",
-      "pt": "node-red",
-      "nl": "node-red",
-      "fr": "node-red",
-      "it": "node-red",
-      "es": "node-red",
-      "pl": "node-red",
-      "zh-cn": "node-red",
-      "uk": "вузол-червоний"
+      "en": "Node-RED",
+      "de": "Node-RED",
+      "ru": "Node-RED",
+      "pt": "Node-RED",
+      "nl": "Node-RED",
+      "fr": "Node-RED",
+      "it": "Node-RED",
+      "es": "Node-RED",
+      "pl": "Node-RED",
+      "uk": "Node-RED",
+      "zh-cn": "Node-RED"
     },
     "news": {
       "4.0.3": {
@@ -40,8 +39,8 @@
         "it": "Fissare la directory dei dati rotta quando si utilizzano più istanze",
         "es": "Arreglar el directorio de datos rotos al utilizar múltiples instancias",
         "pl": "Fix złamał katalogi danych, gdy wykorzystuje wiele instancji",
-        "uk": "Виправлено зламані дані каталогу при використанні декількох екземплярів",
-        "zh-cn": "在使用多种情况时,固定数据主任破碎。"
+        "zh-cn": "在使用多种情况时,固定数据主任破碎。",
+        "uk": "Виправлено зламані дані каталогу при використанні декількох екземплярів"
       },
       "4.0.1": {
         "en": "Prepare for js-controller 5.0",
@@ -53,8 +52,8 @@
         "it": "Prepararsi per js-controller 5.0",
         "es": "Prepárate para js-controller 5.0",
         "pl": "Prepare for js-controller 5.0",
-        "uk": "Підготовка до Js-controller 2.6 км",
-        "zh-cn": "防污防备 5.0"
+        "zh-cn": "防污防备 5.0",
+        "uk": "Підготовка до Js-controller 2.6 км"
       },
       "4.0.0": {
         "en": "IMPORTANT: Node.js 14.x now needed at least\nUpgrade to node-red 3.0.2, enable runtime-state features and switch editor to monaco-editor\nCorrectly escape backslashes when writing setting file on Windows",
@@ -66,8 +65,8 @@
         "it": "IMPORTANTE: Node.js 14.x ora aveva bisogno di almeno\nAggiornamento a node-red 3.0.2, abilitare funzioni runtime-state e commutare l'editor a monaco-editor\nEliminare correttamente i backslashes quando si scrive l'impostazione del file su Windows",
         "es": "IMPORTANTE: Node.js 14.x ahora necesita al menos\nActualizar a node-red 3.0.2, habilitar las funciones de estado de ejecución y cambiar editor a monaco-editor\nCorrectamente escapar retrocesos al escribir el archivo de configuración en Windows",
         "pl": "IMPORTANT: Nodejs 14.x (ang.)\nUpgrade do węzłowo-czerwonego 3.0.2 pozwala na funkcje wykonawcze i edytor przełączania do monaco\nKorzyści uciekają, gdy pisanie pliku ustawionego na Windows",
-        "zh-cn": "IMPORTANT:目前至少需要14x。\n降到3 0.2年级后,可采用时间特点,并把编辑转换成模块naco-edor\n在撰写关于视窗的书时,很难逃避冲突。",
-        "uk": "ВАЖЛИВО: тепер потрібен принаймні Node.js 14.x\nОновіть до node-red 3.0.2, увімкніть функції стану виконання та переключіть редактор на monaco-editor\nПравильно знімайте зворотні косі риски під час запису файлу налаштувань у Windows"
+        "uk": "ВАЖЛИВО: тепер потрібен принаймні Node.js 14.x\nОновіть до node-red 3.0.2, увімкніть функції стану виконання та переключіть редактор на monaco-editor\nПравильно знімайте зворотні косі риски під час запису файлу налаштувань у Windows",
+        "zh-cn": "IMPORTANT:目前至少需要14x。\n降到3 0.2年级后,可采用时间特点,并把编辑转换成模块naco-edor\n在撰写关于视窗的书时,很难逃避冲突。"
       },
       "3.3.1": {
         "en": "Lower loglevel of a log line",
@@ -79,8 +78,8 @@
         "it": "Livello di registro inferiore di una riga di registro",
         "es": "Nivel de registro inferior de una línea de registro",
         "pl": "Dolny poziom logarytmu linii logu",
-        "zh-cn": "日志行的较低日志级别",
-        "uk": "Нижній рівень журналу рядка журналу"
+        "uk": "Нижній рівень журналу рядка журналу",
+        "zh-cn": "日志行的较低日志级别"
       },
       "3.3.0": {
         "en": "Allow installation of multiple node-red instances on one host",
@@ -92,8 +91,8 @@
         "it": "Consenti l'installazione di più istanze node-red su un host",
         "es": "Permitir la instalación de múltiples instancias de nodo rojo en un host",
         "pl": "Zezwalaj na instalację wielu instancji czerwonych węzłów na jednym hoście",
-        "zh-cn": "允许在一台主机上安装多个 node-red 实例",
-        "uk": "Дозволити встановлення кількох екземплярів node-red на одному хості"
+        "uk": "Дозволити встановлення кількох екземплярів node-red на одному хості",
+        "zh-cn": "允许在一台主机上安装多个 node-red 实例"
       },
       "3.2.0": {
         "en": "Added extended authentication to instance settings and config\nFix Deadband Filter logic in InNode\nSeveral In-Node optimizations and error preventions",
@@ -105,8 +104,8 @@
         "it": "Aggiunta l'autenticazione estesa alle impostazioni dell'istanza e alla configurazione\nRisolto il problema con la logica del filtro banda morta in InNode\nDiverse ottimizzazioni In-Node e prevenzione degli errori",
         "es": "Se agregó autenticación extendida a la configuración y configuración de la instancia.\nArreglar la lógica del filtro de banda muerta en InNode\nVarias optimizaciones en el nodo y prevención de errores",
         "pl": "Dodano rozszerzone uwierzytelnianie do ustawień instancji i konfiguracji\nNapraw logikę Deadband Filter w InNode\nKilka optymalizacji In-Node i zapobieganie błędom",
-        "zh-cn": "向实例设置和配置添加了扩展身份验证\n修复 InNode 中的死区过滤器逻辑\n几个节点内优化和错误预防",
-        "uk": "До налаштувань і конфігурації екземпляра додано розширену автентифікацію\nВиправте логіку фільтра зони нечутливості в InNode\nКілька оптимізацій In-Node і запобігання помилкам"
+        "uk": "До налаштувань і конфігурації екземпляра додано розширену автентифікацію\nВиправте логіку фільтра зони нечутливості в InNode\nКілька оптимізацій In-Node і запобігання помилкам",
+        "zh-cn": "向实例设置和配置添加了扩展身份验证\n修复 InNode 中的死区过滤器逻辑\n几个节点内优化和错误预防"
       }
     },
     "desc": {
@@ -119,11 +118,12 @@
       "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
       "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
       "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
-      "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例.",
-      "uk": "Цей адаптер використовує node-red як службу. Додатковий екземпляр node-red не потрібен."
+      "uk": "Цей адаптер використовує node-red як службу. Додатковий екземпляр node-red не потрібен.",
+      "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
     },
     "authors": [
-      "bluefox <dogafox@gmail.com>"
+      "bluefox <dogafox@gmail.com>",
+      "Matthias Kleine <info@haus-automatisierung.com>"
     ],
     "license": "Apache-2.0",
     "platform": "Javascript/Node.js",
@@ -152,12 +152,12 @@
     },
     "dependencies": [
       {
-        "js-controller": ">=2.0.0"
+        "js-controller": ">=3.3.22"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=5.1.28"
+        "admin": ">=6.0.0"
       }
     ],
     "tier": 1,
@@ -182,8 +182,8 @@
           "it": "Node-red aggiornato a 2.x",
           "es": "Nodo-rojo actualizado a 2.x",
           "pl": "Węzeł-czerwony uaktualniony do 2.x",
-          "zh-cn": "Node-red升级到2.x",
-          "uk": "Node-red оновлено до 2.x"
+          "uk": "Node-red оновлено до 2.x",
+          "zh-cn": "Node-red升级到2.x"
         },
         "text": {
           "en": "This adapter upgrade includes an upgrade of Node-RED to v2. Please check your nodes for compatibility! See also the adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released and https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
@@ -195,8 +195,8 @@
           "it": "Questo aggiornamento dell'adattatore include un aggiornamento di Node-RED alla v2. Controlla la compatibilità dei tuoi nodi! Vedi anche il log delle modifiche dell'adattatore, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-rilasciato e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
           "es": "Esta actualización del adaptador incluye una actualización de Node-RED a v2. ¡Compruebe la compatibilidad de sus nodos! Consulte también el registro de cambios del adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2- 1-lanzado y https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
           "pl": "To uaktualnienie adaptera obejmuje aktualizację Node-RED do wersji 2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także dziennik zmian adaptera, https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2- 1-wydany i https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "zh-cn": "此适配器升级包括将 Node-RED 升级到 v2。请检查您的节点是否兼容！另请参阅适配器更改日志，https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2- 1-发布和 https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "uk": "Це оновлення адаптера включає оновлення Node-RED до v2. Будь ласка, перевірте свої вузли на сумісність! Перегляньте також журнал змін адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released і https://nodered.org/blog/2021/10/21/version-2- 1-випущено та https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository"
+          "uk": "Це оновлення адаптера включає оновлення Node-RED до v2. Будь ласка, перевірте свої вузли на сумісність! Перегляньте також журнал змін адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released і https://nodered.org/blog/2021/10/21/version-2- 1-випущено та https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+          "zh-cn": "此适配器升级包括将 Node-RED 升级到 v2。请检查您的节点是否兼容！另请参阅适配器更改日志，https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2- 1-发布和 https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository"
         },
         "link": "https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
         "level": "warn",
@@ -210,8 +210,8 @@
           "it": "Forum-Thread (tedesco)",
           "es": "Tema del foro (alemán)",
           "pl": "Forum-wątek (niemiecki)",
-          "zh-cn": "论坛主题（德语）",
-          "uk": "Тема форуму (німецька)"
+          "uk": "Тема форуму (німецька)",
+          "zh-cn": "论坛主题（德语）"
         },
         "buttons": [
           "agree",
@@ -244,15 +244,5 @@
     "doNotReadObjectsDynamically": false
   },
   "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "",
-      "type": "channel",
-      "common": {
-        "name": "States created by node-red.%INSTANCE%",
-        "role": "info"
-      },
-      "native": {}
-    }
-  ]
+  "instanceObjects": []
 }
