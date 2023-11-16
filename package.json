@@ -27,22 +27,23 @@
     "node": ">=16"
   },
   "optionalDependencies": {
-    "js2xmlparser": "^5.0.0",
-    "fs.notify": "^0.0.4",
     "feedparser": "^2.2.10",
+    "fs.notify": "^0.0.4",
+    "js2xmlparser": "^5.0.0",
     "mongodb": "^6.2.0",
     "node-red-contrib-os": "^0.2.1"
   },
   "dependencies": {
+    "@iobroker/adapter-core": "^3.0.4",
+    "bcrypt": "^5.1.1",
     "node-red": "^3.1.0",
-    "node-red-dashboard": "^3.6.1",
     "node-red-contrib-aggregator": "^2.0.0",
     "node-red-contrib-polymer": "^0.0.22",
+    "node-red-dashboard": "^3.6.1",
     "node-red-node-email": "^2.0.1",
     "node-red-node-feedparser": "^0.3.0",
     "node-red-node-sentiment": "^0.1.6",
-    "node-red-node-twitter": "^1.2.0",
-    "@iobroker/adapter-core": "^3.0.4"
+    "node-red-node-twitter": "^1.2.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.6.0",

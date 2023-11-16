@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const spawn = require('node:child_process').spawn;
 const Notify = require('fs.notify');
+const bcrypt = require('bcrypt');
 
 function getNodeRedPath() {
     let nodeRed = `${__dirname}/node_modules/node-red`;
@@ -81,20 +82,22 @@ class NodeRed extends utils.Adapter {
                 .then(() => {
                     this.syncPublic();
 
-                    // Read configuration
+                    // Read flow configuration
                     this.getObject('flows', (err, obj) => {
-                        if (obj && obj.native && obj.native.cred) {
+                        if (obj?.native?.cred) {
                             const c = JSON.stringify(obj.native.cred);
                             // If really not empty
                             if (c !== '{}' && c !== '[]') {
                                 fs.writeFileSync(path.join(this.userDataDir, 'flows_cred.json'), JSON.stringify(obj.native.cred));
+                                this.log.debug(`Updated flow cred configuration of object data`);
                             }
                         }
-                        if (obj && obj.native && obj.native.flows) {
+                        if (obj?.native?.flows) {
                             const f = JSON.stringify(obj.native.flows);
                             // If really not empty
                             if (f !== '{}' && f !== '[]') {
                                 fs.writeFileSync(path.join(this.userDataDir, 'flows.json'), JSON.stringify(obj.native.flows));
+                                this.log.debug(`Updated flow configuration of object data`);
                             }
                         }
 
@@ -102,9 +105,9 @@ class NodeRed extends utils.Adapter {
                         this.installNotifierCreds(true);
 
                         this.getForeignObject('system.config', (err, obj) => {
-                            if (obj && obj.native && obj.native.secret) {
+                            if (obj?.native?.secret) {
                                 this.systemSecret = obj.native.secret;
-                                this.log.debug(`Found system secret: ${this.systemSecret}`);
+                                this.log.debug(`Found system secret: ${this.systemSecret.substring(-10)}**********`);
                             } else {
                                 this.log.warn('Unable to find system secret in system.config');
                             }
@@ -157,15 +160,15 @@ class NodeRed extends utils.Adapter {
 
     syncPublic(path) {
         path = path || '/public';
-        const dest = editorClientPath + path;
-
-        this.log.debug(`[syncPublic] Src ${path} to ${dest}`);
 
         const dirs = fs.readdirSync(__dirname + path);
+        const dest = editorClientPath + path;
 
         if (!fs.existsSync(dest)) {
             fs.mkdirSync(dest);
         }
+
+        // this.log.debug(`[syncPublic] Src ${path} to ${dest}`);
 
         for (const dir of dirs) {
             const sourcePath = `${__dirname + path}/${dir}`;
@@ -382,6 +385,10 @@ class NodeRed extends utils.Adapter {
         return line;
     }
 
+    hashPassword(pass) {
+        return bcrypt.hashSync(pass, 8);
+    }
+
     writeSettings() {
         const config = JSON.stringify(this.systemConfig);
         const text = fs.readFileSync(`${__dirname}/settings.js`).toString();
@@ -408,25 +415,25 @@ class NodeRed extends utils.Adapter {
                 break;
 
             case 'Simple':
-                authObj.users = [{ username: this.config.user, password: this.config.pass, permissions: '*' }];
+                authObj.users = [{ username: this.config.user, password: this.hashPassword(this.config.pass), permissions: '*' }];
                 break;
 
             case 'Extended':
-                authObj.users = this.config.authExt;
+                authObj.users = this.config.authExt.map(user => ({ ...user, password: this.hashPassword(user.password) }));
                 if (this.config.hasDefaultPermissions) {
                     authObj.default = { permissions: this.config.defaultPermissions };
                 }
                 break;
         }
-        const auth = JSON.stringify(authObj);
-        this.log.debug(`Writing extended authentication for authType: "${this.config.authType}" : ${JSON.stringify(authObj)}`);
+
+        this.log.debug(`Writing extended authentication for authType: "${this.config.authType}": ${JSON.stringify(authObj)}`);
 
         const pass = `"${this.config.pass}"`;
         const secure = this.config.secure ? '' : '// ';
         const certFile = this.config.certPublic ? path.join(this.userDataDir, `${this.config.certPublic}.crt`) : '';
         const keyFile = this.config.certPrivate ? path.join(this.userDataDir, `${this.config.certPrivate}.key`) : '';
         const hNodeRoot = this.config.httpNodeRoot ? this.config.httpNodeRoot : '/';
-        const hStatic = this.config.hStatic === 'true' || this.config.hStatic === true ? '' : '// ';
+        const hStatic = this.config.httpStatic ? '' : '// ';
 
         for (let a = 0; a < this.additional.length; a++) {
             if (this.additional[a].startsWith('node-red-')) {
@@ -463,7 +470,7 @@ class NodeRed extends utils.Adapter {
 
         for (let i = 0; i < lines.length; i++) {
             lines[i] = this.setOption(lines[i], 'port');
-            lines[i] = this.setOption(lines[i], 'auth', auth);
+            lines[i] = this.setOption(lines[i], 'auth', JSON.stringify(authObj, null, 4));
             lines[i] = this.setOption(lines[i], 'pass', pass);
             lines[i] = this.setOption(lines[i], 'secure', secure);
             lines[i] = this.setOption(lines[i], 'certPrivate', keyFile);
@@ -502,7 +509,10 @@ class NodeRed extends utils.Adapter {
                 }
             }
 
-            fs.writeFileSync(`${editorClientPath}/public/iobroker.json`, JSON.stringify(obj));
+            fs.writeFileSync(`${editorClientPath}/public/iobroker.json`, JSON.stringify(obj, null, 2));
+
+            //this.log.debug(`[writeStateList] Updated to: ${JSON.stringify(obj)}`);
+
             callback && callback(err);
         });
     }
@@ -532,19 +542,32 @@ class NodeRed extends utils.Adapter {
         } catch (e) {
             this.log.error(`Cannot save ${flowsPath}`);
         }
-        //upload it to config
+
+        // upload it to config
         this.setObject('flows',
             {
+                type: 'config',
                 common: {
-                    name: 'Flows for node-red'
+                    name: {
+                        en: 'Node-RED flows configuration',
+                        de: 'Node-RED flows Konfiguration',
+                        ru: 'Node-RED flows конфигурация',
+                        pt: 'Node-RED flows configuração',
+                        nl: 'Node-RED flows verontrusting',
+                        fr: 'Node-RED flows configuration',
+                        it: 'Node-RED flows configurazione',
+                        es: 'Node-RED flows configuración',
+                        pl: 'Node-RED flows konfiguracja',
+                        uk: 'Node-RED flows конфігурація',
+                        'zh-cn': 'Node-RED flows 组合'
+                    }
                 },
                 native: {
                     cred: cred,
                     flows: flows
                 },
-                type: 'config'
             },
-            () => this.log.debug(`Save ${flowsPath}`)
+            () => this.log.debug(`Saved flow configuration of ${flowsPath} to object`)
         );
     }
 
@@ -553,9 +576,17 @@ class NodeRed extends utils.Adapter {
      */
     onMessage(msg) {
         if (msg && msg.command) {
+            this.log.debug(`Received command: ${JSON.stringify(msg)}`);
+
             switch (msg.command) {
                 case 'update':
-                    this.writeStateList(error => msg.callback && this.sendTo(msg.from, msg.command, error, msg.callback));
+                    this.writeStateList(error => {
+                        if (error) {
+                            msg.callback && this.sendTo(msg.from, msg.command, { error }, msg.callback);
+                        } else {
+                            msg.callback && this.sendTo(msg.from, msg.command, { result: 'success' }, msg.callback);
+                        }
+                    });
                     break;
 
                 case 'stopInstance':

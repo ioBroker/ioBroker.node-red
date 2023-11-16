@@ -131,7 +131,11 @@
     "messagebox": true,
     "loglevel": "info",
     "icon": "node-red.png",
-    "keywords": ["node-red", "logic", "script"],
+    "keywords": [
+      "node-red",
+      "logic",
+      "script"
+    ],
     "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
     "localLinks": {
       "_default": {
@@ -184,7 +188,10 @@
       {
         "condition": {
           "operand": "and",
-          "rules": ["oldVersion<3.0.0", "newVersion>=3.0.0"]
+          "rules": [
+            "oldVersion<3.0.0",
+            "newVersion>=3.0.0"
+          ]
         },
         "title": {
           "en": "Node-red upgraded to 2.x",
@@ -227,10 +234,20 @@
           "uk": "Тема форуму (німецька)",
           "zh-cn": "论坛主题（德语）"
         },
-        "buttons": ["agree", "cancel"]
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
       }
     ]
   },
+  "protectedNative": [
+    "user",
+    "pass"
+  ],
+  "encryptedNative": [
+    "pass"
+  ],
   "native": {
     "bind": "0.0.0.0",
     "port": 1880,
@@ -238,21 +255,21 @@
     "certPublic": "",
     "certPrivate": "",
     "httpAdminRoot": "/",
-    "hStatic": false,
     "httpStatic": "",
+    "httpNodeRoot": "",
     "npmLibs": "",
     "valueConvert": false,
     "maxMemory": 128,
-    "authType": "",
-    "authExt": "",
-    "hasDefaultPermissions": false,
-    "defaultPermissions": "",
+    "palletmanagerEnabled": false,
+    "projectsEnabled": false,
+    "allowCreationOfForeignObjects": false,
+    "doNotReadObjectsDynamically": false,
+    "authType": "None",
     "user": "",
     "pass": "",
-    "projectsEnabled": false,
-    "palletmanagerEnabled": false,
-    "allowCreationOfForeignObjects": false,
-    "doNotReadObjectsDynamically": false
+    "hasDefaultPermissions": false,
+    "defaultPermissions": "",
+    "authExt": []
   },
   "objects": [],
   "instanceObjects": []
