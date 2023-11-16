@@ -299,7 +299,7 @@ class NodeRed extends utils.Adapter {
             npmLib = undefined;
         }
 
-        const cmd = `npm install ${npmLib} --production --prefix "${this.userDataDir}" --save`;
+        const cmd = `npm install ${npmLib} --omit=dev --prefix "${this.userDataDir}" --save`;
         this.log.info(`${cmd} (System call)`);
         // Install node modules as system call
 
@@ -320,8 +320,8 @@ class NodeRed extends utils.Adapter {
     installLibraries(callback) {
         let allInstalled = true;
 
-        if (typeof this.common.npmLibs === 'string') {
-            this.common.npmLibs = this.common.npmLibs.split(/[,;\s]+/);
+        if (typeof this.config.npmLibs === 'string') {
+            this.config.npmLibs = this.config.npmLibs.split(/[,;\s]+/);
         }
 
         // Find userdata directory
@@ -331,31 +331,31 @@ class NodeRed extends utils.Adapter {
             this.userDataDir = path.join(utils.getAbsoluteDefaultDataDir(), `node-red.${this.instance}`);
         }
 
-        if (this.common && this.common.npmLibs && !this.config.palletmanagerEnabled) {
-            this.log.info(`Requested NPM packages: ${JSON.stringify(this.common.npmLibs)}`);
-            for (let lib = 0; lib < this.common.npmLibs.length; lib++) {
-                if (this.common.npmLibs[lib] && this.common.npmLibs[lib].trim()) {
-                    this.common.npmLibs[lib] = this.common.npmLibs[lib].trim();
-                    if (!fs.existsSync(path.join(this.userDataDir, `node_modules/${this.common.npmLibs[lib]}/package.json`))) {
+        if (this.config.npmLibs && !this.config.palletmanagerEnabled) {
+            this.log.info(`Requested NPM packages: ${JSON.stringify(this.config.npmLibs)}`);
+            for (let lib of this.config.npmLibs) {
+                lib = lib.trim();
+                if (lib) {
+                    if (!fs.existsSync(path.join(this.userDataDir, `node_modules/${lib}/package.json`))) {
 
-                        if (!this.attempts[this.common.npmLibs[lib]]) {
-                            this.attempts[this.common.npmLibs[lib]] = 1;
+                        if (!this.attempts[lib]) {
+                            this.attempts[lib] = 1;
                         } else {
-                            this.attempts[this.common.npmLibs[lib]]++;
+                            this.attempts[lib]++;
                         }
 
-                        if (this.attempts[this.common.npmLibs[lib]] > 3) {
-                            this.log.error(`Cannot install npm packet: ${this.common.npmLibs[lib]}`);
+                        if (this.attempts[lib] > 3) {
+                            this.log.error(`Cannot install npm packet: ${lib}`);
                             continue;
                         }
 
-                        this.installNpm(this.common.npmLibs[lib], () => setImmediate(() => this.installLibraries(callback)));
+                        this.installNpm(lib, () => setImmediate(() => this.installLibraries(callback)));
 
                         allInstalled = false;
                         break;
                     } else {
-                        if (!this.additional.includes(this.common.npmLibs[lib])) {
-                            this.additional.push(this.common.npmLibs[lib]);
+                        if (!this.additional.includes(lib)) {
+                            this.additional.push(lib);
                         }
                     }
                 }
@@ -393,7 +393,6 @@ class NodeRed extends utils.Adapter {
         const config = JSON.stringify(this.systemConfig);
         const text = fs.readFileSync(`${__dirname}/settings.js`).toString();
         const lines = text.split('\n');
-        let npms = '\r\n';
         const dir = `${__dirname.replace(/\\/g, '/')}/node_modules/`;
         const nodesDir = `"${__dirname.replace(/\\/g, '/')}/nodes/"`;
 
@@ -435,15 +434,12 @@ class NodeRed extends utils.Adapter {
         const hNodeRoot = this.config.httpNodeRoot ? this.config.httpNodeRoot : '/';
         const hStatic = this.config.httpStatic ? '' : '// ';
 
-        for (let a = 0; a < this.additional.length; a++) {
-            if (this.additional[a].startsWith('node-red-')) {
-                continue;
-            }
-            npms += `        "${this.additional[a]}": require("${dir}${this.additional[a]}")`;
-            if (a !== this.additional.length - 1) {
-                npms += ', \r\n';
-            }
-        }
+        const npms = this.additional
+            .filter(pack => !pack.startsWith('node-red-'))
+            .map(pack => `        "${pack}": require('${dir}${pack}')`)
+            .join(',\n');
+
+        this.log.debug(`[writeSettings] Additional npm packages (functionGlobalContext): ${npms}`);
 
         // update from 1.0.1 (new convert-option)
         if (this.config.valueConvert === null ||
@@ -497,6 +493,7 @@ class NodeRed extends utils.Adapter {
         const newText = lines.join('\n');
         if (oldText !== newText) {
             fs.writeFileSync(settingsPath, newText);
+            this.log.debug(`[writeSettings] Updated settings file: ${settingsPath}`);
         }
     }
 
