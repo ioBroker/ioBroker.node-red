@@ -6,19 +6,6 @@ const path = require('node:path');
 const spawn = require('node:child_process').spawn;
 const Notify = require('fs.notify');
 
-let userDataDir = `${__dirname}/userdata/`;
-const attempts = {};
-const additional = [];
-let secret;
-
-let redProcess;
-let stopping;
-let notificationsFlows;
-let notificationsCreds;
-let saveTimer;
-const nodePath = getNodeRedPath();
-const editorClientPath = getNodeRedEditorPath();
-
 function getNodeRedPath() {
     let nodeRed = `${__dirname}/node_modules/node-red`;
     if (!fs.existsSync(nodeRed)) {
@@ -50,6 +37,9 @@ function getNodeRedEditorPath() {
     return nodeRedEditor;
 }
 
+const nodePath = getNodeRedPath();
+const editorClientPath = getNodeRedEditorPath();
+
 class NodeRed extends utils.Adapter {
     constructor(options) {
         super({
@@ -57,6 +47,19 @@ class NodeRed extends utils.Adapter {
             name: 'node-red',
             systemConfig: true,
         });
+
+        this.systemSecret = null;
+        this.userDataDir = `${__dirname}/userdata/`;
+        this.redProcess = null;
+
+        this.stopping = false;
+        this.saveTimer = null;
+
+        this.notificationsFlows = null;
+        this.notificationsCreds = null;
+
+        this.attempts = {};
+        this.additional = [];
 
         this.on('ready', this.onReady.bind(this));
         //this.on('stateChange', this.onStateChange.bind(this));
@@ -70,8 +73,8 @@ class NodeRed extends utils.Adapter {
             if (this.config.allowCreationOfForeignObjects === undefined) this.config.allowCreationOfForeignObjects = false;
 
             // create userData directory
-            if (!fs.existsSync(userDataDir)) {
-                fs.mkdirSync(userDataDir);
+            if (!fs.existsSync(this.userDataDir)) {
+                fs.mkdirSync(this.userDataDir);
             }
 
             this.generateHtml()
@@ -84,14 +87,14 @@ class NodeRed extends utils.Adapter {
                             const c = JSON.stringify(obj.native.cred);
                             // If really not empty
                             if (c !== '{}' && c !== '[]') {
-                                fs.writeFileSync(path.join(userDataDir, 'flows_cred.json'), JSON.stringify(obj.native.cred));
+                                fs.writeFileSync(path.join(this.userDataDir, 'flows_cred.json'), JSON.stringify(obj.native.cred));
                             }
                         }
                         if (obj && obj.native && obj.native.flows) {
                             const f = JSON.stringify(obj.native.flows);
                             // If really not empty
                             if (f !== '{}' && f !== '[]') {
-                                fs.writeFileSync(path.join(userDataDir, 'flows.json'), JSON.stringify(obj.native.flows));
+                                fs.writeFileSync(path.join(this.userDataDir, 'flows.json'), JSON.stringify(obj.native.flows));
                             }
                         }
 
@@ -100,9 +103,9 @@ class NodeRed extends utils.Adapter {
 
                         this.getForeignObject('system.config', (err, obj) => {
                             if (obj && obj.native && obj.native.secret) {
-                                //noinspection JSUnresolvedVariable
-                                secret = obj.native.secret;
+                                this.systemSecret = obj.native.secret;
                             }
+
                             // Create settings for node-red
                             this.writeSettings();
                             this.writeStateList(() => this.startNodeRed());
@@ -172,16 +175,16 @@ class NodeRed extends utils.Adapter {
     }
 
     installNotifierFlows(isFirst) {
-        if (!notificationsFlows) {
-            const flowsPath = path.join(userDataDir, 'flows.json');
+        if (!this.notificationsFlows) {
+            const flowsPath = path.join(this.userDataDir, 'flows.json');
             if (fs.existsSync(flowsPath)) {
                 if (!isFirst) this.saveObjects();
 
                 // monitor project file
-                notificationsFlows = new Notify([flowsPath]);
-                notificationsFlows.on('change', () => {
-                    saveTimer && this.clearTimeout(saveTimer);
-                    saveTimer = this.setTimeout(this.saveObjects.bind(this), 500);
+                this.notificationsFlows = new Notify([flowsPath]);
+                this.notificationsFlows.on('change', () => {
+                    this.saveTimer && this.clearTimeout(this.saveTimer);
+                    this.saveTimer = this.setTimeout(this.saveObjects.bind(this), 500);
                 });
             } else {
                 // Try to install notifier every 10 seconds till the file will be created
@@ -191,16 +194,16 @@ class NodeRed extends utils.Adapter {
     }
     
     installNotifierCreds(isFirst) {
-        if (!notificationsCreds) {
-            const flowsCredPath = path.join(userDataDir, 'flows_cred.json');
+        if (!this.notificationsCreds) {
+            const flowsCredPath = path.join(this.userDataDir, 'flows_cred.json');
             if (fs.existsSync(flowsCredPath)) {
                 if (!isFirst) this.saveObjects();
 
                 // monitor project file
-                notificationsCreds = new Notify([flowsCredPath]);
-                notificationsCreds.on('change', () => {
-                    saveTimer && this.clearTimeout(saveTimer);
-                    saveTimer = this.setTimeout(this.saveObjects.bind(this), 500);
+                this.notificationsCreds = new Notify([flowsCredPath]);
+                this.notificationsCreds.on('change', () => {
+                    this.saveTimer && this.clearTimeout(this.saveTimer);
+                    this.saveTimer = this.setTimeout(this.saveObjects.bind(this), 500);
                 });
             } else {
                 // Try to install notifier every 10 seconds till the file will be created
@@ -211,7 +214,7 @@ class NodeRed extends utils.Adapter {
 
     startNodeRed() {
         this.config.maxMemory = parseInt(this.config.maxMemory, 10) || 128;
-        const args = [`--max-old-space-size=${this.config.maxMemory}`, path.join(nodePath, 'red.js'), '-v', '--settings', path.join(userDataDir, 'settings.js')];
+        const args = [`--max-old-space-size=${this.config.maxMemory}`, path.join(nodePath, 'red.js'), '-v', '--settings', path.join(this.userDataDir, 'settings.js')];
 
         if (this.config.safeMode) {
             args.push('--safe');
@@ -219,9 +222,9 @@ class NodeRed extends utils.Adapter {
 
         this.log.info(`Starting node-red: ${args.join(' ')}`);
 
-        redProcess = spawn('node', args);
-        redProcess.on('error', err => this.log.error(`catched exception from node-red:${JSON.stringify(err)}`));
-        redProcess.stdout.on('data', data => {
+        this.redProcess = spawn('node', args);
+        this.redProcess.on('error', err => this.log.error(`catched exception from node-red:${JSON.stringify(err)}`));
+        this.redProcess.stdout.on('data', data => {
             if (!data) {
                 return;
             }
@@ -243,7 +246,7 @@ class NodeRed extends utils.Adapter {
             }
         });
 
-        redProcess.stderr.on('data', data => {
+        this.redProcess.stderr.on('data', data => {
             if (!data) {
                 return;
             }
@@ -261,10 +264,10 @@ class NodeRed extends utils.Adapter {
             }
         });
 
-        redProcess.on('exit', exitCode => {
+        this.redProcess.on('exit', (exitCode) => {
             this.log.info(`node-red exited with ${exitCode}`);
-            redProcess = null;
-            if (!stopping) {
+            this.redProcess = null;
+            if (!this.stopping) {
                 this.setTimeout(this.startNodeRed.bind(this), 5000);
             }
         });
@@ -276,7 +279,7 @@ class NodeRed extends utils.Adapter {
             npmLib = undefined;
         }
     
-        const cmd = `npm install ${npmLib} --production --prefix "${userDataDir}" --save`;
+        const cmd = `npm install ${npmLib} --production --prefix "${this.userDataDir}" --save`;
         this.log.info(`${cmd} (System call)`);
         // Install node modules as system call
     
@@ -303,9 +306,9 @@ class NodeRed extends utils.Adapter {
 
         // Find userdata directory
         if (this.instance === 0) {
-            userDataDir = path.join(utils.getAbsoluteDefaultDataDir(), 'node-red');
+            this.userDataDir = path.join(utils.getAbsoluteDefaultDataDir(), 'node-red');
         } else {
-            userDataDir = path.join(utils.getAbsoluteDefaultDataDir(), `node-red.${this.instance}`);
+            this.userDataDir = path.join(utils.getAbsoluteDefaultDataDir(), `node-red.${this.instance}`);
         }
 
         if (this.common && this.common.npmLibs && !this.config.palletmanagerEnabled) {
@@ -313,14 +316,15 @@ class NodeRed extends utils.Adapter {
             for (let lib = 0; lib < this.common.npmLibs.length; lib++) {
                 if (this.common.npmLibs[lib] && this.common.npmLibs[lib].trim()) {
                     this.common.npmLibs[lib] = this.common.npmLibs[lib].trim();
-                    if (!fs.existsSync(path.join(userDataDir, `node_modules/${this.common.npmLibs[lib]}/package.json`))) {
+                    if (!fs.existsSync(path.join(this.userDataDir, `node_modules/${this.common.npmLibs[lib]}/package.json`))) {
 
-                        if (!attempts[this.common.npmLibs[lib]]) {
-                            attempts[this.common.npmLibs[lib]] = 1;
+                        if (!this.attempts[this.common.npmLibs[lib]]) {
+                            this.attempts[this.common.npmLibs[lib]] = 1;
                         } else {
-                            attempts[this.common.npmLibs[lib]]++;
+                            this.attempts[this.common.npmLibs[lib]]++;
                         }
-                        if (attempts[this.common.npmLibs[lib]] > 3) {
+
+                        if (this.attempts[this.common.npmLibs[lib]] > 3) {
                             this.log.error(`Cannot install npm packet: ${this.common.npmLibs[lib]}`);
                             continue;
                         }
@@ -330,8 +334,8 @@ class NodeRed extends utils.Adapter {
                         allInstalled = false;
                         break;
                     } else {
-                        if (additional.indexOf(this.common.npmLibs[lib]) === -1) {
-                            additional.push(this.common.npmLibs[lib]);
+                        if (!this.additional.includes(this.common.npmLibs[lib])) {
+                            this.additional.push(this.common.npmLibs[lib]);
                         }
                     }
                 }
@@ -402,17 +406,17 @@ class NodeRed extends utils.Adapter {
     
         const pass = `"${this.config.pass}"`;
         const secure = this.config.secure ? '' : '// ';
-        const certFile = this.config.certPublic ? path.join(userDataDir, `${this.config.certPublic}.crt`) : '';
-        const keyFile = this.config.certPrivate ? path.join(userDataDir, `${this.config.certPrivate}.key`) : '';
+        const certFile = this.config.certPublic ? path.join(this.userDataDir, `${this.config.certPublic}.crt`) : '';
+        const keyFile = this.config.certPrivate ? path.join(this.userDataDir, `${this.config.certPrivate}.key`) : '';
         const hNodeRoot = this.config.httpNodeRoot ? this.config.httpNodeRoot : '/';
         const hStatic = this.config.hStatic === 'true' || this.config.hStatic === true ? '' : '// ';
     
-        for (let a = 0; a < additional.length; a++) {
-            if (additional[a].startsWith('node-red-')) {
+        for (let a = 0; a < this.additional.length; a++) {
+            if (this.additional[a].startsWith('node-red-')) {
                 continue;
             }
-            npms += `        "${additional[a]}": require("${dir}${additional[a]}")`;
-            if (a !== additional.length - 1) {
+            npms += `        "${this.additional[a]}": require("${dir}${this.additional[a]}")`;
+            if (a !== this.additional.length - 1) {
                 npms += ', \r\n';
             }
         }
@@ -457,14 +461,14 @@ class NodeRed extends utils.Adapter {
             lines[i] = this.setOption(lines[i], 'httpNodeRoot', hNodeRoot);
             lines[i] = this.setOption(lines[i], 'hStatic', hStatic);
             lines[i] = this.setOption(lines[i], 'httpStatic');
-            lines[i] = this.setOption(lines[i], 'credentialSecret', secret);
+            lines[i] = this.setOption(lines[i], 'credentialSecret', this.systemSecret);
             lines[i] = this.setOption(lines[i], 'valueConvert');
             lines[i] = this.setOption(lines[i], 'projectsEnabled', this.config.projectsEnabled);
             lines[i] = this.setOption(lines[i], 'palletmanagerEnabled', this.config.palletmanagerEnabled);
             lines[i] = this.setOption(lines[i], 'allowCreationOfForeignObjects', this.config.allowCreationOfForeignObjects);
         }
     
-        const settingsPath = path.join(userDataDir, 'settings.js');
+        const settingsPath = path.join(this.userDataDir, 'settings.js');
         const oldText = fs.existsSync(settingsPath) ? fs.readFileSync(settingsPath, 'utf8') : '';
         const newText = lines.join('\n');
         if (oldText !== newText) {
@@ -487,14 +491,15 @@ class NodeRed extends utils.Adapter {
     }
     
     saveObjects() {
-        if (saveTimer) {
-            clearTimeout(saveTimer);
-            saveTimer = null;
+        if (this.saveTimer) {
+            this.clearTimeout(this.saveTimer);
+            this.saveTimer = null;
         }
+
         let cred  = undefined;
         let flows = undefined;
     
-        const flowCredPath = path.join(userDataDir, 'flows_cred.json');
+        const flowCredPath = path.join(this.userDataDir, 'flows_cred.json');
         try {
             if (fs.existsSync(flowCredPath)) {
                 cred = JSON.parse(fs.readFileSync(flowCredPath, 'utf8'));
@@ -502,7 +507,7 @@ class NodeRed extends utils.Adapter {
         } catch(e) {
             this.log.error(`Cannot read ${flowCredPath}`);
         }
-        const flowsPath = path.join(userDataDir, 'flows.json');
+        const flowsPath = path.join(this.userDataDir, 'flows.json');
         try {
             if (fs.existsSync(flowsPath)) {
                 flows = JSON.parse(fs.readFileSync(flowsPath, 'utf8'));
@@ -545,14 +550,18 @@ class NodeRed extends utils.Adapter {
 
     unloadRed(callback) {
         // Stop node-red
-        stopping = true;
-        if (redProcess) {
+        this.stopping = true;
+
+        if (this.redProcess) {
             this.log.info('kill node-red task');
-            redProcess.kill();
-            redProcess = null;
+            this.redProcess.kill();
+            this.redProcess = null;
         }
-        notificationsCreds && notificationsCreds.close();
-        notificationsFlows && notificationsFlows.close();
+
+        this.saveTimer && this.clearTimeout(this.saveTimer);
+
+        this.notificationsCreds && this.notificationsCreds.close();
+        this.notificationsFlows && this.notificationsFlows.close();
     
         this.setTimeout(() => callback && callback(), 2000);
     }
