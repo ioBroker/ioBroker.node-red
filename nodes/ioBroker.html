@@ -14,148 +14,168 @@
   limitations under the License.
 -->
 
-<link rel="stylesheet" type="text/css" href="vendor/ui.fancytree.min.css"/>
+<link rel="stylesheet" type="text/css" href="vendor/ui.fancytree.min.css" />
 <style>
-    #dialog-select-member select{
-        height: 24px !important;
-        line-height: 24px !important;
-    }
+  #dialog-select-member select {
+    height: 24px !important;
+    line-height: 24px !important;
+  }
 </style>
-<script type="text/javascript" src="vendor/jquery.fancytree-all.min.js"></script>
+<script
+  type="text/javascript"
+  src="vendor/jquery.fancytree-all.min.js"
+></script>
 
-<link rel="stylesheet" type="text/css" href="admin.css"/>
+<link rel="stylesheet" type="text/css" href="admin.css" />
 
 <script type="text/javascript" src="selectID.js"></script>
 
 <script type="text/javascript">
-    function readData() {
-        return new Promise((resolve, reject) => {
-            console.log('Connecting...');
-            var socket = new WebSocket('ws://' + window.location.hostname + ':8081?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN
+  function readData() {
+    return new Promise((resolve, reject) => {
+      console.log("Connecting...");
+      var socket = new WebSocket(
+        "ws://" + window.location.hostname + ":8081?sid=" + Date.now()
+      ); // THIS LINE WILL BE CHANGED FOR ADMIN
 
-            if (!socket) {
-                console.warn('Authentication must be disabled to support the objects read!');
-                return reject();
-            }
+      if (!socket) {
+        console.warn(
+          "Authentication must be disabled to support the objects read!"
+        );
+        return reject();
+      }
 
-            if (window.__ioBrokerTimeout) {
-                return reject();
-            }
+      if (window.__ioBrokerTimeout) {
+        return reject();
+      }
 
-            var timeout = setTimeout(function () {
-                window.__ioBrokerTimeout = true;
-                reject && reject('timeout');
-                reject = null;
-                resolve = null;
+      var timeout = setTimeout(function () {
+        window.__ioBrokerTimeout = true;
+        reject && reject("timeout");
+        reject = null;
+        resolve = null;
 
-                try {
-                    socket.close();
-                } catch (e) {
-                    // ignore
-                }
-            }, 2000);
+        try {
+          socket.close();
+        } catch (e) {
+          // ignore
+        }
+      }, 2000);
 
-            socket.onopen = function () {
-                console.log('Connected to admin successfully!');
-            };
-            socket.onmessage = function (event) {
-                if (event.data.indexOf('___ready___') !== -1) {
-                    setTimeout(function () {
-                        socket.send('[3,2,"getObjects",[]]');
-                    }, 50);
-                } else if (resolve && event.data.indexOf('getObjects') !== -1) {
-                    clearTimeout(timeout);
-                    timeout = null;
-                    try {
-                        var data = JSON.parse(event.data)[3][1];
-                        console.log(`Could read dynamic data from admin!`);
-                        resolve(data);
-                    } catch (e) {
-                        reject(e);
-                    }
+      socket.onopen = function () {
+        console.log("Connected to admin successfully!");
+      };
+      socket.onmessage = function (event) {
+        if (event.data.indexOf("___ready___") !== -1) {
+          setTimeout(function () {
+            socket.send('[3,2,"getObjects",[]]');
+          }, 50);
+        } else if (resolve && event.data.indexOf("getObjects") !== -1) {
+          clearTimeout(timeout);
+          timeout = null;
+          try {
+            var data = JSON.parse(event.data)[3][1];
+            console.log(`Could read dynamic data from admin!`);
+            resolve(data);
+          } catch (e) {
+            reject(e);
+          }
 
-                    reject = null;
-                    resolve = null;
+          reject = null;
+          resolve = null;
 
-                    try {
-                        socket.close();
-                    } catch (e) {
-                        // ignore
-                    }
-                }
-            };
+          try {
+            socket.close();
+          } catch (e) {
+            // ignore
+          }
+        }
+      };
 
-            socket.onerror = function (error) {
-                if (resolve) {
-                    window.__ioBrokerTimeout = true;
-                    console.error('Error on connection: ' + error.message);
-                    reject && reject(error.message);
-                    reject = null;
-                    resolve = null;
+      socket.onerror = function (error) {
+        if (resolve) {
+          window.__ioBrokerTimeout = true;
+          console.error("Error on connection: " + error.message);
+          reject && reject(error.message);
+          reject = null;
+          resolve = null;
 
-                    try {
-                        socket.close();
-                    } catch (e) {
-                        // ignore
-                    }
-                }
-            };
-        });
+          try {
+            socket.close();
+          } catch (e) {
+            // ignore
+          }
+        }
+      };
+    });
+  }
+
+  function openSelectId(allowAll, data) {
+    if (data) {
+      window.__iobroker = data;
     }
 
-    function openSelectId(allowAll, data) {
-        if (data) {
-            window.__iobroker = data;
+    readData()
+      .catch(() => null)
+      .then((objs) => {
+        if (objs) {
+          window.__iobroker = objs;
         }
 
-        readData()
-            .catch(() => null)
-            .then(objs => {
-                if (objs) {
-                    window.__iobroker = objs;
-                }
-
-                $('#dialog-select-member').selectId('init', {
-                    objects: window.__iobroker,
-                    noMultiselect: true,
-                    allowSelectionOfNonExistingObjects: !!allowAll,
-                    columns: ['name', 'role', 'enum', 'room'],
-                    states:  null,
-                    noImg:   true
-                });
-            });
-    }
-
-    function initSelectId(allowAll, onChange) {
-        if (!window.__iobroker) {
-            $.getJSON('iobroker.json', function (data) {
-                openSelectId(allowAll, data);
-            });
-        } else {
-            openSelectId(allowAll);
-        }
-
-        $('#node-input-topic-button').button({
-            icons: {primary: 'ui-icon-folder-open'},
-            text:  false
-        }).click(function () {
-            $('#dialog-select-member').selectId('show', $('#node-input-topic').val(), undefined, function (newId, oldId) {
-                var oldObj = $('#dialog-select-member').selectId('getInfo', oldId);
-                var newObj = $('#dialog-select-member').selectId('getInfo', newId);
-                $('#node-input-topic').val(newId);
-
-                if (newObj) {
-                    var oldName = $('#node-input-name').val();
-                    if (!oldName || !oldObj || (oldObj.common && oldName === oldObj.common.name && newObj.common)) {
-                        $('#node-input-name').val(newObj.common.name);
-                    }
-                }
-                if (typeof onChange === 'function') {
-                    onChange(newId, oldId, newObj, oldObj);
-                }
-            });
+        $("#dialog-select-member").selectId("init", {
+          objects: window.__iobroker,
+          noMultiselect: true,
+          allowSelectionOfNonExistingObjects: !!allowAll,
+          columns: ["name", "role", "enum", "room"],
+          states: null,
+          noImg: true,
         });
+      });
+  }
+
+  function initSelectId(allowAll, onChange) {
+    if (!window.__iobroker) {
+      $.getJSON("iobroker.json", function (data) {
+        openSelectId(allowAll, data);
+      });
+    } else {
+      openSelectId(allowAll);
     }
+
+    $("#node-input-topic-button")
+      .button({
+        icons: { primary: "ui-icon-folder-open" },
+        text: false,
+      })
+      .click(function () {
+        $("#dialog-select-member").selectId(
+          "show",
+          $("#node-input-topic").val(),
+          undefined,
+          function (newId, oldId) {
+            var oldObj = $("#dialog-select-member").selectId("getInfo", oldId);
+            var newObj = $("#dialog-select-member").selectId("getInfo", newId);
+            $("#node-input-topic").val(newId);
+
+            if (newObj) {
+              var oldName = $("#node-input-name").val();
+              if (
+                !oldName ||
+                !oldObj ||
+                (oldObj.common &&
+                  oldName === oldObj.common.name &&
+                  newObj.common)
+              ) {
+                $("#node-input-name").val(newObj.common.name);
+              }
+            }
+            if (typeof onChange === "function") {
+              onChange(newId, oldId, newObj, oldObj);
+            }
+          }
+        );
+      });
+  }
 </script>
 
 <script type="text/x-red" data-template-name="ioBroker in">
@@ -178,20 +198,20 @@
     <div class="form-row">
         <label for="node-input-onlyack"><i class="fa fa-question"></i> Ack-Flag</label>
         <select type="text" id="node-input-onlyack" style="width:74%;">
-			<option value="">Send all events</option>
+  	<option value="">Send all events</option>
             <option value="update">Only updates (ack==true)</option>
             <option value="command">Only commands (ack==false)</option>
-		</select>
+  </select>
     </div>
     <div class="form-row">
         <label for="node-input-func"><i class="fa fa-wrench"></i> Mode</label>
         <select type="text" id="node-input-func" style="width:74%;">
-			<option value="all">Send all events</option>
+  	<option value="all">Send all events</option>
             <option value="rbe">block unless value changes</option>
             <option value="rbe-preinitvalue">block unless value changes (Initialize with value)</option>
             <option value="deadband">block until changes will by more or equal than</option>
             <option value="deadband-preinitvalue">block until changes will by more or equal than (Initialize with value)</option>
-		</select>
+  </select>
     </div>
     <div class="form-row" id="node-bandgap">
         <label for="node-input-gap">&nbsp;</label>
@@ -214,390 +234,390 @@
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker in">
-    <p>ioBroker input node. Connects to a ioBroker and subscribes to the specified topic. The topic may contain redis wildcards (*).</p>
-    <p>Outputs an object called <b>msg</b> containing <b>msg.topic, msg.payload, msg.timestamp, msg.lastchange</b> and <b>msg.acknowledged</b>.</p>
-	<p>The ack-flag determines whether only States with <i>ack == true</i>(updates) or <i>ack == false</i>(commands) or all events are forwarded.</p>
-    <p>In default the Node outputs the topic in MQTT format. This can be changed to the ioBroker database Format (with .)</p>
-	<p>The select box Mode offers further filtering options. The options are compareble to the RBE node. Both filter options can be configured to pre-initialize with the value on start or not - with this it behaves different if the filter options are in effect directly fot the first value change, or if the first change is always sent out.</p>
+     <p>ioBroker input node. Connects to a ioBroker and subscribes to the specified topic. The topic may contain redis wildcards (*).</p>
+     <p>Outputs an object called <b>msg</b> containing <b>msg.topic, msg.payload, msg.timestamp, msg.lastchange</b> and <b>msg.acknowledged</b>.</p>
+  <p>The ack-flag determines whether only States with <i>ack == true</i>(updates) or <i>ack == false</i>(commands) or all events are forwarded.</p>
+     <p>In default the Node outputs the topic in MQTT format. This can be changed to the ioBroker database Format (with .)</p>
+  <p>The select box Mode offers further filtering options. The options are compareble to the RBE node. Both filter options can be configured to pre-initialize with the value on start or not - with this it behaves different if the filter options are in effect directly fot the first value change, or if the first change is always sent out.</p>
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('ioBroker in', {
-        category: 'ioBroker',
-        defaults: {
-            name: {value: ''},
-            topic: {value: '*', required: true},
-            payloadType: {value: 'value'},
-			onlyack: {value: ''},
-            func: {value: 'all'},
-            gap: {value: '', validate: RED.validators.regex(/^(\d*[.]*\d*|)(%|)$/)},
-            fireOnStart: {value: 'false'},
-            outFormat: {value: 'MQTT'}
-        },
-        color: '#a8bfd8',
-        inputs: 0,
-        outputs: 1,
-        icon: 'ioBroker.png',
-        label: function () {
-            return this.name || this.topic || 'IoB subscribe';
-        },
-        labelStyle: function () {
-            return this.name ? 'node_label_italic' : '';
-        },
-        oneditprepare: function () {
-            initSelectId();
+  RED.nodes.registerType("ioBroker in", {
+    category: "ioBroker",
+    defaults: {
+      name: { value: "" },
+      topic: { value: "*", required: true },
+      payloadType: { value: "value" },
+      onlyack: { value: "" },
+      func: { value: "all" },
+      gap: { value: "", validate: RED.validators.regex(/^(\d*[.]*\d*|)(%|)$/) },
+      fireOnStart: { value: "false" },
+      outFormat: { value: "MQTT" },
+    },
+    color: "#a8bfd8",
+    inputs: 0,
+    outputs: 1,
+    icon: "iobroker.svg",
+    label: function () {
+      return this.name || this.topic || "IoB subscribe";
+    },
+    labelStyle: function () {
+      return this.name ? "node_label_italic" : "";
+    },
+    oneditprepare: function () {
+      initSelectId();
 
-            if (this.onlyack === true) {
-                this.onlyack = 'update';
-                $('#node-input-onlyack').val('update');
-            }
+      if (this.onlyack === true) {
+        this.onlyack = "update";
+        $("#node-input-onlyack").val("update");
+      }
 
-            $('#node-input-func').on('change', function () {
-                var val = $('#node-input-func').val();
-                if (val === null || val === 'null') {
-                    $('#node-input-func').val ('all');
-                }
-                if (val === 'deadband' || val === 'deadband-preinitvalue') {
-                    $('#node-bandgap').show();
-                } else {
-                    $('#node-bandgap').hide();
-                }
-            });
+      $("#node-input-func").on("change", function () {
+        var val = $("#node-input-func").val();
+        if (val === null || val === "null") {
+          $("#node-input-func").val("all");
         }
-    });
+        if (val === "deadband" || val === "deadband-preinitvalue") {
+          $("#node-bandgap").show();
+        } else {
+          $("#node-bandgap").hide();
+        }
+      });
+    },
+  });
 </script>
 
 <script type="text/x-red" data-template-name="ioBroker out">
-    <div class="form-row">
-        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
-    </div>
-    <div id="dialog-select-member" style="display: none"></div>
-    <div class="form-row">
-        <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
-    </div>
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
-    <div class="form-row">
-        <label for="node-input-ack"><i class="fa fa-arrow-up"></i> Type</label>
-        <select id="node-input-ack" style="width:73% !important">
-            <option value="true">value</option>
-            <option value="false">command</option>
-        </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-autoCreate"><i class="fa fa-arrow-up"></i> Auto create</label>
-        <select id="node-input-autoCreate" style="width:73% !important">
-            <option value="true">Create states if not exist</option>
-            <option value="false">Ignore messages for non existing states</option>
-        </select>
-    </div>
-    <div class="form-row input-autoCreate">
-        <div class="form-tips">Tip: Leave below options blank if you want to set them via msg properties.</div>
-    </div>
-    <div class="form-row input-autoCreate">
-        <label for="node-input-stateName"><i class="fa fa-tag"></i> State Name</label>
-        <input type="text" id="node-input-stateName" placeholder="">
-    </div>
-    <div class="form-row input-autoCreate">
-        <label for="node-input-role"><i class="fa fa-tag"></i> Role</label>
-        <input type="text" id="node-input-role" placeholder="">
-    </div>
-    <div class="form-row input-autoCreate">
-        <label for="node-input-payloadType"><i class="fa fa-arrow-up"></i> Payload type</label>
-        <select id="node-input-payloadType" style="width:73% !important">
-            <option value="string">String</option>
-            <option value="number">Number</option>
-            <option value="boolean">Boolean</option>
-            <option value="array">Array</option>
-            <option value="object">Object</option>
-            <option value="mixed">Mixed</option>
-            <option value="file">File</option>
-        </select>
-    </div>
-    <div class="form-row input-autoCreate">
-        <label for="node-input-readonly"><i class="fa fa-arrow-up"></i> Readonly</label>
-        <select id="node-input-readonly" style="width:73% !important">
-            <option value="true">Object is readonly</option>
-            <option value="false">Object is writeable</option>
-        </select>
-    </div>
-    <div class="form-row input-autoCreate">
-        <label for="node-input-stateUnit"><i class="fa fa-tag"></i> Unit</label>
-        <input type="text" id="node-input-stateUnit" placeholder="">
-    </div>
-    <div class="form-row input-autoCreate">
-        <label for="node-input-stateMin"><i class="fa fa-tag"></i> Min</label>
-        <input type="text" id="node-input-stateMin" placeholder="">
-    </div>
-    <div class="form-row input-autoCreate">
-        <label for="node-input-stateMax"><i class="fa fa-tag"></i> Max</label>
-        <input type="text" id="node-input-stateMax" placeholder="">
-    </div>
-    <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+  <div class="form-row">
+      <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+      <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+  </div>
+  <div id="dialog-select-member" style="display: none"></div>
+  <div class="form-row">
+      <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+  </div>
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+      <label for="node-input-ack"><i class="fa fa-arrow-up"></i> Type</label>
+      <select id="node-input-ack" style="width:73% !important">
+          <option value="true">value</option>
+          <option value="false">command</option>
+      </select>
+  </div>
+  <div class="form-row">
+      <label for="node-input-autoCreate"><i class="fa fa-arrow-up"></i> Auto create</label>
+      <select id="node-input-autoCreate" style="width:73% !important">
+          <option value="true">Create states if not exist</option>
+          <option value="false">Ignore messages for non existing states</option>
+      </select>
+  </div>
+  <div class="form-row input-autoCreate">
+      <div class="form-tips">Tip: Leave below options blank if you want to set them via msg properties.</div>
+  </div>
+  <div class="form-row input-autoCreate">
+      <label for="node-input-stateName"><i class="fa fa-tag"></i> State Name</label>
+      <input type="text" id="node-input-stateName" placeholder="">
+  </div>
+  <div class="form-row input-autoCreate">
+      <label for="node-input-role"><i class="fa fa-tag"></i> Role</label>
+      <input type="text" id="node-input-role" placeholder="">
+  </div>
+  <div class="form-row input-autoCreate">
+      <label for="node-input-payloadType"><i class="fa fa-arrow-up"></i> Payload type</label>
+      <select id="node-input-payloadType" style="width:73% !important">
+          <option value="string">String</option>
+          <option value="number">Number</option>
+          <option value="boolean">Boolean</option>
+          <option value="array">Array</option>
+          <option value="object">Object</option>
+          <option value="mixed">Mixed</option>
+          <option value="file">File</option>
+      </select>
+  </div>
+  <div class="form-row input-autoCreate">
+      <label for="node-input-readonly"><i class="fa fa-arrow-up"></i> Readonly</label>
+      <select id="node-input-readonly" style="width:73% !important">
+          <option value="true">Object is readonly</option>
+          <option value="false">Object is writeable</option>
+      </select>
+  </div>
+  <div class="form-row input-autoCreate">
+      <label for="node-input-stateUnit"><i class="fa fa-tag"></i> Unit</label>
+      <input type="text" id="node-input-stateUnit" placeholder="">
+  </div>
+  <div class="form-row input-autoCreate">
+      <label for="node-input-stateMin"><i class="fa fa-tag"></i> Min</label>
+      <input type="text" id="node-input-stateMin" placeholder="">
+  </div>
+  <div class="form-row input-autoCreate">
+      <label for="node-input-stateMax"><i class="fa fa-tag"></i> Max</label>
+      <input type="text" id="node-input-stateMax" placeholder="">
+  </div>
+  <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker out">
-    <p>Connects to a ioBroker and publishes <b>msg.payload</b> either to the <b>msg.topic</b> or to the topic specified in the edit window. The value in the edit window has precedence.</p>
-    <p>If <b>msg.payload</b> contains an object it will be stringified before being sent.</p>
-    <p>If <b>msg.payload</b> is not provided or contains "__create__", the object will be only created, but no value will be set.</p>
-    <p>If <b>msg.ack</b> if present (Boolean true/"true") overrides the default ack from the node config.</p>
-    <p>If <b>msg.stateName</b> is defined, the created object name will be set as this value. If <b>msg.stateName</b> is not defined, but <b>Name</b> is set, use this instead.  If both node and msg do not set state name, the name will same as topic</p>
-    <p>If <b>msg.stateRole</b> is defined, the created object role will be set as this value. If <b>msg.stateRole</b> is not defined, but <b>Role</b> is set, use this instead.</p>
-    <p>If <b>msg.stateType</b> is defined, the created object common type will be set as this value. If <b>msg.stateType</b> is not defined, but <b>Type</b> is set, use this instead. If both node and msg do not set type, the type will be type of payload</p>
-    <p>If <b>msg.stateReadonly</b> is defined, the created object writeable will be set as this value. If <b>msg.stateReadonly</b> is not defined, but <b>Readonly</b> is set, use this instead.If both node and msg do not set readonly, it will be readonly</p>
-    <p>If <b>msg.stateUnit</b> is defined, the created object role will be set as this value. If <b>msg.stateUint</b> is not defined, but <b>Uint</b> is set, use this instead.</p>
-    <p>If <b>msg.stateMin</b> is defined, the created object role will be set as this value. If <b>msg.stateMin</b> is not defined, but <b>Min</b> is set, use this instead.</p>
-    <p>If <b>msg.stateMax</b> is defined, the created object role will be set as this value. If <b>msg.stateMax</b> is not defined, but <b>Max</b> is set, use this instead.</p>
+  <p>Connects to a ioBroker and publishes <b>msg.payload</b> either to the <b>msg.topic</b> or to the topic specified in the edit window. The value in the edit window has precedence.</p>
+  <p>If <b>msg.payload</b> contains an object it will be stringified before being sent.</p>
+  <p>If <b>msg.payload</b> is not provided or contains "__create__", the object will be only created, but no value will be set.</p>
+  <p>If <b>msg.ack</b> if present (Boolean true/"true") overrides the default ack from the node config.</p>
+  <p>If <b>msg.stateName</b> is defined, the created object name will be set as this value. If <b>msg.stateName</b> is not defined, but <b>Name</b> is set, use this instead.  If both node and msg do not set state name, the name will same as topic</p>
+  <p>If <b>msg.stateRole</b> is defined, the created object role will be set as this value. If <b>msg.stateRole</b> is not defined, but <b>Role</b> is set, use this instead.</p>
+  <p>If <b>msg.stateType</b> is defined, the created object common type will be set as this value. If <b>msg.stateType</b> is not defined, but <b>Type</b> is set, use this instead. If both node and msg do not set type, the type will be type of payload</p>
+  <p>If <b>msg.stateReadonly</b> is defined, the created object writeable will be set as this value. If <b>msg.stateReadonly</b> is not defined, but <b>Readonly</b> is set, use this instead.If both node and msg do not set readonly, it will be readonly</p>
+  <p>If <b>msg.stateUnit</b> is defined, the created object role will be set as this value. If <b>msg.stateUint</b> is not defined, but <b>Uint</b> is set, use this instead.</p>
+  <p>If <b>msg.stateMin</b> is defined, the created object role will be set as this value. If <b>msg.stateMin</b> is not defined, but <b>Min</b> is set, use this instead.</p>
+  <p>If <b>msg.stateMax</b> is defined, the created object role will be set as this value. If <b>msg.stateMax</b> is not defined, but <b>Max</b> is set, use this instead.</p>
 </script>
 
 <script type="text/javascript">
-RED.nodes.registerType('ioBroker out', {
-        category: 'ioBroker',
-        defaults: {
-            name: {value: ''},
-            topic: {value: ''},
-            ack: {value: 'false'},
-			autoCreate: {value: 'false'},
+  RED.nodes.registerType("ioBroker out", {
+    category: "ioBroker",
+    defaults: {
+      name: { value: "" },
+      topic: { value: "" },
+      ack: { value: "false" },
+      autoCreate: { value: "false" },
 
-            stateName: {value: ''},
-            role: {value: ''},
-            payloadType: {value: ''},
-            readonly: {value: ''},
-            stateUnit: {value: ''},
-            stateMin: {value: ''},
-            stateMax: {value: ''}
-         },
-        color: '#a8bfd8',
-        inputs: 1,
-        outputs: 0,
-        icon: 'ioBroker.png',
-        align: 'right',
-        label: function () {
-            return this.name || this.topic || 'IoB write value';
-        },
-        labelStyle: function () {
-            return this.name ? 'node_label_italic' : '';
-        },
-        oneditprepare: function () {
-            initSelectId();
+      stateName: { value: "" },
+      role: { value: "" },
+      payloadType: { value: "" },
+      readonly: { value: "" },
+      stateUnit: { value: "" },
+      stateMin: { value: "" },
+      stateMax: { value: "" },
+    },
+    color: "#a8bfd8",
+    inputs: 1,
+    outputs: 0,
+    icon: "iobroker.svg",
+    align: "right",
+    label: function () {
+      return this.name || this.topic || "IoB write value";
+    },
+    labelStyle: function () {
+      return this.name ? "node_label_italic" : "";
+    },
+    oneditprepare: function () {
+      initSelectId();
 
-            $('#node-input-autoCreate').on('change', function () {
-                var val = $('#node-input-autoCreate').val();
-                if (val === null || val === 'null') {
-                    $('#node-input-autoCreate').val ('false');
-                }
-				if (val === 'true') {
-                    $('.input-autoCreate').show();
-                } else {
-                    $('.input-autoCreate').hide();
-                }
-            });
+      $("#node-input-autoCreate").on("change", function () {
+        var val = $("#node-input-autoCreate").val();
+        if (val === null || val === "null") {
+          $("#node-input-autoCreate").val("false");
         }
-    });
+        if (val === "true") {
+          $(".input-autoCreate").show();
+        } else {
+          $(".input-autoCreate").hide();
+        }
+      });
+    },
+  });
 </script>
 
 <script type="text/x-red" data-template-name="ioBroker get">
-    <div class="form-row">
-        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
-    </div>
-    <div id="dialog-select-member" style="display:none"></div>
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
-    <div class="form-row">
-        <label for="node-input-payloadType"><i class="fa fa-envelope"></i> Payload</label>
-        <select id="node-input-payloadType" style="width:125px !important">
-          <option value="value">value</option>
-          <option value="object">object</option>
-        </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-attrname"><i class="fa fa-tag"></i> Attribute</label>
-        <input type="text" id="node-input-attrname" placeholder="attrname">
-    </div>
-    <div class="form-row">
-        <label for="node-input-errOnInvalidState"><i class="fa fa-tag"></i> Return error when Object do not exist</label>
-        <select id="node-input-errOnInvalidState" style="width:250px !important">
-          <option value="true">Return Error</option>
-          <option value="false">Return state value as undefined</option>
-          <option value="nothing">Return nothing</option>
-        </select>
-    </div>
-    <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+  <div class="form-row">
+      <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+      <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+  </div>
+  <div id="dialog-select-member" style="display:none"></div>
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+      <label for="node-input-payloadType"><i class="fa fa-envelope"></i> Payload</label>
+      <select id="node-input-payloadType" style="width:125px !important">
+        <option value="value">value</option>
+        <option value="object">object</option>
+      </select>
+  </div>
+  <div class="form-row">
+      <label for="node-input-attrname"><i class="fa fa-tag"></i> Attribute</label>
+      <input type="text" id="node-input-attrname" placeholder="attrname">
+  </div>
+  <div class="form-row">
+      <label for="node-input-errOnInvalidState"><i class="fa fa-tag"></i> Return error when Object do not exist</label>
+      <select id="node-input-errOnInvalidState" style="width:250px !important">
+        <option value="true">Return Error</option>
+        <option value="false">Return state value as undefined</option>
+        <option value="nothing">Return nothing</option>
+      </select>
+  </div>
+  <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker get">
-    <p>Connects to a ioBroker and returns the requested value or the object in the message attribute in the properties dialog, e.g. <b>msg.payload</b>. The object could be identified either by the <b>msg.topic</b> or specified in the properties dialog. The value in the properties dialog has precedence.</p>
-    <p>The msg object also contains the attributes <b>msg.timestamp</b>, <b>msg.lastchange</b> and <b>msg.acknowledged</b>. All other attributes of the input msg object will be passed to the output msg object.</p>
+  <p>Connects to a ioBroker and returns the requested value or the object in the message attribute in the properties dialog, e.g. <b>msg.payload</b>. The object could be identified either by the <b>msg.topic</b> or specified in the properties dialog. The value in the properties dialog has precedence.</p>
+  <p>The msg object also contains the attributes <b>msg.timestamp</b>, <b>msg.lastchange</b> and <b>msg.acknowledged</b>. All other attributes of the input msg object will be passed to the output msg object.</p>
 </script>
 
 <script type="text/javascript">
-RED.nodes.registerType('ioBroker get', {
-        category: 'ioBroker',
-        defaults: {
-            name: {value: ''},
-            topic: {value: ''},
-            attrname: {value: 'payload'},
-            payloadType: {value: 'value'},
-            errOnInvalidState: {value: 'nothing'}
-         },
-        color: '#a8bfd8',
-        inputs: 1,
-        outputs: 1,
-        icon: 'ioBroker.png',
-        label: function() {
-            return this.name || this.topic || 'IoB read value';
-        },
-        labelStyle: function () {
-            return this.name ? 'node_label_italic' : '';
-        },
-        oneditprepare: function () {
-            initSelectId();
-         }
-    });
+  RED.nodes.registerType("ioBroker get", {
+    category: "ioBroker",
+    defaults: {
+      name: { value: "" },
+      topic: { value: "" },
+      attrname: { value: "payload" },
+      payloadType: { value: "value" },
+      errOnInvalidState: { value: "nothing" },
+    },
+    color: "#a8bfd8",
+    inputs: 1,
+    outputs: 1,
+    icon: "iobroker.svg",
+    label: function () {
+      return this.name || this.topic || "IoB read value";
+    },
+    labelStyle: function () {
+      return this.name ? "node_label_italic" : "";
+    },
+    oneditprepare: function () {
+      initSelectId();
+    },
+  });
 </script>
 
 <script type="text/x-red" data-template-name="ioBroker get object">
-    <div class="form-row">
-        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
-    </div>
-    <div id="dialog-select-member" style="display:none"></div>
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
-    <div class="form-row">
-        <label for="node-input-attrname"><i class="fa fa-tag"></i> Attribute</label>
-        <input type="text" id="node-input-attrname" placeholder="attrname">
-    </div>
-     <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+  <div class="form-row">
+      <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+      <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+  </div>
+  <div id="dialog-select-member" style="display:none"></div>
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+      <label for="node-input-attrname"><i class="fa fa-tag"></i> Attribute</label>
+      <input type="text" id="node-input-attrname" placeholder="attrname">
+  </div>
+   <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker get object">
-    <p>Connects to a ioBroker and returns the requested object in the message attribute in the properties dialog, e.g. <b>msg.payload</b>. The object could be identified either by the <b>msg.topic</b> or specified in the properties dialog. The value in the properties dialog has precedence.</p>
+  <p>Connects to a ioBroker and returns the requested object in the message attribute in the properties dialog, e.g. <b>msg.payload</b>. The object could be identified either by the <b>msg.topic</b> or specified in the properties dialog. The value in the properties dialog has precedence.</p>
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('ioBroker get object', {
-        category: 'ioBroker',
-        defaults: {
-            name: {value: ''},
-            topic: {value: ''},
-            attrname: {value: 'payload'}
-        },
-        color: '#a8bfd8',
-        inputs: 1,
-        outputs: 1,
-        icon: 'ioBroker.png',
-        label: function () {
-            return this.name || this.topic || 'IoB read object';
-        },
-        labelStyle: function () {
-            return this.name ? 'node_label_italic' : '';
-        },
-        oneditprepare: function () {
-            initSelectId();
-        }
-    });
+  RED.nodes.registerType("ioBroker get object", {
+    category: "ioBroker",
+    defaults: {
+      name: { value: "" },
+      topic: { value: "" },
+      attrname: { value: "payload" },
+    },
+    color: "#a8bfd8",
+    inputs: 1,
+    outputs: 1,
+    icon: "iobroker.svg",
+    label: function () {
+      return this.name || this.topic || "IoB read object";
+    },
+    labelStyle: function () {
+      return this.name ? "node_label_italic" : "";
+    },
+    oneditprepare: function () {
+      initSelectId();
+    },
+  });
 </script>
 
 <script type="text/x-red" data-template-name="ioBroker list">
-    <div class="form-row">
-        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
-    </div>
-    <div id="dialog-select-member" style="display:none"></div>
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
-    <div class="form-row">
-        <label for="node-input-objType"><i class="fa fa-tag"></i> Type</label>
-        <select id="node-input-objType" style="width:73% !important">
-            <option value="">Any</option>
-            <option value="state">State</option>
-            <option value="channel">Channel</option>
-            <option value="device">Device</option>
-            <option value="meta">Meta</option>
-            <option value="instance">Instance</option>
-            <option value="adapter">Adapter</option>
-            <option value="folder">Folder</option>
-        </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-asArray"><i class="fa fa-tag"></i> As array</label>
-        <select id="node-input-asArray" style="width:73% !important">
-            <option value="true">Return one array of IDs</option>
-            <option value="false">For every ID the message will be generated</option>
-        </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-onlyIDs"><i class="fa fa-tag"></i> Only IDs</label>
-        <select id="node-input-onlyIDs" style="width:73% !important">
-            <option value="true">Returns only IDs of object</option>
-            <option value="false">Returns whole objects</option>
-        </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-withValues"><i class="fa fa-tag"></i> With values</label>
-        <select id="node-input-withValues" style="width:73% !important">
-            <option value="true">Read state's values and add them to payload</option>
-            <option value="false">Do not read values</option>
-        </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-regex"><i class="fa fa-tag"></i> Optional regex</label>
-        <input type="text" id="node-input-regex" placeholder="Optional regular expression">
-    </div>
-     <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
+  <div class="form-row">
+      <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+      <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+  </div>
+  <div id="dialog-select-member" style="display:none"></div>
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+      <label for="node-input-objType"><i class="fa fa-tag"></i> Type</label>
+      <select id="node-input-objType" style="width:73% !important">
+          <option value="">Any</option>
+          <option value="state">State</option>
+          <option value="channel">Channel</option>
+          <option value="device">Device</option>
+          <option value="meta">Meta</option>
+          <option value="instance">Instance</option>
+          <option value="adapter">Adapter</option>
+          <option value="folder">Folder</option>
+      </select>
+  </div>
+  <div class="form-row">
+      <label for="node-input-asArray"><i class="fa fa-tag"></i> As array</label>
+      <select id="node-input-asArray" style="width:73% !important">
+          <option value="true">Return one array of IDs</option>
+          <option value="false">For every ID the message will be generated</option>
+      </select>
+  </div>
+  <div class="form-row">
+      <label for="node-input-onlyIDs"><i class="fa fa-tag"></i> Only IDs</label>
+      <select id="node-input-onlyIDs" style="width:73% !important">
+          <option value="true">Returns only IDs of object</option>
+          <option value="false">Returns whole objects</option>
+      </select>
+  </div>
+  <div class="form-row">
+      <label for="node-input-withValues"><i class="fa fa-tag"></i> With values</label>
+      <select id="node-input-withValues" style="width:73% !important">
+          <option value="true">Read state's values and add them to payload</option>
+          <option value="false">Do not read values</option>
+      </select>
+  </div>
+  <div class="form-row">
+      <label for="node-input-regex"><i class="fa fa-tag"></i> Optional regex</label>
+      <input type="text" id="node-input-regex" placeholder="Optional regular expression">
+  </div>
+   <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
 <script type="text/x-red" data-help-name="ioBroker list">
-    <p>Connects to a ioBroker and returns the list of IDs for pattern.
-    The filter can be defined in topic as <i>"node-red.0.*"</i> or in <b>msg.topic</b>.
-    Additionally, you can provide regular expression to filter received list. The regular expression could be set dynamically via <b>msg.regex</b> like <i>"node-red\.\d\..+"</i>
-    </br></br>
-    If only ID's is set to "Returns only IDs of object" then only the <b>msg.topic</b>
-    is modified in the output messages and the original payload is added to each message.</br>
-    If only ID's is set to "Returns whole objects" then payload will contain the objects
-    </p>
+  <p>Connects to a ioBroker and returns the list of IDs for pattern.
+  The filter can be defined in topic as <i>"node-red.0.*"</i> or in <b>msg.topic</b>.
+  Additionally, you can provide regular expression to filter received list. The regular expression could be set dynamically via <b>msg.regex</b> like <i>"node-red\.\d\..+"</i>
+  </br></br>
+  If only ID's is set to "Returns only IDs of object" then only the <b>msg.topic</b>
+  is modified in the output messages and the original payload is added to each message.</br>
+  If only ID's is set to "Returns whole objects" then payload will contain the objects
+  </p>
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('ioBroker list', {
-        category: 'ioBroker',
-        defaults: {
-            name: {value: ''},
-            topic: {value: ''},
-            objType: {value: 'state'},
-            regex: {value: ''},
-            asArray: {value: 'false'},
-            onlyIDs: {value: 'true'},
-            withValues: {value: 'false'}
-        },
-        color: '#a8bfd8',
-        inputs: 1,
-        outputs: 1,
-        icon: 'ioBroker.png',
-        label: function () {
-            return this.name || this.topic || 'IoB list';
-        },
-        labelStyle: function () {
-            return this.name ? 'node_label_italic' : '';
-        },
-        oneditprepare: function () {
-            initSelectId(true, function (newId) {
-                if (newId.indexOf('*') === -1) {
-                    newId += '.*';
-                    $('#node-input-topic').val(newId);
-                }
-            });
+  RED.nodes.registerType("ioBroker list", {
+    category: "ioBroker",
+    defaults: {
+      name: { value: "" },
+      topic: { value: "" },
+      objType: { value: "state" },
+      regex: { value: "" },
+      asArray: { value: "false" },
+      onlyIDs: { value: "true" },
+      withValues: { value: "false" },
+    },
+    color: "#a8bfd8",
+    inputs: 1,
+    outputs: 1,
+    icon: "iobroker.svg",
+    label: function () {
+      return this.name || this.topic || "IoB list";
+    },
+    labelStyle: function () {
+      return this.name ? "node_label_italic" : "";
+    },
+    oneditprepare: function () {
+      initSelectId(true, function (newId) {
+        if (newId.indexOf("*") === -1) {
+          newId += ".*";
+          $("#node-input-topic").val(newId);
         }
-    });
+      });
+    },
+  });
 </script>
