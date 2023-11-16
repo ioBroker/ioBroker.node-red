@@ -290,7 +290,7 @@ class NodeRed extends utils.Adapter {
         child.stdout.on('data', buf => this.log.info(buf.toString('utf8')));
         child.stderr.on('data', buf => this.log.error(buf.toString('utf8')));
 
-        child.on('exit', (code, _signal) => {
+        child.on('exit', (code) => {
             code && this.log.error(`Cannot install ${npmLib}: ${code}`);
             // command succeeded
             callback && callback(npmLib);
@@ -480,7 +480,7 @@ class NodeRed extends utils.Adapter {
         this.getForeignObjects('*', 'state', ['rooms', 'functions'], (err, obj) => {
             // remove native information
             for (const i in obj) {
-                if (obj.hasOwnProperty(i) && obj[i].native) {
+                if (Object.prototype.hasOwnProperty.call(obj, i) && obj[i].native) {
                     delete obj[i].native;
                 }
             }

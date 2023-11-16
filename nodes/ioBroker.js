@@ -246,7 +246,7 @@ module.exports = function (RED) {
 
                             if (isForeignState(id)) {
                                 if (allowCreationOfForeignObjects) {
-                                    adapter.setForeignObject(id, data, async _ => {
+                                    adapter.setForeignObject(id, data, async () => {
                                         await ensureObjectStructure(id);
                                         if (val !== undefined) {
                                             await adapter.setForeignStateAsync(id, val);
@@ -259,7 +259,7 @@ module.exports = function (RED) {
                                     callback && callback(false);
                                 }
                             } else {
-                                adapter.setObject(id, data, async _ => {
+                                adapter.setObject(id, data, async () => {
                                     await ensureObjectStructure(`${adapter.namespace}.${id}`);
                                     if (val !== undefined) {
                                         await adapter.setStateAsync(id, val);
@@ -408,7 +408,7 @@ module.exports = function (RED) {
             //adapter.log.debug(`${node.id} Got stateChanged trigger for ${topic} with ${JSON.stringify(state)}`);
 
             if (node.onlyack && state && !state.ack) {
-			    return;
+                return;
             } else if (node.onlyack === false && state && state.ack) {
                 return;
             }
@@ -429,7 +429,7 @@ module.exports = function (RED) {
                         if (node.pc) {
                             node.gap = (node.previous[t] * node.g / 100) || 0;
                         }
-                        if (!node.previous.hasOwnProperty(t)) {
+                        if (!Object.prototype.hasOwnProperty.call(node.previous, t)) {
                             node.previous[t] = n - node.gap;
                         }
                         //node.log(`${node.id} Deadband check ${n} vs. ${node.previous[t]} with gap ${node.gap}: Send value ${Math.abs(n - node.previous[t]) >= node.gap}`);
