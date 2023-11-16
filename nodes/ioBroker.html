@@ -22,9 +22,7 @@
     }
 </style>
 <script type="text/javascript" src="vendor/jquery.fancytree-all.min.js"></script>
-
 <link rel="stylesheet" type="text/css" href="admin.css"/>
-
 <script type="text/javascript" src="selectID.js"></script>
 
 <script type="text/javascript">
@@ -158,7 +156,7 @@
     }
 </script>
 
-<script type="text/x-red" data-template-name="ioBroker in">
+<script type="text/html" data-template-name="ioBroker in">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
         <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
@@ -213,8 +211,8 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="ioBroker in">
-    <p>ioBroker input node. Connects to a ioBroker and subscribes to the specified topic. The topic may contain redis wildcards (*).</p>
+<script type="text/html" data-help-name="ioBroker in">
+    <p>Connects to ioBroker and subscribes to the specified topic. The topic may contain wildcards (*).</p>
     <p>Outputs an object called <b>msg</b> containing <b>msg.topic, msg.payload, msg.timestamp, msg.lastchange</b> and <b>msg.acknowledged</b>.</p>
 	<p>The ack-flag determines whether only States with <i>ack == true</i>(updates) or <i>ack == false</i>(commands) or all events are forwarded.</p>
     <p>In default the Node outputs the topic in MQTT format. This can be changed to the ioBroker database Format (with .)</p>
@@ -267,7 +265,7 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="ioBroker out">
+<script type="text/html" data-template-name="ioBroker out">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
         <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
@@ -339,7 +337,7 @@
     <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
-<script type="text/x-red" data-help-name="ioBroker out">
+<script type="text/html" data-help-name="ioBroker out">
     <p>Connects to a ioBroker and publishes <b>msg.payload</b> either to the <b>msg.topic</b> or to the topic specified in the edit window. The value in the edit window has precedence.</p>
     <p>If <b>msg.payload</b> contains an object it will be stringified before being sent.</p>
     <p>If <b>msg.payload</b> is not provided or contains "__create__", the object will be only created, but no value will be set.</p>
@@ -399,7 +397,7 @@ RED.nodes.registerType('ioBroker out', {
     });
 </script>
 
-<script type="text/x-red" data-template-name="ioBroker get">
+<script type="text/html" data-template-name="ioBroker get">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
         <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
@@ -431,7 +429,7 @@ RED.nodes.registerType('ioBroker out', {
     <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
-<script type="text/x-red" data-help-name="ioBroker get">
+<script type="text/html" data-help-name="ioBroker get">
     <p>Connects to a ioBroker and returns the requested value or the object in the message attribute in the properties dialog, e.g. <b>msg.payload</b>. The object could be identified either by the <b>msg.topic</b> or specified in the properties dialog. The value in the properties dialog has precedence.</p>
     <p>The msg object also contains the attributes <b>msg.timestamp</b>, <b>msg.lastchange</b> and <b>msg.acknowledged</b>. All other attributes of the input msg object will be passed to the output msg object.</p>
 </script>
@@ -462,7 +460,7 @@ RED.nodes.registerType('ioBroker get', {
     });
 </script>
 
-<script type="text/x-red" data-template-name="ioBroker get object">
+<script type="text/html" data-template-name="ioBroker get object">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
         <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
@@ -479,7 +477,7 @@ RED.nodes.registerType('ioBroker get', {
      <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
-<script type="text/x-red" data-help-name="ioBroker get object">
+<script type="text/html" data-help-name="ioBroker get object">
     <p>Connects to a ioBroker and returns the requested object in the message attribute in the properties dialog, e.g. <b>msg.payload</b>. The object could be identified either by the <b>msg.topic</b> or specified in the properties dialog. The value in the properties dialog has precedence.</p>
 </script>
 
@@ -507,7 +505,7 @@ RED.nodes.registerType('ioBroker get', {
     });
 </script>
 
-<script type="text/x-red" data-template-name="ioBroker list">
+<script type="text/html" data-template-name="ioBroker list">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
         <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
@@ -558,7 +556,7 @@ RED.nodes.registerType('ioBroker get', {
      <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
 
-<script type="text/x-red" data-help-name="ioBroker list">
+<script type="text/html" data-help-name="ioBroker list">
     <p>Connects to a ioBroker and returns the list of IDs for pattern.
     The filter can be defined in topic as <i>"node-red.0.*"</i> or in <b>msg.topic</b>.
     Additionally, you can provide regular expression to filter received list. The regular expression could be set dynamically via <b>msg.regex</b> like <i>"node-red\.\d\..+"</i>
@@ -598,6 +596,41 @@ RED.nodes.registerType('ioBroker get', {
                     $('#node-input-topic').val(newId);
                 }
             });
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="ioBroker sendTo">
+    <div class="form-row">
+        <label for="node-input-instance"><i class="fa fa-tag"></i> Instance</label>
+        <input type="text" id="node-input-instance" placeholder="Instance">
+    </div>
+    <div class="form-row">
+        <label for="node-input-command"><i class="fa fa-tag"></i> Command</label>
+        <input type="text" id="node-input-command" placeholder="Command">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ioBroker sendTo">
+    <p>Sends the payload as msg object to given instance</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ioBroker sendTo', {
+        category: 'ioBroker',
+        defaults: {
+            instance: {value: ''},
+            command: {value: ''}
+        },
+        color: '#a8bfd8',
+        inputs: 1,
+        outputs: 1,
+        icon: 'iobroker.svg',
+        label: function () {
+            return this.instance ? `${this.instance} (${this.command || 'send'})` : 'IoB sendTo';
+        },
+        labelStyle: function () {
+            return this.name ? 'node_label_italic' : '';
         }
     });
 </script>

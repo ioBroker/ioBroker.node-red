@@ -572,7 +572,7 @@ class NodeRed extends utils.Adapter {
      * @param {ioBroker.Message} msg
      */
     onMessage(msg) {
-        if (msg && msg.command) {
+        if (msg && msg.command && !msg?.callback?.ack) {
             this.log.debug(`Received command: ${JSON.stringify(msg)}`);
 
             switch (msg.command) {

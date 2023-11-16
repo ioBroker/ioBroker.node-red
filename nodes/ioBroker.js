@@ -67,7 +67,9 @@ module.exports = function (RED) {
         }
 
         ready = true;
+
         adapter.log.debug(`Ready event received ... start to check ${checkStates.length} Nodes`);
+
         checkQueuedStates(async () => {
             adapter.log.debug(`... delay-initialize ${existingNodes.length} Nodes`);
             for (const node of existingNodes) {
@@ -365,7 +367,6 @@ module.exports = function (RED) {
         node.payloadType = n.payloadType;
         node.onlyack     = n.onlyack === true || n.onlyack === 'true' || false;
         node.func        = n.func || 'all';
-        node.gap         = n.gap  || '0';
         node.gap         = n.gap  || '0';
         node.fireOnStart = n.fireOnStart === true || n.fireOnStart === 'true' || false;
         node.outFormat   = n.outFormat || 'MQTT';
@@ -1045,4 +1046,56 @@ module.exports = function (RED) {
         existingNodes.push(node);
     }
     RED.nodes.registerType('ioBroker list', IOBrokerListNode);
+
+    function IOBrokerSendtoNode(n) {
+        const node = this;
+        RED.nodes.createNode(node, n);
+        node.topic = typeof n.topic === 'string' && n.topic.length > 0 ? n.topic.replace(/\//g, '.') : null;
+        node.customName = 'ioBroker sendTo';
+
+        node.instance = n.instance;
+        node.command = n.command || 'send';
+
+        if (ready) {
+            node.isReady = true;
+            node.status({fill: 'green', shape: 'dot',  text: 'connected'});
+        } else {
+            node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
+        }
+
+        /*
+        node.getObject = function (msg) {
+            return function (err, state) {
+                if (!err && state) {
+                    msg[node.attrname] = state;
+                    node.status({
+                        fill:  'green',
+                        shape: 'dot',
+                        text:  JSON.stringify(state)
+                    });
+                    node.send(msg);
+                } else {
+                    log(`${node.id}: Object "${node.topic || msg.topic}" does not exist in ioBroker`);
+                }
+            };
+        };
+        */
+
+        node.on('input', async msg => {
+            if (!ready) {
+                nodeSets.push({node, msg});
+            } else {
+                adapter.sendTo(node.instance, node.command, msg.payload, (data) => {
+                    if (data) {
+                        msg.payload = data;
+                        node.send(msg);
+                    }
+                }, { timeout: 1000 });
+            }
+        });
+
+        node.on('close', done => onClose(node, done));
+        existingNodes.push(node);
+    }
+    RED.nodes.registerType('ioBroker sendTo', IOBrokerSendtoNode);
 };

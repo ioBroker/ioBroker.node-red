@@ -52,6 +52,7 @@ NodeJS 16.x is required
 
 - (klein0r) Updated Node-RED to 3.1.0. Please check your nodes for compatibility!
 - (klein0r) Admin 5/6 JSON config for instance configuration
+- (klein0r) Added sendTo node with callback
 
 ### 4.0.3 (2023-03-24)
 
