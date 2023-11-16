@@ -1,7 +1,7 @@
 'use strict';
 
 const utils = require('@iobroker/adapter-core');
-const fs  = require('node:fs');
+const fs = require('node:fs');
 const path = require('node:path');
 const spawn = require('node:child_process').spawn;
 const Notify = require('fs.notify');
@@ -104,6 +104,9 @@ class NodeRed extends utils.Adapter {
                         this.getForeignObject('system.config', (err, obj) => {
                             if (obj && obj.native && obj.native.secret) {
                                 this.systemSecret = obj.native.secret;
+                                this.log.debug(`Found system secret: ${this.systemSecret}`);
+                            } else {
+                                this.log.warn('Unable to find system secret in system.config');
                             }
 
                             // Create settings for node-red
@@ -116,60 +119,73 @@ class NodeRed extends utils.Adapter {
     }
 
     async generateHtml() {
+        const searchText = '// THIS LINE WILL BE CHANGED FOR ADMIN';
         const html = fs.readFileSync(`${__dirname}/nodes/ioBroker.html`).toString('utf8');
         const lines = html.split('\n');
-        const pos = lines.findIndex(line => line.includes('// THIS LINE WILL BE CHANGED FOR ADMIN'));
+        const pos = lines.findIndex(line => line.includes(searchText));
         if (pos) {
+            this.log.debug(`Found searched text "${searchText}" of /nodes/ioBroker.html in line ${pos + 1}`);
+
             // get settings for admin
             const settings = await this.getForeignObjectAsync(`system.adapter.${this.namespace}`);
-            // read all admin adapters on this host
-            const admins = await this.getObjectViewAsync('system', 'instance', {startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999'}, {});
-            let admin = admins.rows.find(obj => obj.value.common.host === settings.common.host);
+            if (settings) {
+                // read all admin adapters on this host
+                const admins = await this.getObjectViewAsync('system', 'instance', { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' }, {});
+                let admin = admins.rows.find(obj => obj.value.common.host === settings.common.host);
 
-            if (this.config.doNotReadObjectsDynamically) {
-                lines[pos] = `            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN`;
-            } else
-                if (admin && !admin.value.native.auth) {
-                    admin = admin.value;
-                    if ((!!admin.native.secure) === (!!settings.native.secure)) {
-                        lines[pos] = `            var socket = new WebSocket('ws${admin.native.secure ? 's' :''}://${admin.native.bind === '0.0.0.0' || admin.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : admin.native.bind}:${admin.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
+                if (this.config.doNotReadObjectsDynamically) {
+                    lines[pos] = `            var socket = null; ${searchText}`;
+                } else
+                    if (admin && !admin.value.native.auth) {
+                        admin = admin.value;
+                        if ((!!admin.native.secure) === (!!settings.native.secure)) {
+                            lines[pos] = `            var socket = new WebSocket('ws${admin.native.secure ? 's' : ''}://${admin.native.bind === '0.0.0.0' || admin.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : admin.native.bind}:${admin.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
+                        } else {
+                            lines[pos] = `            var socket = null; ${searchText}`;
+                            this.log.warn(`Cannot enable the dynamic object read as admin is SSL ${admin.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`);
+                        }
                     } else {
-                        lines[pos] = `            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN`;
-                        this.log.warn(`Cannot enable the dynamic object read as admin is SSL ${admin.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`);
+                        lines[pos] = `            var socket = null; ${searchText}`;
+                        this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
                     }
-                } else {
-                    lines[pos] = `            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN`;
-                    this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
+                if (html !== lines.join('\n')) {
+                    fs.writeFileSync(`${__dirname}/nodes/ioBroker.html`, lines.join('\n'));
                 }
-            if (html !== lines.join('\n')) {
-                fs.writeFileSync(`${__dirname}/nodes/ioBroker.html`, lines.join('\n'));
             }
         }
     }
 
     syncPublic(path) {
         path = path || '/public';
+        const dest = editorClientPath + path;
 
-        const dir = fs.readdirSync(__dirname + path);
+        this.log.debug(`[syncPublic] Src ${path} to ${dest}`);
 
-        if (!fs.existsSync(editorClientPath + path)) {
-            fs.mkdirSync(editorClientPath + path);
+        const dirs = fs.readdirSync(__dirname + path);
+
+        if (!fs.existsSync(dest)) {
+            fs.mkdirSync(dest);
         }
 
-        for (let i = 0; i < dir.length; i++) {
-            const stat = fs.statSync(`${__dirname + path}/${dir[i]}`);
-            if (stat.isDirectory())  {
-                this.syncPublic(`${path}/${dir[i]}`);
+        for (const dir of dirs) {
+            const sourcePath = `${__dirname + path}/${dir}`;
+            const destPath = `${dest}/${dir}`;
+
+            const stat = fs.statSync(sourcePath);
+            if (stat.isDirectory()) {
+                this.syncPublic(`${path}/${dir}`);
             } else {
-                if (!fs.existsSync(`${editorClientPath + path}/${dir[i]}`)) {
-                    fs.createReadStream(`${__dirname + path}/${dir[i]}`).pipe(fs.createWriteStream(`${editorClientPath + path}/${dir[i]}`));
-                } else if (dir[i].endsWith('.js')) {
-                    const dest = fs.readFileSync(`${editorClientPath + path}/${dir[i]}`).toString('utf8');
-                    const src = fs.readFileSync(`${__dirname + path}/${dir[i]}`).toString('utf8');
+                if (!fs.existsSync(destPath)) {
+                    fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
+                } else if (dir.endsWith('.js')) {
+                    const dest = fs.readFileSync(destPath).toString('utf8');
+                    const src = fs.readFileSync(sourcePath).toString('utf8');
                     if (dest !== src) {
-                        fs.createReadStream(`${__dirname + path}/${dir[i]}`).pipe(fs.createWriteStream(`${editorClientPath + path}/${dir[i]}`));
+                        fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
                     }
                 }
+
+                this.log.debug(`[syncPublic] Copied ${sourcePath} to ${destPath}`);
             }
         }
     }
@@ -231,18 +247,19 @@ class NodeRed extends utils.Adapter {
 
             data = data.toString();
 
-            if (data[data.length - 2] === '\r' && data[data.length - 1] === '\n') data = data.substring(0, data.length - 2);
-            if (data[data.length - 2] === '\n' && data[data.length - 1] === '\r') data = data.substring(0, data.length - 2);
-            if (data[data.length - 1] === '\r') data = data.substring(0, data.length - 1);
+            if (data.endsWith('\r\n')) data = data.substring(0, data.length - 2);
+            if (data.endsWith('\n\r')) data = data.substring(0, data.length - 2);
+            if (data.endsWith('\r')) data = data.substring(0, data.length - 1);
+            if (data.endsWith('\n')) data = data.substring(0, data.length - 1);
 
-            if (data.indexOf('[err') !== -1) {
-                this.log.error(data);
-            } else if (data.indexOf('[warn]') !== -1) {
-                this.log.warn(data);
-            } else if (data.indexOf('[info] [debug:') !== -1) {
-                this.log.info(data);
+            if (data.includes('[err')) {
+                this.log.error(`Node-RED: ${data}`);
+            } else if (data.includes('[warn]')) {
+                this.log.warn(`Node-RED: ${data}`);
+            } else if (data.includes('[info] [debug:')) {
+                this.log.info(`Node-RED: ${data}`);
             } else {
-                this.log.debug(data);
+                this.log.debug(`Node-RED: ${data}`);
             }
         });
 
@@ -257,7 +274,7 @@ class NodeRed extends utils.Adapter {
                 }
                 data = text;
             }
-            if (data.indexOf && data.indexOf('[warn]') === -1) {
+            if (data.includes && !data.includes('[warn]')) {
                 this.log.warn(data);
             } else {
                 this.log.error(JSON.stringify(data));
@@ -375,7 +392,7 @@ class NodeRed extends utils.Adapter {
 
         const bind = `"${this.config.bind || '0.0.0.0'}"`;
 
-        let authObj = {type: 'credentials'};
+        let authObj = { type: 'credentials' };
         if ((this.config.authType === undefined) || (this.config.authType === '')) {
             // first time after upgrade or fresh install
             if (this.config.user) {
@@ -387,17 +404,17 @@ class NodeRed extends utils.Adapter {
 
         switch (this.config.authType) {
             case 'None':
-                authObj = {type: 'credentials', users: [], default: {permissions: '*'}};
+                authObj = { type: 'credentials', users: [], default: { permissions: '*' } };
                 break;
 
             case 'Simple':
-                authObj.users = [{username: this.config.user, password: this.config.pass, permissions: '*'}];
+                authObj.users = [{ username: this.config.user, password: this.config.pass, permissions: '*' }];
                 break;
 
             case 'Extended':
                 authObj.users = this.config.authExt;
                 if (this.config.hasDefaultPermissions) {
-                    authObj.default = {permissions: this.config.defaultPermissions};
+                    authObj.default = { permissions: this.config.defaultPermissions };
                 }
                 break;
         }
@@ -422,15 +439,15 @@ class NodeRed extends utils.Adapter {
         }
 
         // update from 1.0.1 (new convert-option)
-        if (this.config.valueConvert === null      ||
+        if (this.config.valueConvert === null ||
             this.config.valueConvert === undefined ||
-            this.config.valueConvert === ''        ||
-            this.config.valueConvert === 'true'    ||
-            this.config.valueConvert === '1'       ||
+            this.config.valueConvert === '' ||
+            this.config.valueConvert === 'true' ||
+            this.config.valueConvert === '1' ||
             this.config.valueConvert === 1) {
             this.config.valueConvert = true;
         }
-        if (this.config.valueConvert === 0   ||
+        if (this.config.valueConvert === 0 ||
             this.config.valueConvert === '0' ||
             this.config.valueConvert === 'false') {
             this.config.valueConvert = false;
@@ -496,7 +513,7 @@ class NodeRed extends utils.Adapter {
             this.saveTimer = null;
         }
 
-        let cred  = undefined;
+        let cred = undefined;
         let flows = undefined;
 
         const flowCredPath = path.join(this.userDataDir, 'flows_cred.json');
@@ -504,7 +521,7 @@ class NodeRed extends utils.Adapter {
             if (fs.existsSync(flowCredPath)) {
                 cred = JSON.parse(fs.readFileSync(flowCredPath, 'utf8'));
             }
-        } catch(e) {
+        } catch (e) {
             this.log.error(`Cannot read ${flowCredPath}`);
         }
         const flowsPath = path.join(this.userDataDir, 'flows.json');
@@ -512,7 +529,7 @@ class NodeRed extends utils.Adapter {
             if (fs.existsSync(flowsPath)) {
                 flows = JSON.parse(fs.readFileSync(flowsPath, 'utf8'));
             }
-        } catch(e) {
+        } catch (e) {
             this.log.error(`Cannot save ${flowsPath}`);
         }
         //upload it to config
@@ -522,7 +539,7 @@ class NodeRed extends utils.Adapter {
                     name: 'Flows for node-red'
                 },
                 native: {
-                    cred:  cred,
+                    cred: cred,
                     flows: flows
                 },
                 type: 'config'
