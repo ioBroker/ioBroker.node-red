@@ -1,18 +1,32 @@
 ![Logo](admin/node-red.png)
 
-# ioBroker node-red Adapter
+# ioBroker.node-red
 
-![Number of Installations](http://iobroker.live/badges/node-red-installed.svg)
-![Number of Installations](http://iobroker.live/badges/node-red-stable.svg)
-[![NPM version](http://img.shields.io/npm/v/iobroker.node-red.svg)](https://www.npmjs.com/package/iobroker.node-red)
+[![NPM version](https://img.shields.io/npm/v/iobroker.node-red?style=flat-square)](https://www.npmjs.com/package/iobroker.node-red)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.node-red?label=npm%20downloads&style=flat-square)](https://www.npmjs.com/package/iobroker.node-red)
+![node-lts](https://img.shields.io/node/v-lts/iobroker.node-red?style=flat-square)
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/iobroker.node-red?label=npm%20dependencies&style=flat-square)
 
-![Test and Release](https://github.com/ioBroker/ioBroker.node-red/workflows/Test%20and%20Release/badge.svg)
-[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/node-red/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.node-red.svg)](https://www.npmjs.com/package/iobroker.node-red)
+![GitHub](https://img.shields.io/github/license/iobroker/iobroker.node-red?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/iobroker/iobroker.node-red?logo=github&style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/iobroker/iobroker.node-red?logo=github&style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/iobroker/iobroker.node-red?logo=github&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/iobroker/iobroker.node-red?logo=github&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/iobroker/iobroker.node-red/test-and-release.yml?branch=master&logo=github&style=flat-square)
 
-Starts node-red instance and communicates with it.
+## Versions
 
-This adapter uses the node-red server from https://github.com/node-red/node-red
+![Beta](https://img.shields.io/npm/v/iobroker.node-red.svg?color=red&label=beta)
+![Stable](http://iobroker.live/badges/node-red-stable.svg)
+![Installed](http://iobroker.live/badges/node-red-installed.svg)
+
+Instantiate the server with Node-RED
+
+## Documentation
+
+[🇺🇸 Documentation](./docs/en/README.md)
+
+[🇩🇪 Dokumentation](./docs/de/README.md)
 
 **Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
 
@@ -30,7 +44,6 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 	Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-
 ## Changelog
 
 ### **WORK IN PROGRESS**
