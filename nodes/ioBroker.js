@@ -370,6 +370,7 @@ module.exports = function (RED) {
         node.gap         = n.gap  || '0';
         node.fireOnStart = n.fireOnStart === true || n.fireOnStart === 'true' || false;
         node.outFormat   = n.outFormat || 'MQTT';
+        node.attrname    = n.attrname || 'payload';
 
         if (n.onlyack === 'update') {
             node.onlyack = true;
@@ -447,7 +448,7 @@ module.exports = function (RED) {
                 //adapter.log.debug(`${node.id} Node.send payload: ${(node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)))}`);
                 node.send({
                     topic: node.outFormat === 'ioBroker' ? t.replace(/\//g, '.') : t,
-                    payload: node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
+                    [node.attrname]: node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
                     acknowledged: state ? state.ack : false,
                     timestamp: state ? state.ts : Date.now(),
                     lastchange: state ? state.lc : Date.now(),
