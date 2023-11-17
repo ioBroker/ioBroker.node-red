@@ -486,6 +486,7 @@ class NodeRed extends utils.Adapter {
             lines[i] = this.setOption(lines[i], 'projectsEnabled', this.config.projectsEnabled);
             lines[i] = this.setOption(lines[i], 'palletmanagerEnabled', this.config.palletmanagerEnabled);
             lines[i] = this.setOption(lines[i], 'allowCreationOfForeignObjects', this.config.allowCreationOfForeignObjects);
+            lines[i] = this.setOption(lines[i], 'editor');
         }
 
         const settingsPath = path.join(this.userDataDir, 'settings.js');

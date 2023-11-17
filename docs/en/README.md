@@ -6,6 +6,8 @@
 
 ## Settings
 
+![General settings](./img/instance-settings-general.png)
+
 ### Maximum RAM Setting
 
 In the adapter/instance configuration you can adjust the maximum RAM/Heap for the node-red process. The default is sufficient for smaller node-red installations. If you have many nodes or you experience performance issues or crashes of the node.red process in the logs, please upgrade the maximum RAM setting! Depending on your available RAM (see e.g. using `free -m` on "avail") increase it to 1024 (=1GB) or even higher.

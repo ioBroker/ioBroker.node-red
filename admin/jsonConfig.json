@@ -378,6 +378,31 @@
                     ]
                 }
             }
+        },
+        "_appearance": {
+            "type": "panel",
+            "label": "Appearance",
+            "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuNC4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIzIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMTYyLjQgNmMtMS41LTMuNi01LTYtOC45LTZoLTE5Yy0zLjkgMC03LjUgMi40LTguOSA2TDEwNC45IDU3LjdjLTMuMiA4LTE0LjYgOC0xNy44IDBMNjYuNCA2Yy0xLjUtMy42LTUtNi04LjktNkg0OEMyMS41IDAgMCAyMS41IDAgNDhWMjI0djIyLjRWMjU2SDkuNiAzNzQuNCAzODR2LTkuNlYyMjQgNDhjMC0yNi41LTIxLjUtNDgtNDgtNDhIMjMwLjVjLTMuOSAwLTcuNSAyLjQtOC45IDZMMjAwLjkgNTcuN2MtMy4yIDgtMTQuNiA4LTE3LjggMEwxNjIuNCA2ek0wIDI4OHYzMmMwIDM1LjMgMjguNyA2NCA2NCA2NGg2NHY2NGMwIDM1LjMgMjguNyA2NCA2NCA2NHM2NC0yOC43IDY0LTY0VjM4NGg2NGMzNS4zIDAgNjQtMjguNyA2NC02NFYyODhIMHpNMTkyIDQzMmExNiAxNiAwIDEgMSAwIDMyIDE2IDE2IDAgMSAxIDAtMzJ6Ii8+PC9zdmc+",
+            "items": {
+                "editor": {
+                    "newLine": true,
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "Monaco",
+                            "value": "monaco"
+                        },
+                        {
+                            "label": "Ace",
+                            "value": "ace"
+                        }
+                    ],
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "EditorType"
+                }
+            }
         }
     }
 }

@@ -332,7 +332,8 @@
     "pass": "",
     "hasDefaultPermissions": false,
     "defaultPermissions": "",
-    "authExt": []
+    "authExt": [],
+    "editor": "monaco"
   },
   "objects": [],
   "instanceObjects": []
