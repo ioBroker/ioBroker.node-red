@@ -43,6 +43,7 @@ NodeJS 16.x is required
 - (klein0r) Added sendTo node with callback
 - (klein0r) Allow custom attribute name for "ioBroker in" node
 - (klein0r) Added option to select editor (monaco, ace)
+- (klein0r) Added table for custom env vars to instance configuration
 
 ### 4.0.3 (2023-03-24)
 

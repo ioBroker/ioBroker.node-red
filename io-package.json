@@ -333,7 +333,8 @@
     "hasDefaultPermissions": false,
     "defaultPermissions": "",
     "authExt": [],
-    "editor": "monaco"
+    "editor": "monaco",
+    "envVars": []
   },
   "objects": [],
   "instanceObjects": []

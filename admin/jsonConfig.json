@@ -403,6 +403,65 @@
                     "label": "EditorType"
                 }
             }
+        },
+        "_environment": {
+            "type": "panel",
+            "label": "Environment",
+            "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuNC4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIzIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMjgyLjYgNzguMWM4LTI3LjMgMzMtNDYuMSA2MS40LTQ2LjFINTQ0YzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMySDM0NEwyMzguNyA0NTdjLTMuNiAxMi4zLTE0LjEgMjEuMi0yNi44IDIyLjhzLTI1LjEtNC42LTMxLjUtMTUuNkw3Ny42IDI4OEgzMmMtMTcuNyAwLTMyLTE0LjMtMzItMzJzMTQuMy0zMiAzMi0zMkg3Ny42YzIyLjggMCA0My44IDEyLjEgNTUuMyAzMS44bDY1LjIgMTExLjhMMjgyLjYgNzguMXpNMzkzLjQgMjMzLjRjMTIuNS0xMi41IDMyLjgtMTIuNSA0NS4zIDBMNDgwIDI3NC43bDQxLjQtNDEuNGMxMi41LTEyLjUgMzIuOC0xMi41IDQ1LjMgMHMxMi41IDMyLjggMCA0NS4zTDUyNS4zIDMyMGw0MS40IDQxLjRjMTIuNSAxMi41IDEyLjUgMzIuOCAwIDQ1LjNzLTMyLjggMTIuNS00NS4zIDBMNDgwIDM2NS4zbC00MS40IDQxLjRjLTEyLjUgMTIuNS0zMi44IDEyLjUtNDUuMyAwcy0xMi41LTMyLjggMC00NS4zTDQzNC43IDMyMGwtNDEuNC00MS40Yy0xMi41LTEyLjUtMTIuNS0zMi44IDAtNDUuM3oiLz48L3N2Zz4=",
+            "items": {
+                "envVars": {
+                    "newLine": true,
+                    "type": "table",
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "label": "Environment variables",
+                    "items": [
+                        {
+                            "type": "text",
+                            "attr": "name",
+                            "width": "25%",
+                            "title": {
+                                "en": "Name",
+                                "de": "Name",
+                                "ru": "Имя",
+                                "pt": "Nome",
+                                "nl": "Naam",
+                                "fr": "Nom",
+                                "it": "Nome",
+                                "es": "Nombre",
+                                "pl": "Nazwa",
+                                "uk": "Ім'я",
+                                "zh-cn": "姓名"
+                            },
+                            "filter": true,
+                            "sort": true,
+                            "default": "CUSTOM"
+                        },
+                        {
+                            "type": "text",
+                            "attr": "value",
+                            "width": "75%",
+                            "title": {
+                                "en": "Value",
+                                "de": "Wert",
+                                "ru": "Значение",
+                                "pt": "Valor",
+                                "nl": "Value",
+                                "fr": "Valeur",
+                                "it": "Valore",
+                                "es": "Valor",
+                                "pl": "Value",
+                                "uk": "Ціна",
+                                "zh-cn": "价值"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": ""
+                        }
+                    ]
+                }
+            }
         }
     }
 }

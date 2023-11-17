@@ -241,7 +241,12 @@ class NodeRed extends utils.Adapter {
 
         this.log.info(`Starting node-red: ${args.join(' ')}`);
 
-        this.redProcess = spawn('node', args);
+        const envVars = {
+            ...process.env,
+            ...this.config.envVars.reduce((acc, v) => ({...acc, [v.name]: v.value || null}), {})
+        };
+
+        this.redProcess = spawn('node', args, { env: envVars });
         this.redProcess.on('error', err => this.log.error(`catched exception from node-red:${JSON.stringify(err)}`));
         this.redProcess.stdout.on('data', data => {
             if (!data) {
