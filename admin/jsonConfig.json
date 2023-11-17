@@ -335,7 +335,7 @@
                             "default": "admin"
                         },
                         {
-                            "type": "text",
+                            "type": "password",
                             "attr": "password",
                             "width": "25%",
                             "title": {
