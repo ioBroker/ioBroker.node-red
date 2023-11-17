@@ -36,7 +36,7 @@ Instantiate the server with Node-RED
 
 ### **WORK IN PROGRESS**
 
-NodeJS 16.x is required
+NodeJS 16.4.x is required
 
 - (klein0r) Updated Node-RED to 3.1.0. Please check your nodes for compatibility!
 - (klein0r) Admin 5/6 JSON config for instance configuration
