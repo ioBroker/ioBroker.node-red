@@ -338,7 +338,7 @@
 </script>
 
 <script type="text/html" data-help-name="ioBroker out">
-    <p>Connects to a ioBroker and publishes <b>msg.payload</b> either to the <b>msg.topic</b> or to the topic specified in the edit window. The value in the edit window has precedence.</p>
+    <p>Publishes <b>msg.payload</b> either to the <b>msg.topic</b> or to the topic specified in the edit window. The value in the edit window has precedence.</p>
     <p>If <b>msg.payload</b> contains an object it will be stringified before being sent.</p>
     <p>If <b>msg.payload</b> is not provided or contains "__create__", the object will be only created, but no value will be set.</p>
     <p>If <b>msg.ack</b> if present (Boolean true/"true") overrides the default ack from the node config.</p>
@@ -557,8 +557,8 @@ RED.nodes.registerType('ioBroker get', {
 </script>
 
 <script type="text/html" data-help-name="ioBroker list">
-    <p>Connects to a ioBroker and returns the list of IDs for pattern.
-    The filter can be defined in topic as <i>"node-red.0.*"</i> or in <b>msg.topic</b>.
+    <p>Returns a list of IDs for pattern.</p>
+    <p>The filter can be defined in topic as <i>"node-red.0.*"</i> or in <b>msg.topic</b>.
     Additionally, you can provide regular expression to filter received list. The regular expression could be set dynamically via <b>msg.regex</b> like <i>"node-red\.\d\..+"</i>
     </br></br>
     If only ID's is set to "Returns only IDs of object" then only the <b>msg.topic</b>
@@ -616,7 +616,7 @@ RED.nodes.registerType('ioBroker get', {
 </script>
 
 <script type="text/html" data-help-name="ioBroker sendTo">
-    <p>Sends the payload as msg object to given instance</p>
+    <p>Sends the <b>msg.payload</b> as msg object to given instance (with custom command)</p>
 </script>
 
 <script type="text/javascript">

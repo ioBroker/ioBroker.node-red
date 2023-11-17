@@ -1016,7 +1016,7 @@ module.exports = function (RED) {
                                 node.withValues && newList.forEach(el => Object.assign(el, values[el._id] || {}));
                                 msg.payload = newList;
                             }
-                            node.send(msg);
+                            send(msg);
                         } else {
                             // every ID as one message
                             const _msg = JSON.parse(JSON.stringify(msg));
@@ -1033,7 +1033,7 @@ module.exports = function (RED) {
                                     }
                                     Object.assign(__msg.payload, values[id]);
                                 }
-                                node.send(__msg);
+                                send(__msg);
                             });
                         }
                     });
@@ -1064,18 +1064,22 @@ module.exports = function (RED) {
             node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
         }
 
-        node.on('input', async msg => {
+        node.on('input', (msg, send, done) => {
             if (!ready) {
                 nodeSets.push({node, msg});
+                done();
             } else {
                 const instance = msg.instance || node.instance;
                 const command = msg.command || node.command;
                 const timeout = parseInt(msg.timeout || node.timeout);
 
                 adapter.sendTo(instance, command, msg.payload, (data) => {
-                    if (data) {
-                        msg.payload = data;
-                        node.send(msg);
+                    if (data?.error) {
+                        done(data.error);
+                    } else if (data?.result) {
+                        msg.payload = data.result;
+                        send(msg);
+                        done();
                     }
                 }, { timeout });
             }
