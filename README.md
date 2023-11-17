@@ -28,18 +28,6 @@ Instantiate the server with Node-RED
 
 [🇩🇪 Dokumentation](./docs/de/README.md)
 
-**Note:** If in select ID dialog of the ioBroker node you cannot find some variable, restart node-red instance. By restarting the new list of objects will be created.
-
-**Upgrade to 1.17.2:** If you already used Node-Red authentication: Please set your password in the Node-Red instance settings in ioBroker again after the upgrade! Otherwise you cannot login to Node-Red any longer after the upgrade.
-
-## Maximum RAM Setting
-
-In the adapter/instance configuration you can adjust the maximum RAM/Heap for the node-red process. The default is sufficient for smaller node-red installations. If you have many nodes or you experience performance issues or crashes of the node.red process in the logs, please upgrade the maximum RAM setting! Depending on your available RAM (see e.g. using `free -m` on "avail") increase it to 1024 (=1GB) or even higher.
-
-## Settings
-
-- Safe mode - Flows will not be started, and you can edit the flows to fix some overload problem.
-
 <!--
 	Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
