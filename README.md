@@ -14,6 +14,8 @@
 ![GitHub issues](https://img.shields.io/github/issues/iobroker/iobroker.node-red?logo=github&style=flat-square)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/iobroker/iobroker.node-red/test-and-release.yml?branch=master&logo=github&style=flat-square)
 
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/node-red/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
+
 ## Versions
 
 ![Beta](https://img.shields.io/npm/v/iobroker.node-red.svg?color=red&label=beta)
