@@ -23,11 +23,11 @@ module.exports = function (RED) {
     // patch event emitter
     require('events').EventEmitter.prototype._maxListeners = 10000;
 
-    const utils        = require('@iobroker/adapter-core');
-    const settings     = require(process.env.NODE_RED_HOME + '/lib/red').settings;
+    const utils = require('@iobroker/adapter-core');
+    const settings = require(process.env.NODE_RED_HOME + '/lib/red').settings;
 
-    const instance     = settings.get('iobrokerInstance') || 0;
-    let config         = settings.get('iobrokerConfig');
+    const instance = settings.get('iobrokerInstance') || 0;
+    let config = settings.get('iobrokerConfig');
     const valueConvert = settings.get('valueConvert');
     const allowCreationOfForeignObjects = settings.get('allowCreationOfForeignObjects');
     if (typeof config === 'string') {
@@ -38,8 +38,8 @@ module.exports = function (RED) {
     const stateChangeSubscribedNodes = [];
 
     try {
-        adapter = utils.Adapter({name: 'node-red', instance, config});
-    } catch(e) {
+        adapter = utils.Adapter({ name: 'node-red', instance, config });
+    } catch (e) {
         console.log(e);
     }
     if (typeof adapter.setMaxListeners === 'function') {
@@ -76,7 +76,7 @@ module.exports = function (RED) {
                 if (node.isReady) {
                     continue;
                 }
-                node.status({fill: 'green', shape: 'dot', text: 'connected'});
+                node.status({ fill: 'green', shape: 'dot', text: 'connected' });
                 //adapter.log.debug(`${node.id} Initialized (ready=was-false)`);
                 if (node instanceof IOBrokerInNode) {
                     if (!stateChangeSubscribedNodes.includes(node.id)) {
@@ -213,7 +213,7 @@ module.exports = function (RED) {
             return callback && callback();
         }
         if (!ready) {
-            return checkStates.push({node, id, common, val, callback});
+            return checkStates.push({ node, id, common, val, callback });
         }
 
         if (node.topic) {
@@ -296,12 +296,12 @@ module.exports = function (RED) {
     function assembleCommon(node, msg, id) {
         msg = msg || {};
         const common = {
-            read:  true,
+            read: true,
             write: node.objectPreDefinedReadonly,
-            desc:  'Created by Node-Red',
-            role:  node.objectPreDefinedRole     || msg.stateRole || 'state',
-            name:  node.objectPreDefinedName     || msg.stateName || id,
-            type:  node.objectPreDefinedType     || msg.stateType || typeof msg.payload || 'string'
+            desc: 'Created by Node-Red',
+            role: node.objectPreDefinedRole || msg.stateRole || 'state',
+            name: node.objectPreDefinedName || msg.stateName || id,
+            type: node.objectPreDefinedType || msg.stateType || typeof msg.payload || 'string'
         };
         if (msg.stateReadonly !== undefined) {
             common.write = (msg.stateReadonly === false || msg.stateReadonly === 'false');
@@ -331,13 +331,13 @@ module.exports = function (RED) {
         node.autoCreate = n.autoCreate === 'true' || n.autoCreate === true;
 
         if (node.autoCreate) {
-            node.objectPreDefinedRole     = n.role;
-            node.objectPreDefinedType     = n.payloadType;
-            node.objectPreDefinedName     = n.stateName || '';
+            node.objectPreDefinedRole = n.role;
+            node.objectPreDefinedType = n.payloadType;
+            node.objectPreDefinedName = n.stateName || '';
             node.objectPreDefinedReadonly = (n.readonly === 'false' || n.readonly === false);
-            node.objectPreDefinedUnit     = n.stateUnit;
-            node.objectPreDefinedMin      = n.stateMin;
-            node.objectPreDefinedMax      = n.stateMax;
+            node.objectPreDefinedUnit = n.stateUnit;
+            node.objectPreDefinedMin = n.stateMin;
+            node.objectPreDefinedMax = n.stateMax;
         }
     }
 
@@ -363,14 +363,14 @@ module.exports = function (RED) {
         }
         node.subscribePattern = node.topic;
 
-        node.regexTopic  = getRegex(node.topic);
+        node.regexTopic = getRegex(node.topic);
         node.payloadType = n.payloadType;
-        node.onlyack     = n.onlyack === true || n.onlyack === 'true' || false;
-        node.func        = n.func || 'all';
-        node.gap         = n.gap  || '0';
+        node.onlyack = n.onlyack === true || n.onlyack === 'true' || false;
+        node.func = n.func || 'all';
+        node.gap = n.gap || '0';
         node.fireOnStart = n.fireOnStart === true || n.fireOnStart === 'true' || false;
-        node.outFormat   = n.outFormat || 'MQTT';
-        node.attrname    = n.attrname || 'payload';
+        node.outFormat = n.outFormat || 'MQTT';
+        node.attrname = n.attrname || 'payload';
 
         if (n.onlyack === 'update') {
             node.onlyack = true;
@@ -394,9 +394,9 @@ module.exports = function (RED) {
         }
 
         if (ready) {
-            node.status({fill: 'green', shape: 'dot',  text: 'connected'});
+            node.status({ fill: 'green', shape: 'dot', text: 'connected' });
         } else {
-            node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
+            node.status({ fill: 'red', shape: 'ring', text: 'disconnected' }, true);
         }
 
         node.stateChange = function (topic, state) {
@@ -541,9 +541,9 @@ module.exports = function (RED) {
 
         if (ready) {
             node.isReady = true;
-            node.status({fill: 'green', shape: 'dot',  text: 'connected'});
+            node.status({ fill: 'green', shape: 'dot', text: 'connected' });
         } else {
-            node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
+            node.status({ fill: 'red', shape: 'ring', text: 'disconnected' }, true);
         }
 
         function setState(id, val, ack, callback) {
@@ -551,13 +551,13 @@ module.exports = function (RED) {
                 if (val !== undefined && val !== '__create__') {
                     // If not this adapter state
                     if (isForeignState(id)) {
-                        adapter.setForeignState(id, {val, ack}, callback);
+                        adapter.setForeignState(id, { val, ack }, callback);
                     } else {
-                        adapter.setState(id, {val, ack}, callback);
+                        adapter.setState(id, { val, ack }, callback);
                     }
                 }
             } else {
-                checkState(node, id, null, {val, ack}, isOk => callback && callback(!isOk));
+                checkState(node, id, null, { val, ack }, isOk => callback && callback(!isOk));
             }
         }
 
@@ -575,24 +575,24 @@ module.exports = function (RED) {
 
             if (!ready) {
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
-                nodeSets.push({node, msg});
+                nodeSets.push({ node, msg });
             } else if (id) {
                 id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
                     if (!id.includes('*') && isValidId(id)) {
-                        return checkState(node, id, assembleCommon(node, msg, id), {val: msg.payload, ack: msgAck}, isOk => {
+                        return checkState(node, id, assembleCommon(node, msg, id), { val: msg.payload, ack: msgAck }, isOk => {
                             if (isOk) {
                                 node.status({
-                                    fill:  'green',
+                                    fill: 'green',
                                     shape: 'dot',
-                                    text:   msg.payload === null || msg.payload === undefined ? '' : (msg.payload === '__create__' ? 'Object created' : msg.payload.toString())
+                                    text: msg.payload === null || msg.payload === undefined ? '' : (msg.payload === '__create__' ? 'Object created' : msg.payload.toString())
                                 });
                             } else {
                                 node.status({
-                                    fill:  'red',
+                                    fill: 'red',
                                     shape: 'ring',
-                                    text:  'Cannot set state'
+                                    text: 'Cannot set state'
                                 });
                             }
                             done();
@@ -604,12 +604,12 @@ module.exports = function (RED) {
                     // Check if state exists
                     adapter.getForeignObject(id, (err, obj) => {
                         if (!err && obj) {
-                            adapter.setForeignState(id, {val: msg.payload, ack: msgAck}, (err, _id) => {
+                            adapter.setForeignState(id, { val: msg.payload, ack: msgAck }, (err, _id) => {
                                 if (err) {
                                     node.status({
-                                        fill:  'red',
+                                        fill: 'red',
                                         shape: 'ring',
-                                        text:   'Error on setForeignState. See Log'
+                                        text: 'Error on setForeignState. See Log'
                                     });
                                     log(`${node.id}: Error on setState for ${id}: ${err}`);
                                 } else {
@@ -624,9 +624,9 @@ module.exports = function (RED) {
                         } else {
                             log(`${node.id}: State "${id}" does not exist in ioBroker`);
                             node.status({
-                                fill:  'red',
+                                fill: 'red',
                                 shape: 'ring',
-                                text:   `State "${id}" does not exist in ioBroker`
+                                text: `State "${id}" does not exist in ioBroker`
                             });
                             done();
                         }
@@ -635,18 +635,18 @@ module.exports = function (RED) {
                     if (id.includes('*')) {
                         log(`${node.id}: Invalid topic name "${id}" for ioBroker`);
                         node.status({
-                            fill:  'red',
+                            fill: 'red',
                             shape: 'ring',
-                            text:  `Invalid topic name "${id}" for ioBroker`
+                            text: `Invalid topic name "${id}" for ioBroker`
                         });
                         done();
                     } else {
                         setState(id, msg.payload, msgAck, (err, _id) => {
                             if (err) {
                                 node.status({
-                                    fill:  'red',
+                                    fill: 'red',
                                     shape: 'ring',
-                                    text:   'Error on setState. See Log'
+                                    text: 'Error on setState. See Log'
                                 });
                                 log(`${node.id}: Error on setState for ${id}: ${err}`);
                             } else {
@@ -663,9 +663,9 @@ module.exports = function (RED) {
             } else {
                 node.warn('No key or topic set');
                 node.status({
-                    fill:  'red',
+                    fill: 'red',
                     shape: 'ring',
-                    text:  'No key or topic set'
+                    text: 'No key or topic set'
                 });
                 done();
             }
@@ -679,7 +679,7 @@ module.exports = function (RED) {
     function IOBrokerGetNode(n) {
         const node = this;
         RED.nodes.createNode(node, n);
-        node.topic = typeof n.topic === 'string' && n.topic.length > 0 ?  n.topic.replace(/\//g, '.') : null;
+        node.topic = typeof n.topic === 'string' && n.topic.length > 0 ? n.topic.replace(/\//g, '.') : null;
         node.customName = 'ioBroker get';
 
         defineCommon(node, n);
@@ -691,7 +691,7 @@ module.exports = function (RED) {
 
         node.errOnInvalidState = n.errOnInvalidState;
         node.payloadType = n.payloadType;
-        node.attrname    = n.attrname;
+        node.attrname = n.attrname;
 
         // Create ID if not exits
         if (node.topic && !node.topic.includes('*')) {
@@ -700,19 +700,19 @@ module.exports = function (RED) {
 
         if (ready) {
             node.isReady = true;
-            node.status({fill: 'green', shape: 'dot', text: 'connected'});
+            node.status({ fill: 'green', shape: 'dot', text: 'connected' });
         } else {
-            node.status({fill: 'red', shape: 'ring', text: 'disconnected'}, true);
+            node.status({ fill: 'red', shape: 'ring', text: 'disconnected' }, true);
         }
 
         node.getStateValue = function (msg, id) {
             return function (err, state) {
                 if (!err && state) {
                     msg[node.attrname] = node.payloadType === 'object' ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
-                    msg.acknowledged   = state.ack;
-                    msg.timestamp      = state.ts;
-                    msg.lastchange     = state.lc;
-                    msg.topic          = node.topic || msg.topic;
+                    msg.acknowledged = state.ack;
+                    msg.timestamp = state.ts;
+                    msg.lastchange = state.lc;
+                    msg.topic = node.topic || msg.topic;
                     node.status({
                         fill: 'green',
                         shape: 'dot',
@@ -728,7 +728,7 @@ module.exports = function (RED) {
                         }
 
                         msg[node.attrname] = node.payloadType === 'object' ? state : (valueConvert ? '' : undefined);
-                        msg.topic          = node.topic || msg.topic;
+                        msg.topic = node.topic || msg.topic;
                         node.status({
                             fill: 'yellow',
                             shape: 'dot',
@@ -751,7 +751,7 @@ module.exports = function (RED) {
         node.on('input', msg => {
             let id = node.topic || msg.topic;
             if (!ready) {
-                nodeSets.push({node, msg});
+                nodeSets.push({ node, msg });
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
                 return;
             }
@@ -780,7 +780,7 @@ module.exports = function (RED) {
     function IOBrokerGetObjectNode(n) {
         const node = this;
         RED.nodes.createNode(node, n);
-        node.topic = typeof n.topic === 'string' && n.topic.length > 0 ?  n.topic.replace(/\//g, '.') : null;
+        node.topic = typeof n.topic === 'string' && n.topic.length > 0 ? n.topic.replace(/\//g, '.') : null;
         node.customName = 'ioBroker get object';
 
         defineCommon(node, n);
@@ -798,20 +798,20 @@ module.exports = function (RED) {
 
         if (ready) {
             node.isReady = true;
-            node.status({fill: 'green', shape: 'dot',  text: 'connected'});
+            node.status({ fill: 'green', shape: 'dot', text: 'connected' });
         } else {
-            node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
+            node.status({ fill: 'red', shape: 'ring', text: 'disconnected' }, true);
         }
 
         node.getObject = function (msg) {
             return function (err, state) {
                 if (!err && state) {
                     msg[node.attrname] = state;
-                    msg.topic          = node.topic || msg.topic;
+                    msg.topic = node.topic || msg.topic;
                     node.status({
-                        fill:  'green',
+                        fill: 'green',
                         shape: 'dot',
-                        text:  JSON.stringify(state)
+                        text: JSON.stringify(state)
                     });
                     node.send(msg);
                 } else {
@@ -823,7 +823,7 @@ module.exports = function (RED) {
         node.on('input', msg => {
             let id = node.topic || msg.topic;
             if (!ready) {
-                nodeSets.push({node, msg});
+                nodeSets.push({ node, msg });
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
             } else if (id) {
                 if (id.includes('*')) {
@@ -869,9 +869,9 @@ module.exports = function (RED) {
 
         if (ready) {
             node.isReady = true;
-            node.status({fill: 'green', shape: 'dot',  text: 'connected'});
+            node.status({ fill: 'green', shape: 'dot', text: 'connected' });
         } else {
-            node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
+            node.status({ fill: 'red', shape: 'ring', text: 'disconnected' }, true);
         }
 
         node.getObject = function (msg) {
@@ -879,9 +879,9 @@ module.exports = function (RED) {
                 if (!err && state) {
                     msg[node.attrname] = state;
                     node.status({
-                        fill:  'green',
+                        fill: 'green',
                         shape: 'dot',
-                        text:  JSON.stringify(state)
+                        text: JSON.stringify(state)
                     });
                     node.send(msg);
                 } else {
@@ -893,7 +893,7 @@ module.exports = function (RED) {
         node.on('input', async msg => {
             let pattern = node.topic || msg.topic;
             if (!ready) {
-                nodeSets.push({node, msg});
+                nodeSets.push({ node, msg });
             } else if (pattern) {
                 pattern = pattern.replace(/\//g, '.');
 
@@ -1017,7 +1017,7 @@ module.exports = function (RED) {
                                 node.withValues && newList.forEach(el => Object.assign(el, values[el._id] || {}));
                                 msg.payload = newList;
                             }
-                            send(msg);
+                            node.send(msg);
                         } else {
                             // every ID as one message
                             const _msg = JSON.parse(JSON.stringify(msg));
@@ -1034,7 +1034,7 @@ module.exports = function (RED) {
                                     }
                                     Object.assign(__msg.payload, values[id]);
                                 }
-                                send(__msg);
+                                node.send(__msg);
                             });
                         }
                     });
@@ -1060,14 +1060,14 @@ module.exports = function (RED) {
 
         if (ready) {
             node.isReady = true;
-            node.status({fill: 'green', shape: 'dot',  text: 'connected'});
+            node.status({ fill: 'green', shape: 'dot', text: 'connected' });
         } else {
-            node.status({fill: 'red',   shape: 'ring', text: 'disconnected'}, true);
+            node.status({ fill: 'red', shape: 'ring', text: 'disconnected' }, true);
         }
 
         node.on('input', (msg, send, done) => {
             if (!ready) {
-                nodeSets.push({node, msg});
+                nodeSets.push({ node, msg });
                 done();
             } else {
                 const instance = msg.instance || node.instance;
