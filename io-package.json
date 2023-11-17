@@ -246,6 +246,60 @@
           "agree",
           "cancel"
         ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<5.0.0",
+            "newVersion>=5.0.0"
+          ]
+        },
+        "title": {
+          "en": "Adapter has been migrated to Admin 6 configuration",
+          "de": "Adapter wurde auf Admin 6 Konfiguration migriert",
+          "ru": "Адаптер был мигрирован до конфигурации Admin 6",
+          "pt": "Adapter foi migrado para configuração Admin 6",
+          "nl": "Adapter is gemigreerd tot administratie 6",
+          "fr": "Adaptateur a été migré vers la configuration Admin 6",
+          "it": "L'adattatore è stato migrato alla configurazione Admin 6",
+          "es": "Adaptador ha sido migrado a la configuración Admin 6",
+          "pl": "Adapter przeniesiono do Admin 6",
+          "uk": "Адаптер мігрований до конфігурації Admin 6",
+          "zh-cn": "已移到“6种组合”"
+        },
+        "text": {
+          "en": "Please check instance configuration and re-enter your passwords (encryption has changed).",
+          "de": "Bitte überprüfen Sie die Instanzkonfiguration und geben Sie Ihre Passwörter erneut ein (Verschlüsselung hat sich geändert).",
+          "ru": "Пожалуйста, проверьте настройки и повторно введите свои пароли (шифрование изменилось).",
+          "pt": "Por favor, verifique a configuração da instância e reinsira suas senhas (a criptografia mudou).",
+          "nl": "Controleer instanceconfiguratie en verbind uw wachtwoorden.",
+          "fr": "Veuillez vérifier la configuration de l'instance et réactiver vos mots de passe (le chiffrement a changé).",
+          "it": "Si prega di controllare la configurazione delle istanze e ri-inserire le password (la crittografia è cambiata).",
+          "es": "Por favor, compruebe la configuración de instancia y vuelva a introducir sus contraseñas (el cifrado ha cambiado).",
+          "pl": "Pozwoliło się na skonfigurowanie instancji i ponowne wejście do haseł (wyszyfrowanie zmieniło się).",
+          "uk": "Будь ласка, перевірте налаштування екземпляра та перейменуйте ваші паролі.",
+          "zh-cn": "请核对表和重新编号(加密已改变)。."
+        },
+        "link": "https://github.com/ioBroker/ioBroker.node-red/blob/master/docs/en/README.md",
+        "level": "warn",
+        "linkText": {
+          "en": "Documentation",
+          "de": "Dokumentation",
+          "ru": "Документация",
+          "pt": "Documentação",
+          "nl": "Document",
+          "fr": "Documentation",
+          "it": "Documentazione",
+          "es": "Documentación",
+          "pl": "Dokumentacja",
+          "uk": "Документація",
+          "zh-cn": "文件"
+        },
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
       }
     ]
   },
