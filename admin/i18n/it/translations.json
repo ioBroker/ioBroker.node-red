@@ -29,5 +29,9 @@
     "Password": "Parola d'ordine",
     "Use default permissions": "Utilizza le autorizzazioni predefinite",
     "Default permissions": "Autorizzazioni predefinite",
-    "Users": "Utenti"
+    "Users": "Utenti",
+    "Appearance": "Aspetto",
+    "Editor type": "Tipo di editore",
+    "Environment": "Ambiente",
+    "Environment variables": "Variabili ambientali"
 }

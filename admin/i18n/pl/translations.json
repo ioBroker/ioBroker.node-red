@@ -29,5 +29,9 @@
     "Password": "Hasło",
     "Use default permissions": "Użyj domyślnych uprawnień",
     "Default permissions": "Domyślne uprawnienia",
-    "Users": "Użytkownicy"
+    "Users": "Użytkownicy",
+    "Appearance": "Wygląd",
+    "Editor type": "Typ edytora",
+    "Environment": "Środowisko",
+    "Environment variables": "Zmienne środowiska"
 }

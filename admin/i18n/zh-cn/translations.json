@@ -29,5 +29,9 @@
     "Password": "密码",
     "Use default permissions": "使用默认权限",
     "Default permissions": "默认权限",
-    "Users": "用户"
+    "Users": "用户",
+    "Appearance": "外貌",
+    "Editor type": "编辑器类型",
+    "Environment": "环境",
+    "Environment variables": "环境变量"
 }

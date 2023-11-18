@@ -29,5 +29,9 @@
     "Password": "Wachtwoord",
     "Use default permissions": "Gebruik standaardmachtigingen",
     "Default permissions": "Standaardmachtigingen",
-    "Users": "Gebruikers"
+    "Users": "Gebruikers",
+    "Appearance": "Verschijning",
+    "Editor type": "Editor-type",
+    "Environment": "Omgeving",
+    "Environment variables": "Omgevingsvariabelen"
 }

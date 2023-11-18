@@ -29,5 +29,9 @@
     "Password": "Contraseña",
     "Use default permissions": "Usar permisos predeterminados",
     "Default permissions": "Permisos predeterminados",
-    "Users": "Usuarios"
+    "Users": "Usuarios",
+    "Appearance": "Apariencia",
+    "Editor type": "Tipo de editor",
+    "Environment": "Ambiente",
+    "Environment variables": "Variables de entorno"
 }

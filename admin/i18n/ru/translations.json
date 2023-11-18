@@ -29,5 +29,9 @@
     "Password": "Пароль",
     "Use default permissions": "Использовать разрешения по умолчанию",
     "Default permissions": "Разрешения по умолчанию",
-    "Users": "Пользователи"
+    "Users": "Пользователи",
+    "Appearance": "Появление",
+    "Editor type": "Тип редактора",
+    "Environment": "Среда",
+    "Environment variables": "Переменные среды"
 }

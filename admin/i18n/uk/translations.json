@@ -29,5 +29,9 @@
     "Password": "Пароль",
     "Use default permissions": "Використовуйте дозволи за замовчуванням",
     "Default permissions": "Дозволи за замовчуванням",
-    "Users": "Користувачі"
+    "Users": "Користувачі",
+    "Appearance": "Зовнішній вигляд",
+    "Editor type": "Тип редактора",
+    "Environment": "Навколишнє середовище",
+    "Environment variables": "Змінні середовища"
 }

@@ -29,5 +29,9 @@
     "Password": "Senha",
     "Use default permissions": "Usar permissões padrão",
     "Default permissions": "Permissões padrão",
-    "Users": "Usuários"
+    "Users": "Usuários",
+    "Appearance": "Aparência",
+    "Editor type": "Tipo de editor",
+    "Environment": "Ambiente",
+    "Environment variables": "Variáveis ​​ambientais"
 }
