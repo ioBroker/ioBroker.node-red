@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "4.0.3",
+    "version": "5.0.0",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "5.0.0": {
+        "en": "*NodeJS 16.4.x is required**\n*Please check instance configuration and re-enter your passwords (encryption has changed).**\n\nUpdated Node-RED to 3.1.0. Please check your nodes for compatibility!\nAdmin 5/6 JSON config for instance configuration\nAdded sendTo node with callback\nAllow custom attribute name for \"ioBroker in\" node\nAdded option to select editor (monaco, ace)\nAdded table for custom env vars to instance configuration",
+        "de": "*NodeJS 16.4.x ist erforderlich*\n*Bitte überprüfen Sie die Instanz-Konfiguration und erneut Ihre Passwörter eingeben (Verschlüsselung hat sich geändert). *\n\nAktualisierte Node-RED auf 3.1.0 Bitte überprüfen Sie Ihre Knoten für Kompatibilität!\nAdmin 5/6 JSON config zum Beispiel Konfiguration\nHinzugefügt: Zu Knoten mit Rückruf\nErlauben Sie benutzerdefinierten Attributnamen für \"ioBroker in\" node\nOption hinzugefügt, um Editor auszuwählen (monaco, ace)\nHinzugefügt Tabelle für benutzerdefinierte env vars zu Instanz Konfiguration",
+        "ru": "*NodeJS 16.4.x требуется*\n*Пожалуйста, проверьте настройки и повторно введите свои пароли (шифрование изменилось). *\n\nОбновлено Node-RED до 3.1.0 Пожалуйста, проверьте свои узлы для совместимости!\nAdmin 5/6 JSON config для конфигурации\nДобавлена отправка К ноде с callback\nРазрешить имя пользовательского атрибута для \"ioBroker in\" node\nДобавлена возможность выбора редактора (monaco, ace)\nДобавлена таблица для настройки env vars к конфигурациям",
+        "pt": "*NodeJS 16.4.x é necessário*\n*Por favor, verifique a configuração da instância e reinsira suas senhas (a criptografia mudou). *\n\nNode-RED atualizado para 3.1.0 Por favor, verifique seus nós para compatibilidade!\nAdmin 5/6 JSON config para configuração de instância\nAdicionado enviar Para nó com callback\nPermitir nome de atributo personalizado para \"ioBroker in\" node\nAdicionado opção para selecionar editor (monaco, ace)\nAdicionado tabela para custom env vars para configuração de instância",
+        "nl": "♪ NodeJS 16.4.x is vereist ♪\nControle instance configuratie en vernieuw je wachtwoorden. ♪\n\nUpdate Node-RD naar 3.1.0 Controleer alsjeblieft je nodes voor compatibiliteit!\nVertaling:\nVertaling: Om te knikken met belletje\nLaat de gebruikelijke naam horen voor \"ioBroker in\" node\nToegevoegd optie om editor (monaco, ace)\nVoegde tafel toe voor gebruikelijke env vars aan instabiliteit",
+        "fr": "*NodeJS 16.4.x est requise*\n*Veuillez vérifier la configuration de l'instance et réactiver vos mots de passe (le chiffrement a changé). *\n\nActualisé Node-RED à 3.1.0 Veuillez vérifier vos nœuds pour la compatibilité!\nAdmin 5/6 JSON config for instance configuration\nAjouté À midi avec callback\nPermettre le nom d'attribut personnalisé pour \"ioBroker in\" node\nAjout de l'option pour sélectionner l'éditeur (monaco, ace)\nTableau ajouté pour la configuration personnalisée env vars to instance",
+        "it": "*NodeJS 16.4.x è richiesto*\n* Si prega di controllare la configurazione delle istanze e ri-inserire le password (la crittografia è cambiata). #\n\nAggiornato Node-RED a 3.1.0 Si prega di controllare i nodi per la compatibilità!\nAdmin 5/6 JSON config per la configurazione delle istanze\nAggiunto il messaggio A nodo con callback\nConsentire nome attributo personalizzato per \"ioBroker in\" nodo\nAggiunta opzione per selezionare editor (monaco, ace)\nTabella aggiuntiva per la configurazione di istanza personalizzata",
+        "es": "*NodeJS 16.4.x es necesario*\n*Por favor, compruebe la configuración de instancia y vuelva a introducir sus contraseñas (el cifrado ha cambiado). *\n\nActualizado Nodo-RED a 3.1.0 ¡Por favor, compruebe sus nodos por compatibilidad!\nAdmin 5/6 JSON config por configuración de instancia\nEnviar To node with callback\nPermitir el nombre de atributo personalizado para el nodo \"ioBroker in\"\nOpción adicional para seleccionar editor (monaco, as)\nTabla agregada para vars env personalizados para la configuración de instancia",
+        "pl": "*NodeJS 16.4.x (ang.)\n*Please check configuration and re-enter your passwords (ang.). *\n\nZastąpiono Node-RED do 3.1.0. Powiedzcie wasze węzły do kompatybilności!\nKonfiguracja Admin 5/6 JSON\nAdded sender węzeł\nAllowstandard atrybutuje nazwę „ioBroker in node”\nDo wyboru redaktora (monaco, ace)\nPoniższa tabela dla standardowych env",
+        "uk": "*NodeJS 16.4.x обов'язковий *\n*Використовувати налаштування екземпляра та повторно керувати паролями (шифрування змінено). Ім'я *\n\nОновлено Node-RED до 3.1.0 Будь ласка, перевірте свої вершини для сумісності!\nAdmin 5/6 JSON конфігурація екземпляра\nДодати відгук Для вузла з зворотним викликом\nДозволити ім'я користувацького атрибуту для вузла \"ioBroker\"\nДодано параметр вибрати редактор (monaco, ace)\nДодано таблицю для користувальницьких конвертів для налаштування екземпляра",
+        "zh-cn": "* 无需印发。\n* 采购核对表和重新编号(加密已经改变)。 * A/64/50。\n\nA. 更新的无误导体 请检查你不兼容!\n附录5/6\n增 发 警告\n允许习惯名称为“零星”\n增加选择编辑的选择(货币、货币)\n添加关于成类组合的习俗表格"
+      },
       "4.0.3": {
         "en": "Optimized path handling",
         "de": "Optimierte Bahnführung",
@@ -93,19 +106,6 @@
         "pl": "Zezwalaj na instalację wielu instancji czerwonych węzłów na jednym hoście",
         "uk": "Дозволити встановлення кількох екземплярів node-red на одному хості",
         "zh-cn": "允许在一台主机上安装多个 node-red 实例"
-      },
-      "3.2.0": {
-        "en": "Added extended authentication to instance settings and config\nFix Deadband Filter logic in InNode\nSeveral In-Node optimizations and error preventions",
-        "de": "Erweiterte Authentifizierung zu Instanzeinstellungen und -konfiguration hinzugefügt\nBehebung der Deadband-Filterlogik in InNode\nMehrere In-Node-Optimierungen und Fehlervermeidungen",
-        "ru": "Добавлена расширенная аутентификация в настройки и конфигурацию экземпляра.\nИсправить логику фильтра мертвой зоны в InNode\nНесколько оптимизаций In-Node и предотвращение ошибок",
-        "pt": "Adicionada autenticação estendida às configurações e configurações da instância\nCorrigir a lógica do filtro de banda morta no InNode\nVárias otimizações no nó e prevenções de erros",
-        "nl": "Uitgebreide authenticatie toegevoegd aan instantie-instellingen en configuratie\nFix Dodeband Filter-logica in InNode\nVerschillende In-Node-optimalisaties en foutpreventie",
-        "fr": "Ajout de l'authentification étendue aux paramètres et à la configuration de l'instance\nCorrection de la logique du filtre de bande morte dans InNode\nPlusieurs optimisations In-Node et préventions d'erreurs",
-        "it": "Aggiunta l'autenticazione estesa alle impostazioni dell'istanza e alla configurazione\nRisolto il problema con la logica del filtro banda morta in InNode\nDiverse ottimizzazioni In-Node e prevenzione degli errori",
-        "es": "Se agregó autenticación extendida a la configuración y configuración de la instancia.\nArreglar la lógica del filtro de banda muerta en InNode\nVarias optimizaciones en el nodo y prevención de errores",
-        "pl": "Dodano rozszerzone uwierzytelnianie do ustawień instancji i konfiguracji\nNapraw logikę Deadband Filter w InNode\nKilka optymalizacji In-Node i zapobieganie błędom",
-        "uk": "До налаштувань і конфігурації екземпляра додано розширену автентифікацію\nВиправте логіку фільтра зони нечутливості в InNode\nКілька оптимізацій In-Node і запобігання помилкам",
-        "zh-cn": "向实例设置和配置添加了扩展身份验证\n修复 InNode 中的死区过滤器逻辑\n几个节点内优化和错误预防"
       }
     },
     "desc": {
