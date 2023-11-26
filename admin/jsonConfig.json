@@ -1,0 +1,467 @@
+{
+    "i18n": true,
+    "type": "tabs",
+    "iconPosition": "top",
+    "items": {
+        "_general": {
+            "type": "panel",
+            "label": "General",
+            "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuNC4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIzIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNNDk1LjkgMTY2LjZjMy4yIDguNyAuNSAxOC40LTYuNCAyNC42bC00My4zIDM5LjRjMS4xIDguMyAxLjcgMTYuOCAxLjcgMjUuNHMtLjYgMTcuMS0xLjcgMjUuNGw0My4zIDM5LjRjNi45IDYuMiA5LjYgMTUuOSA2LjQgMjQuNmMtNC40IDExLjktOS43IDIzLjMtMTUuOCAzNC4zbC00LjcgOC4xYy02LjYgMTEtMTQgMjEuNC0yMi4xIDMxLjJjLTUuOSA3LjItMTUuNyA5LjYtMjQuNSA2LjhsLTU1LjctMTcuN2MtMTMuNCAxMC4zLTI4LjIgMTguOS00NCAyNS40bC0xMi41IDU3LjFjLTIgOS4xLTkgMTYuMy0xOC4yIDE3LjhjLTEzLjggMi4zLTI4IDMuNS00Mi41IDMuNXMtMjguNy0xLjItNDIuNS0zLjVjLTkuMi0xLjUtMTYuMi04LjctMTguMi0xNy44bC0xMi41LTU3LjFjLTE1LjgtNi41LTMwLjYtMTUuMS00NC0yNS40TDgzLjEgNDI1LjljLTguOCAyLjgtMTguNiAuMy0yNC41LTYuOGMtOC4xLTkuOC0xNS41LTIwLjItMjIuMS0zMS4ybC00LjctOC4xYy02LjEtMTEtMTEuNC0yMi40LTE1LjgtMzQuM2MtMy4yLTguNy0uNS0xOC40IDYuNC0yNC42bDQzLjMtMzkuNEM2NC42IDI3My4xIDY0IDI2NC42IDY0IDI1NnMuNi0xNy4xIDEuNy0yNS40TDIyLjQgMTkxLjJjLTYuOS02LjItOS42LTE1LjktNi40LTI0LjZjNC40LTExLjkgOS43LTIzLjMgMTUuOC0zNC4zbDQuNy04LjFjNi42LTExIDE0LTIxLjQgMjIuMS0zMS4yYzUuOS03LjIgMTUuNy05LjYgMjQuNS02LjhsNTUuNyAxNy43YzEzLjQtMTAuMyAyOC4yLTE4LjkgNDQtMjUuNGwxMi41LTU3LjFjMi05LjEgOS0xNi4zIDE4LjItMTcuOEMyMjcuMyAxLjIgMjQxLjUgMCAyNTYgMHMyOC43IDEuMiA0Mi41IDMuNWM5LjIgMS41IDE2LjIgOC43IDE4LjIgMTcuOGwxMi41IDU3LjFjMTUuOCA2LjUgMzAuNiAxNS4xIDQ0IDI1LjRsNTUuNy0xNy43YzguOC0yLjggMTguNi0uMyAyNC41IDYuOGM4LjEgOS44IDE1LjUgMjAuMiAyMi4xIDMxLjJsNC43IDguMWM2LjEgMTEgMTEuNCAyMi40IDE1LjggMzQuM3pNMjU2IDMzNmE4MCA4MCAwIDEgMCAwLTE2MCA4MCA4MCAwIDEgMCAwIDE2MHoiLz48L3N2Zz4=",
+            "items": {
+                "bind": {
+                    "newLine": true,
+                    "type": "ip",
+                    "label": "IP",
+                    "listenOnAllPorts": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4
+                },
+                "port": {
+                    "type": "number",
+                    "min": 1,
+                    "max": 65535,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Port"
+                },
+                "secure": {
+                    "newLine": true,
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Secure (HTTPS)"
+                },
+                "certPublic": {
+                    "hidden": "!data.secure",
+                    "type": "certificate",
+                    "certType": "public",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Public certificate"
+                },
+                "certPrivate": {
+                    "hidden": "!data.secure",
+                    "type": "certificate",
+                    "certType": "private",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Private certificate"
+                },
+                "httpAdminRoot": {
+                    "newLine": true,
+                    "type": "text",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "http Admin directory",
+                    "help": "Root directory for Node-RED (e.g. /admin)"
+                },
+                "httpNodeRoot": {
+                    "type": "text",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "http Node directory",
+                    "help": "Root directory for HTTP Nodes and Dashboard (e.g. /)"
+                },
+                "httpStatic": {
+                    "type": "text",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "http Static directory",
+                    "help": "Can be used to identify a directory of static content on local host"
+                },
+                "maxMemory": {
+                    "newLine": true,
+                    "type": "number",
+                    "min": 32,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Max. allocated RAM"
+                },
+                "npmLibs": {
+                    "type": "chips",
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 8,
+                    "label": "Additional npm packages"
+                },
+                "_headerAdditionalFeatures": {
+                    "newLine": true,
+                    "type": "header",
+                    "size": 3,
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "text": "Additional features"
+                },
+                "valueConvert": {
+                    "newLine": true,
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Convert state values to strings"
+                },
+                "palletmanagerEnabled": {
+                    "newLine": true,
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Use palletmanager"
+                },
+                "_backupWarningPallet": {
+                    "hidden": "!data.palletmanagerEnabled",
+                    "type": "staticText",
+                    "text": "Backups will not contain any modules installed via Palletmanager!",
+                    "style": {
+                        "backgroundColor": "#a83232",
+                        "borderRadius": "10px",
+                        "fontSize": "20px",
+                        "color": "#ffffff",
+                        "textAlign": "center",
+                        "marginTop": "5px"
+                    },
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 8
+                },
+                "projectsEnabled": {
+                    "newLine": true,
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Enable Projects feature"
+                },
+                "_backupWarningProjects": {
+                    "hidden": "!data.projectsEnabled",
+                    "type": "staticText",
+                    "text": "Backups will not contain any projects!",
+                    "style": {
+                        "backgroundColor": "#a83232",
+                        "borderRadius": "10px",
+                        "fontSize": "20px",
+                        "color": "#ffffff",
+                        "textAlign": "center",
+                        "marginTop": "5px"
+                    },
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 8
+                },
+                "allowCreationOfForeignObjects": {
+                    "newLine": true,
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 6,
+                    "label": "Allow creation of foreign objects"
+                },
+                "safeMode": {
+                    "newLine": true,
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 6,
+                    "label": "Safe mode"
+                },
+                "doNotReadObjectsDynamically": {
+                    "newLine": true,
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 6,
+                    "label": "Do not read objects from admin in the select object dialog"
+                },
+                "_update": {
+                    "newLine": true,
+                    "type": "sendTo",
+                    "showProcess": true,
+                    "command": "update",
+                    "variant": "outlined",
+                    "icon": "send",
+                    "result": {
+                        "success": {
+                            "en": "Successfully updated",
+                            "de": "Erfolgreich aktualisiert",
+                            "ru": "Успешно обновляется",
+                            "pt": "Atualizado com sucesso",
+                            "nl": "Succesvolle update",
+                            "fr": "Mise à jour réussie",
+                            "it": "Aggiornato con successo",
+                            "es": "Actualización exitosa",
+                            "pl": "Sukcesowo aktualizowany",
+                            "uk": "Успішно оновлено",
+                            "zh-cn": "成功更新"
+                        }
+                    },
+                    "label": "Update select dialog"
+                }
+            }
+        },
+        "_authentication": {
+            "type": "panel",
+            "label": "Authentication",
+            "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuNC4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIzIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMzM2IDM1MmM5Ny4yIDAgMTc2LTc4LjggMTc2LTE3NlM0MzMuMiAwIDMzNiAwUzE2MCA3OC44IDE2MCAxNzZjMCAxOC43IDIuOSAzNi44IDguMyA1My43TDcgMzkxYy00LjUgNC41LTcgMTAuNi03IDE3djgwYzAgMTMuMyAxMC43IDI0IDI0IDI0aDgwYzEzLjMgMCAyNC0xMC43IDI0LTI0VjQ0OGg0MGMxMy4zIDAgMjQtMTAuNyAyNC0yNFYzODRoNDBjNi40IDAgMTIuNS0yLjUgMTctN2wzMy4zLTMzLjNjMTYuOSA1LjQgMzUgOC4zIDUzLjcgOC4zek0zNzYgOTZhNDAgNDAgMCAxIDEgMCA4MCA0MCA0MCAwIDEgMSAwLTgweiIvPjwvc3ZnPg==",
+            "items": {
+                "authType": {
+                    "newLine": true,
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": {
+                                "en": "None",
+                                "de": "Keine",
+                                "ru": "Нет",
+                                "pt": "Nenhuma",
+                                "nl": "Niets",
+                                "fr": "None",
+                                "it": "Nessuno",
+                                "es": "Ninguno",
+                                "pl": "None",
+                                "uk": "Ні",
+                                "zh-cn": "无"
+                            },
+                            "value": "None"
+                        },
+                        {
+                            "label": {
+                                "en": "Simple",
+                                "de": "Einfach",
+                                "ru": "Просто",
+                                "pt": "Simples",
+                                "nl": "Simpel",
+                                "fr": "Simple",
+                                "it": "Semplice",
+                                "es": "Simple",
+                                "pl": "Prosty",
+                                "uk": "Прості",
+                                "zh-cn": "简单"
+                            },
+                            "value": "Simple"
+                        },
+                        {
+                            "label": {
+                                "en": "Extended",
+                                "de": "Erweitert",
+                                "ru": "Расширенный",
+                                "pt": "Estendido",
+                                "nl": "Verlengd",
+                                "fr": "Extended",
+                                "it": "Esteso",
+                                "es": "Extended",
+                                "pl": "Extended",
+                                "uk": "Продовжити",
+                                "zh-cn": "参加者"
+                            },
+                            "value": "Extended"
+                        }
+                    ],
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Authentication type"
+                },
+                "user": {
+                    "hidden": "data.authType !== 'Simple'",
+                    "type": "text",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "User name"
+                },
+                "pass": {
+                    "hidden": "data.authType !== 'Simple'",
+                    "type": "password",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Password"
+                },
+                "hasDefaultPermissions": {
+                    "newLine": true,
+                    "hidden": "data.authType !== 'Extended'",
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Use default permissions"
+                },
+                "defaultPermissions": {
+                    "hidden": "data.authType !== 'Extended' || !data.hasDefaultPermissions",
+                    "type": "text",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 6,
+                    "label": "Default permissions"
+                },
+                "authExt": {
+                    "newLine": true,
+                    "hidden": "data.authType !== 'Extended'",
+                    "type": "table",
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "label": "Users",
+                    "items": [
+                        {
+                            "type": "text",
+                            "attr": "username",
+                            "width": "25%",
+                            "title": {
+                                "en": "User name",
+                                "de": "Benutzername",
+                                "ru": "Имя пользователя",
+                                "pt": "Nome do utilizador",
+                                "nl": "Noem",
+                                "fr": "Nom de l ' utilisateur",
+                                "it": "Nome utente",
+                                "es": "Nombre de usuario",
+                                "pl": "Imię User",
+                                "uk": "Ім'я користувача",
+                                "zh-cn": "使用名称"
+                            },
+                            "filter": true,
+                            "sort": true,
+                            "default": "admin"
+                        },
+                        {
+                            "type": "password",
+                            "attr": "password",
+                            "width": "25%",
+                            "title": {
+                                "en": "Password",
+                                "de": "Passwort vergessen",
+                                "ru": "Пароль",
+                                "pt": "Senha",
+                                "nl": "Wachtwoord",
+                                "fr": "Mot de passe",
+                                "it": "Password",
+                                "es": "Contraseña",
+                                "pl": "Password",
+                                "uk": "Логін",
+                                "zh-cn": "护照"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": ""
+                        },
+                        {
+                            "type": "chips",
+                            "attr": "permissions",
+                            "width": "50%",
+                            "title": {
+                                "en": "Permissions",
+                                "de": "Berechtigungen",
+                                "ru": "Разрешения",
+                                "pt": "Permissões",
+                                "nl": "Toestemming",
+                                "fr": "Permissions",
+                                "it": "Permissioni",
+                                "es": "Permisos",
+                                "pl": "Opłata",
+                                "uk": "Дозвіли",
+                                "zh-cn": "排放量"
+                            },
+                            "filter": false,
+                            "sort": false
+                        }
+                    ]
+                }
+            }
+        },
+        "_appearance": {
+            "type": "panel",
+            "label": "Appearance",
+            "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuNC4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIzIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMTYyLjQgNmMtMS41LTMuNi01LTYtOC45LTZoLTE5Yy0zLjkgMC03LjUgMi40LTguOSA2TDEwNC45IDU3LjdjLTMuMiA4LTE0LjYgOC0xNy44IDBMNjYuNCA2Yy0xLjUtMy42LTUtNi04LjktNkg0OEMyMS41IDAgMCAyMS41IDAgNDhWMjI0djIyLjRWMjU2SDkuNiAzNzQuNCAzODR2LTkuNlYyMjQgNDhjMC0yNi41LTIxLjUtNDgtNDgtNDhIMjMwLjVjLTMuOSAwLTcuNSAyLjQtOC45IDZMMjAwLjkgNTcuN2MtMy4yIDgtMTQuNiA4LTE3LjggMEwxNjIuNCA2ek0wIDI4OHYzMmMwIDM1LjMgMjguNyA2NCA2NCA2NGg2NHY2NGMwIDM1LjMgMjguNyA2NCA2NCA2NHM2NC0yOC43IDY0LTY0VjM4NGg2NGMzNS4zIDAgNjQtMjguNyA2NC02NFYyODhIMHpNMTkyIDQzMmExNiAxNiAwIDEgMSAwIDMyIDE2IDE2IDAgMSAxIDAtMzJ6Ii8+PC9zdmc+",
+            "items": {
+                "editor": {
+                    "newLine": true,
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "Monaco",
+                            "value": "monaco"
+                        },
+                        {
+                            "label": "Ace",
+                            "value": "ace"
+                        }
+                    ],
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Editor type"
+                }
+            }
+        },
+        "_environment": {
+            "type": "panel",
+            "label": "Environment",
+            "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuNC4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIzIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMjgyLjYgNzguMWM4LTI3LjMgMzMtNDYuMSA2MS40LTQ2LjFINTQ0YzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMySDM0NEwyMzguNyA0NTdjLTMuNiAxMi4zLTE0LjEgMjEuMi0yNi44IDIyLjhzLTI1LjEtNC42LTMxLjUtMTUuNkw3Ny42IDI4OEgzMmMtMTcuNyAwLTMyLTE0LjMtMzItMzJzMTQuMy0zMiAzMi0zMkg3Ny42YzIyLjggMCA0My44IDEyLjEgNTUuMyAzMS44bDY1LjIgMTExLjhMMjgyLjYgNzguMXpNMzkzLjQgMjMzLjRjMTIuNS0xMi41IDMyLjgtMTIuNSA0NS4zIDBMNDgwIDI3NC43bDQxLjQtNDEuNGMxMi41LTEyLjUgMzIuOC0xMi41IDQ1LjMgMHMxMi41IDMyLjggMCA0NS4zTDUyNS4zIDMyMGw0MS40IDQxLjRjMTIuNSAxMi41IDEyLjUgMzIuOCAwIDQ1LjNzLTMyLjggMTIuNS00NS4zIDBMNDgwIDM2NS4zbC00MS40IDQxLjRjLTEyLjUgMTIuNS0zMi44IDEyLjUtNDUuMyAwcy0xMi41LTMyLjggMC00NS4zTDQzNC43IDMyMGwtNDEuNC00MS40Yy0xMi41LTEyLjUtMTIuNS0zMi44IDAtNDUuM3oiLz48L3N2Zz4=",
+            "items": {
+                "envVars": {
+                    "newLine": true,
+                    "type": "table",
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "label": "Environment variables",
+                    "items": [
+                        {
+                            "type": "text",
+                            "attr": "name",
+                            "width": "25%",
+                            "title": {
+                                "en": "Name",
+                                "de": "Name",
+                                "ru": "Имя",
+                                "pt": "Nome",
+                                "nl": "Naam",
+                                "fr": "Nom",
+                                "it": "Nome",
+                                "es": "Nombre",
+                                "pl": "Nazwa",
+                                "uk": "Ім'я",
+                                "zh-cn": "姓名"
+                            },
+                            "filter": true,
+                            "sort": true,
+                            "default": "CUSTOM"
+                        },
+                        {
+                            "type": "text",
+                            "attr": "value",
+                            "width": "75%",
+                            "title": {
+                                "en": "Value",
+                                "de": "Wert",
+                                "ru": "Значение",
+                                "pt": "Valor",
+                                "nl": "Value",
+                                "fr": "Valeur",
+                                "it": "Valore",
+                                "es": "Valor",
+                                "pl": "Value",
+                                "uk": "Ціна",
+                                "zh-cn": "价值"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": ""
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
