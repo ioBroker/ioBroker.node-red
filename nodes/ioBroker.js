@@ -720,7 +720,7 @@ module.exports = function (RED) {
                     });
                     node.send(msg);
                 } else {
-                    const getObjFunc = isForeignState(id) ? adapter.getForeignObject : adapter.getObject;
+                    const getObjFunc = isForeignState(id) ? adapter.getForeignObject.bind(adapter) : adapter.getObject.bind(adapter);
                     getObjFunc(id, (err, obj) => {
                         if ((err || !obj) && (node.errOnInvalidState === 'true' || node.errOnInvalidState === true)) {
                             node.error(`Object for state ${id} do not exist`, msg);
