@@ -69,6 +69,8 @@ class NodeRed extends utils.Adapter {
     }
 
     async onReady() {
+        await this.setStateAsync('info.connection', { val: false, ack: true });
+
         this.installLibraries(() => {
             if (this.config.projectsEnabled === undefined) this.config.projectsEnabled = false;
             if (this.config.allowCreationOfForeignObjects === undefined) this.config.allowCreationOfForeignObjects = false;
@@ -248,6 +250,11 @@ class NodeRed extends utils.Adapter {
 
         this.redProcess = spawn('node', args, { env: envVars });
         this.redProcess.on('error', err => this.log.error(`catched exception from node-red:${JSON.stringify(err)}`));
+        this.redProcess.on('spawn', () => {
+            this.setStateAsync('info.connection', { val: true, ack: true });
+            this.log.info(`Node-RED started successfully (PID: ${this.redProcess?.pid})`);
+        });
+
         this.redProcess.stdout.on('data', data => {
             if (!data) {
                 return;
@@ -290,10 +297,11 @@ class NodeRed extends utils.Adapter {
         });
 
         this.redProcess.on('exit', (exitCode) => {
-            this.log.info(`node-red exited with ${exitCode}`);
+            this.log.info(`Node-RED exited with ${exitCode}`);
             this.redProcess = null;
             if (!this.stopping) {
                 this.setTimeout(this.startNodeRed.bind(this), 5000);
+                this.setStateAsync('info.connection', { val: false, ack: true, c: `EXIT_CODE_${exitCode}` });
             }
         });
     }

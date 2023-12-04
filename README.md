@@ -38,6 +38,7 @@ Instantiate the server with Node-RED
 ### **WORK IN PROGRESS**
 
 - (klein0r) Fixed credentials decrypt
+- (klein0r) Added connection state (process is running)
 
 ### 5.0.0 (2023-11-26)
 
