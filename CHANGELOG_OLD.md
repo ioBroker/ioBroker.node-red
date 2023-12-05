@@ -1,4 +1,10 @@
 # Older changes
+## 4.0.0 (2022-08-14)
+
+- IMPORTANT: Node.js 14.x now needed at least
+- (Apollon77) Upgrade to node-red 3.0.2, enable runtime-state features and switch editor to monaco-editor
+- (Apollon77) Correctly escape backslashes when writing setting file on Windows
+
 ## 3.3.1 (2022-05-27)
 
 - (Apollon77) Lower loglevel of a log line

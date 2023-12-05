@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "5.0.0",
+    "version": "5.0.1",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "5.0.1": {
+        "en": "Fixed credentials decrypt\nAdded connection state (process is running)",
+        "de": "Feste Anmeldeinformationen decrypt\nHinzugefügter Verbindungszustand (Prozess läuft)",
+        "ru": "Фиксированные учетные данные decrypt\nДобавлено состояние соединения (процесс работает)",
+        "pt": "Descriptografar credenciais fixas\nEstado de conexão adicionado (o processo está funcionando)",
+        "nl": "Geregistreerd\nVerbindingstoestand toegevoegd",
+        "fr": "Décryptage des pouvoirs fixes\nÉtat de connexion ajouté (processus courant)",
+        "it": "Decrittografia delle credenziali fisse\nAggiunto stato di connessione (processo è in esecuzione)",
+        "es": "Decodificación de credenciales fijas\nEstado de conexión (proceso está funcionando)",
+        "pl": "Szczegółowe grzechy deszyfrują\nDodany stan połączenia (proces jest uruchomiony)",
+        "uk": "Виправлені облікові дані розшифрування\nДодано стан з'єднання (процес працює)",
+        "zh-cn": "固定全权证书\n增加联系国(进程正在进行中)"
+      },
       "5.0.0": {
         "en": "*NodeJS 16.4.x is required**\n*Please check instance configuration and re-enter your passwords (encryption has changed).**\n\nUpdated Node-RED to 3.1.0. Please check your nodes for compatibility!\nAdmin 5/6 JSON config for instance configuration\nAdded sendTo node with callback\nAllow custom attribute name for \"ioBroker in\" node\nAdded option to select editor (monaco, ace)\nAdded table for custom env vars to instance configuration",
         "de": "*NodeJS 16.4.x ist erforderlich*\n*Bitte überprüfen Sie die Instanz-Konfiguration und erneut Ihre Passwörter eingeben (Verschlüsselung hat sich geändert). *\n\nAktualisierte Node-RED auf 3.1.0 Bitte überprüfen Sie Ihre Knoten für Kompatibilität!\nAdmin 5/6 JSON config zum Beispiel Konfiguration\nHinzugefügt: Zu Knoten mit Rückruf\nErlauben Sie benutzerdefinierten Attributnamen für \"ioBroker in\" node\nOption hinzugefügt, um Editor auszuwählen (monaco, ace)\nHinzugefügt Tabelle für benutzerdefinierte env vars zu Instanz Konfiguration",
@@ -93,19 +106,6 @@
         "pl": "Dolny poziom logarytmu linii logu",
         "uk": "Нижній рівень журналу рядка журналу",
         "zh-cn": "日志行的较低日志级别"
-      },
-      "3.3.0": {
-        "en": "Allow installation of multiple node-red instances on one host",
-        "de": "Erlauben Sie die Installation mehrerer Node-Red-Instanzen auf einem Host",
-        "ru": "Разрешить установку нескольких экземпляров node-red на одном хосте",
-        "pt": "Permitir a instalação de várias instâncias de node-red em um host",
-        "nl": "Installatie van meerdere node-red-instanties op één host toestaan",
-        "fr": "Autoriser l'installation de plusieurs instances node-red sur un hôte",
-        "it": "Consenti l'installazione di più istanze node-red su un host",
-        "es": "Permitir la instalación de múltiples instancias de nodo rojo en un host",
-        "pl": "Zezwalaj na instalację wielu instancji czerwonych węzłów na jednym hoście",
-        "uk": "Дозволити встановлення кількох екземплярів node-red на одному хості",
-        "zh-cn": "允许在一台主机上安装多个 node-red 实例"
       }
     },
     "desc": {
