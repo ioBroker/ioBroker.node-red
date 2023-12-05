@@ -337,5 +337,51 @@
     "envVars": []
   },
   "objects": [],
-  "instanceObjects": []
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": {
+          "en": "Information",
+          "de": "Information",
+          "ru": "Информация",
+          "pt": "Em formação",
+          "nl": "Informatie",
+          "fr": "Informations",
+          "it": "Informazione",
+          "es": "Información",
+          "pl": "Informacja",
+          "uk": "Інформація",
+          "zh-cn": "信息"
+        }
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "name": {
+          "en": "Process is running",
+          "de": "Prozess läuft",
+          "ru": "Процесс работает",
+          "pt": "O processo está em execução",
+          "nl": "Proces loopt",
+          "fr": "Le processus est en cours",
+          "it": "Il processo è in esecuzione",
+          "es": "El proceso está en marcha",
+          "pl": "Proces",
+          "uk": "Процес працює",
+          "zh-cn": "进程"
+        },
+        "type": "boolean",
+        "role": "indicator.reachable",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
