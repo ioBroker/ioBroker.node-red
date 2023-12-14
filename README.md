@@ -35,6 +35,11 @@ Instantiate the server with Node-RED
     ### **WORK IN PROGRESS**
 -->
 ## Changelog
+### **WORK IN PROGRESS**
+
+- (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
+
+
 ### 5.0.1 (2023-12-05)
 
 - (klein0r) Fixed credentials decrypt

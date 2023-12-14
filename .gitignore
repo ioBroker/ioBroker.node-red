@@ -15,6 +15,7 @@ Thumbs.db
 # i18n intermediate files
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt
+userdata/
 
 # iobroker dev-server
 .dev-server/
