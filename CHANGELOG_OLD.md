@@ -1,4 +1,8 @@
 # Older changes
+## 4.0.1 (2023-03-22)
+
+- (Apollon77) Prepare for js-controller 5.0
+
 ## 4.0.0 (2022-08-14)
 
 - IMPORTANT: Node.js 14.x now needed at least

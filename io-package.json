@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "5.0.1",
+    "version": "5.0.2",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "5.0.2": {
+        "en": "Fixed a fatal error when getting a non-existent value",
+        "de": "Ein tödlicher Fehler behoben, wenn ein nicht vorhandener Wert erhalten",
+        "ru": "Исправлена фатальная ошибка при получении несущей ценности",
+        "pt": "Corrigido um erro fatal ao obter um valor inexistente",
+        "nl": "Een fatale fout maken als je een niet-existente waarde krijgt",
+        "fr": "Correction d'une erreur fatale lorsqu'on obtient une valeur inexistante",
+        "it": "Risolto un errore fatale quando si ottiene un valore non esistente",
+        "es": "Se corrigió un error fatal al obtener un valor inexistente",
+        "pl": "Fixed fatal error, kiedy dostaje nieistniejącą wartość",
+        "uk": "Виправлено помилку жиру при отриманні нестійкої цінності",
+        "zh-cn": "在取得未存在的价值时,确定致命错误"
+      },
       "5.0.1": {
         "en": "Fixed credentials decrypt\nAdded connection state (process is running)",
         "de": "Feste Anmeldeinformationen decrypt\nHinzugefügter Verbindungszustand (Prozess läuft)",
@@ -93,19 +106,6 @@
         "pl": "IMPORTANT: Nodejs 14.x (ang.)\nUpgrade do węzłowo-czerwonego 3.0.2 pozwala na funkcje wykonawcze i edytor przełączania do monaco\nKorzyści uciekają, gdy pisanie pliku ustawionego na Windows",
         "uk": "ВАЖЛИВО: тепер потрібен принаймні Node.js 14.x\nОновіть до node-red 3.0.2, увімкніть функції стану виконання та переключіть редактор на monaco-editor\nПравильно знімайте зворотні косі риски під час запису файлу налаштувань у Windows",
         "zh-cn": "IMPORTANT:目前至少需要14x。\n降到3 0.2年级后,可采用时间特点,并把编辑转换成模块naco-edor\n在撰写关于视窗的书时,很难逃避冲突。"
-      },
-      "3.3.1": {
-        "en": "Lower loglevel of a log line",
-        "de": "Unterer Loglevel einer Logzeile",
-        "ru": "Нижний уровень журнала строки журнала",
-        "pt": "Nível de log inferior de uma linha de log",
-        "nl": "Lager logniveau van een logregel",
-        "fr": "Niveau de log inférieur d'une ligne de log",
-        "it": "Livello di registro inferiore di una riga di registro",
-        "es": "Nivel de registro inferior de una línea de registro",
-        "pl": "Dolny poziom logarytmu linii logu",
-        "uk": "Нижній рівень журналу рядка журналу",
-        "zh-cn": "日志行的较低日志级别"
       }
     },
     "desc": {
