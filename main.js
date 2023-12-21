@@ -272,6 +272,8 @@ class NodeRed extends utils.Adapter {
             } else if (data.includes('[warn]')) {
                 this.log.warn(`Node-RED: ${data}`);
             } else if (data.includes('[info] [debug:')) {
+                this.log.debug(`Node-RED: ${data}`);
+            } else if (data.includes('[info]')) {
                 this.log.info(`Node-RED: ${data}`);
             } else {
                 this.log.debug(`Node-RED: ${data}`);
