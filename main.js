@@ -245,7 +245,7 @@ class NodeRed extends utils.Adapter {
 
         const envVars = {
             ...process.env,
-            ...this.config.envVars.reduce((acc, v) => ({...acc, [v.name]: v.value || null}), {})
+            ...this.config.envVars.reduce((acc, v) => ({ ...acc, [v.name]: v.value || null }), {})
         };
 
         this.redProcess = spawn('node', args, { env: envVars });
@@ -500,6 +500,7 @@ class NodeRed extends utils.Adapter {
             lines[i] = this.setOption(lines[i], 'palletmanagerEnabled', this.config.palletmanagerEnabled);
             lines[i] = this.setOption(lines[i], 'allowCreationOfForeignObjects', this.config.allowCreationOfForeignObjects);
             lines[i] = this.setOption(lines[i], 'editor');
+            lines[i] = this.setOption(lines[i], 'theme');
         }
 
         const settingsPath = path.join(this.userDataDir, 'settings.js');

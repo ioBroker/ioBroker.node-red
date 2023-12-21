@@ -401,6 +401,16 @@
                     "md": 4,
                     "lg": 4,
                     "label": "Editor type"
+                },
+                "theme": {
+                    "newLine": true,
+                    "type": "text",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Theme",
+                    "help": "Apply a custom theme (if installed)",
+                    "helpLink": "https://github.com/node-red-contrib-themes/theme-collection"
                 }
             }
         },

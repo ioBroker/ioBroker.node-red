@@ -35,6 +35,10 @@ Instantiate the server with Node-RED
     ### **WORK IN PROGRESS**
 -->
 ## Changelog
+### **WORK IN PROGRESS**
+
+- (klein0r) Allow custom themes
+
 ### 5.0.2 (2023-12-14)
 
 - (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
