@@ -33,5 +33,7 @@
     "Appearance": "Darstellung",
     "Editor type": "Editor-Typ",
     "Environment": "Umgebung",
-    "Environment variables": "Umgebungsvariablen"
+    "Environment variables": "Umgebungsvariablen",
+    "Theme": "Thema",
+    "Apply a custom theme (if installed)": "Anwenden eines benutzerdefinierten Designs (falls installiert)"
 }

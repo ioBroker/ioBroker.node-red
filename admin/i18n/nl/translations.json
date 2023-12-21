@@ -33,5 +33,7 @@
     "Appearance": "Verschijning",
     "Editor type": "Editor-type",
     "Environment": "Omgeving",
-    "Environment variables": "Omgevingsvariabelen"
+    "Environment variables": "Omgevingsvariabelen",
+    "Theme": "Thema",
+    "Apply a custom theme (if installed)": "Een aangepast thema toepassen (indien geïnstalleerd)"
 }

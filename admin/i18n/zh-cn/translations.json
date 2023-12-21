@@ -33,5 +33,7 @@
     "Appearance": "外貌",
     "Editor type": "编辑器类型",
     "Environment": "环境",
-    "Environment variables": "环境变量"
+    "Environment variables": "环境变量",
+    "Theme": "主题",
+    "Apply a custom theme (if installed)": "应用自定义主题（如果已安装）"
 }
