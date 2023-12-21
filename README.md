@@ -38,6 +38,7 @@ Instantiate the server with Node-RED
 ### **WORK IN PROGRESS**
 
 - (klein0r) Allow custom themes
+- (klein0r) Fixed scoped node-red packages
 
 ### 5.0.2 (2023-12-14)
 

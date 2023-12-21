@@ -448,7 +448,7 @@ class NodeRed extends utils.Adapter {
         const hStatic = this.config.httpStatic ? '' : '// ';
 
         const npms = this.additional
-            .filter(pack => !pack.startsWith('node-red-'))
+            .filter(pack => !pack.startsWith('node-red-') && !pack.startsWith('@node-red-'))
             .map(pack => `        "${pack}": require('${dir}${pack}')`)
             .join(',\n');
 
