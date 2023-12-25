@@ -334,6 +334,7 @@
     "defaultPermissions": "",
     "authExt": [],
     "editor": "monaco",
+    "theme": "",
     "envVars": []
   },
   "objects": [],

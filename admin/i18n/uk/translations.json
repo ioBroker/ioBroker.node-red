@@ -33,5 +33,7 @@
     "Appearance": "Зовнішній вигляд",
     "Editor type": "Тип редактора",
     "Environment": "Навколишнє середовище",
-    "Environment variables": "Змінні середовища"
+    "Environment variables": "Змінні середовища",
+    "Theme": "Тема",
+    "Apply a custom theme (if installed)": "Застосувати спеціальну тему (якщо встановлено)"
 }
