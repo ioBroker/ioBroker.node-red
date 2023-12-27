@@ -35,7 +35,7 @@ Instantiate the server with Node-RED
     ### **WORK IN PROGRESS**
 -->
 ## Changelog
-### **WORK IN PROGRESS**
+### 5.1.0 (2023-12-27)
 
 - (klein0r) Allow custom themes
 - (klein0r) Fixed scoped node-red packages
@@ -64,10 +64,6 @@ Instantiate the server with Node-RED
 ### 4.0.3 (2023-03-24)
 
 - (Apollon77) Optimized path handling
-
-### 4.0.2 (2023-03-24)
-
-- (Apollon77) Fix broken data directory when using multiple instances
 
 ## License
 

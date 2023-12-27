@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "5.0.2",
+    "version": "5.1.0",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "5.1.0": {
+        "en": "Allow custom themes\nFixed scoped node-red packages",
+        "de": "Lassen Sie benutzerdefinierte Themen\nFixed Scoped node-red Pakete",
+        "ru": "Разрешить пользовательские темы\nФиксированные пакеты с размахом",
+        "pt": "Permitir temas personalizados\nPacotes fixos escopo-vermelho",
+        "nl": "Laat de gebruikelijke thema's\nVertaling:",
+        "fr": "Permettre des thèmes personnalisés\nForfaits node-rouge fixes",
+        "it": "Consentire temi personalizzati\nPacchetti fissi nodo-rossi",
+        "es": "Permitir temas personalizados\nPaquetes fijados de nodo rojo",
+        "pl": "Allow zwyczajowe tematy\nFixed sklasyfikowane pakiety węzłowe",
+        "uk": "Дозволити користувацькі теми\nВиправлені масштабовані пакети node-red",
+        "zh-cn": "允许习俗\n固定范围无端一揽子计划"
+      },
       "5.0.2": {
         "en": "Fixed a fatal error when getting a non-existent value",
         "de": "Ein tödlicher Fehler behoben, wenn ein nicht vorhandener Wert erhalten",
@@ -93,19 +106,6 @@
         "pl": "Prepare for js-controller 5.0",
         "zh-cn": "防污防备 5.0",
         "uk": "Підготовка до Js-controller 2.6 км"
-      },
-      "4.0.0": {
-        "en": "IMPORTANT: Node.js 14.x now needed at least\nUpgrade to node-red 3.0.2, enable runtime-state features and switch editor to monaco-editor\nCorrectly escape backslashes when writing setting file on Windows",
-        "de": "WICHTIG: Node.js 14.x benötigt nun mindestens\nUpgrade auf node-red 3.0.2, Runtime-state-Features und Switch Editor zu monaco-editor\nFehler beim Schreiben der Einstellungsdatei unter Windows richtig entkommen",
-        "ru": "ВАЖНО: Node.js 14.x теперь нужно по крайней мере\nОбновите до node-red 3.0.2, включите функции runtime-state и переключите редактор для monaco-editor\nПравильно бежать ресниц при написании файла на Windows",
-        "pt": "IMPORTANTE: Node.js 14.x agora necessário pelo menos\nAtualize para o nó-red 3.0.2, ative recursos de runtime-state e alterne o editor para monaco-editor\nEscapa corretamente backslashes ao escrever o arquivo de configuração no Windows",
-        "nl": "Node is 14.X\nQuality over Quantity (QoQ) Releases Vertaling:\nOntsnappingsinstrumenten als het schrijven van dossiers over Windows",
-        "fr": "IMPORTANT: Node.js 14.x maintenant nécessaire au moins\nMettez à niveau jusqu'à la version 3.0.2, activez les fonctionnalités de l'état d'exécution et changez l'éditeur de monaco-editor\nS'échapper correctement backslashes lorsque l'écriture de fichier de réglage sur Windows",
-        "it": "IMPORTANTE: Node.js 14.x ora aveva bisogno di almeno\nAggiornamento a node-red 3.0.2, abilitare funzioni runtime-state e commutare l'editor a monaco-editor\nEliminare correttamente i backslashes quando si scrive l'impostazione del file su Windows",
-        "es": "IMPORTANTE: Node.js 14.x ahora necesita al menos\nActualizar a node-red 3.0.2, habilitar las funciones de estado de ejecución y cambiar editor a monaco-editor\nCorrectamente escapar retrocesos al escribir el archivo de configuración en Windows",
-        "pl": "IMPORTANT: Nodejs 14.x (ang.)\nUpgrade do węzłowo-czerwonego 3.0.2 pozwala na funkcje wykonawcze i edytor przełączania do monaco\nKorzyści uciekają, gdy pisanie pliku ustawionego na Windows",
-        "uk": "ВАЖЛИВО: тепер потрібен принаймні Node.js 14.x\nОновіть до node-red 3.0.2, увімкніть функції стану виконання та переключіть редактор на monaco-editor\nПравильно знімайте зворотні косі риски під час запису файлу налаштувань у Windows",
-        "zh-cn": "IMPORTANT:目前至少需要14x。\n降到3 0.2年级后,可采用时间特点,并把编辑转换成模块naco-edor\n在撰写关于视窗的书时,很难逃避冲突。"
       }
     },
     "desc": {

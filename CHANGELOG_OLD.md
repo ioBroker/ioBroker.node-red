@@ -1,4 +1,8 @@
 # Older changes
+## 4.0.2 (2023-03-24)
+
+- (Apollon77) Fix broken data directory when using multiple instances
+
 ## 4.0.1 (2023-03-22)
 
 - (Apollon77) Prepare for js-controller 5.0
