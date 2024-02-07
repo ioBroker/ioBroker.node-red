@@ -1,6 +1,6 @@
 {
   "eslint.enable": true,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "json.schemas": [
     {

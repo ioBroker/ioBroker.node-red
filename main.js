@@ -492,6 +492,7 @@ class NodeRed extends utils.Adapter {
             lines[i] = this.setOption(lines[i], 'config', config);
             lines[i] = this.setOption(lines[i], 'functionGlobalContext', npms);
             lines[i] = this.setOption(lines[i], 'nodesdir', nodesDir);
+            lines[i] = this.setOption(lines[i], 'contextDir', this.userDataDir);
             lines[i] = this.setOption(lines[i], 'httpAdminRoot');
             lines[i] = this.setOption(lines[i], 'httpNodeRoot', hNodeRoot);
             lines[i] = this.setOption(lines[i], 'hStatic', hStatic);
