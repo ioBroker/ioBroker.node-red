@@ -35,7 +35,7 @@ Instantiate the server with Node-RED
     ### **WORK IN PROGRESS**
 -->
 ## Changelog
-### **WORK IN PROGRESS**
+### 5.2.0 (2024-02-17)
 
 - (klein0r) Added persistence of context data (filesystem)
 
@@ -64,10 +64,6 @@ Instantiate the server with Node-RED
 - (klein0r) Allow custom attribute name for "ioBroker in" node
 - (klein0r) Added option to select editor (monaco, ace)
 - (klein0r) Added table for custom env vars to instance configuration
-
-### 4.0.3 (2023-03-24)
-
-- (Apollon77) Optimized path handling
 
 ## License
 

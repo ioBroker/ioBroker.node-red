@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "5.1.0",
+    "version": "5.2.0",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "5.2.0": {
+        "en": "Added persistence of context data (filesystem)",
+        "de": "Beharrlichkeit von Kontextdaten (Dateisystem) hinzugefügt",
+        "ru": "Добавлена стойкость контекстных данных (файловая система)",
+        "pt": "Adicionado persistência de dados de contexto (sistema de arquivos)",
+        "nl": "Toegevoegd persistentie van contextgegevens (bestandssysteem)",
+        "fr": "Ajout de la persistance des données contextuelles (fichier)",
+        "it": "Persistenza aggiuntiva dei dati contestuali (filesystem)",
+        "es": "Mayor persistencia de datos de contexto (sistema de ficheros)",
+        "pl": "Dodano trwałość danych kontekstowych (system plików)",
+        "uk": "Додано персистентність контекстних даних ( файлова система)",
+        "zh-cn": "添加上下文数据的持久性( 文件系统)"
+      },
       "5.1.0": {
         "en": "Allow custom themes\nFixed scoped node-red packages",
         "de": "Lassen Sie benutzerdefinierte Themen\nFixed Scoped node-red Pakete",
@@ -93,19 +106,6 @@
         "pl": "Fix złamał katalogi danych, gdy wykorzystuje wiele instancji",
         "zh-cn": "在使用多种情况时,固定数据主任破碎。",
         "uk": "Виправлено зламані дані каталогу при використанні декількох екземплярів"
-      },
-      "4.0.1": {
-        "en": "Prepare for js-controller 5.0",
-        "de": "Bereiten Sie sich auf js-controller ANHANG",
-        "ru": "Подготовьтесь к js-controller 5,0",
-        "pt": "Preparar para js-controller 5",
-        "nl": "Bereid je voor op Js-controller 5.0",
-        "fr": "Préparez-vous pour js-controller 5.0",
-        "it": "Prepararsi per js-controller 5.0",
-        "es": "Prepárate para js-controller 5.0",
-        "pl": "Prepare for js-controller 5.0",
-        "zh-cn": "防污防备 5.0",
-        "uk": "Підготовка до Js-controller 2.6 км"
       }
     },
     "desc": {

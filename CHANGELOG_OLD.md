@@ -1,4 +1,8 @@
 # Older changes
+## 4.0.3 (2023-03-24)
+
+- (Apollon77) Optimized path handling
+
 ## 4.0.2 (2023-03-24)
 
 - (Apollon77) Fix broken data directory when using multiple instances
