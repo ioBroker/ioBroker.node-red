@@ -43,7 +43,7 @@
     "node-red": "^3.1.5",
     "node-red-contrib-aggregator": "^2.0.0",
     "node-red-contrib-polymer": "^0.0.22",
-    "node-red-dashboard": "^3.6.2",
+    "node-red-dashboard": "^3.6.5",
     "node-red-node-email": "^2.1.0",
     "node-red-node-feedparser": "^0.3.0",
     "node-red-node-sentiment": "^0.1.6",
