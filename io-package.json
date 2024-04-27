@@ -127,7 +127,8 @@
       "Ingo Fischer <iobroker@fischer-ka.de>"
     ],
     "licenseInformation": {
-      "license": "Apache-2.0"
+      "license": "Apache-2.0",
+      "type": "free"
     },
     "platform": "Javascript/Node.js",
     "mode": "daemon",
