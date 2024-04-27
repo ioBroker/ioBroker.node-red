@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "5.2.0",
+    "version": "5.2.1",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "5.2.1": {
+        "en": "Update node-red to 3.1.9 to fix execution on windows\nRestore log behavior as it was in till 5.0.x",
+        "de": "Aktualisieren von node-red auf 3.1.9, um die Ausführung auf Windows zu beheben\nLog-Verhalten wiederherzustellen, wie es bis 5.0.x war",
+        "ru": "Обновить узел до 3.1.9 для фиксации выполнения на окнах\nВосстановить поведение журнала, как это было до 5.0.x",
+        "pt": "Atualizar node-red para 3.1.9 para corrigir a execução no Windows\nRestaurar o comportamento do log como foi em até 5.0.x",
+        "nl": "Node-rood bijwerken naar 3.1.9 om de uitvoering op vensters te herstellen\nLoggedrag herstellen zoals het was tot 5.0.x",
+        "fr": "Mettre à jour nœud rouge à 3.1.9 pour fixer l'exécution sur les fenêtres\nRestaurer le comportement du journal tel qu'il était jusqu'à 5.0.x",
+        "it": "Aggiornare il nodo-rosso a 3.1.9 per correggere l'esecuzione su finestre\nRipristinare il comportamento del registro come era in fino a 5.0.x",
+        "es": "Actualizar node-red a 3.1.9 para arreglar la ejecución en ventanas\nRestaurar el comportamiento de registro como estaba en hasta 5.0.x",
+        "pl": "Aktualizuj node- czerwony do 3.1.9, aby naprawić wykonanie w oknach\nPrzywróć zachowanie logarytmu do 5.0.x",
+        "uk": "Оновлення вузла до 3.1.9 для фіксації виконання на вікнах\nВідновлення логінної поведінки, як це було до 5.0.x",
+        "zh-cn": "将节点红更新到3.1.9, 以固定窗口上的执行\n恢复到5. 0.x的日志行为"
+      },
       "5.2.0": {
         "en": "Added persistence of context data (filesystem)",
         "de": "Beharrlichkeit von Kontextdaten (Dateisystem) hinzugefügt",
@@ -93,19 +106,6 @@
         "pl": "Optymizacja ścieżki",
         "uk": "Оптимальна обробка шляху",
         "zh-cn": "利用道路处理"
-      },
-      "4.0.2": {
-        "en": "Fix broken data directory when using multiple instances",
-        "de": "Beheben Sie das defekte Datenverzeichnis, wenn Sie mehrere Instanzen verwenden",
-        "ru": "Исправление сломанной директории данных при использовании нескольких инстанций",
-        "pt": "Corrigir diretório de dados quebrados ao usar várias instâncias",
-        "nl": "Vertaling:",
-        "fr": "Réparer le répertoire de données cassées lorsque vous utilisez plusieurs instances",
-        "it": "Fissare la directory dei dati rotta quando si utilizzano più istanze",
-        "es": "Arreglar el directorio de datos rotos al utilizar múltiples instancias",
-        "pl": "Fix złamał katalogi danych, gdy wykorzystuje wiele instancji",
-        "zh-cn": "在使用多种情况时,固定数据主任破碎。",
-        "uk": "Виправлено зламані дані каталогу при використанні декількох екземплярів"
       }
     },
     "desc": {

@@ -1,4 +1,15 @@
 # Older changes
+## 5.0.0 (2023-11-26)
+**NodeJS 16.4.x+ is required**
+**Please check instance configuration and re-enter your passwords (encryption has changed).**
+
+- (klein0r) Updated Node-RED to 3.1.0. Please check your nodes for compatibility!
+- (klein0r) Admin 5/6 JSON config for instance configuration
+- (klein0r) Added sendTo node with callback
+- (klein0r) Allow custom attribute name for "ioBroker in" node
+- (klein0r) Added option to select editor (monaco, ace)
+- (klein0r) Added table for custom env vars to instance configuration
+
 ## 4.0.3 (2023-03-24)
 
 - (Apollon77) Optimized path handling
