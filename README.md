@@ -35,27 +35,28 @@ Instantiate the server with Node-RED
     ### **WORK IN PROGRESS**
 -->
 ## Changelog
-### 5.2.0 (2024-02-17)
 
+### __WORK IN PROGRESS__
+
+- (Apollon77) Update node-red to 3.1.9 to fix execution on windows
+- (Apollon77) Restore log behavior as it was in till 5.0.x 
+
+### 5.2.0 (2024-02-17)
 - (klein0r) Added persistence of context data (filesystem)
 
 ### 5.1.0 (2023-12-27)
-
 - (klein0r) Allow custom themes
 - (klein0r) Fixed scoped node-red packages
 
 ### 5.0.2 (2023-12-14)
-
 - (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
 
 ### 5.0.1 (2023-12-05)
-
 - (klein0r) Fixed credentials decrypt
 - (klein0r) Added connection state (process is running)
 
 ### 5.0.0 (2023-11-26)
-
-**NodeJS 16.4.x is required**
+**NodeJS 16.4.x+ is required**
 **Please check instance configuration and re-enter your passwords (encryption has changed).**
 
 - (klein0r) Updated Node-RED to 3.1.0. Please check your nodes for compatibility!
