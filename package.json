@@ -40,7 +40,7 @@
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.1",
     "bcrypt": "^5.1.1",
-    "node-red": "^3.1.9",
+    "node-red": "^3.1.12",
     "node-red-contrib-aggregator": "^2.0.0",
     "node-red-contrib-polymer": "^0.0.22",
     "node-red-dashboard": "^3.6.5",
