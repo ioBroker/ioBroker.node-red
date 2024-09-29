@@ -1,5 +1,3 @@
-'use strict';
-
 const utils = require('@iobroker/adapter-core');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -73,53 +71,59 @@ class NodeRed extends utils.Adapter {
 
         this.installLibraries(() => {
             if (this.config.projectsEnabled === undefined) this.config.projectsEnabled = false;
-            if (this.config.allowCreationOfForeignObjects === undefined) this.config.allowCreationOfForeignObjects = false;
+            if (this.config.allowCreationOfForeignObjects === undefined)
+                this.config.allowCreationOfForeignObjects = false;
 
             // create userData directory
             if (!fs.existsSync(this.userDataDir)) {
                 fs.mkdirSync(this.userDataDir);
             }
 
-            this.generateHtml()
-                .then(() => {
-                    this.syncPublic();
+            this.generateHtml().then(() => {
+                this.syncPublic();
 
-                    // Read flow configuration
-                    this.getObject('flows', (err, obj) => {
-                        if (obj?.native?.cred) {
-                            const c = JSON.stringify(obj.native.cred);
-                            // If really not empty
-                            if (c !== '{}' && c !== '[]') {
-                                fs.writeFileSync(path.join(this.userDataDir, 'flows_cred.json'), JSON.stringify(obj.native.cred));
-                                this.log.debug(`Updated flow cred configuration of object data`);
-                            }
+                // Read flow configuration
+                this.getObject('flows', (err, obj) => {
+                    if (obj?.native?.cred) {
+                        const c = JSON.stringify(obj.native.cred);
+                        // If really not empty
+                        if (c !== '{}' && c !== '[]') {
+                            fs.writeFileSync(
+                                path.join(this.userDataDir, 'flows_cred.json'),
+                                JSON.stringify(obj.native.cred),
+                            );
+                            this.log.debug(`Updated flow cred configuration of object data`);
                         }
-                        if (obj?.native?.flows) {
-                            const f = JSON.stringify(obj.native.flows);
-                            // If really not empty
-                            if (f !== '{}' && f !== '[]') {
-                                fs.writeFileSync(path.join(this.userDataDir, 'flows.json'), JSON.stringify(obj.native.flows));
-                                this.log.debug(`Updated flow configuration of object data`);
-                            }
+                    }
+                    if (obj?.native?.flows) {
+                        const f = JSON.stringify(obj.native.flows);
+                        // If really not empty
+                        if (f !== '{}' && f !== '[]') {
+                            fs.writeFileSync(
+                                path.join(this.userDataDir, 'flows.json'),
+                                JSON.stringify(obj.native.flows),
+                            );
+                            this.log.debug(`Updated flow configuration of object data`);
+                        }
+                    }
+
+                    this.installNotifierFlows(true);
+                    this.installNotifierCreds(true);
+
+                    this.getForeignObject('system.config', (err, obj) => {
+                        if (obj?.native?.secret) {
+                            this.systemSecret = obj.native.secret;
+                            this.log.debug(`Found system secret: ${this.systemSecret.substring(-10)}**********`);
+                        } else {
+                            this.log.warn('Unable to find system secret in system.config');
                         }
 
-                        this.installNotifierFlows(true);
-                        this.installNotifierCreds(true);
-
-                        this.getForeignObject('system.config', (err, obj) => {
-                            if (obj?.native?.secret) {
-                                this.systemSecret = obj.native.secret;
-                                this.log.debug(`Found system secret: ${this.systemSecret.substring(-10)}**********`);
-                            } else {
-                                this.log.warn('Unable to find system secret in system.config');
-                            }
-
-                            // Create settings for node-red
-                            this.writeSettings();
-                            this.writeStateList(() => this.startNodeRed());
-                        });
+                        // Create settings for node-red
+                        this.writeSettings();
+                        this.writeStateList(() => this.startNodeRed());
                     });
                 });
+            });
         });
     }
 
@@ -135,24 +139,31 @@ class NodeRed extends utils.Adapter {
             const settings = await this.getForeignObjectAsync(`system.adapter.${this.namespace}`);
             if (settings) {
                 // read all admin adapters on this host
-                const admins = await this.getObjectViewAsync('system', 'instance', { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' }, {});
+                const admins = await this.getObjectViewAsync(
+                    'system',
+                    'instance',
+                    { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' },
+                    {},
+                );
                 let admin = admins.rows.find(obj => obj.value.common.host === settings.common.host);
 
                 if (this.config.doNotReadObjectsDynamically) {
                     lines[pos] = `            var socket = null; ${searchText}`;
-                } else
-                    if (admin && !admin.value.native.auth) {
-                        admin = admin.value;
-                        if ((!!admin.native.secure) === (!!settings.native.secure)) {
-                            lines[pos] = `            var socket = new WebSocket('ws${admin.native.secure ? 's' : ''}://${admin.native.bind === '0.0.0.0' || admin.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : admin.native.bind}:${admin.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
-                        } else {
-                            lines[pos] = `            var socket = null; ${searchText}`;
-                            this.log.warn(`Cannot enable the dynamic object read as admin is SSL ${admin.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`);
-                        }
+                } else if (admin && !admin.value.native.auth) {
+                    admin = admin.value;
+                    if (!!admin.native.secure === !!settings.native.secure) {
+                        lines[pos] =
+                            `            var socket = new WebSocket('ws${admin.native.secure ? 's' : ''}://${admin.native.bind === '0.0.0.0' || admin.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : admin.native.bind}:${admin.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
                     } else {
                         lines[pos] = `            var socket = null; ${searchText}`;
-                        this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
+                        this.log.warn(
+                            `Cannot enable the dynamic object read as admin is SSL ${admin.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`,
+                        );
                     }
+                } else {
+                    lines[pos] = `            var socket = null; ${searchText}`;
+                    this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
+                }
                 if (html !== lines.join('\n')) {
                     fs.writeFileSync(`${__dirname}/nodes/ioBroker.html`, lines.join('\n'));
                 }
@@ -201,7 +212,7 @@ class NodeRed extends utils.Adapter {
             if (fs.existsSync(flowsPath)) {
                 if (!isFirst) this.saveObjects();
 
-                // monitor project file
+                // monitor the project file
                 this.notificationsFlows = new Notify([flowsPath]);
                 this.notificationsFlows.on('change', () => {
                     this.saveTimer && this.clearTimeout(this.saveTimer);
@@ -220,7 +231,7 @@ class NodeRed extends utils.Adapter {
             if (fs.existsSync(flowsCredPath)) {
                 if (!isFirst) this.saveObjects();
 
-                // monitor project file
+                // monitor the project file
                 this.notificationsCreds = new Notify([flowsCredPath]);
                 this.notificationsCreds.on('change', () => {
                     this.saveTimer && this.clearTimeout(this.saveTimer);
@@ -235,7 +246,13 @@ class NodeRed extends utils.Adapter {
 
     startNodeRed() {
         this.config.maxMemory = parseInt(this.config.maxMemory, 10) || 128;
-        const args = [`--max-old-space-size=${this.config.maxMemory}`, path.join(nodePath, 'red.js'), '-v', '--settings', path.join(this.userDataDir, 'settings.js')];
+        const args = [
+            `--max-old-space-size=${this.config.maxMemory}`,
+            path.join(nodePath, 'red.js'),
+            '-v',
+            '--settings',
+            path.join(this.userDataDir, 'settings.js'),
+        ];
 
         if (this.config.safeMode) {
             args.push('--safe');
@@ -245,11 +262,11 @@ class NodeRed extends utils.Adapter {
 
         const envVars = {
             ...process.env,
-            ...this.config.envVars.reduce((acc, v) => ({ ...acc, [v.name]: v.value || null }), {})
+            ...this.config.envVars?.reduce((acc, v) => ({ ...acc, [v.name]: v.value || null }), {}),
         };
 
         this.redProcess = spawn('node', args, { env: envVars });
-        this.redProcess.on('error', err => this.log.error(`catched exception from node-red:${JSON.stringify(err)}`));
+        this.redProcess.on('error', err => this.log.error(`caught exception from node-red:${JSON.stringify(err)}`));
         this.redProcess.on('spawn', () => {
             this.setStateAsync('info.connection', { val: true, ack: true });
             this.log.info(`Node-RED started successfully (PID: ${this.redProcess?.pid})`);
@@ -271,9 +288,11 @@ class NodeRed extends utils.Adapter {
                 this.log.error(`Node-RED: ${data}`);
             } else if (data.includes('[warn]')) {
                 this.log.warn(`Node-RED: ${data}`);
-            } else if (data.includes('[info] [debug:')) { // Debug node, lets log as Info
+            } else if (data.includes('[info] [debug:')) {
+                // Debug node, lets log as Info
                 this.log.info(`Node-RED: ${data}`);
-            } else if (data.includes('[info]')) { // Just "info" is more like debug
+            } else if (data.includes('[info]')) {
+                // Just "info" is more like debug
                 this.log.debug(`Node-RED: ${data}`);
             } else {
                 this.log.debug(`Node-RED: ${data}`);
@@ -298,7 +317,7 @@ class NodeRed extends utils.Adapter {
             }
         });
 
-        this.redProcess.on('exit', (exitCode) => {
+        this.redProcess.on('exit', exitCode => {
             this.log.info(`Node-RED exited with ${exitCode}`);
             this.redProcess = null;
             if (!this.stopping) {
@@ -325,7 +344,7 @@ class NodeRed extends utils.Adapter {
         child.stdout.on('data', buf => this.log.info(buf.toString('utf8')));
         child.stderr.on('data', buf => this.log.error(buf.toString('utf8')));
 
-        child.on('exit', (code) => {
+        child.on('exit', code => {
             code && this.log.error(`Cannot install ${npmLib}: ${code}`);
             // command succeeded
             callback && callback(npmLib);
@@ -352,7 +371,6 @@ class NodeRed extends utils.Adapter {
                 lib = lib.trim();
                 if (lib) {
                     if (!fs.existsSync(path.join(this.userDataDir, `node_modules/${lib}/package.json`))) {
-
                         if (!this.attempts[lib]) {
                             this.attempts[lib] = 1;
                         } else {
@@ -385,11 +403,18 @@ class NodeRed extends utils.Adapter {
         const pos = line.indexOf(toFind);
 
         if (pos !== -1) {
-            let setValue = (value !== undefined) ? value : (this.config[option] === null || this.config[option] === undefined) ? '' : this.config[option];
+            let setValue =
+                value !== undefined
+                    ? value
+                    : this.config[option] === null || this.config[option] === undefined
+                      ? ''
+                      : this.config[option];
             if (
                 typeof setValue === 'string' &&
-                !setValue.startsWith('{') && !setValue.endsWith('}') &&
-                !setValue.startsWith('[') && !setValue.endsWith(']')
+                !setValue.startsWith('{') &&
+                !setValue.endsWith('}') &&
+                !setValue.startsWith('[') &&
+                !setValue.endsWith(']')
             ) {
                 setValue = setValue.replace(/\\/g, '\\\\');
             }
@@ -414,7 +439,7 @@ class NodeRed extends utils.Adapter {
         const bind = `"${this.config.bind || '0.0.0.0'}"`;
 
         let authObj = { type: 'credentials' };
-        if ((this.config.authType === undefined) || (this.config.authType === '')) {
+        if (this.config.authType === undefined || this.config.authType === '') {
             // first time after upgrade or fresh install
             if (this.config.user) {
                 this.config.authType = 'Simple';
@@ -429,18 +454,25 @@ class NodeRed extends utils.Adapter {
                 break;
 
             case 'Simple':
-                authObj.users = [{ username: this.config.user, password: this.hashPassword(this.config.pass), permissions: '*' }];
+                authObj.users = [
+                    { username: this.config.user, password: this.hashPassword(this.config.pass), permissions: '*' },
+                ];
                 break;
 
             case 'Extended':
-                authObj.users = this.config.authExt.map(user => ({ ...user, password: this.hashPassword(user.password) }));
+                authObj.users = this.config.authExt.map(user => ({
+                    ...user,
+                    password: this.hashPassword(user.password),
+                }));
                 if (this.config.hasDefaultPermissions) {
                     authObj.default = { permissions: this.config.defaultPermissions };
                 }
                 break;
         }
 
-        this.log.debug(`Writing extended authentication for authType: "${this.config.authType}": ${JSON.stringify(authObj)}`);
+        this.log.debug(
+            `Writing extended authentication for authType: "${this.config.authType}": ${JSON.stringify(authObj)}`,
+        );
 
         const pass = `"${this.config.pass}"`;
         const secure = this.config.secure ? '' : '// ';
@@ -457,17 +489,21 @@ class NodeRed extends utils.Adapter {
         this.log.debug(`[writeSettings] Additional npm packages (functionGlobalContext): ${npms}`);
 
         // update from 1.0.1 (new convert-option)
-        if (this.config.valueConvert === null ||
+        if (
+            this.config.valueConvert === null ||
             this.config.valueConvert === undefined ||
             this.config.valueConvert === '' ||
             this.config.valueConvert === 'true' ||
             this.config.valueConvert === '1' ||
-            this.config.valueConvert === 1) {
+            this.config.valueConvert === 1
+        ) {
             this.config.valueConvert = true;
         }
-        if (this.config.valueConvert === 0 ||
+        if (
+            this.config.valueConvert === 0 ||
             this.config.valueConvert === '0' ||
-            this.config.valueConvert === 'false') {
+            this.config.valueConvert === 'false'
+        ) {
             this.config.valueConvert = false;
         }
 
@@ -501,7 +537,11 @@ class NodeRed extends utils.Adapter {
             lines[i] = this.setOption(lines[i], 'valueConvert');
             lines[i] = this.setOption(lines[i], 'projectsEnabled', this.config.projectsEnabled);
             lines[i] = this.setOption(lines[i], 'palletmanagerEnabled', this.config.palletmanagerEnabled);
-            lines[i] = this.setOption(lines[i], 'allowCreationOfForeignObjects', this.config.allowCreationOfForeignObjects);
+            lines[i] = this.setOption(
+                lines[i],
+                'allowCreationOfForeignObjects',
+                this.config.allowCreationOfForeignObjects,
+            );
             lines[i] = this.setOption(lines[i], 'editor');
             lines[i] = this.setOption(lines[i], 'theme');
         }
@@ -559,7 +599,8 @@ class NodeRed extends utils.Adapter {
         }
 
         // upload it to config
-        this.setObject('flows',
+        this.setObject(
+            'flows',
             {
                 type: 'config',
                 common: {
@@ -574,15 +615,15 @@ class NodeRed extends utils.Adapter {
                         es: 'Node-RED flows configuración',
                         pl: 'Node-RED flows konfiguracja',
                         uk: 'Node-RED flows конфігурація',
-                        'zh-cn': 'Node-RED flows 组合'
-                    }
+                        'zh-cn': 'Node-RED flows 组合',
+                    },
                 },
                 native: {
                     cred: cred,
-                    flows: flows
+                    flows: flows,
                 },
             },
-            () => this.log.debug(`Saved flow configuration of ${flowsPath} to object`)
+            () => this.log.debug(`Saved flow configuration of ${flowsPath} to object`),
         );
     }
 
@@ -637,9 +678,7 @@ class NodeRed extends utils.Adapter {
             this.log.info('cleaned everything up...');
 
             callback();
-        } catch (e) {
-            callback();
-        }
+        } catch (e) {}
     }
 }
 
@@ -649,7 +688,7 @@ if (module.parent) {
     /**
      * @param {Partial<ioBroker.AdapterOptions>} [options={}]
      */
-    module.exports = (options) => new NodeRed(options);
+    module.exports = options => new NodeRed(options);
 } else {
     // otherwise start the instance directly
     new NodeRed();

@@ -35,6 +35,11 @@ Instantiate the server with Node-RED
     ### **WORK IN PROGRESS**
 -->
 ## Changelog
+### **WORK IN PROGRESS**
+
+- (@GermanBluefox) Corrected the case if `envVars` settings is undefined
+- (@GermanBluefox) Used common `@iobroker/eslint-config`
+
 ### 5.2.1 (2024-04-27)
 
 - (Apollon77) Update node-red to 3.1.9 to fix execution on windows

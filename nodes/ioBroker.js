@@ -97,7 +97,7 @@ module.exports = function (RED) {
                                     delay(20);
                                 }
                             } catch (err) {
-                                //adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
+                                //adapter.log.info(`${node.id}: Could not read the value of "${node.topic}" for initialization: ${err.message}`);
                             }
                         }
                     }
