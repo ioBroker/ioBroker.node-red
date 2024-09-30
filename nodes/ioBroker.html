@@ -28,12 +28,12 @@
 <script type="text/javascript" src="selectID.js"></script>
 
 <script type="text/javascript">
-    window.ioBrokerAdmin = {"port":8081,"host":"","protocol":"http:"}; // THIS LINE WILL BE CHANGED FOR SELECT ID
+    window.ioBrokerAdmin = null; // THIS LINE WILL BE CHANGED FOR SELECT ID
 
     function readData() {
         return new Promise((resolve, reject) => {
             console.log('Connecting...');
-            var socket = new WebSocket('ws://' + window.location.hostname + ':8081?sid=' + Date.now()); window.ioBrokerAdmin = {"port":8081,"host":"","protocol":"http:"}; // THIS LINE WILL BE CHANGED FOR ADMIN
+            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN
 
             if (!socket) {
                 console.warn('Authentication must be disabled to support the objects read!');
@@ -129,14 +129,15 @@
     }
 
     function initSelectId(allowAll, onChange) {
-        /*
-        if (!window.__iobroker) {
-            $.getJSON('iobroker.json', function (data) {
-                openSelectId(allowAll, data);
-            });
-        } else {
-            openSelectId(allowAll);
-        }*/
+        if (!window.ioBrokerAdmin) {
+            if (!window.__iobroker) {
+                $.getJSON('iobroker.json', function (data) {
+                    openSelectId(allowAll, data);
+                });
+            } else {
+                openSelectId(allowAll);
+            }
+        }
         console.log('INIT')
 
         $('#node-input-topic-button').button({
@@ -144,7 +145,7 @@
             text:  false
         }).click(function () {
             if (window.ioBrokerAdmin) {
-                let selectDialog = document.getElementById('iobroker-select-id');
+                let selectDialog = document.getElementById('iob-select-id');
                 if (!selectDialog) {
                     selectDialog = document.createElement('iobroker-select-id');
                     selectDialog.setAttribute('id', 'iob-select-id')
@@ -202,7 +203,8 @@
 <script type="text/html" data-template-name="ioBroker in">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width: calc(100% - 152px)">
+        <input type="button" id="node-input-topic-button" style="display: inline-block; width: 40px; margin-left: 4px; " value="..."/>
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">
@@ -214,15 +216,15 @@
     </div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="Name" style="width: calc(100% - 110px)">
     </div>
     <div class="form-row">
         <label for="node-input-attrname"><i class="fa fa-tag"></i> Attribute</label>
-        <input type="text" id="node-input-attrname" placeholder="attrname">
+        <input type="text" id="node-input-attrname" placeholder="attrname" style="width: calc(100% - 110px)">
     </div>
     <div class="form-row">
         <label for="node-input-onlyack"><i class="fa fa-question"></i> Ack-Flag</label>
-        <select type="text" id="node-input-onlyack" style="width:74%;">
+        <select type="text" id="node-input-onlyack" style="width: calc(100% - 110px);">
 			<option value="">Send all events</option>
             <option value="update">Only updates (ack==true)</option>
             <option value="command">Only commands (ack==false)</option>
@@ -230,7 +232,7 @@
     </div>
     <div class="form-row">
         <label for="node-input-func"><i class="fa fa-wrench"></i> Mode</label>
-        <select type="text" id="node-input-func" style="width:74%;">
+        <select type="text" id="node-input-func" style="width: calc(100% - 110px);">
 			<option value="all">Send all events</option>
             <option value="rbe">block unless value changes</option>
             <option value="rbe-preinitvalue">block unless value changes (Initialize with value)</option>
@@ -244,14 +246,14 @@
     </div>
     <div class="form-row">
         <label for="node-input-fireOnStart"><i class="fa fa-arrow-up"></i> Fire by start</label>
-        <select id="node-input-fireOnStart" style="width:73% !important">
+        <select id="node-input-fireOnStart" style="width: calc(100% - 110px)">
             <option value="true">send message at start (only without wildcards in ID!)</option>
             <option value="false">send no message at start</option>
         </select>
     </div>
     <div class="form-row">
         <label for="node-input-outFormat"><i class="fa fa-arrow-up"></i> Topic format</label>
-        <select id="node-input-outFormat" style="width:73% !important">
+        <select id="node-input-outFormat" style="width: calc(100% - 110px)">
             <option value="MQTT">format topic to MQTT (with /)</option>
             <option value="ioBroker">format topic to ioBroker (with .)</option>
         </select>
@@ -316,7 +318,8 @@
 <script type="text/html" data-template-name="ioBroker out">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width: calc(100% - 152px)">
+        <input type="button" id="node-input-topic-button" style="display: inline-block; width: 40px; margin-left: 4px; " value="..."/>
     </div>
     <div id="dialog-select-member" style="display: none"></div>
     <div class="form-row">
@@ -324,18 +327,18 @@
     </div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="Name" style="width: calc(100% - 110px)">
     </div>
     <div class="form-row">
         <label for="node-input-ack"><i class="fa fa-arrow-up"></i> Type</label>
-        <select id="node-input-ack" style="width:73% !important">
+        <select id="node-input-ack" style="width: calc(100% - 110px)">
             <option value="true">value</option>
             <option value="false">command</option>
         </select>
     </div>
     <div class="form-row">
         <label for="node-input-autoCreate"><i class="fa fa-arrow-up"></i> Auto create</label>
-        <select id="node-input-autoCreate" style="width:73% !important">
+        <select id="node-input-autoCreate" style="width: calc(100% - 110px)">
             <option value="true">Create states if not exist</option>
             <option value="false">Ignore messages for non existing states</option>
         </select>
@@ -353,7 +356,7 @@
     </div>
     <div class="form-row input-autoCreate">
         <label for="node-input-payloadType"><i class="fa fa-arrow-up"></i> Payload type</label>
-        <select id="node-input-payloadType" style="width:73% !important">
+        <select id="node-input-payloadType" style="width: calc(100% - 110px)">
             <option value="string">String</option>
             <option value="number">Number</option>
             <option value="boolean">Boolean</option>
@@ -365,7 +368,7 @@
     </div>
     <div class="form-row input-autoCreate">
         <label for="node-input-readonly"><i class="fa fa-arrow-up"></i> Readonly</label>
-        <select id="node-input-readonly" style="width:73% !important">
+        <select id="node-input-readonly" style="width: calc(100% - 110px)">
             <option value="true">Object is readonly</option>
             <option value="false">Object is writeable</option>
         </select>
@@ -448,16 +451,17 @@ RED.nodes.registerType('ioBroker out', {
 <script type="text/html" data-template-name="ioBroker get">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width: calc(100% - 152px)">
+        <input type="button" id="node-input-topic-button" style="display:inline-block; width: 40px; margin-left: 4px; " value="..."/>
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="Name"style="width: calc(100% - 110px)">
     </div>
     <div class="form-row">
         <label for="node-input-payloadType"><i class="fa fa-envelope"></i> Payload</label>
-        <select id="node-input-payloadType" style="width:125px !important">
+        <select id="node-input-payloadType" style="width: 125px !important">
           <option value="value">value</option>
           <option value="object">object</option>
         </select>
@@ -511,16 +515,17 @@ RED.nodes.registerType('ioBroker get', {
 <script type="text/html" data-template-name="ioBroker get object">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width: calc(100% - 152px)">
+        <input type="button" id="node-input-topic-button" style="display: inline-block; width: 40px; margin-left: 4px;" value="..."/>
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="Name" style="width: calc(100% - 110px)">
     </div>
     <div class="form-row">
         <label for="node-input-attrname"><i class="fa fa-tag"></i> Attribute</label>
-        <input type="text" id="node-input-attrname" placeholder="attrname">
+        <input type="text" id="node-input-attrname" placeholder="attrname" style="width: calc(100% - 110px)">
     </div>
      <div class="form-tips">Tip: Leave topic blank if you want to set them via msg properties.</div>
 </script>
@@ -556,16 +561,17 @@ RED.nodes.registerType('ioBroker get', {
 <script type="text/html" data-template-name="ioBroker list">
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" style="width:60%"><input type="button" id="node-input-topic-button" style="display:inline-block;width:10%" value="..."/>
+        <input type="text" id="node-input-topic" placeholder="Topic" style="width: calc(100% - 152px)">
+        <input type="button" id="node-input-topic-button" style="display:inline-block; width: 40px; margin-left: 4px;" value="..."/>
     </div>
     <div id="dialog-select-member" style="display:none"></div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="Name" style="width: calc(100% - 110px)">
     </div>
     <div class="form-row">
         <label for="node-input-objType"><i class="fa fa-tag"></i> Type</label>
-        <select id="node-input-objType" style="width:73% !important">
+        <select id="node-input-objType" style="width: calc(100% - 110px)">
             <option value="">Any</option>
             <option value="state">State</option>
             <option value="channel">Channel</option>
@@ -578,21 +584,21 @@ RED.nodes.registerType('ioBroker get', {
     </div>
     <div class="form-row">
         <label for="node-input-asArray"><i class="fa fa-tag"></i> As array</label>
-        <select id="node-input-asArray" style="width:73% !important">
+        <select id="node-input-asArray" style="width: calc(100% - 110px)">
             <option value="true">Return one array of IDs</option>
             <option value="false">For every ID the message will be generated</option>
         </select>
     </div>
     <div class="form-row">
         <label for="node-input-onlyIDs"><i class="fa fa-tag"></i> Only IDs</label>
-        <select id="node-input-onlyIDs" style="width:73% !important">
+        <select id="node-input-onlyIDs" style="width: calc(100% - 110px)">
             <option value="true">Returns only IDs of object</option>
             <option value="false">Returns whole objects</option>
         </select>
     </div>
     <div class="form-row">
         <label for="node-input-withValues"><i class="fa fa-tag"></i> With values</label>
-        <select id="node-input-withValues" style="width:73% !important">
+        <select id="node-input-withValues" style="width: calc(100% - 110px)">
             <option value="true">Read state's values and add them to payload</option>
             <option value="false">Do not read values</option>
         </select>
