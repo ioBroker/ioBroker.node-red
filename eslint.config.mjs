@@ -20,4 +20,11 @@ export default [
             },
         },
     },
+    {
+        // disable temporary the rule 'jsdoc/require-param' and enable 'jsdoc/require-jsdoc'
+        rules: {
+            'jsdoc/require-jsdoc': 'off',
+            'jsdoc/require-param': 'off',
+        },
+    },
 ];
