@@ -182,7 +182,7 @@ class NodeRed extends utils.Adapter {
                     this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
                 }
 
-                const searchTextIob = '// THIS LINE WILL BE CHANGED FOR SELECT ID'
+                const searchTextIob = '// THIS LINE WILL BE CHANGED FOR SELECT ID';
                 const posIob = lines.findIndex(line => line.includes(searchTextIob));
                 if (posIob !== -1 && adminInstanceObj) {
                     lines[posIob] = `    ${NodeRed.getAdminJson(adminInstanceObj)} ${searchTextIob}`;
