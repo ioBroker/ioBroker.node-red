@@ -67,7 +67,7 @@ class NodeRed extends utils.Adapter {
     }
 
     async onReady() {
-        await this.setStateAsync('info.connection', { val: false, ack: true });
+        await this.setState('info.connection', { val: false, ack: true });
 
         this.installLibraries(() => {
             if (this.config.projectsEnabled === undefined) this.config.projectsEnabled = false;
@@ -127,6 +127,14 @@ class NodeRed extends utils.Adapter {
         });
     }
 
+    static getAdminJson(adminInstanceObj) {
+        return `window.ioBrokerAdmin = ${JSON.stringify({
+            port: adminInstanceObj.native.port || 8081,
+            host: adminInstanceObj.native.bind === '0.0.0.0' ? '' : adminInstanceObj.native.bind,
+            protocol: adminInstanceObj.native.secure ? 'https:' : 'http:',
+        })};`;
+    }
+
     async generateHtml() {
         const searchText = '// THIS LINE WILL BE CHANGED FOR ADMIN';
         const html = fs.readFileSync(`${__dirname}/nodes/ioBroker.html`).toString('utf8');
@@ -145,25 +153,41 @@ class NodeRed extends utils.Adapter {
                     { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' },
                     {},
                 );
-                let admin = admins.rows.find(obj => obj.value.common.host === settings.common.host);
+                let admin = admins.rows.find(obj =>
+                    obj.value.common.host === settings.common.host &&
+                    !obj.value.native.auth &&
+                    obj.value.common.enabled &&
+                    ((!obj.value.native.secure && !!settings.native.secure) ||
+                        (!!obj.value.native.secure === !!settings.native.secure))
+                );
+                const adminInstanceObj = admin ? admin.value : null;
 
                 if (this.config.doNotReadObjectsDynamically) {
                     lines[pos] = `            var socket = null; ${searchText}`;
-                } else if (admin && !admin.value.native.auth) {
-                    admin = admin.value;
-                    if (!!admin.native.secure === !!settings.native.secure) {
+                } else if (adminInstanceObj && !adminInstanceObj.native.auth) {
+                    if ((!adminInstanceObj.native.secure && !!settings.native.secure) || (!!adminInstanceObj.native.secure === !!settings.native.secure)) {
                         lines[pos] =
-                            `            var socket = new WebSocket('ws${admin.native.secure ? 's' : ''}://${admin.native.bind === '0.0.0.0' || admin.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : admin.native.bind}:${admin.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
+                            `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
                     } else {
                         lines[pos] = `            var socket = null; ${searchText}`;
                         this.log.warn(
-                            `Cannot enable the dynamic object read as admin is SSL ${admin.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`,
+                            `Cannot enable the dynamic object read as admin is SSL ${adminInstanceObj.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`,
                         );
                     }
+                } else if (adminInstanceObj) {
+                    lines[pos] = `            var socket = null; ${searchText}`;
+                    this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
                 } else {
                     lines[pos] = `            var socket = null; ${searchText}`;
                     this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
                 }
+
+                const searchTextIob = '// THIS LINE WILL BE CHANGED FOR SELECT ID';
+                const posIob = lines.findIndex(line => line.includes(searchTextIob));
+                if (posIob !== -1 && adminInstanceObj) {
+                    lines[posIob] = `    ${NodeRed.getAdminJson(adminInstanceObj)} ${searchTextIob}`;
+                }
+
                 if (html !== lines.join('\n')) {
                     fs.writeFileSync(`${__dirname}/nodes/ioBroker.html`, lines.join('\n'));
                 }

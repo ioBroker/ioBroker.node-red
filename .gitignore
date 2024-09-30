@@ -11,7 +11,9 @@ nbproject
 iobroker.*.tgz
 
 Thumbs.db
-
+src-object-selector/dist
+src-object-selector/tsconfig.tsbuildinfo
+src-object-selector/package-lock.json
 # i18n intermediate files
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt

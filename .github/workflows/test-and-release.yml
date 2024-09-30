@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: ioBroker/testing-action-check@v1
         with:
-          node-version: '18.x'
+          node-version: '20.x'
           lint: true
           lint-command: 'npm run lint .'
 
@@ -38,7 +38,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -46,7 +46,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           os: ${{ matrix.os }}
-          extra-tests: npm run test:js
+          extra-tests: npm run test
 
   deploy:
     needs: [check-and-lint, adapter-tests]
@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: ioBroker/testing-action-deploy@v1
         with:
-          node-version: '18.x'
+          node-version: '20.x'
           npm-token: ${{ secrets.NPM_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 

@@ -19,7 +19,7 @@
 
  <script type="text/javascript" src="js/selectID.js"></script>
 
- <script src="lib/js/socket.io.js"></script>
+ <script src="lib/js/socket.iob.js"></script>
  <script src="/_socket/info.js"></script>
 
  To use as part, just
