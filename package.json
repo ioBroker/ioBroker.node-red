@@ -28,7 +28,7 @@
         "url": "https://github.com/ioBroker/ioBroker.node-red"
     },
     "engines": {
-        "node": ">=16.4.0"
+        "node": ">=18"
     },
     "optionalDependencies": {
         "feedparser": "^2.2.10",
