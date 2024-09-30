@@ -1,6 +1,7 @@
 import { Component } from 'react';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+
 import {
-    Utils,
     SelectID,
     Connection,
     PROGRESS,
@@ -38,10 +39,7 @@ if (window.socketUrl) {
 }
 
 let connection: Connection | null = null;
-function singletonConnection(
-    props: ConnectionProps,
-    onConnectionChanged: (connected: boolean) => void,
-): Connection {
+function singletonConnection(props: ConnectionProps, onConnectionChanged: (connected: boolean) => void): Connection {
     if (connection) {
         return connection;
     }
@@ -118,9 +116,9 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
         super(props);
 
         const theme = Theme('light');
-        console.log(theme);
         theme.palette.primary.main = '#AD1625';
         theme.palette.secondary.main = 'rgb(228, 145, 145)';
+        theme.palette.background.paper = 'rgb(243, 243, 243)';
 
         this.state = {
             theme,
@@ -183,58 +181,62 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
         }
 
         return this.state.opened ? (
-            <SelectID
-                themeName="light"
-                themeType="light"
-                imagePrefix={`${this.props.protocol || window.location.protocol}//${this.props.host || window.location.hostname}:${this.props.port || 8081}`}
-                theme={this.state.theme}
-                selected={this.state.selected}
-                socket={this.state.socket}
-                onClose={() => {
-                    if (
-                        typeof this.props.onclose === 'string' &&
-                        typeof (window as any)[this.props.onclose] === 'function'
-                    ) {
-                        (window as any)[this.props.onclose](null);
-                        return;
-                    }
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={this.state.theme}>
+                    <SelectID
+                        themeName="light"
+                        themeType="light"
+                        imagePrefix={`${this.props.protocol || window.location.protocol}//${this.props.host || window.location.hostname}:${this.props.port || 8081}`}
+                        theme={this.state.theme}
+                        selected={this.state.selected}
+                        socket={this.state.socket}
+                        onClose={() => {
+                            if (
+                                typeof this.props.onclose === 'string' &&
+                                typeof (window as any)[this.props.onclose] === 'function'
+                            ) {
+                                (window as any)[this.props.onclose](null);
+                                return;
+                            }
 
-                    return (this.props.onclose as OnClose)(null);
-                }}
-                onOk={async (selected: string | string[] | undefined) => {
-                    let id: string | undefined;
-                    if (selected && typeof selected === 'object') {
-                        id = selected[0];
-                    } else {
-                        id = selected;
-                    }
-                    if (id) {
-                        const newObj = await this.state.socket?.getObject(id);
-                        let oldObj: ioBroker.Object | undefined | null;
-                        if (this.props.selected) {
-                            oldObj = await this.state.socket?.getObject(this.props.selected);
-                        }
-                        if (
-                            typeof this.props.onclose === 'string' &&
-                            typeof (window as any)[this.props.onclose] === 'function'
-                        ) {
-                            (window as any)[this.props.onclose](id, newObj, this.props.selected, oldObj);
-                            return;
-                        }
+                            return (this.props.onclose as OnClose)(null);
+                        }}
+                        onOk={async (selected: string | string[] | undefined) => {
+                            let id: string | undefined;
+                            if (selected && typeof selected === 'object') {
+                                id = selected[0];
+                            } else {
+                                id = selected;
+                            }
+                            if (id) {
+                                const newObj = await this.state.socket?.getObject(id);
+                                let oldObj: ioBroker.Object | undefined | null;
+                                if (this.props.selected) {
+                                    oldObj = await this.state.socket?.getObject(this.props.selected);
+                                }
+                                if (
+                                    typeof this.props.onclose === 'string' &&
+                                    typeof (window as any)[this.props.onclose] === 'function'
+                                ) {
+                                    (window as any)[this.props.onclose](id, newObj, this.props.selected, oldObj);
+                                    return;
+                                }
 
-                        return (this.props.onclose as OnClose)(id, newObj, this.props.selected, oldObj);
-                    }
-                    if (
-                        typeof this.props.onclose === 'string' &&
-                        typeof (window as any)[this.props.onclose] === 'function'
-                    ) {
-                        (window as any)[this.props.onclose](null);
-                        return;
-                    }
+                                return (this.props.onclose as OnClose)(id, newObj, this.props.selected, oldObj);
+                            }
+                            if (
+                                typeof this.props.onclose === 'string' &&
+                                typeof (window as any)[this.props.onclose] === 'function'
+                            ) {
+                                (window as any)[this.props.onclose](null);
+                                return;
+                            }
 
-                    return (this.props.onclose as OnClose)(null);
-                }}
-            />
+                            return (this.props.onclose as OnClose)(null);
+                        }}
+                    />
+                </ThemeProvider>
+            </StyledEngineProvider>
         ) : null;
     }
 }
