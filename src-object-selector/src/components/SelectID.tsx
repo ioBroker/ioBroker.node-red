@@ -161,7 +161,7 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
         }
     }
 
-    render(): React.JSX.Element | string | null {
+    render(): React.JSX.Element {
         (window as any)._renderText = `[${new Date().toString()}] render`;
 
         console.log(
@@ -169,10 +169,10 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
         );
 
         if (!this.state.socket || !this.state.theme) {
-            return null;
+            return <div>...</div>;
         }
         if (!this.state.connected) {
-            return '...';
+            return <div>...</div>;
         }
 
         return this.state.opened ? (
@@ -232,6 +232,8 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
                     />
                 </ThemeProvider>
             </StyledEngineProvider>
-        ) : null;
+        ) : (
+            <div />
+        );
     }
 }

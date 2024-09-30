@@ -7,6 +7,7 @@ export const normalizeAttribute = (attribute: string): string => {
 };
 
 class SubscriptionWebComponent extends HTMLElement {
+    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
     private root: ReactDOM.Root | null = null;
     // is called when the element is created
     constructor() {
