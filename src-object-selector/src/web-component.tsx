@@ -1,7 +1,8 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ISelectIDNodeRedProps, SelectIDNodeRed } from './components/SelectID';
+import { type ISelectIDNodeRedProps, SelectIDNodeRed } from './components/SelectID';
 
-export const normalizeAttribute = (attribute: string) => {
+export const normalizeAttribute = (attribute: string): string => {
     return attribute.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 };
 
@@ -14,10 +15,11 @@ class SubscriptionWebComponent extends HTMLElement {
         this.attachShadow({ mode: 'open' });
     }
 
-    static get observedAttributes() {
+    static get observedAttributes(): string[] {
         return ['open', 'selected'];
     }
 
+    // eslint-disable-next-line class-methods-use-this
     attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
         console.log(`attributeChangedCallback: ${name}, ${oldValue}, ${newValue}`);
         if ((window as any)._iobOnPropertyChanged) {
@@ -26,13 +28,14 @@ class SubscriptionWebComponent extends HTMLElement {
     }
 
     // is called after the element is attached to the DOM
-    connectedCallback() {
+    connectedCallback(): void {
         const props = this.getPropsFromAttributes<ISelectIDNodeRedProps>();
         this.root = ReactDOM.createRoot(this.shadowRoot as ShadowRoot);
         this.root.render(<SelectIDNodeRed {...props} />);
     }
 
-    disconnectedCallback() {
+    // eslint-disable-next-line class-methods-use-this
+    disconnectedCallback(): void {
         console.log(`disconnectedCallback`);
     }
 

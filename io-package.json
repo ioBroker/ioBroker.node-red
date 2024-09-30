@@ -1,392 +1,367 @@
 {
-  "common": {
-    "name": "node-red",
-    "version": "6.0.0",
-    "titleLang": {
-      "en": "Node-RED",
-      "de": "Node-RED",
-      "ru": "Node-RED",
-      "pt": "Node-RED",
-      "nl": "Node-RED",
-      "fr": "Node-RED",
-      "it": "Node-RED",
-      "es": "Node-RED",
-      "pl": "Node-RED",
-      "uk": "Node-RED",
-      "zh-cn": "Node-RED"
-    },
-    "news": {
-      "6.0.0": {
-        "en": "Corrected the case if `envVars` settings is undefined\nUsed common `@iobroker/eslint-config`\nNode-red updated to 4.0.3",
-        "de": "Berichtigt den Fall, wenn `envVars` Einstellungen undefiniert sind\nGebräuchlich `@iobroker/eslint-config``\nNode-red aktualisiert auf 4.0.3",
-        "ru": "Исправлено случае, если настройки \"envVars\" не определены\nИспользованный общий `@iobroker/eslint-config`\n4.0.3",
-        "pt": "Corrigido o caso se as configurações do `envVars` não forem definidas\nUsado comum `@iobroker/eslint-config`\nNode-red atualizado para 4.0.3",
-        "nl": "Gecorrigeerd als de instellingen van \"EnvVars\" ongedefinieerd zijn\nGebruikte veelgebruikte \nNode-rood bijgewerkt naar 4.0.3",
-        "fr": "Correction du cas si les paramètres `envVars` ne sont pas définis\nUtilisé `@iobroker/eslint-config`\nNode-red mis à jour à 4.0.3",
-        "it": "Corretto il caso se le impostazioni `envVars` non sono definite\nUsato comune `@iobroker/eslint-config`\nNodo-rosso aggiornato a 4.0.3",
-        "es": "Corregido el caso si la configuración de 'envVars' no está definida\nUsado común `@iobroker/eslint-config`\nNodo-red actualizado a 4.0.3",
-        "pl": "Naprawiono przypadek, jeśli ustawienia 'envVars' są niezdefiniowane\nUżywany common '@ iobroker / eslint- configt'\nNode- red zaktualizowany do 4.0.3",
-        "uk": "Виправлено випадок, якщо налаштування `envVars` не визначено\n`@iobroker/eslint-config``\nNode-red оновлено до 4.0.3",
-        "zh-cn": "如果“ envVars” 设置未定义, 则更正了案件\n常用的 io 经纪人/slint-config '\n节点红色更新为4.0.3"
-      },
-      "5.2.1": {
-        "en": "Update node-red to 3.1.9 to fix execution on windows\nRestore log behavior as it was in till 5.0.x",
-        "de": "Aktualisieren von node-red auf 3.1.9, um die Ausführung auf Windows zu beheben\nLog-Verhalten wiederherzustellen, wie es bis 5.0.x war",
-        "ru": "Обновить узел до 3.1.9 для фиксации выполнения на окнах\nВосстановить поведение журнала, как это было до 5.0.x",
-        "pt": "Atualizar node-red para 3.1.9 para corrigir a execução no Windows\nRestaurar o comportamento do log como foi em até 5.0.x",
-        "nl": "Node-rood bijwerken naar 3.1.9 om de uitvoering op vensters te herstellen\nLoggedrag herstellen zoals het was tot 5.0.x",
-        "fr": "Mettre à jour nœud rouge à 3.1.9 pour fixer l'exécution sur les fenêtres\nRestaurer le comportement du journal tel qu'il était jusqu'à 5.0.x",
-        "it": "Aggiornare il nodo-rosso a 3.1.9 per correggere l'esecuzione su finestre\nRipristinare il comportamento del registro come era in fino a 5.0.x",
-        "es": "Actualizar node-red a 3.1.9 para arreglar la ejecución en ventanas\nRestaurar el comportamiento de registro como estaba en hasta 5.0.x",
-        "pl": "Aktualizuj node- czerwony do 3.1.9, aby naprawić wykonanie w oknach\nPrzywróć zachowanie logarytmu do 5.0.x",
-        "uk": "Оновлення вузла до 3.1.9 для фіксації виконання на вікнах\nВідновлення логінної поведінки, як це було до 5.0.x",
-        "zh-cn": "将节点红更新到3.1.9, 以固定窗口上的执行\n恢复到5. 0.x的日志行为"
-      },
-      "5.2.0": {
-        "en": "Added persistence of context data (filesystem)",
-        "de": "Beharrlichkeit von Kontextdaten (Dateisystem) hinzugefügt",
-        "ru": "Добавлена стойкость контекстных данных (файловая система)",
-        "pt": "Adicionado persistência de dados de contexto (sistema de arquivos)",
-        "nl": "Toegevoegd persistentie van contextgegevens (bestandssysteem)",
-        "fr": "Ajout de la persistance des données contextuelles (fichier)",
-        "it": "Persistenza aggiuntiva dei dati contestuali (filesystem)",
-        "es": "Mayor persistencia de datos de contexto (sistema de ficheros)",
-        "pl": "Dodano trwałość danych kontekstowych (system plików)",
-        "uk": "Додано персистентність контекстних даних ( файлова система)",
-        "zh-cn": "添加上下文数据的持久性( 文件系统)"
-      },
-      "5.1.0": {
-        "en": "Allow custom themes\nFixed scoped node-red packages",
-        "de": "Lassen Sie benutzerdefinierte Themen\nFixed Scoped node-red Pakete",
-        "ru": "Разрешить пользовательские темы\nФиксированные пакеты с размахом",
-        "pt": "Permitir temas personalizados\nPacotes fixos escopo-vermelho",
-        "nl": "Laat de gebruikelijke thema's\nVertaling:",
-        "fr": "Permettre des thèmes personnalisés\nForfaits node-rouge fixes",
-        "it": "Consentire temi personalizzati\nPacchetti fissi nodo-rossi",
-        "es": "Permitir temas personalizados\nPaquetes fijados de nodo rojo",
-        "pl": "Allow zwyczajowe tematy\nFixed sklasyfikowane pakiety węzłowe",
-        "uk": "Дозволити користувацькі теми\nВиправлені масштабовані пакети node-red",
-        "zh-cn": "允许习俗\n固定范围无端一揽子计划"
-      },
-      "5.0.2": {
-        "en": "Fixed a fatal error when getting a non-existent value",
-        "de": "Ein tödlicher Fehler behoben, wenn ein nicht vorhandener Wert erhalten",
-        "ru": "Исправлена фатальная ошибка при получении несущей ценности",
-        "pt": "Corrigido um erro fatal ao obter um valor inexistente",
-        "nl": "Een fatale fout maken als je een niet-existente waarde krijgt",
-        "fr": "Correction d'une erreur fatale lorsqu'on obtient une valeur inexistante",
-        "it": "Risolto un errore fatale quando si ottiene un valore non esistente",
-        "es": "Se corrigió un error fatal al obtener un valor inexistente",
-        "pl": "Fixed fatal error, kiedy dostaje nieistniejącą wartość",
-        "uk": "Виправлено помилку жиру при отриманні нестійкої цінності",
-        "zh-cn": "在取得未存在的价值时,确定致命错误"
-      },
-      "5.0.1": {
-        "en": "Fixed credentials decrypt\nAdded connection state (process is running)",
-        "de": "Feste Anmeldeinformationen decrypt\nHinzugefügter Verbindungszustand (Prozess läuft)",
-        "ru": "Фиксированные учетные данные decrypt\nДобавлено состояние соединения (процесс работает)",
-        "pt": "Descriptografar credenciais fixas\nEstado de conexão adicionado (o processo está funcionando)",
-        "nl": "Geregistreerd\nVerbindingstoestand toegevoegd",
-        "fr": "Décryptage des pouvoirs fixes\nÉtat de connexion ajouté (processus courant)",
-        "it": "Decrittografia delle credenziali fisse\nAggiunto stato di connessione (processo è in esecuzione)",
-        "es": "Decodificación de credenciales fijas\nEstado de conexión (proceso está funcionando)",
-        "pl": "Szczegółowe grzechy deszyfrują\nDodany stan połączenia (proces jest uruchomiony)",
-        "uk": "Виправлені облікові дані розшифрування\nДодано стан з'єднання (процес працює)",
-        "zh-cn": "固定全权证书\n增加联系国(进程正在进行中)"
-      },
-      "5.0.0": {
-        "en": "*NodeJS 16.4.x+ is required**\n*Please check instance configuration and re-enter your passwords (encryption has changed).**\n\nUpdated Node-RED to 3.1.0. Please check your nodes for compatibility!\nAdmin 5/6 JSON config for instance configuration\nAdded sendTo node with callback\nAllow custom attribute name for \"ioBroker in\" node\nAdded option to select editor (monaco, ace)\nAdded table for custom env vars to instance configuration",
-        "de": "*NodeJS 16.4.x+ ist erforderlich*\n*Bitte überprüfen Sie die Instanz-Konfiguration und erneut Ihre Passwörter eingeben (Verschlüsselung hat sich geändert). *\n\nAktualisierte Node-RED auf 3.1.0 Bitte überprüfen Sie Ihre Knoten für Kompatibilität!\nAdmin 5/6 JSON config zum Beispiel Konfiguration\nHinzugefügt: Zu Knoten mit Rückruf\nErlauben Sie benutzerdefinierten Attributnamen für \"ioBroker in\" node\nOption hinzugefügt, um Editor auszuwählen (monaco, ace)\nHinzugefügt Tabelle für benutzerdefinierte env vars zu Instanz Konfiguration",
-        "ru": "*NodeJS 16.4.x+ требуется*\n*Пожалуйста, проверьте настройки и повторно введите свои пароли (шифрование изменилось). *\n\nОбновлено Node-RED до 3.1.0 Пожалуйста, проверьте свои узлы для совместимости!\nAdmin 5/6 JSON config для конфигурации\nДобавлена отправка К ноде с callback\nРазрешить имя пользовательского атрибута для \"ioBroker in\" node\nДобавлена возможность выбора редактора (monaco, ace)\nДобавлена таблица для настройки env vars к конфигурациям",
-        "pt": "*NodeJS 16.4.x+ é necessário*\n*Por favor, verifique a configuração da instância e reinsira suas senhas (a criptografia mudou). *\n\nNode-RED atualizado para 3.1.0 Por favor, verifique seus nós para compatibilidade!\nAdmin 5/6 JSON config para configuração de instância\nAdicionado enviar Para nó com callback\nPermitir nome de atributo personalizado para \"ioBroker in\" node\nAdicionado opção para selecionar editor (monaco, ace)\nAdicionado tabela para custom env vars para configuração de instância",
-        "nl": "♪ NodeJS 16.4.x+ is vereist ♪\nControle instance configuratie en vernieuw je wachtwoorden. ♪\n\nUpdate Node-RD naar 3.1.0 Controleer alsjeblieft je nodes voor compatibiliteit!\nVertaling:\nVertaling: Om te knikken met belletje\nLaat de gebruikelijke naam horen voor \"ioBroker in\" node\nToegevoegd optie om editor (monaco, ace)\nVoegde tafel toe voor gebruikelijke env vars aan instabiliteit",
-        "fr": "*NodeJS 16.4.x+ est requise*\n*Veuillez vérifier la configuration de l'instance et réactiver vos mots de passe (le chiffrement a changé). *\n\nActualisé Node-RED à 3.1.0 Veuillez vérifier vos nœuds pour la compatibilité!\nAdmin 5/6 JSON config for instance configuration\nAjouté À midi avec callback\nPermettre le nom d'attribut personnalisé pour \"ioBroker in\" node\nAjout de l'option pour sélectionner l'éditeur (monaco, ace)\nTableau ajouté pour la configuration personnalisée env vars to instance",
-        "it": "*NodeJS 16.4.x+ è richiesto*\n* Si prega di controllare la configurazione delle istanze e ri-inserire le password (la crittografia è cambiata). #\n\nAggiornato Node-RED a 3.1.0 Si prega di controllare i nodi per la compatibilità!\nAdmin 5/6 JSON config per la configurazione delle istanze\nAggiunto il messaggio A nodo con callback\nConsentire nome attributo personalizzato per \"ioBroker in\" nodo\nAggiunta opzione per selezionare editor (monaco, ace)\nTabella aggiuntiva per la configurazione di istanza personalizzata",
-        "es": "*NodeJS 16.4.x+ es necesario*\n*Por favor, compruebe la configuración de instancia y vuelva a introducir sus contraseñas (el cifrado ha cambiado). *\n\nActualizado Nodo-RED a 3.1.0 ¡Por favor, compruebe sus nodos por compatibilidad!\nAdmin 5/6 JSON config por configuración de instancia\nEnviar To node with callback\nPermitir el nombre de atributo personalizado para el nodo \"ioBroker in\"\nOpción adicional para seleccionar editor (monaco, as)\nTabla agregada para vars env personalizados para la configuración de instancia",
-        "pl": "*NodeJS 16.4.x+ (ang.)\n*Please check configuration and re-enter your passwords (ang.). *\n\nZastąpiono Node-RED do 3.1.0. Powiedzcie wasze węzły do kompatybilności!\nKonfiguracja Admin 5/6 JSON\nAdded sender węzeł\nAllowstandard atrybutuje nazwę „ioBroker in node”\nDo wyboru redaktora (monaco, ace)\nPoniższa tabela dla standardowych env",
-        "uk": "*NodeJS 16.4.x+ обов'язковий *\n*Використовувати налаштування екземпляра та повторно керувати паролями (шифрування змінено). Ім'я *\n\nОновлено Node-RED до 3.1.0 Будь ласка, перевірте свої вершини для сумісності!\nAdmin 5/6 JSON конфігурація екземпляра\nДодати відгук Для вузла з зворотним викликом\nДозволити ім'я користувацького атрибуту для вузла \"ioBroker\"\nДодано параметр вибрати редактор (monaco, ace)\nДодано таблицю для користувальницьких конвертів для налаштування екземпляра",
-        "zh-cn": "* 无需印发。\n* 采购核对表和重新编号(加密已经改变)。 * A/64/50。\n\nA. 更新的无误导体 请检查你不兼容!\n附录5/6\n增 发 警告\n允许习惯名称为“零星”\n增加选择编辑的选择(货币、货币)\n添加关于成类组合的习俗表格"
-      }
-    },
-    "desc": {
-      "en": "This adapter uses node-red as a service. No additional node-red instance required.",
-      "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
-      "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
-      "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
-      "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
-      "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
-      "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
-      "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
-      "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
-      "uk": "Цей адаптер використовує node-red як службу. Додатковий екземпляр node-red не потрібен.",
-      "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
-    },
-    "authors": [
-      "bluefox <dogafox@gmail.com>",
-      "Matthias Kleine <info@haus-automatisierung.com>",
-      "Ingo Fischer <iobroker@fischer-ka.de>"
-    ],
-    "licenseInformation": {
-      "license": "Apache-2.0",
-      "type": "free"
-    },
-    "platform": "Javascript/Node.js",
-    "mode": "daemon",
-    "messagebox": true,
-    "loglevel": "info",
-    "icon": "node-red.png",
-    "keywords": [
-      "node-red",
-      "logic",
-      "script"
-    ],
-    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
-    "localLinks": {
-      "_default": {
-        "link": "http%s%://%ip%:%port%%httpAdminRoot%"
-      }
-    },
-    "docs": {
-      "en": [
-        "docs/en/README.md"
-      ],
-      "de": [
-        "docs/de/README.md"
-      ]
-    },
-    "enabled": true,
-    "supportStopInstance": 5000,
-    "unsafePerm": true,
-    "compact": true,
-    "type": "logic",
-    "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
-    "stopBeforeUpdate": true,
-    "adminTab": {
-      "link": "%protocol%://%ip%:%port%%httpAdminRoot%",
-      "name": {
-        "en": "Node-RED",
-        "de": "Node-RED",
-        "ru": "Node-RED",
-        "pt": "Node-RED",
-        "nl": "Node-RED",
-        "fr": "Node-RED",
-        "it": "Node-RED",
-        "es": "Node-RED",
-        "pl": "Node-RED",
-        "uk": "Node-RED",
-        "zh-cn": "Node-RED"
-      },
-      "singleton": false,
-      "fa-icon": "settings_input_composite"
-    },
-    "adminUI": {
-      "config": "json",
-      "tab": "html"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=5.0.19"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=6.0.0"
-      }
-    ],
-    "tier": 1,
-    "connectionType": "local",
-    "dataSource": "push",
-    "messages": [
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<3.0.0",
-            "newVersion>=3.0.0"
-          ]
+    "common": {
+        "name": "node-red",
+        "version": "6.0.0",
+        "titleLang": {
+            "en": "Node-RED",
+            "de": "Node-RED",
+            "ru": "Node-RED",
+            "pt": "Node-RED",
+            "nl": "Node-RED",
+            "fr": "Node-RED",
+            "it": "Node-RED",
+            "es": "Node-RED",
+            "pl": "Node-RED",
+            "uk": "Node-RED",
+            "zh-cn": "Node-RED"
         },
-        "title": {
-          "en": "Node-red upgraded to 2.x",
-          "de": "Node-Red auf 2.x aktualisiert",
-          "ru": "Node-red обновлен до версии 2.x",
-          "pt": "Node-red atualizado para 2.x",
-          "nl": "Node-rood geüpgraded naar 2.x",
-          "fr": "Node-red mis à niveau vers 2.x",
-          "it": "Node-red aggiornato a 2.x",
-          "es": "Nodo-rojo actualizado a 2.x",
-          "pl": "Węzeł-czerwony uaktualniony do 2.x",
-          "uk": "Node-red оновлено до 2.x",
-          "zh-cn": "Node-red升级到2.x"
+        "news": {
+            "6.0.0": {
+                "en": "Corrected the case if `envVars` settings is undefined\nUsed common `@iobroker/eslint-config`\nNode-red updated to 4.0.3",
+                "de": "Berichtigt den Fall, wenn `envVars` Einstellungen undefiniert sind\nGebräuchlich `@iobroker/eslint-config``\nNode-red aktualisiert auf 4.0.3",
+                "ru": "Исправлено случае, если настройки \"envVars\" не определены\nИспользованный общий `@iobroker/eslint-config`\n4.0.3",
+                "pt": "Corrigido o caso se as configurações do `envVars` não forem definidas\nUsado comum `@iobroker/eslint-config`\nNode-red atualizado para 4.0.3",
+                "nl": "Gecorrigeerd als de instellingen van \"EnvVars\" ongedefinieerd zijn\nGebruikte veelgebruikte \nNode-rood bijgewerkt naar 4.0.3",
+                "fr": "Correction du cas si les paramètres `envVars` ne sont pas définis\nUtilisé `@iobroker/eslint-config`\nNode-red mis à jour à 4.0.3",
+                "it": "Corretto il caso se le impostazioni `envVars` non sono definite\nUsato comune `@iobroker/eslint-config`\nNodo-rosso aggiornato a 4.0.3",
+                "es": "Corregido el caso si la configuración de 'envVars' no está definida\nUsado común `@iobroker/eslint-config`\nNodo-red actualizado a 4.0.3",
+                "pl": "Naprawiono przypadek, jeśli ustawienia 'envVars' są niezdefiniowane\nUżywany common '@ iobroker / eslint- configt'\nNode- red zaktualizowany do 4.0.3",
+                "uk": "Виправлено випадок, якщо налаштування `envVars` не визначено\n`@iobroker/eslint-config``\nNode-red оновлено до 4.0.3",
+                "zh-cn": "如果“ envVars” 设置未定义, 则更正了案件\n常用的 io 经纪人/slint-config '\n节点红色更新为4.0.3"
+            },
+            "5.2.1": {
+                "en": "Update node-red to 3.1.9 to fix execution on windows\nRestore log behavior as it was in till 5.0.x",
+                "de": "Aktualisieren von node-red auf 3.1.9, um die Ausführung auf Windows zu beheben\nLog-Verhalten wiederherzustellen, wie es bis 5.0.x war",
+                "ru": "Обновить узел до 3.1.9 для фиксации выполнения на окнах\nВосстановить поведение журнала, как это было до 5.0.x",
+                "pt": "Atualizar node-red para 3.1.9 para corrigir a execução no Windows\nRestaurar o comportamento do log como foi em até 5.0.x",
+                "nl": "Node-rood bijwerken naar 3.1.9 om de uitvoering op vensters te herstellen\nLoggedrag herstellen zoals het was tot 5.0.x",
+                "fr": "Mettre à jour nœud rouge à 3.1.9 pour fixer l'exécution sur les fenêtres\nRestaurer le comportement du journal tel qu'il était jusqu'à 5.0.x",
+                "it": "Aggiornare il nodo-rosso a 3.1.9 per correggere l'esecuzione su finestre\nRipristinare il comportamento del registro come era in fino a 5.0.x",
+                "es": "Actualizar node-red a 3.1.9 para arreglar la ejecución en ventanas\nRestaurar el comportamiento de registro como estaba en hasta 5.0.x",
+                "pl": "Aktualizuj node- czerwony do 3.1.9, aby naprawić wykonanie w oknach\nPrzywróć zachowanie logarytmu do 5.0.x",
+                "uk": "Оновлення вузла до 3.1.9 для фіксації виконання на вікнах\nВідновлення логінної поведінки, як це було до 5.0.x",
+                "zh-cn": "将节点红更新到3.1.9, 以固定窗口上的执行\n恢复到5. 0.x的日志行为"
+            },
+            "5.2.0": {
+                "en": "Added persistence of context data (filesystem)",
+                "de": "Beharrlichkeit von Kontextdaten (Dateisystem) hinzugefügt",
+                "ru": "Добавлена стойкость контекстных данных (файловая система)",
+                "pt": "Adicionado persistência de dados de contexto (sistema de arquivos)",
+                "nl": "Toegevoegd persistentie van contextgegevens (bestandssysteem)",
+                "fr": "Ajout de la persistance des données contextuelles (fichier)",
+                "it": "Persistenza aggiuntiva dei dati contestuali (filesystem)",
+                "es": "Mayor persistencia de datos de contexto (sistema de ficheros)",
+                "pl": "Dodano trwałość danych kontekstowych (system plików)",
+                "uk": "Додано персистентність контекстних даних ( файлова система)",
+                "zh-cn": "添加上下文数据的持久性( 文件系统)"
+            },
+            "5.1.0": {
+                "en": "Allow custom themes\nFixed scoped node-red packages",
+                "de": "Lassen Sie benutzerdefinierte Themen\nFixed Scoped node-red Pakete",
+                "ru": "Разрешить пользовательские темы\nФиксированные пакеты с размахом",
+                "pt": "Permitir temas personalizados\nPacotes fixos escopo-vermelho",
+                "nl": "Laat de gebruikelijke thema's\nVertaling:",
+                "fr": "Permettre des thèmes personnalisés\nForfaits node-rouge fixes",
+                "it": "Consentire temi personalizzati\nPacchetti fissi nodo-rossi",
+                "es": "Permitir temas personalizados\nPaquetes fijados de nodo rojo",
+                "pl": "Allow zwyczajowe tematy\nFixed sklasyfikowane pakiety węzłowe",
+                "uk": "Дозволити користувацькі теми\nВиправлені масштабовані пакети node-red",
+                "zh-cn": "允许习俗\n固定范围无端一揽子计划"
+            },
+            "5.0.2": {
+                "en": "Fixed a fatal error when getting a non-existent value",
+                "de": "Ein tödlicher Fehler behoben, wenn ein nicht vorhandener Wert erhalten",
+                "ru": "Исправлена фатальная ошибка при получении несущей ценности",
+                "pt": "Corrigido um erro fatal ao obter um valor inexistente",
+                "nl": "Een fatale fout maken als je een niet-existente waarde krijgt",
+                "fr": "Correction d'une erreur fatale lorsqu'on obtient une valeur inexistante",
+                "it": "Risolto un errore fatale quando si ottiene un valore non esistente",
+                "es": "Se corrigió un error fatal al obtener un valor inexistente",
+                "pl": "Fixed fatal error, kiedy dostaje nieistniejącą wartość",
+                "uk": "Виправлено помилку жиру при отриманні нестійкої цінності",
+                "zh-cn": "在取得未存在的价值时,确定致命错误"
+            },
+            "5.0.1": {
+                "en": "Fixed credentials decrypt\nAdded connection state (process is running)",
+                "de": "Feste Anmeldeinformationen decrypt\nHinzugefügter Verbindungszustand (Prozess läuft)",
+                "ru": "Фиксированные учетные данные decrypt\nДобавлено состояние соединения (процесс работает)",
+                "pt": "Descriptografar credenciais fixas\nEstado de conexão adicionado (o processo está funcionando)",
+                "nl": "Geregistreerd\nVerbindingstoestand toegevoegd",
+                "fr": "Décryptage des pouvoirs fixes\nÉtat de connexion ajouté (processus courant)",
+                "it": "Decrittografia delle credenziali fisse\nAggiunto stato di connessione (processo è in esecuzione)",
+                "es": "Decodificación de credenciales fijas\nEstado de conexión (proceso está funcionando)",
+                "pl": "Szczegółowe grzechy deszyfrują\nDodany stan połączenia (proces jest uruchomiony)",
+                "uk": "Виправлені облікові дані розшифрування\nДодано стан з'єднання (процес працює)",
+                "zh-cn": "固定全权证书\n增加联系国(进程正在进行中)"
+            },
+            "5.0.0": {
+                "en": "*NodeJS 16.4.x+ is required**\n*Please check instance configuration and re-enter your passwords (encryption has changed).**\n\nUpdated Node-RED to 3.1.0. Please check your nodes for compatibility!\nAdmin 5/6 JSON config for instance configuration\nAdded sendTo node with callback\nAllow custom attribute name for \"ioBroker in\" node\nAdded option to select editor (monaco, ace)\nAdded table for custom env vars to instance configuration",
+                "de": "*NodeJS 16.4.x+ ist erforderlich*\n*Bitte überprüfen Sie die Instanz-Konfiguration und erneut Ihre Passwörter eingeben (Verschlüsselung hat sich geändert). *\n\nAktualisierte Node-RED auf 3.1.0 Bitte überprüfen Sie Ihre Knoten für Kompatibilität!\nAdmin 5/6 JSON config zum Beispiel Konfiguration\nHinzugefügt: Zu Knoten mit Rückruf\nErlauben Sie benutzerdefinierten Attributnamen für \"ioBroker in\" node\nOption hinzugefügt, um Editor auszuwählen (monaco, ace)\nHinzugefügt Tabelle für benutzerdefinierte env vars zu Instanz Konfiguration",
+                "ru": "*NodeJS 16.4.x+ требуется*\n*Пожалуйста, проверьте настройки и повторно введите свои пароли (шифрование изменилось). *\n\nОбновлено Node-RED до 3.1.0 Пожалуйста, проверьте свои узлы для совместимости!\nAdmin 5/6 JSON config для конфигурации\nДобавлена отправка К ноде с callback\nРазрешить имя пользовательского атрибута для \"ioBroker in\" node\nДобавлена возможность выбора редактора (monaco, ace)\nДобавлена таблица для настройки env vars к конфигурациям",
+                "pt": "*NodeJS 16.4.x+ é necessário*\n*Por favor, verifique a configuração da instância e reinsira suas senhas (a criptografia mudou). *\n\nNode-RED atualizado para 3.1.0 Por favor, verifique seus nós para compatibilidade!\nAdmin 5/6 JSON config para configuração de instância\nAdicionado enviar Para nó com callback\nPermitir nome de atributo personalizado para \"ioBroker in\" node\nAdicionado opção para selecionar editor (monaco, ace)\nAdicionado tabela para custom env vars para configuração de instância",
+                "nl": "♪ NodeJS 16.4.x+ is vereist ♪\nControle instance configuratie en vernieuw je wachtwoorden. ♪\n\nUpdate Node-RD naar 3.1.0 Controleer alsjeblieft je nodes voor compatibiliteit!\nVertaling:\nVertaling: Om te knikken met belletje\nLaat de gebruikelijke naam horen voor \"ioBroker in\" node\nToegevoegd optie om editor (monaco, ace)\nVoegde tafel toe voor gebruikelijke env vars aan instabiliteit",
+                "fr": "*NodeJS 16.4.x+ est requise*\n*Veuillez vérifier la configuration de l'instance et réactiver vos mots de passe (le chiffrement a changé). *\n\nActualisé Node-RED à 3.1.0 Veuillez vérifier vos nœuds pour la compatibilité!\nAdmin 5/6 JSON config for instance configuration\nAjouté À midi avec callback\nPermettre le nom d'attribut personnalisé pour \"ioBroker in\" node\nAjout de l'option pour sélectionner l'éditeur (monaco, ace)\nTableau ajouté pour la configuration personnalisée env vars to instance",
+                "it": "*NodeJS 16.4.x+ è richiesto*\n* Si prega di controllare la configurazione delle istanze e ri-inserire le password (la crittografia è cambiata). #\n\nAggiornato Node-RED a 3.1.0 Si prega di controllare i nodi per la compatibilità!\nAdmin 5/6 JSON config per la configurazione delle istanze\nAggiunto il messaggio A nodo con callback\nConsentire nome attributo personalizzato per \"ioBroker in\" nodo\nAggiunta opzione per selezionare editor (monaco, ace)\nTabella aggiuntiva per la configurazione di istanza personalizzata",
+                "es": "*NodeJS 16.4.x+ es necesario*\n*Por favor, compruebe la configuración de instancia y vuelva a introducir sus contraseñas (el cifrado ha cambiado). *\n\nActualizado Nodo-RED a 3.1.0 ¡Por favor, compruebe sus nodos por compatibilidad!\nAdmin 5/6 JSON config por configuración de instancia\nEnviar To node with callback\nPermitir el nombre de atributo personalizado para el nodo \"ioBroker in\"\nOpción adicional para seleccionar editor (monaco, as)\nTabla agregada para vars env personalizados para la configuración de instancia",
+                "pl": "*NodeJS 16.4.x+ (ang.)\n*Please check configuration and re-enter your passwords (ang.). *\n\nZastąpiono Node-RED do 3.1.0. Powiedzcie wasze węzły do kompatybilności!\nKonfiguracja Admin 5/6 JSON\nAdded sender węzeł\nAllowstandard atrybutuje nazwę „ioBroker in node”\nDo wyboru redaktora (monaco, ace)\nPoniższa tabela dla standardowych env",
+                "uk": "*NodeJS 16.4.x+ обов'язковий *\n*Використовувати налаштування екземпляра та повторно керувати паролями (шифрування змінено). Ім'я *\n\nОновлено Node-RED до 3.1.0 Будь ласка, перевірте свої вершини для сумісності!\nAdmin 5/6 JSON конфігурація екземпляра\nДодати відгук Для вузла з зворотним викликом\nДозволити ім'я користувацького атрибуту для вузла \"ioBroker\"\nДодано параметр вибрати редактор (monaco, ace)\nДодано таблицю для користувальницьких конвертів для налаштування екземпляра",
+                "zh-cn": "* 无需印发。\n* 采购核对表和重新编号(加密已经改变)。 * A/64/50。\n\nA. 更新的无误导体 请检查你不兼容!\n附录5/6\n增 发 警告\n允许习惯名称为“零星”\n增加选择编辑的选择(货币、货币)\n添加关于成类组合的习俗表格"
+            }
         },
-        "text": {
-          "en": "This adapter upgrade includes an upgrade of Node-RED to v2. Please check your nodes for compatibility! See also the adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released and https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "de": "Dieses Adapter-Upgrade beinhaltet ein Upgrade von Node-RED auf v2. Bitte prüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch Adapter Changelog, https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2- 1-freigegeben und https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "ru": "Это обновление адаптера включает в себя обновление Node-RED до v2. Пожалуйста, проверьте ваши узлы на совместимость! См. также журнал изменений адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released и https://nodered.org/blog/2021/10/21/version-2-. 1-релиз и https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "pt": "Esta atualização do adaptador inclui uma atualização do Node-RED para v2. Verifique a compatibilidade de seus nós! Consulte também o log de alterações do adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-lançado e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "nl": "Deze adapter-upgrade omvat een upgrade van Node-RED naar v2. Controleer uw nodes op compatibiliteit! Zie ook de adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released en https://nodered.org/blog/2021/10/21/version-2- 1-released en https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "fr": "Cette mise à niveau de l'adaptateur inclut une mise à niveau de Node-RED vers v2. Veuillez vérifier la compatibilité de vos nœuds ! Voir aussi le changelog de l'adaptateur, https://nodered.org/blog/2021/07/20/version-2-0-released et https://nodered.org/blog/2021/10/21/version-2- 1-publié et https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "it": "Questo aggiornamento dell'adattatore include un aggiornamento di Node-RED alla v2. Controlla la compatibilità dei tuoi nodi! Vedi anche il log delle modifiche dell'adattatore, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-rilasciato e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "es": "Esta actualización del adaptador incluye una actualización de Node-RED a v2. ¡Compruebe la compatibilidad de sus nodos! Consulte también el registro de cambios del adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2- 1-lanzado y https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "pl": "To uaktualnienie adaptera obejmuje aktualizację Node-RED do wersji 2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także dziennik zmian adaptera, https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2- 1-wydany i https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "uk": "Це оновлення адаптера включає оновлення Node-RED до v2. Будь ласка, перевірте свої вузли на сумісність! Перегляньте також журнал змін адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released і https://nodered.org/blog/2021/10/21/version-2- 1-випущено та https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-          "zh-cn": "此适配器升级包括将 Node-RED 升级到 v2。请检查您的节点是否兼容！另请参阅适配器更改日志，https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2- 1-发布和 https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository"
+        "desc": {
+            "en": "This adapter uses node-red as a service. No additional node-red instance required.",
+            "de": "Adapter benutzt node-red als Service. Kein zusätzliches node-red Programm nötig.",
+            "ru": "Драйвер создает node-red сервер и позволяет общаться с ним.",
+            "pt": "Este adaptador usa node-red como um serviço. Nenhuma instância node-red adicional é necessária.",
+            "nl": "Deze adapter gebruikt node-red als een service. Geen extra node-red exemplaar vereist.",
+            "fr": "Cet adaptateur utilise node-red en tant que service. Aucune instance node-red supplémentaire requise.",
+            "it": "Questo adattatore utilizza node-red come servizio. Nessuna istanza aggiuntiva node-red richiesta.",
+            "es": "Este adaptador usa node-red como un servicio. No se requiere ninguna instancia adicional de node-red.",
+            "pl": "Ten adapter używa node-red jako usługi. Żadna dodatkowa instancja node-red nie jest wymagana.",
+            "uk": "Цей адаптер використовує node-red як службу. Додатковий екземпляр node-red не потрібен.",
+            "zh-cn": "此适配器将node-red作为服务, 不需要额外安装node-red实例."
         },
-        "link": "https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
-        "level": "warn",
-        "linkText": {
-          "en": "Forum-Thread (German)",
-          "de": "Forum-Thread",
-          "ru": "Тема форума (немецкий)",
-          "pt": "Fórum-Tópico (alemão)",
-          "nl": "Forum-Thread (Duits)",
-          "fr": "Fil de discussion du forum (allemand)",
-          "it": "Forum-Thread (tedesco)",
-          "es": "Tema del foro (alemán)",
-          "pl": "Forum-wątek (niemiecki)",
-          "uk": "Тема форуму (німецька)",
-          "zh-cn": "论坛主题（德语）"
+        "authors": [
+            "bluefox <dogafox@gmail.com>",
+            "Matthias Kleine <info@haus-automatisierung.com>",
+            "Ingo Fischer <iobroker@fischer-ka.de>"
+        ],
+        "licenseInformation": {
+            "license": "Apache-2.0",
+            "type": "free"
         },
-        "buttons": [
-          "agree",
-          "cancel"
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "messagebox": true,
+        "loglevel": "info",
+        "icon": "node-red.png",
+        "keywords": ["node-red", "logic", "script"],
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.node-red/master/admin/node-red.png",
+        "localLinks": {
+            "_default": {
+                "link": "http%s%://%ip%:%port%%httpAdminRoot%"
+            }
+        },
+        "docs": {
+            "en": ["docs/en/README.md"],
+            "de": ["docs/de/README.md"]
+        },
+        "enabled": true,
+        "supportStopInstance": 5000,
+        "unsafePerm": true,
+        "compact": true,
+        "type": "logic",
+        "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
+        "stopBeforeUpdate": true,
+        "adminTab": {
+            "link": "%protocol%://%ip%:%port%%httpAdminRoot%",
+            "name": {
+                "en": "Node-RED",
+                "de": "Node-RED",
+                "ru": "Node-RED",
+                "pt": "Node-RED",
+                "nl": "Node-RED",
+                "fr": "Node-RED",
+                "it": "Node-RED",
+                "es": "Node-RED",
+                "pl": "Node-RED",
+                "uk": "Node-RED",
+                "zh-cn": "Node-RED"
+            },
+            "singleton": false,
+            "fa-icon": "settings_input_composite"
+        },
+        "adminUI": {
+            "config": "json",
+            "tab": "html"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=5.0.19"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=6.0.0"
+            }
+        ],
+        "tier": 1,
+        "connectionType": "local",
+        "dataSource": "push",
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": ["oldVersion<3.0.0", "newVersion>=3.0.0"]
+                },
+                "title": {
+                    "en": "Node-red upgraded to 2.x",
+                    "de": "Node-Red auf 2.x aktualisiert",
+                    "ru": "Node-red обновлен до версии 2.x",
+                    "pt": "Node-red atualizado para 2.x",
+                    "nl": "Node-rood geüpgraded naar 2.x",
+                    "fr": "Node-red mis à niveau vers 2.x",
+                    "it": "Node-red aggiornato a 2.x",
+                    "es": "Nodo-rojo actualizado a 2.x",
+                    "pl": "Węzeł-czerwony uaktualniony do 2.x",
+                    "uk": "Node-red оновлено до 2.x",
+                    "zh-cn": "Node-red升级到2.x"
+                },
+                "text": {
+                    "en": "This adapter upgrade includes an upgrade of Node-RED to v2. Please check your nodes for compatibility! See also the adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released and https://nodered.org/blog/2021/10/21/version-2-1-released and https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "de": "Dieses Adapter-Upgrade beinhaltet ein Upgrade von Node-RED auf v2. Bitte prüfen Sie Ihre Nodes auf Kompatibilität! Siehe auch Adapter Changelog, https://nodered.org/blog/2021/07/20/version-2-0-released und https://nodered.org/blog/2021/10/21/version-2- 1-freigegeben und https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "ru": "Это обновление адаптера включает в себя обновление Node-RED до v2. Пожалуйста, проверьте ваши узлы на совместимость! См. также журнал изменений адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released и https://nodered.org/blog/2021/10/21/version-2-. 1-релиз и https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "pt": "Esta atualização do adaptador inclui uma atualização do Node-RED para v2. Verifique a compatibilidade de seus nós! Consulte também o log de alterações do adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-lançado e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "nl": "Deze adapter-upgrade omvat een upgrade van Node-RED naar v2. Controleer uw nodes op compatibiliteit! Zie ook de adapter changelog, https://nodered.org/blog/2021/07/20/version-2-0-released en https://nodered.org/blog/2021/10/21/version-2- 1-released en https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "fr": "Cette mise à niveau de l'adaptateur inclut une mise à niveau de Node-RED vers v2. Veuillez vérifier la compatibilité de vos nœuds ! Voir aussi le changelog de l'adaptateur, https://nodered.org/blog/2021/07/20/version-2-0-released et https://nodered.org/blog/2021/10/21/version-2- 1-publié et https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "it": "Questo aggiornamento dell'adattatore include un aggiornamento di Node-RED alla v2. Controlla la compatibilità dei tuoi nodi! Vedi anche il log delle modifiche dell'adattatore, https://nodered.org/blog/2021/07/20/version-2-0-released e https://nodered.org/blog/2021/10/21/version-2- 1-rilasciato e https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "es": "Esta actualización del adaptador incluye una actualización de Node-RED a v2. ¡Compruebe la compatibilidad de sus nodos! Consulte también el registro de cambios del adaptador, https://nodered.org/blog/2021/07/20/version-2-0-released y https://nodered.org/blog/2021/10/21/version-2- 1-lanzado y https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "pl": "To uaktualnienie adaptera obejmuje aktualizację Node-RED do wersji 2. Sprawdź swoje węzły pod kątem kompatybilności! Zobacz także dziennik zmian adaptera, https://nodered.org/blog/2021/07/20/version-2-0-released i https://nodered.org/blog/2021/10/21/version-2- 1-wydany i https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "uk": "Це оновлення адаптера включає оновлення Node-RED до v2. Будь ласка, перевірте свої вузли на сумісність! Перегляньте також журнал змін адаптера, https://nodered.org/blog/2021/07/20/version-2-0-released і https://nodered.org/blog/2021/10/21/version-2- 1-випущено та https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                    "zh-cn": "此适配器升级包括将 Node-RED 升级到 v2。请检查您的节点是否兼容！另请参阅适配器更改日志，https://nodered.org/blog/2021/07/20/version-2-0-released 和 https://nodered.org/blog/2021/10/21/version-2- 1-发布和 https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository"
+                },
+                "link": "https://forum.iobroker.net/topic/53300/neuer-node-red-adapter-3-x-in-latest-repository",
+                "level": "warn",
+                "linkText": {
+                    "en": "Forum-Thread (German)",
+                    "de": "Forum-Thread",
+                    "ru": "Тема форума (немецкий)",
+                    "pt": "Fórum-Tópico (alemão)",
+                    "nl": "Forum-Thread (Duits)",
+                    "fr": "Fil de discussion du forum (allemand)",
+                    "it": "Forum-Thread (tedesco)",
+                    "es": "Tema del foro (alemán)",
+                    "pl": "Forum-wątek (niemiecki)",
+                    "uk": "Тема форуму (німецька)",
+                    "zh-cn": "论坛主题（德语）"
+                },
+                "buttons": ["agree", "cancel"]
+            },
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": ["oldVersion<5.0.0", "newVersion>=5.0.0"]
+                },
+                "title": {
+                    "en": "Adapter has been migrated to Admin 6 configuration",
+                    "de": "Adapter wurde auf Admin 6 Konfiguration migriert",
+                    "ru": "Адаптер был мигрирован до конфигурации Admin 6",
+                    "pt": "Adapter foi migrado para configuração Admin 6",
+                    "nl": "Adapter is gemigreerd tot administratie 6",
+                    "fr": "Adaptateur a été migré vers la configuration Admin 6",
+                    "it": "L'adattatore è stato migrato alla configurazione Admin 6",
+                    "es": "Adaptador ha sido migrado a la configuración Admin 6",
+                    "pl": "Adapter przeniesiono do Admin 6",
+                    "uk": "Адаптер мігрований до конфігурації Admin 6",
+                    "zh-cn": "已移到“6种组合”"
+                },
+                "text": {
+                    "en": "Please check instance configuration and re-enter your passwords (encryption has changed).",
+                    "de": "Bitte überprüfen Sie die Instanzkonfiguration und geben Sie Ihre Passwörter erneut ein (Verschlüsselung hat sich geändert).",
+                    "ru": "Пожалуйста, проверьте настройки и повторно введите свои пароли (шифрование изменилось).",
+                    "pt": "Por favor, verifique a configuração da instância e reinsira suas senhas (a criptografia mudou).",
+                    "nl": "Controleer instanceconfiguratie en verbind uw wachtwoorden.",
+                    "fr": "Veuillez vérifier la configuration de l'instance et réactiver vos mots de passe (le chiffrement a changé).",
+                    "it": "Si prega di controllare la configurazione delle istanze e ri-inserire le password (la crittografia è cambiata).",
+                    "es": "Por favor, compruebe la configuración de instancia y vuelva a introducir sus contraseñas (el cifrado ha cambiado).",
+                    "pl": "Pozwoliło się na skonfigurowanie instancji i ponowne wejście do haseł (wyszyfrowanie zmieniło się).",
+                    "uk": "Будь ласка, перевірте налаштування екземпляра та перейменуйте ваші паролі.",
+                    "zh-cn": "请核对表和重新编号(加密已改变)。."
+                },
+                "link": "https://github.com/ioBroker/ioBroker.node-red/blob/master/docs/en/README.md",
+                "level": "warn",
+                "linkText": {
+                    "en": "Documentation",
+                    "de": "Dokumentation",
+                    "ru": "Документация",
+                    "pt": "Documentação",
+                    "nl": "Document",
+                    "fr": "Documentation",
+                    "it": "Documentazione",
+                    "es": "Documentación",
+                    "pl": "Dokumentacja",
+                    "uk": "Документація",
+                    "zh-cn": "文件"
+                },
+                "buttons": ["agree", "cancel"]
+            }
         ]
-      },
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<5.0.0",
-            "newVersion>=5.0.0"
-          ]
+    },
+    "protectedNative": ["user", "pass"],
+    "encryptedNative": ["pass"],
+    "native": {
+        "bind": "0.0.0.0",
+        "port": 1880,
+        "secure": false,
+        "certPublic": "",
+        "certPrivate": "",
+        "httpAdminRoot": "/",
+        "httpNodeRoot": "",
+        "httpStatic": "",
+        "npmLibs": [],
+        "maxMemory": 128,
+        "valueConvert": false,
+        "palletmanagerEnabled": false,
+        "projectsEnabled": false,
+        "allowCreationOfForeignObjects": false,
+        "safeMode": false,
+        "doNotReadObjectsDynamically": false,
+        "authType": "None",
+        "user": "",
+        "pass": "",
+        "hasDefaultPermissions": false,
+        "defaultPermissions": "",
+        "authExt": [],
+        "editor": "monaco",
+        "theme": "",
+        "envVars": []
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": {
+                    "en": "Information",
+                    "de": "Information",
+                    "ru": "Информация",
+                    "pt": "Em formação",
+                    "nl": "Informatie",
+                    "fr": "Informations",
+                    "it": "Informazione",
+                    "es": "Información",
+                    "pl": "Informacja",
+                    "uk": "Інформація",
+                    "zh-cn": "信息"
+                }
+            },
+            "native": {}
         },
-        "title": {
-          "en": "Adapter has been migrated to Admin 6 configuration",
-          "de": "Adapter wurde auf Admin 6 Konfiguration migriert",
-          "ru": "Адаптер был мигрирован до конфигурации Admin 6",
-          "pt": "Adapter foi migrado para configuração Admin 6",
-          "nl": "Adapter is gemigreerd tot administratie 6",
-          "fr": "Adaptateur a été migré vers la configuration Admin 6",
-          "it": "L'adattatore è stato migrato alla configurazione Admin 6",
-          "es": "Adaptador ha sido migrado a la configuración Admin 6",
-          "pl": "Adapter przeniesiono do Admin 6",
-          "uk": "Адаптер мігрований до конфігурації Admin 6",
-          "zh-cn": "已移到“6种组合”"
-        },
-        "text": {
-          "en": "Please check instance configuration and re-enter your passwords (encryption has changed).",
-          "de": "Bitte überprüfen Sie die Instanzkonfiguration und geben Sie Ihre Passwörter erneut ein (Verschlüsselung hat sich geändert).",
-          "ru": "Пожалуйста, проверьте настройки и повторно введите свои пароли (шифрование изменилось).",
-          "pt": "Por favor, verifique a configuração da instância e reinsira suas senhas (a criptografia mudou).",
-          "nl": "Controleer instanceconfiguratie en verbind uw wachtwoorden.",
-          "fr": "Veuillez vérifier la configuration de l'instance et réactiver vos mots de passe (le chiffrement a changé).",
-          "it": "Si prega di controllare la configurazione delle istanze e ri-inserire le password (la crittografia è cambiata).",
-          "es": "Por favor, compruebe la configuración de instancia y vuelva a introducir sus contraseñas (el cifrado ha cambiado).",
-          "pl": "Pozwoliło się na skonfigurowanie instancji i ponowne wejście do haseł (wyszyfrowanie zmieniło się).",
-          "uk": "Будь ласка, перевірте налаштування екземпляра та перейменуйте ваші паролі.",
-          "zh-cn": "请核对表和重新编号(加密已改变)。."
-        },
-        "link": "https://github.com/ioBroker/ioBroker.node-red/blob/master/docs/en/README.md",
-        "level": "warn",
-        "linkText": {
-          "en": "Documentation",
-          "de": "Dokumentation",
-          "ru": "Документация",
-          "pt": "Documentação",
-          "nl": "Document",
-          "fr": "Documentation",
-          "it": "Documentazione",
-          "es": "Documentación",
-          "pl": "Dokumentacja",
-          "uk": "Документація",
-          "zh-cn": "文件"
-        },
-        "buttons": [
-          "agree",
-          "cancel"
-        ]
-      }
-    ]
-  },
-  "protectedNative": [
-    "user",
-    "pass"
-  ],
-  "encryptedNative": [
-    "pass"
-  ],
-  "native": {
-    "bind": "0.0.0.0",
-    "port": 1880,
-    "secure": false,
-    "certPublic": "",
-    "certPrivate": "",
-    "httpAdminRoot": "/",
-    "httpNodeRoot": "",
-    "httpStatic": "",
-    "npmLibs": [],
-    "maxMemory": 128,
-    "valueConvert": false,
-    "palletmanagerEnabled": false,
-    "projectsEnabled": false,
-    "allowCreationOfForeignObjects": false,
-    "safeMode": false,
-    "doNotReadObjectsDynamically": false,
-    "authType": "None",
-    "user": "",
-    "pass": "",
-    "hasDefaultPermissions": false,
-    "defaultPermissions": "",
-    "authExt": [],
-    "editor": "monaco",
-    "theme": "",
-    "envVars": []
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": {
-          "en": "Information",
-          "de": "Information",
-          "ru": "Информация",
-          "pt": "Em formação",
-          "nl": "Informatie",
-          "fr": "Informations",
-          "it": "Informazione",
-          "es": "Información",
-          "pl": "Informacja",
-          "uk": "Інформація",
-          "zh-cn": "信息"
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "name": {
+                    "en": "Process is running",
+                    "de": "Prozess läuft",
+                    "ru": "Процесс работает",
+                    "pt": "O processo está em execução",
+                    "nl": "Proces loopt",
+                    "fr": "Le processus est en cours",
+                    "it": "Il processo è in esecuzione",
+                    "es": "El proceso está en marcha",
+                    "pl": "Proces",
+                    "uk": "Процес працює",
+                    "zh-cn": "进程"
+                },
+                "type": "boolean",
+                "role": "indicator.reachable",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
         }
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "name": {
-          "en": "Process is running",
-          "de": "Prozess läuft",
-          "ru": "Процесс работает",
-          "pt": "O processo está em execução",
-          "nl": "Proces loopt",
-          "fr": "Le processus est en cours",
-          "it": "Il processo è in esecuzione",
-          "es": "El proceso está en marcha",
-          "pl": "Proces",
-          "uk": "Процес працює",
-          "zh-cn": "进程"
-        },
-        "type": "boolean",
-        "role": "indicator.reachable",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
+    ]
 }

@@ -70,9 +70,12 @@ class NodeRed extends utils.Adapter {
         await this.setState('info.connection', { val: false, ack: true });
 
         this.installLibraries(() => {
-            if (this.config.projectsEnabled === undefined) this.config.projectsEnabled = false;
-            if (this.config.allowCreationOfForeignObjects === undefined)
+            if (this.config.projectsEnabled === undefined) {
+                this.config.projectsEnabled = false;
+            }
+            if (this.config.allowCreationOfForeignObjects === undefined) {
                 this.config.allowCreationOfForeignObjects = false;
+            }
 
             // create userData directory
             if (!fs.existsSync(this.userDataDir)) {
@@ -153,19 +156,23 @@ class NodeRed extends utils.Adapter {
                     { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' },
                     {},
                 );
-                let admin = admins.rows.find(obj =>
-                    obj.value.common.host === settings.common.host &&
-                    !obj.value.native.auth &&
-                    obj.value.common.enabled &&
-                    ((!obj.value.native.secure && !!settings.native.secure) ||
-                        (!!obj.value.native.secure === !!settings.native.secure))
+                let admin = admins.rows.find(
+                    obj =>
+                        obj.value.common.host === settings.common.host &&
+                        !obj.value.native.auth &&
+                        obj.value.common.enabled &&
+                        ((!obj.value.native.secure && !!settings.native.secure) ||
+                            !!obj.value.native.secure === !!settings.native.secure),
                 );
                 const adminInstanceObj = admin ? admin.value : null;
 
                 if (this.config.doNotReadObjectsDynamically) {
                     lines[pos] = `            var socket = null; ${searchText}`;
                 } else if (adminInstanceObj && !adminInstanceObj.native.auth) {
-                    if ((!adminInstanceObj.native.secure && !!settings.native.secure) || (!!adminInstanceObj.native.secure === !!settings.native.secure)) {
+                    if (
+                        (!adminInstanceObj.native.secure && !!settings.native.secure) ||
+                        !!adminInstanceObj.native.secure === !!settings.native.secure
+                    ) {
                         lines[pos] =
                             `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
                     } else {
@@ -234,7 +241,9 @@ class NodeRed extends utils.Adapter {
         if (!this.notificationsFlows) {
             const flowsPath = path.join(this.userDataDir, 'flows.json');
             if (fs.existsSync(flowsPath)) {
-                if (!isFirst) this.saveObjects();
+                if (!isFirst) {
+                    this.saveObjects();
+                }
 
                 // monitor the project file
                 this.notificationsFlows = new Notify([flowsPath]);
@@ -253,7 +262,9 @@ class NodeRed extends utils.Adapter {
         if (!this.notificationsCreds) {
             const flowsCredPath = path.join(this.userDataDir, 'flows_cred.json');
             if (fs.existsSync(flowsCredPath)) {
-                if (!isFirst) this.saveObjects();
+                if (!isFirst) {
+                    this.saveObjects();
+                }
 
                 // monitor the project file
                 this.notificationsCreds = new Notify([flowsCredPath]);
@@ -303,10 +314,18 @@ class NodeRed extends utils.Adapter {
 
             data = data.toString();
 
-            if (data.endsWith('\r\n')) data = data.substring(0, data.length - 2);
-            if (data.endsWith('\n\r')) data = data.substring(0, data.length - 2);
-            if (data.endsWith('\r')) data = data.substring(0, data.length - 1);
-            if (data.endsWith('\n')) data = data.substring(0, data.length - 1);
+            if (data.endsWith('\r\n')) {
+                data = data.substring(0, data.length - 2);
+            }
+            if (data.endsWith('\n\r')) {
+                data = data.substring(0, data.length - 2);
+            }
+            if (data.endsWith('\r')) {
+                data = data.substring(0, data.length - 1);
+            }
+            if (data.endsWith('\n')) {
+                data = data.substring(0, data.length - 1);
+            }
 
             if (data.includes('[err')) {
                 this.log.error(`Node-RED: ${data}`);
@@ -610,7 +629,7 @@ class NodeRed extends utils.Adapter {
             if (fs.existsSync(flowCredPath)) {
                 cred = JSON.parse(fs.readFileSync(flowCredPath, 'utf8'));
             }
-        } catch (e) {
+        } catch {
             this.log.error(`Cannot read ${flowCredPath}`);
         }
         const flowsPath = path.join(this.userDataDir, 'flows.json');
@@ -618,7 +637,7 @@ class NodeRed extends utils.Adapter {
             if (fs.existsSync(flowsPath)) {
                 flows = JSON.parse(fs.readFileSync(flowsPath, 'utf8'));
             }
-        } catch (e) {
+        } catch {
             this.log.error(`Cannot save ${flowsPath}`);
         }
 
@@ -651,9 +670,6 @@ class NodeRed extends utils.Adapter {
         );
     }
 
-    /**
-     * @param {ioBroker.Message} msg
-     */
     onMessage(msg) {
         if (msg && msg.command && !msg?.callback?.ack) {
             this.log.debug(`Received command: ${JSON.stringify(msg)}`);
@@ -694,24 +710,20 @@ class NodeRed extends utils.Adapter {
         this.setTimeout(() => callback && callback(), 2000);
     }
 
-    /**
-     * @param {() => void} callback
-     */
     onUnload(callback) {
         try {
             this.log.info('cleaned everything up...');
 
             callback();
-        } catch (e) {}
+        } catch {
+            // ignore
+        }
     }
 }
 
-// @ts-ignore parent is a valid property on module
+// @ts-expect-error parent is a valid property on module
 if (module.parent) {
     // Export the constructor in compact mode
-    /**
-     * @param {Partial<ioBroker.AdapterOptions>} [options={}]
-     */
     module.exports = options => new NodeRed(options);
 } else {
     // otherwise start the instance directly

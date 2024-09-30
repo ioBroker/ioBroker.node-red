@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import {
@@ -26,7 +26,7 @@ import langZhCn from '@iobroker/adapter-react-v5/i18n/zh-cn.json';
 type OnClose = (
     newId: string | null,
     newObj?: ioBroker.Object | null,
-    oldId?: string | undefined,
+    oldId?: string,
     oldObj?: ioBroker.Object | null,
 ) => void;
 
@@ -67,7 +67,7 @@ function singletonConnection(props: ConnectionProps, onConnectionChanged: (conne
             } else {
                 props.protocol = 'http:';
             }
-            let [host, port] = window.socketUrl.split('/')[2].split(':');
+            const [host, port] = window.socketUrl.split('/')[2].split(':');
             props.port = port || 80;
             props.host = host;
         }
@@ -141,7 +141,7 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
         }
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         const socket = singletonConnection(
             {
                 port: this.props.port,
@@ -160,13 +160,13 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
         (window as any)._iobOnPropertyChanged = this.iobOnPropertyChanged;
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         if ((window as any)._iobOnPropertyChanged === this.iobOnPropertyChanged) {
             (window as any)._iobOnPropertyChanged = null;
         }
     }
 
-    render() {
+    render(): React.JSX.Element | string | null {
         (window as any)._renderText = `[${new Date().toString()}] render`;
 
         console.log(

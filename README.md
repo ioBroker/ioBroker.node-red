@@ -34,27 +34,32 @@ Instantiate the server with Node-RED
 	Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+
 ## Changelog
+
 ### 6.0.0 (2024-09-30)
 
-- (@GermanBluefox) Corrected the case if `envVars` settings is undefined
-- (@GermanBluefox) Used common `@iobroker/eslint-config`
-- (@GermanBluefox) Node-red updated to 4.0.3
+-   (@GermanBluefox) Corrected the case if `envVars` settings is undefined
+-   (@GermanBluefox) Used common `@iobroker/eslint-config`
+-   (@GermanBluefox) Node-red updated to 4.0.3
 
 ### 5.2.1 (2024-04-27)
 
-- (Apollon77) Update node-red to 3.1.9 to fix execution on windows
-- (Apollon77) Restore log behavior as it was in till 5.0.x
+-   (Apollon77) Update node-red to 3.1.9 to fix execution on windows
+-   (Apollon77) Restore log behavior as it was in till 5.0.x
 
 ### 5.2.0 (2024-02-17)
-- (klein0r) Added persistence of context data (filesystem)
+
+-   (klein0r) Added persistence of context data (filesystem)
 
 ### 5.1.0 (2023-12-27)
-- (klein0r) Allow custom themes
-- (klein0r) Fixed scoped node-red packages
+
+-   (klein0r) Allow custom themes
+-   (klein0r) Fixed scoped node-red packages
 
 ### 5.0.2 (2023-12-14)
-- (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
+
+-   (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
 
 ## License
 
