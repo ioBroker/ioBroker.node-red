@@ -35,7 +35,7 @@ Instantiate the server with Node-RED
     ### **WORK IN PROGRESS**
 -->
 ## Changelog
-### **WORK IN PROGRESS**
+### 6.0.0 (2024-09-30)
 
 - (@GermanBluefox) Corrected the case if `envVars` settings is undefined
 - (@GermanBluefox) Used common `@iobroker/eslint-config`
@@ -55,10 +55,6 @@ Instantiate the server with Node-RED
 
 ### 5.0.2 (2023-12-14)
 - (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
-
-### 5.0.1 (2023-12-05)
-- (klein0r) Fixed credentials decrypt
-- (klein0r) Added connection state (process is running)
 
 ## License
 

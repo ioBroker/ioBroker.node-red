@@ -1,4 +1,8 @@
 # Older changes
+## 5.0.1 (2023-12-05)
+- (klein0r) Fixed credentials decrypt
+- (klein0r) Added connection state (process is running)
+
 ## 5.0.0 (2023-11-26)
 **NodeJS 16.4.x+ is required**
 **Please check instance configuration and re-enter your passwords (encryption has changed).**
