@@ -38,7 +38,7 @@ if (window.socketUrl) {
     }
 }
 
-let connection: Connection | null = null;
+let connection: Connection;
 function singletonConnection(props: ConnectionProps, onConnectionChanged: (connected: boolean) => void): Connection {
     if (connection) {
         return connection;
@@ -105,7 +105,7 @@ export interface ISelectIDNodeRedProps {
 
 interface SelectIDNodeRedState {
     connected: boolean;
-    socket: Connection | null;
+    socket: Connection;
     theme: IobTheme;
     selected: string;
     opened: boolean;
@@ -123,10 +123,20 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
         this.state = {
             theme,
             selected: props.selected || '',
-            socket: null,
+            socket: singletonConnection(
+                {
+                    port: props.port,
+                    host: props.host,
+                    protocol: props.protocol,
+                },
+                (connected: boolean) => {
+                    this.setState({ connected });
+                },
+            ),
             opened: !!props.open,
             connected: false,
         };
+        I18n.setLanguage(this.props.language || 'en');
     }
 
     iobOnPropertyChanged = (attr: string, value: string | boolean): void => {
@@ -142,21 +152,6 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
     };
 
     componentDidMount(): void {
-        const socket = singletonConnection(
-            {
-                port: this.props.port,
-                host: this.props.host,
-                protocol: this.props.protocol,
-            },
-            (connected: boolean) => {
-                this.setState({ connected });
-            },
-        );
-
-        I18n.setLanguage(this.props.language || 'en');
-
-        this.setState({ socket });
-
         (window as any)._iobOnPropertyChanged = this.iobOnPropertyChanged;
     }
 
