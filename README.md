@@ -37,7 +37,7 @@ Instantiate the server with Node-RED
 
 ## Changelog
 
-### 6.0.0 (2024-09-30)
+### **WORK IN PROGRESS**
 
 -   (@GermanBluefox) Corrected the case if `envVars` settings is undefined
 -   (@GermanBluefox) Used common `@iobroker/eslint-config`

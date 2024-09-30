@@ -16,19 +16,6 @@
             "zh-cn": "Node-RED"
         },
         "news": {
-            "6.0.0": {
-                "en": "Corrected the case if `envVars` settings is undefined\nUsed common `@iobroker/eslint-config`\nNode-red updated to 4.0.3",
-                "de": "Berichtigt den Fall, wenn `envVars` Einstellungen undefiniert sind\nGebräuchlich `@iobroker/eslint-config``\nNode-red aktualisiert auf 4.0.3",
-                "ru": "Исправлено случае, если настройки \"envVars\" не определены\nИспользованный общий `@iobroker/eslint-config`\n4.0.3",
-                "pt": "Corrigido o caso se as configurações do `envVars` não forem definidas\nUsado comum `@iobroker/eslint-config`\nNode-red atualizado para 4.0.3",
-                "nl": "Gecorrigeerd als de instellingen van \"EnvVars\" ongedefinieerd zijn\nGebruikte veelgebruikte \nNode-rood bijgewerkt naar 4.0.3",
-                "fr": "Correction du cas si les paramètres `envVars` ne sont pas définis\nUtilisé `@iobroker/eslint-config`\nNode-red mis à jour à 4.0.3",
-                "it": "Corretto il caso se le impostazioni `envVars` non sono definite\nUsato comune `@iobroker/eslint-config`\nNodo-rosso aggiornato a 4.0.3",
-                "es": "Corregido el caso si la configuración de 'envVars' no está definida\nUsado común `@iobroker/eslint-config`\nNodo-red actualizado a 4.0.3",
-                "pl": "Naprawiono przypadek, jeśli ustawienia 'envVars' są niezdefiniowane\nUżywany common '@ iobroker / eslint- configt'\nNode- red zaktualizowany do 4.0.3",
-                "uk": "Виправлено випадок, якщо налаштування `envVars` не визначено\n`@iobroker/eslint-config``\nNode-red оновлено до 4.0.3",
-                "zh-cn": "如果“ envVars” 设置未定义, 则更正了案件\n常用的 io 经纪人/slint-config '\n节点红色更新为4.0.3"
-            },
             "5.2.1": {
                 "en": "Update node-red to 3.1.9 to fix execution on windows\nRestore log behavior as it was in till 5.0.x",
                 "de": "Aktualisieren von node-red auf 3.1.9, um die Ausführung auf Windows zu beheben\nLog-Verhalten wiederherzustellen, wie es bis 5.0.x war",
