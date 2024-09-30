@@ -1,5 +1,5 @@
 <!--
-  Copyright 2013-2022 bluefox <dogafox@gmail.com>.
+  Copyright 2013-2024 bluefox <dogafox@gmail.com>.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,15 +21,19 @@
         line-height: 24px !important;
     }
 </style>
+<script type="text/javascript" src="socket.iob.js"></script>
+<script type="text/javascript" src="iobrokerSelectId.umd.js"></script>
 <script type="text/javascript" src="vendor/jquery.fancytree-all.min.js"></script>
 <link rel="stylesheet" type="text/css" href="admin.css"/>
 <script type="text/javascript" src="selectID.js"></script>
 
 <script type="text/javascript">
+    window.ioBrokerAdmin = {"port":8081,"host":"","protocol":"http:"}; // THIS LINE WILL BE CHANGED FOR SELECT ID
+
     function readData() {
         return new Promise((resolve, reject) => {
             console.log('Connecting...');
-            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN
+            var socket = new WebSocket('ws://' + window.location.hostname + ':8081?sid=' + Date.now()); window.ioBrokerAdmin = {"port":8081,"host":"","protocol":"http:"}; // THIS LINE WILL BE CHANGED FOR ADMIN
 
             if (!socket) {
                 console.warn('Authentication must be disabled to support the objects read!');
@@ -125,33 +129,72 @@
     }
 
     function initSelectId(allowAll, onChange) {
+        /*
         if (!window.__iobroker) {
             $.getJSON('iobroker.json', function (data) {
                 openSelectId(allowAll, data);
             });
         } else {
             openSelectId(allowAll);
-        }
+        }*/
+        console.log('INIT')
 
         $('#node-input-topic-button').button({
             icons: {primary: 'ui-icon-folder-open'},
             text:  false
         }).click(function () {
-            $('#dialog-select-member').selectId('show', $('#node-input-topic').val(), undefined, function (newId, oldId) {
-                var oldObj = $('#dialog-select-member').selectId('getInfo', oldId);
-                var newObj = $('#dialog-select-member').selectId('getInfo', newId);
-                $('#node-input-topic').val(newId);
+            if (window.ioBrokerAdmin) {
+                let selectDialog = document.getElementById('iobroker-select-id');
+                if (!selectDialog) {
+                    selectDialog = document.createElement('iobroker-select-id');
+                    selectDialog.setAttribute('id', 'iob-select-id')
+                    selectDialog.setAttribute('port', window.ioBrokerAdmin.port);
+                    selectDialog.setAttribute('host', window.ioBrokerAdmin.host);
+                    selectDialog.setAttribute('protocol', window.ioBrokerAdmin.protocol);
+                    window._iobOnSelected = function (newId, newObj, oldId, oldObj) {
+                        let selectDialog = document.getElementById('iob-select-id');
+                        if (selectDialog) {
+                            selectDialog.setAttribute('open', 'false');
+                        }
 
-                if (newObj) {
-                    var oldName = $('#node-input-name').val();
-                    if (!oldName || !oldObj || (oldObj.common && oldName === oldObj.common.name && newObj.common)) {
-                        $('#node-input-name').val(newObj.common.name);
+                        if (newId) {
+                            $('#node-input-topic').val(newId);
+                            if (newObj) {
+                                var oldName = $('#node-input-name').val();
+                                if (!oldName || !oldObj || (oldObj.common && oldName === oldObj.common.name && newObj.common)) {
+                                    $('#node-input-name').val(newObj.common.name);
+                                }
+                                if (typeof onChange === 'function') {
+                                    onChange(newId, oldId, newObj, oldObj);
+                                }
+                            }
+                        }
+                    };
+                    selectDialog.setAttribute('onclose', '_iobOnSelected');
+                    selectDialog.setAttribute('selected', $('#node-input-topic').val());
+                    selectDialog.setAttribute('open', 'true');
+                    document.body.appendChild(selectDialog);
+                } else {
+                    selectDialog.setAttribute('selected', $('#node-input-topic').val());
+                    selectDialog.setAttribute('open', 'true');
+                }
+            } else {
+                $('#dialog-select-member').selectId('show', $('#node-input-topic').val(), undefined, function (newId, oldId) {
+                    var oldObj = $('#dialog-select-member').selectId('getInfo', oldId);
+                    var newObj = $('#dialog-select-member').selectId('getInfo', newId);
+                    $('#node-input-topic').val(newId);
+
+                    if (newObj) {
+                        var oldName = $('#node-input-name').val();
+                        if (!oldName || !oldObj || (oldObj.common && oldName === oldObj.common.name && newObj.common)) {
+                            $('#node-input-name').val(newObj.common.name);
+                        }
                     }
-                }
-                if (typeof onChange === 'function') {
-                    onChange(newId, oldId, newObj, oldObj);
-                }
-            });
+                    if (typeof onChange === 'function') {
+                        onChange(newId, oldId, newObj, oldObj);
+                    }
+                });
+            }
         });
     }
 </script>
