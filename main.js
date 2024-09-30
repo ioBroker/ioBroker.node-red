@@ -163,19 +163,19 @@ class NodeRed extends utils.Adapter {
                 const adminInstanceObj = admin ? admin.value : null;
 
                 if (this.config.doNotReadObjectsDynamically) {
-                    lines[pos] = `            var socket = null; ${NodeRed.getAdminJson(adminInstanceObj)} ${searchText}`;
+                    lines[pos] = `            var socket = null; ${searchText}`;
                 } else if (adminInstanceObj && !adminInstanceObj.native.auth) {
                     if ((!adminInstanceObj.native.secure && !!settings.native.secure) || (!!adminInstanceObj.native.secure === !!settings.native.secure)) {
                         lines[pos] =
-                            `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); ${NodeRed.getAdminJson(adminInstanceObj)} // THIS LINE WILL BE CHANGED FOR ADMIN`;
+                            `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
                     } else {
-                        lines[pos] = `            var socket = null; ${NodeRed.getAdminJson(adminInstanceObj)} ${searchText}`;
+                        lines[pos] = `            var socket = null; ${searchText}`;
                         this.log.warn(
                             `Cannot enable the dynamic object read as admin is SSL ${adminInstanceObj.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`,
                         );
                     }
                 } else if (adminInstanceObj) {
-                    lines[pos] = `            var socket = null; ${NodeRed.getAdminJson(adminInstanceObj)} ${searchText}`;
+                    lines[pos] = `            var socket = null; ${searchText}`;
                     this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
                 } else {
                     lines[pos] = `            var socket = null; ${searchText}`;

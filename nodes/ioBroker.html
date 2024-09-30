@@ -28,12 +28,12 @@
 <script type="text/javascript" src="selectID.js"></script>
 
 <script type="text/javascript">
-    window.ioBrokerAdmin = null; // THIS LINE WILL BE CHANGED FOR SELECT ID
+    window.ioBrokerAdmin = {"port":8081,"host":"","protocol":"http:"}; // THIS LINE WILL BE CHANGED FOR SELECT ID
 
     function readData() {
         return new Promise((resolve, reject) => {
             console.log('Connecting...');
-            var socket = null; // THIS LINE WILL BE CHANGED FOR ADMIN
+            var socket = new WebSocket('ws://' + window.location.hostname + ':8081?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN
 
             if (!socket) {
                 console.warn('Authentication must be disabled to support the objects read!');
@@ -152,6 +152,7 @@
                     selectDialog.setAttribute('port', window.ioBrokerAdmin.port);
                     selectDialog.setAttribute('host', window.ioBrokerAdmin.host);
                     selectDialog.setAttribute('protocol', window.ioBrokerAdmin.protocol);
+                    selectDialog.setAttribute('language', RED.i18n.lang());
                     window._iobOnSelected = function (newId, newObj, oldId, oldObj) {
                         let selectDialog = document.getElementById('iob-select-id');
                         if (selectDialog) {
@@ -679,7 +680,7 @@ RED.nodes.registerType('ioBroker get', {
         defaults: {
             instance: {value: ''},
             command: {value: ''},
-            timeout: {value: 1000}
+            timeout: { value: 1000}
         },
         color: '#a8bfd8',
         inputs: 1,

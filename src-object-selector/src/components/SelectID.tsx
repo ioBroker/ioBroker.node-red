@@ -29,15 +29,6 @@ type OnClose = (
     oldObj?: ioBroker.Object | null,
 ) => void;
 
-export interface ISelectIDNodeRedProps {
-    port?: number | string;
-    protocol?: 'http:' | 'https';
-    host?: string;
-    selected?: string;
-    onclose: OnClose | string;
-    open: string | boolean;
-}
-
 if (window.socketUrl) {
     if (window.socketUrl.startsWith(':')) {
         window.socketUrl = `${window.location.protocol}//${window.location.hostname}${window.socketUrl}`;
@@ -47,7 +38,10 @@ if (window.socketUrl) {
 }
 
 let connection: Connection | null = null;
-function singletonConnection(props: ConnectionProps, onConnectionChanged: (connected: boolean) => void): Connection {
+function singletonConnection(
+    props: ConnectionProps,
+    onConnectionChanged: (connected: boolean) => void,
+): Connection {
     if (connection) {
         return connection;
     }
@@ -101,6 +95,16 @@ function singletonConnection(props: ConnectionProps, onConnectionChanged: (conne
     return connection;
 }
 
+export interface ISelectIDNodeRedProps {
+    port?: number | string;
+    protocol?: 'http:' | 'https';
+    host?: string;
+    selected?: string;
+    onclose: OnClose | string;
+    open: string | boolean;
+    language: ioBroker.Languages;
+}
+
 interface SelectIDNodeRedState {
     connected: boolean;
     socket: Connection | null;
@@ -108,12 +112,18 @@ interface SelectIDNodeRedState {
     selected: string;
     opened: boolean;
 }
+
 export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNodeRedState> {
     constructor(props: ISelectIDNodeRedProps) {
         super(props);
 
+        const theme = Theme('light');
+        console.log(theme);
+        theme.palette.primary.main = '#AD1625';
+        theme.palette.secondary.main = 'rgb(228, 145, 145)';
+
         this.state = {
-            theme: Theme(Utils.getThemeName()),
+            theme,
             selected: props.selected || '',
             socket: null,
             opened: !!props.open,
@@ -141,9 +151,11 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
                 protocol: this.props.protocol,
             },
             (connected: boolean) => {
-                this.setState({ connected })
+                this.setState({ connected });
             },
         );
+
+        I18n.setLanguage(this.props.language || 'en');
 
         this.setState({ socket });
 
@@ -159,7 +171,9 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
     render() {
         (window as any)._renderText = `[${new Date().toString()}] render`;
 
-        console.log(`Render socket: ${!!this.state.socket}, theme: ${!!this.state.theme}, connected: ${this.state.connected}, opened: ${this.state.opened}, selected: ${this.state.selected}`)
+        console.log(
+            `Render socket: ${!!this.state.socket}, theme: ${!!this.state.theme}, connected: ${this.state.connected}, opened: ${this.state.opened}, selected: ${this.state.selected}`,
+        );
 
         if (!this.state.socket || !this.state.theme) {
             return null;
@@ -177,7 +191,10 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
                 selected={this.state.selected}
                 socket={this.state.socket}
                 onClose={() => {
-                    if (typeof this.props.onclose === 'string' && typeof (window as any)[this.props.onclose] === 'function') {
+                    if (
+                        typeof this.props.onclose === 'string' &&
+                        typeof (window as any)[this.props.onclose] === 'function'
+                    ) {
                         (window as any)[this.props.onclose](null);
                         return;
                     }
@@ -197,14 +214,20 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
                         if (this.props.selected) {
                             oldObj = await this.state.socket?.getObject(this.props.selected);
                         }
-                        if (typeof this.props.onclose === 'string' && typeof (window as any)[this.props.onclose] === 'function') {
+                        if (
+                            typeof this.props.onclose === 'string' &&
+                            typeof (window as any)[this.props.onclose] === 'function'
+                        ) {
                             (window as any)[this.props.onclose](id, newObj, this.props.selected, oldObj);
                             return;
                         }
 
                         return (this.props.onclose as OnClose)(id, newObj, this.props.selected, oldObj);
                     }
-                    if (typeof this.props.onclose === 'string' && typeof (window as any)[this.props.onclose] === 'function') {
+                    if (
+                        typeof this.props.onclose === 'string' &&
+                        typeof (window as any)[this.props.onclose] === 'function'
+                    ) {
                         (window as any)[this.props.onclose](null);
                         return;
                     }
