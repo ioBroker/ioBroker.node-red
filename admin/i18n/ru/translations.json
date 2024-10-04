@@ -16,7 +16,7 @@
     "Additional features": "Дополнительные возможности",
     "Convert state values to strings": "Преобразование значений состояния в строки",
     "Use palletmanager": "Используйте паллетменеджер",
-    "Backups will not contain any modules installed via palletmanager!": "Резервные копии не будут содержать модули, установленные через palletmanager!",
+    "Backups will not contain any modules installed via palletmanager!": "Резервные копии не будут содержать модули, установленные через palette manager!",
     "Enable Projects feature": "Включить функцию проектов",
     "Backups will not contain any projects!": "Резервные копии не будут содержать никаких проектов!",
     "Allow creation of foreign objects": "Разрешить создание посторонних объектов",

@@ -121,7 +121,7 @@
                 "_backupWarningPallet": {
                     "hidden": "!data.palletmanagerEnabled",
                     "type": "staticText",
-                    "text": "Backups will not contain any modules installed via Palletmanager!",
+                    "text": "Backups will not contain any modules installed via Palette Manager!",
                     "style": {
                         "backgroundColor": "#a83232",
                         "borderRadius": "10px",
