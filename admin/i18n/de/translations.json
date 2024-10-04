@@ -16,7 +16,7 @@
     "Additional features": "Zusatzfunktionen",
     "Convert state values to strings": "Zustandswerte in Zeichenfolgen umwandeln",
     "Use palletmanager": "Verwende den Palettenmanager",
-    "Backups will not contain any modules installed via palletmanager!": "Die Backups enthalten keine über den Palletmanager installierten Module!",
+    "Backups will not contain any modules installed via palletmanager!": "Die Backups enthalten keine über die Palette installierten Module!",
     "Enable Projects feature": "Aktiviere die Projektfunktion",
     "Backups will not contain any projects!": "Backups enthalten keine Projekte!",
     "Allow creation of foreign objects": "Erstellung von Fremdobjekten erlauben",
