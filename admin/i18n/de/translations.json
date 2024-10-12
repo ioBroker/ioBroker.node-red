@@ -12,7 +12,7 @@
     "http Static directory": "Statisches http-Verzeichnis",
     "Can be used to identify a directory of static content on local host": "Kann verwendet werden, um ein Verzeichnis mit statischem Inhalt auf dem lokalen Host zu identifizieren",
     "Max. allocated RAM": "Max. zugewiesener RAM",
-    "Additional npm packages": "Zusätzliche npm-Pakete",
+    "Additional npm packages": "Zusätzliche NPM-Pakete",
     "Additional features": "Zusatzfunktionen",
     "Convert state values to strings": "Zustandswerte in Zeichenfolgen umwandeln",
     "Use palletmanager": "Verwende den Palettenmanager",
