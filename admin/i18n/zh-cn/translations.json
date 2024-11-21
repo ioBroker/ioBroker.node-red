@@ -16,7 +16,7 @@
     "Additional features": "附加功能",
     "Convert state values to strings": "将状态值转换为字符串",
     "Use palletmanager": "使用托盘管理器",
-    "Backups will not contain any modules installed via palletmanager!": "备份将不包含通过palletmanager安装的任何模块！",
+    "Backups will not contain any modules installed via Palette Manager!": "备份将不包含通过palletmanager安装的任何模块！",
     "Enable Projects feature": "启用项目功能",
     "Backups will not contain any projects!": "备份将不包含任何项目！",
     "Allow creation of foreign objects": "允许创建异物",
