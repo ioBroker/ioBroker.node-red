@@ -38,7 +38,7 @@
     "node-red-contrib-os": "^0.2.1"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.2.1",
+    "@iobroker/adapter-core": "^3.2.2",
     "bcrypt": "^5.1.1",
     "node-red": "^4.0.3",
     "node-red-contrib-aggregator": "^2.0.0",
