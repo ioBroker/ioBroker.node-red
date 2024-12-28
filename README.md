@@ -36,7 +36,7 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 6.0.2 (2024-12-28)
 
 -   (@GermanBluefox) Restart node-red if admin settings changed
 -   (@GermanBluefox) Node-red updated to 4.0.8
@@ -60,10 +60,6 @@ Instantiate the server with Node-RED
 
 -   (klein0r) Allow custom themes
 -   (klein0r) Fixed scoped node-red packages
-
-### 5.0.2 (2023-12-14)
-
--   (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
 
 ## License
 

@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "6.0.2": {
+        "en": "Restart node-red if admin settings changed\nNode-red updated to 4.0.8",
+        "de": "Neustart-Knoten-rot, wenn Admin-Einstellungen geändert\nNode-red aktualisiert auf 4.0.8",
+        "ru": "Перезапустить узел-красный, если изменились настройки администратора\n4.0.8",
+        "pt": "Reinicie o nó-vermelho se as configurações de admin mudaram\nNode-red atualizado para 4.0.8",
+        "nl": "Node-red herstarten als de admin-instellingen zijn veranderd\nNode-rode bijgewerkt naar 4.0.8",
+        "fr": "Redémarrer node-red si les paramètres d'administration ont changé\nNode-red mis à jour à 4.0.8",
+        "it": "Riavviare il nodo-rosso se le impostazioni di amministratore cambiate\nNodo-rosso aggiornato a 4.0.8",
+        "es": "Reinicie node-red si los ajustes de administración cambiaron\nNodo-red actualizado a 4.0.8",
+        "pl": "Uruchom node- red jeśli ustawienia admin zmienione\nNode- czerwony zaktualizowany do 4.0.8",
+        "uk": "Перезавантажити вузол-червоний, якщо зміни налаштувань адміністратора\nNode-red оновлено до 4.0.8",
+        "zh-cn": "如果管理员设置改变, 重新启动节点红\n节点红色更新为4.0.8"
+      },
       "6.0.1": {
         "en": "Corrected the case if `envVars` settings is undefined\nUsed common `@iobroker/eslint-config`\nNode-red updated to 4.0.3",
         "de": "Berichtigt den Fall, wenn `envVars` Einstellungen undefiniert sind\nGebräuchlich `@iobroker/eslint-config``\nNode-red aktualisiert auf 4.0.3",
@@ -93,19 +106,6 @@
         "pl": "Szczegółowe grzechy deszyfrują\nDodany stan połączenia (proces jest uruchomiony)",
         "uk": "Виправлені облікові дані розшифрування\nДодано стан з'єднання (процес працює)",
         "zh-cn": "固定全权证书\n增加联系国(进程正在进行中)"
-      },
-      "5.0.0": {
-        "en": "*NodeJS 16.4.x+ is required**\n*Please check instance configuration and re-enter your passwords (encryption has changed).**\n\nUpdated Node-RED to 3.1.0. Please check your nodes for compatibility!\nAdmin 5/6 JSON config for instance configuration\nAdded sendTo node with callback\nAllow custom attribute name for \"ioBroker in\" node\nAdded option to select editor (monaco, ace)\nAdded table for custom env vars to instance configuration",
-        "de": "*NodeJS 16.4.x+ ist erforderlich*\n*Bitte überprüfen Sie die Instanz-Konfiguration und erneut Ihre Passwörter eingeben (Verschlüsselung hat sich geändert). *\n\nAktualisierte Node-RED auf 3.1.0 Bitte überprüfen Sie Ihre Knoten für Kompatibilität!\nAdmin 5/6 JSON config zum Beispiel Konfiguration\nHinzugefügt: Zu Knoten mit Rückruf\nErlauben Sie benutzerdefinierten Attributnamen für \"ioBroker in\" node\nOption hinzugefügt, um Editor auszuwählen (monaco, ace)\nHinzugefügt Tabelle für benutzerdefinierte env vars zu Instanz Konfiguration",
-        "ru": "*NodeJS 16.4.x+ требуется*\n*Пожалуйста, проверьте настройки и повторно введите свои пароли (шифрование изменилось). *\n\nОбновлено Node-RED до 3.1.0 Пожалуйста, проверьте свои узлы для совместимости!\nAdmin 5/6 JSON config для конфигурации\nДобавлена отправка К ноде с callback\nРазрешить имя пользовательского атрибута для \"ioBroker in\" node\nДобавлена возможность выбора редактора (monaco, ace)\nДобавлена таблица для настройки env vars к конфигурациям",
-        "pt": "*NodeJS 16.4.x+ é necessário*\n*Por favor, verifique a configuração da instância e reinsira suas senhas (a criptografia mudou). *\n\nNode-RED atualizado para 3.1.0 Por favor, verifique seus nós para compatibilidade!\nAdmin 5/6 JSON config para configuração de instância\nAdicionado enviar Para nó com callback\nPermitir nome de atributo personalizado para \"ioBroker in\" node\nAdicionado opção para selecionar editor (monaco, ace)\nAdicionado tabela para custom env vars para configuração de instância",
-        "nl": "♪ NodeJS 16.4.x+ is vereist ♪\nControle instance configuratie en vernieuw je wachtwoorden. ♪\n\nUpdate Node-RD naar 3.1.0 Controleer alsjeblieft je nodes voor compatibiliteit!\nVertaling:\nVertaling: Om te knikken met belletje\nLaat de gebruikelijke naam horen voor \"ioBroker in\" node\nToegevoegd optie om editor (monaco, ace)\nVoegde tafel toe voor gebruikelijke env vars aan instabiliteit",
-        "fr": "*NodeJS 16.4.x+ est requise*\n*Veuillez vérifier la configuration de l'instance et réactiver vos mots de passe (le chiffrement a changé). *\n\nActualisé Node-RED à 3.1.0 Veuillez vérifier vos nœuds pour la compatibilité!\nAdmin 5/6 JSON config for instance configuration\nAjouté À midi avec callback\nPermettre le nom d'attribut personnalisé pour \"ioBroker in\" node\nAjout de l'option pour sélectionner l'éditeur (monaco, ace)\nTableau ajouté pour la configuration personnalisée env vars to instance",
-        "it": "*NodeJS 16.4.x+ è richiesto*\n* Si prega di controllare la configurazione delle istanze e ri-inserire le password (la crittografia è cambiata). #\n\nAggiornato Node-RED a 3.1.0 Si prega di controllare i nodi per la compatibilità!\nAdmin 5/6 JSON config per la configurazione delle istanze\nAggiunto il messaggio A nodo con callback\nConsentire nome attributo personalizzato per \"ioBroker in\" nodo\nAggiunta opzione per selezionare editor (monaco, ace)\nTabella aggiuntiva per la configurazione di istanza personalizzata",
-        "es": "*NodeJS 16.4.x+ es necesario*\n*Por favor, compruebe la configuración de instancia y vuelva a introducir sus contraseñas (el cifrado ha cambiado). *\n\nActualizado Nodo-RED a 3.1.0 ¡Por favor, compruebe sus nodos por compatibilidad!\nAdmin 5/6 JSON config por configuración de instancia\nEnviar To node with callback\nPermitir el nombre de atributo personalizado para el nodo \"ioBroker in\"\nOpción adicional para seleccionar editor (monaco, as)\nTabla agregada para vars env personalizados para la configuración de instancia",
-        "pl": "*NodeJS 16.4.x+ (ang.)\n*Please check configuration and re-enter your passwords (ang.). *\n\nZastąpiono Node-RED do 3.1.0. Powiedzcie wasze węzły do kompatybilności!\nKonfiguracja Admin 5/6 JSON\nAdded sender węzeł\nAllowstandard atrybutuje nazwę „ioBroker in node”\nDo wyboru redaktora (monaco, ace)\nPoniższa tabela dla standardowych env",
-        "uk": "*NodeJS 16.4.x+ обов'язковий *\n*Використовувати налаштування екземпляра та повторно керувати паролями (шифрування змінено). Ім'я *\n\nОновлено Node-RED до 3.1.0 Будь ласка, перевірте свої вершини для сумісності!\nAdmin 5/6 JSON конфігурація екземпляра\nДодати відгук Для вузла з зворотним викликом\nДозволити ім'я користувацького атрибуту для вузла \"ioBroker\"\nДодано параметр вибрати редактор (monaco, ace)\nДодано таблицю для користувальницьких конвертів для налаштування екземпляра",
-        "zh-cn": "* 无需印发。\n* 采购核对表和重新编号(加密已经改变)。 * A/64/50。\n\nA. 更新的无误导体 请检查你不兼容!\n附录5/6\n增 发 警告\n允许习惯名称为“零星”\n增加选择编辑的选择(货币、货币)\n添加关于成类组合的习俗表格"
       }
     },
     "desc": {

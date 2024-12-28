@@ -1,4 +1,8 @@
 # Older changes
+## 5.0.2 (2023-12-14)
+
+-   (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
+
 ## 5.0.1 (2023-12-05)
 - (klein0r) Fixed credentials decrypt
 - (klein0r) Added connection state (process is running)
