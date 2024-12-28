@@ -39,6 +39,7 @@ Instantiate the server with Node-RED
 ### **WORK IN PROGRESS**
 
 -   (@GermanBluefox) Restart node-red if admin settings changed
+-   (@GermanBluefox) Node-red updated to 4.0.8
 
 ### 6.0.1 (2024-09-30)
 
