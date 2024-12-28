@@ -2,17 +2,35 @@
 // using the actual properties present in io-package.json
 // in order to provide typings for adapter.config properties
 
-import { type native } from '../io-package.json';
-
-type _AdapterConfig = Partial<typeof native>;
-
 // Augment the globally declared type ioBroker.AdapterConfig
 declare global {
     namespace ioBroker {
-        // tslint:disable-next-line:no-empty-interface
-        // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-        interface AdapterConfig extends _AdapterConfig {
-            // Do not enter anything here!
+        interface AdapterConfig {
+            bind: string;
+            port: number | string;
+            secure: boolean;
+            certPublic: string;
+            certPrivate: string;
+            httpAdminRoot: string;
+            httpNodeRoot: string;
+            httpStatic: string;
+            npmLibs: [];
+            maxMemory: number;
+            valueConvert: boolean;
+            palletmanagerEnabled: boolean;
+            projectsEnabled: boolean;
+            allowCreationOfForeignObjects: boolean;
+            safeMode: boolean;
+            doNotReadObjectsDynamically: boolean;
+            authType: 'None' | 'Simple' | 'Extended';
+            user: string;
+            pass: string;
+            hasDefaultPermissions: boolean;
+            defaultPermissions: string;
+            authExt: { username: string; password: string; permissions: string }[];
+            editor: 'monaco' | 'ace';
+            theme: string;
+            envVars: { name: string; value: string }[];
         }
     }
 }

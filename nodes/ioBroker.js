@@ -24,7 +24,7 @@ module.exports = function (RED) {
     require('events').EventEmitter.prototype._maxListeners = 10000;
 
     const utils = require('@iobroker/adapter-core');
-    const settings = require(process.env.NODE_RED_HOME + '/lib/red').settings;
+    const settings = require(`${process.env.NODE_RED_HOME}/lib/red`).settings;
 
     const instance = settings.get('iobrokerInstance') || 0;
     let config = settings.get('iobrokerConfig');

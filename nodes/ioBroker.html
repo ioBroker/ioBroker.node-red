@@ -28,12 +28,12 @@
 <script type="text/javascript" src="selectID.js"></script>
 
 <script type="text/javascript">
-    window.ioBrokerAdmin = {"port":8081,"host":"","protocol":"http:"}; // THIS LINE WILL BE CHANGED FOR SELECT ID
+    window.ioBrokerAdmin = {"port":8081,"host":"","protocol":"https:"}; // THIS LINE WILL BE CHANGED FOR SELECT ID
 
     function readData() {
         return new Promise((resolve, reject) => {
             console.log('Connecting...');
-            var socket = new WebSocket('ws://' + window.location.hostname + ':8081?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN
+            var socket = new WebSocket('wss://' + window.location.hostname + ':8081?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN
 
             if (!socket) {
                 console.warn('Authentication must be disabled to support the objects read!');
@@ -44,7 +44,7 @@
                 return reject();
             }
 
-            var timeout = setTimeout(function () {
+            let timeout = setTimeout(function () {
                 window.__ioBrokerTimeout = true;
                 reject && reject('timeout');
                 reject = null;
@@ -60,16 +60,17 @@
             socket.onopen = function () {
                 console.log('Connected to admin successfully!');
             };
+
             socket.onmessage = function (event) {
-                if (event.data.indexOf('___ready___') !== -1) {
+                if (event.data.includes('___ready___')) {
                     setTimeout(function () {
                         socket.send('[3,2,"getObjects",[]]');
                     }, 50);
-                } else if (resolve && event.data.indexOf('getObjects') !== -1) {
+                } else if (resolve && event.data.includes('getObjects')) {
                     clearTimeout(timeout);
                     timeout = null;
                     try {
-                        var data = JSON.parse(event.data)[3][1];
+                        const data = JSON.parse(event.data)[3][1];
                         console.log(`Could read dynamic data from admin!`);
                         resolve(data);
                     } catch (e) {
@@ -90,9 +91,11 @@
             socket.onerror = function (error) {
                 if (resolve) {
                     window.__ioBrokerTimeout = true;
-                    console.error('Error on connection: ' + error.message);
-                    reject && reject(error.message);
-                    reject = null;
+                    console.error(`Error on connection: ${error.message}`);
+                    if (reject) {
+                        reject(error.message);
+                        reject = null;
+                    }
                     resolve = null;
 
                     try {

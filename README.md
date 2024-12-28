@@ -36,6 +36,10 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+
+-   (@GermanBluefox) Restart node-red if admin settings changed
+
 ### 6.0.1 (2024-09-30)
 
 -   (@GermanBluefox) Corrected the case if `envVars` settings is undefined

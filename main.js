@@ -1,4 +1,4 @@
-const utils = require('@iobroker/adapter-core');
+const { Adapter, getAbsoluteDefaultDataDir } = require('@iobroker/adapter-core');
 const fs = require('node:fs');
 const path = require('node:path');
 const spawn = require('node:child_process').spawn;
@@ -39,7 +39,7 @@ function getNodeRedEditorPath() {
 const nodePath = getNodeRedPath();
 const editorClientPath = getNodeRedEditorPath();
 
-class NodeRed extends utils.Adapter {
+class NodeRed extends Adapter {
     constructor(options) {
         super({
             ...options,
@@ -50,6 +50,7 @@ class NodeRed extends utils.Adapter {
         this.systemSecret = null;
         this.userDataDir = `${__dirname}/userdata/`;
         this.redProcess = null;
+        this.adminUrl = '';
 
         this.stopping = false;
         this.saveTimer = null;
@@ -60,6 +61,7 @@ class NodeRed extends utils.Adapter {
         this.attempts = {};
         this.additional = [];
 
+        this.on('objectChange', this.onObjectChange.bind(this));
         this.on('ready', this.onReady.bind(this));
         //this.on('stateChange', this.onStateChange.bind(this));
         this.on('message', this.onMessage.bind(this));
@@ -138,6 +140,75 @@ class NodeRed extends utils.Adapter {
         })};`;
     }
 
+    async onObjectChange(id) {
+        if (id.startsWith('system.adapter.admin.')) {
+            const { adminInstanceObj, adminUrl } = await this.getWsConnectionString();
+            if (this.adminUrl !== adminUrl) {
+                // restart node-red to apply new settings
+                this.log.info('Restarting node-red to apply new settings of admin instance');
+                const obj = await this.getForeignObjectAsync(`system.adapter.${this.namespace}`);
+                if (obj) {
+                    await this.setForeignObjectAsync(obj._id, obj);
+                }
+            }
+        }
+    }
+
+    async getWsConnectionString() {
+        // get settings for admin
+        const settings = await this.getForeignObjectAsync(`system.adapter.${this.namespace}`);
+        let adminInstanceObj;
+        let adminUrl = '';
+
+        if (settings) {
+            // read all admin adapters on this host
+            const admins = await this.getObjectViewAsync(
+                'system',
+                'instance',
+                {startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999'},
+                {},
+            );
+            let admin = admins.rows.find(
+                obj =>
+                    // admin should run on the same host
+                    obj.value.common.host === settings.common.host &&
+                    // admin should not have authentication
+                    !obj.value.native.auth &&
+                    // admin should be enabled
+                    obj.value.common.enabled &&
+                    // admin should have secure enabled if node-red has secure not enabled
+                    ((!obj.value.native.secure && !!settings.native.secure) ||
+                        // or admin should have the same secure settings
+                        !!obj.value.native.secure === !!settings.native.secure),
+            );
+            adminInstanceObj = admin?.value || null;
+            if (adminInstanceObj) {
+                // subscribe on changes of admin instance
+                await this.subscribeForeignObjectsAsync(adminInstanceObj._id);
+            }
+            if (this.config.doNotReadObjectsDynamically) {
+                adminUrl = '';
+            } else if (adminInstanceObj && !adminInstanceObj.native.auth) {
+                if (
+                    (!adminInstanceObj.native.secure && !!settings.native.secure) ||
+                    !!adminInstanceObj.native.secure === !!settings.native.secure
+                ) {
+                    adminUrl = `ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}`;
+                        `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
+                } else {
+                    adminUrl = '';
+                }
+            } else if (adminInstanceObj) {
+                adminUrl = '';
+
+            } else {
+                adminUrl = '';
+            }
+        }
+
+        return { adminInstanceObj, adminUrl };
+    }
+
     async generateHtml() {
         const searchText = '// THIS LINE WILL BE CHANGED FOR ADMIN';
         const html = fs.readFileSync(`${__dirname}/nodes/ioBroker.html`).toString('utf8');
@@ -146,59 +217,35 @@ class NodeRed extends utils.Adapter {
         if (pos) {
             this.log.debug(`Found searched text "${searchText}" of /nodes/ioBroker.html in line ${pos + 1}`);
 
-            // get settings for admin
-            const settings = await this.getForeignObjectAsync(`system.adapter.${this.namespace}`);
-            if (settings) {
-                // read all admin adapters on this host
-                const admins = await this.getObjectViewAsync(
-                    'system',
-                    'instance',
-                    { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' },
-                    {},
-                );
-                let admin = admins.rows.find(
-                    obj =>
-                        obj.value.common.host === settings.common.host &&
-                        !obj.value.native.auth &&
-                        obj.value.common.enabled &&
-                        ((!obj.value.native.secure && !!settings.native.secure) ||
-                            !!obj.value.native.secure === !!settings.native.secure),
-                );
-                const adminInstanceObj = admin ? admin.value : null;
+            const { adminInstanceObj, adminUrl } = await this.getWsConnectionString();
 
-                if (this.config.doNotReadObjectsDynamically) {
-                    lines[pos] = `            var socket = null; ${searchText}`;
-                } else if (adminInstanceObj && !adminInstanceObj.native.auth) {
-                    if (
-                        (!adminInstanceObj.native.secure && !!settings.native.secure) ||
-                        !!adminInstanceObj.native.secure === !!settings.native.secure
-                    ) {
-                        lines[pos] =
-                            `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
-                    } else {
-                        lines[pos] = `            var socket = null; ${searchText}`;
-                        this.log.warn(
-                            `Cannot enable the dynamic object read as admin is SSL ${adminInstanceObj.native.secure ? 'with' : 'without'} and node-red is ${settings.native.secure ? 'with' : 'without'} SSL`,
-                        );
-                    }
-                } else if (adminInstanceObj) {
-                    lines[pos] = `            var socket = null; ${searchText}`;
-                    this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
+            if (this.config.doNotReadObjectsDynamically) {
+                lines[pos] = `            var socket = null; ${searchText}`;
+            } else if (adminInstanceObj) {
+                if (adminUrl) {
+                    lines[pos] =
+                        `            var socket = new WebSocket('${adminUrl}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
                 } else {
                     lines[pos] = `            var socket = null; ${searchText}`;
-                    this.log.warn(`Cannot enable the dynamic object read as admin has authentication`);
+                    this.log.warn(
+                        `Cannot enable the dynamic object read as admin is SSL ${adminInstanceObj.native.secure ? 'with' : 'without'} and node-red is ${this.config.secure ? 'with' : 'without'} SSL`,
+                    );
                 }
-
-                const searchTextIob = '// THIS LINE WILL BE CHANGED FOR SELECT ID';
-                const posIob = lines.findIndex(line => line.includes(searchTextIob));
-                if (posIob !== -1 && adminInstanceObj) {
-                    lines[posIob] = `    ${NodeRed.getAdminJson(adminInstanceObj)} ${searchTextIob}`;
-                }
-
-                if (html !== lines.join('\n')) {
-                    fs.writeFileSync(`${__dirname}/nodes/ioBroker.html`, lines.join('\n'));
-                }
+            } else {
+                lines[pos] = `            var socket = null; ${searchText}`;
+                this.log.warn(`Cannot enable the dynamic object read as no admin instance found on the same host and wihout authentication`);
             }
+
+            const searchTextIob = '// THIS LINE WILL BE CHANGED FOR SELECT ID';
+            const posIob = lines.findIndex(line => line.includes(searchTextIob));
+            if (posIob !== -1 && adminInstanceObj) {
+                lines[posIob] = `    ${NodeRed.getAdminJson(adminInstanceObj)} ${searchTextIob}`;
+            }
+
+            if (html !== lines.join('\n')) {
+                fs.writeFileSync(`${__dirname}/nodes/ioBroker.html`, lines.join('\n'));
+            }
+            this.adminUrl = adminUrl;
         }
     }
 
@@ -403,9 +450,9 @@ class NodeRed extends utils.Adapter {
 
         // Find userdata directory
         if (this.instance === 0) {
-            this.userDataDir = path.join(utils.getAbsoluteDefaultDataDir(), 'node-red');
+            this.userDataDir = path.join(getAbsoluteDefaultDataDir(), 'node-red');
         } else {
-            this.userDataDir = path.join(utils.getAbsoluteDefaultDataDir(), `node-red.${this.instance}`);
+            this.userDataDir = path.join(getAbsoluteDefaultDataDir(), `node-red.${this.instance}`);
         }
 
         if (this.config.npmLibs && !this.config.palletmanagerEnabled) {
