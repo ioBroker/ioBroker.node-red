@@ -101,6 +101,7 @@ export interface ISelectIDNodeRedProps {
     onclose: OnClose | string;
     open: string | boolean;
     language: ioBroker.Languages;
+    all?: boolean;
 }
 
 interface SelectIDNodeRedState {
@@ -181,6 +182,8 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
                     <SelectID
                         themeName="light"
                         themeType="light"
+                        // @ts-expect-error fixed in new admin version
+                        allowNonObjects={this.props.all}
                         imagePrefix={`${this.props.protocol || window.location.protocol}//${this.props.host || window.location.hostname}:${this.props.port || 8081}`}
                         theme={this.state.theme}
                         selected={this.state.selected}
