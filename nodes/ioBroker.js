@@ -49,7 +49,7 @@ module.exports = function (RED) {
     const checkStates = [];
     const verifiedObjects = {};
     const subscribedIds = {};
-    const isValidIDRegExp = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]*\\.\\d+\\.');
+    const isValidIDRegExp = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]+\\.\\d+\\.');
     let ready = false;
     const log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
 
@@ -130,7 +130,7 @@ module.exports = function (RED) {
     }
 
     function isForeignState(id) {
-        return isValidId(id) && !id.startsWith(adapter.namespace + '.');
+        return isValidId(id) && !id.startsWith(`${adapter.namespace}.`);
     }
 
     // name is like system.state, pattern is like "*.state" or "*" or "*system*"
@@ -142,10 +142,10 @@ module.exports = function (RED) {
             return null;
         }
         if (pattern[pattern.length - 1] !== '*') {
-            pattern = pattern + '$';
+            pattern = `${pattern}$`;
         }
         if (pattern[0] !== '*') {
-            pattern = '^' + pattern;
+            pattern = `^${pattern}`;
         }
         pattern = pattern.replace(/\./g, '\\.');
         pattern = pattern.replace(/\*/g, '.*');
@@ -174,7 +174,7 @@ module.exports = function (RED) {
 
         verifiedObjects[id] = true;
         for (const part of idArr) {
-            idToCheck += '.' + part;
+            idToCheck += `.${part}`;
             //adapter.log.debug(`    check "${idToCheck}": ${verifiedObjects[idToCheck]}`);
             if (verifiedObjects[idToCheck] === true) {
                 continue;
@@ -225,13 +225,13 @@ module.exports = function (RED) {
         }
 
         adapter.getObject(id, async (err, obj) => {
-            if (obj && obj._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
+            if (obj?._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
                 // ignore default created object because we now have a more defined one
                 obj = null;
             }
             if (!obj) {
                 adapter.getForeignObject(id, async (err, obj) => {
-                    if (obj && obj._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
+                    if (obj?._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
                         // ignore default created object because we now have a more defined one
                         obj = null;
                     }
@@ -359,7 +359,7 @@ module.exports = function (RED) {
 
         // If no adapter prefix, add own adapter prefix
         if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
-            node.topic = adapter.namespace + '.' + node.topic;
+            node.topic = `${adapter.namespace}.${node.topic}`;
         }
         node.subscribePattern = node.topic;
 
@@ -566,9 +566,12 @@ module.exports = function (RED) {
             if (!id) {
                 id = msg.topic;
             }
+            if (id) {
+                id = id.replace(/\//g, '.');
+            }
             // if not starts with adapter.instance.
             if (id && !isValidId(id) && !id.startsWith(adapter.namespace)) {
-                id = adapter.namespace + '.' + id;
+                id = `${adapter.namespace}.${id}`;
             }
 
             const msgAck = msg.ack !== undefined ? (msg.ack === 'true' || msg.ack === true) : node.ack;
@@ -577,7 +580,6 @@ module.exports = function (RED) {
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
                 nodeSets.push({ node, msg });
             } else if (id) {
-                id = id.replace(/\//g, '.');
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
                     if (!id.includes('*') && isValidId(id)) {
@@ -616,7 +618,7 @@ module.exports = function (RED) {
                                     node.status({
                                         fill: 'green',
                                         shape: 'dot',
-                                        text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
+                                        text: `${_id}: ${msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()}`
                                     });
                                 }
                                 done();
@@ -653,7 +655,7 @@ module.exports = function (RED) {
                                 node.status({
                                     fill: 'green',
                                     shape: 'dot',
-                                    text: _id + ': ' + (msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString())
+                                    text: `${_id}: ${msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()}`
                                 });
                             }
                             done();
@@ -686,7 +688,7 @@ module.exports = function (RED) {
 
         // If no adapter prefix, add own adapter prefix
         if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
-            node.topic = adapter.namespace + '.' + node.topic;
+            node.topic = `${adapter.namespace}.${node.topic}`;
         }
 
         node.errOnInvalidState = n.errOnInvalidState;
@@ -787,7 +789,7 @@ module.exports = function (RED) {
 
         // If no adapter prefix, add own adapter prefix
         if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
-            node.topic = adapter.namespace + '.' + node.topic;
+            node.topic = `${adapter.namespace}.${node.topic}`;
         }
         node.attrname = n.attrname;
 
@@ -856,7 +858,7 @@ module.exports = function (RED) {
 
         // If no adapter prefix, add own adapter prefix
         if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
-            node.topic = adapter.namespace + '.' + node.topic;
+            node.topic = `${adapter.namespace}.${node.topic}`;
         }
         node.objType = n.objType;
         node.regex = n.regex;
@@ -964,7 +966,7 @@ module.exports = function (RED) {
                     }
                 } catch (err) {
                     /* ignore, we'll return what we get till now */
-                    log('Error while requesting metas: ' + err);
+                    log(`Error while requesting metas: ${err}`);
                 }
                 try {
                     if (!node.objType || node.objType === 'instance') {

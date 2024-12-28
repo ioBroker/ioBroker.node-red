@@ -13,6 +13,7 @@
                     "type": "ip",
                     "label": "IP",
                     "listenOnAllPorts": true,
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4
@@ -21,6 +22,7 @@
                     "type": "number",
                     "min": 1,
                     "max": 65535,
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -29,6 +31,7 @@
                 "secure": {
                     "newLine": true,
                     "type": "checkbox",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -38,6 +41,7 @@
                     "hidden": "!data.secure",
                     "type": "certificate",
                     "certType": "public",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -47,6 +51,7 @@
                     "hidden": "!data.secure",
                     "type": "certificate",
                     "certType": "private",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -55,6 +60,7 @@
                 "httpAdminRoot": {
                     "newLine": true,
                     "type": "text",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -63,6 +69,7 @@
                 },
                 "httpNodeRoot": {
                     "type": "text",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -71,6 +78,7 @@
                 },
                 "httpStatic": {
                     "type": "text",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -81,6 +89,7 @@
                     "newLine": true,
                     "type": "number",
                     "min": 32,
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -88,6 +97,7 @@
                 },
                 "npmLibs": {
                     "type": "chips",
+                    "xs": 12,
                     "sm": 12,
                     "md": 8,
                     "lg": 8,
@@ -97,6 +107,7 @@
                     "newLine": true,
                     "type": "header",
                     "size": 3,
+                    "xs": 12,
                     "sm": 12,
                     "md": 12,
                     "lg": 12,
@@ -105,6 +116,7 @@
                 "valueConvert": {
                     "newLine": true,
                     "type": "checkbox",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -113,6 +125,7 @@
                 "palletmanagerEnabled": {
                     "newLine": true,
                     "type": "checkbox",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -130,6 +143,7 @@
                         "textAlign": "center",
                         "marginTop": "5px"
                     },
+                    "xs": 12,
                     "sm": 12,
                     "md": 8,
                     "lg": 8
@@ -137,6 +151,7 @@
                 "projectsEnabled": {
                     "newLine": true,
                     "type": "checkbox",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -154,6 +169,7 @@
                         "textAlign": "center",
                         "marginTop": "5px"
                     },
+                    "xs": 12,
                     "sm": 12,
                     "md": 8,
                     "lg": 8
@@ -161,6 +177,7 @@
                 "allowCreationOfForeignObjects": {
                     "newLine": true,
                     "type": "checkbox",
+                    "xs": 12,
                     "sm": 12,
                     "md": 6,
                     "lg": 6,
@@ -169,6 +186,7 @@
                 "safeMode": {
                     "newLine": true,
                     "type": "checkbox",
+                    "xs": 12,
                     "sm": 12,
                     "md": 6,
                     "lg": 6,
@@ -266,6 +284,7 @@
                             "value": "Extended"
                         }
                     ],
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -274,6 +293,7 @@
                 "user": {
                     "hidden": "data.authType !== 'Simple'",
                     "type": "text",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -282,6 +302,7 @@
                 "pass": {
                     "hidden": "data.authType !== 'Simple'",
                     "type": "password",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -291,6 +312,7 @@
                     "newLine": true,
                     "hidden": "data.authType !== 'Extended'",
                     "type": "checkbox",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -299,6 +321,7 @@
                 "defaultPermissions": {
                     "hidden": "data.authType !== 'Extended' || !data.hasDefaultPermissions",
                     "type": "text",
+                    "xs": 12,
                     "sm": 12,
                     "md": 6,
                     "lg": 6,
@@ -308,6 +331,7 @@
                     "newLine": true,
                     "hidden": "data.authType !== 'Extended'",
                     "type": "table",
+                    "xs": 12,
                     "sm": 12,
                     "md": 12,
                     "lg": 12,
@@ -397,6 +421,7 @@
                             "value": "ace"
                         }
                     ],
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -405,6 +430,7 @@
                 "theme": {
                     "newLine": true,
                     "type": "text",
+                    "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
@@ -422,6 +448,7 @@
                 "envVars": {
                     "newLine": true,
                     "type": "table",
+                    "xs": 12,
                     "sm": 12,
                     "md": 12,
                     "lg": 12,
