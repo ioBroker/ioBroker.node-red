@@ -13,7 +13,7 @@
     "dependencies": {
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
-        "@iobroker/adapter-react-v5": "^7.4.9",
+        "@iobroker/adapter-react-v5": "^7.4.10",
         "@mui/material": "^6.3.0",
         "@iobroker/eslint-config": "^1.0.0",
         "@iobroker/types": "^7.0.6",
