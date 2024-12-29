@@ -99,7 +99,8 @@
     "release-patch": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
     "release-major": "release-script major --yes",
-    "update-packages": "ncu --upgrade"
+    "update-packages": "ncu --upgrade && cd src-object-selector && ncu --upgrade",
+    "npm": "npm i && cd src-object-selector && npm i"
   },
   "readmeFilename": "README.md"
 }

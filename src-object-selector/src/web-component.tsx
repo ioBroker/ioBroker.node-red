@@ -17,7 +17,7 @@ class SubscriptionWebComponent extends HTMLElement {
     }
 
     static get observedAttributes(): string[] {
-        return ['open', 'selected'];
+        return ['open', 'selected', 'all'];
     }
 
     // eslint-disable-next-line class-methods-use-this

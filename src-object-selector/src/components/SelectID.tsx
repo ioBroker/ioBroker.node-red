@@ -89,6 +89,10 @@ function singletonConnection(props: ConnectionProps, onConnectionChanged: (conne
             }
         },
         onReady: (/* objects, scripts */) => {},
+        // Remove this line after adapter-react-v5 version 7.4.10 is released
+        onLog: (_message: any) => {
+            // ignore
+        },
     });
     return connection;
 }
@@ -101,7 +105,7 @@ export interface ISelectIDNodeRedProps {
     onclose: OnClose | string;
     open: string | boolean;
     language: ioBroker.Languages;
-    all?: boolean;
+    all?: 'true' | 'false';
 }
 
 interface SelectIDNodeRedState {
@@ -110,6 +114,7 @@ interface SelectIDNodeRedState {
     theme: IobTheme;
     selected: string;
     opened: boolean;
+    all: 'true' | 'false';
 }
 
 export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNodeRedState> {
@@ -136,6 +141,7 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
             ),
             opened: !!props.open,
             connected: false,
+            all: props.all || 'false',
         };
         I18n.setLanguage(this.props.language || 'en');
     }
@@ -149,6 +155,8 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
             }
         } else if (attr === 'selected' && value !== this.state.selected) {
             this.setState({ selected: value as string });
+        } else if (attr === 'all' && value !== this.state.all) {
+            this.setState({ all: value as 'true' | 'false' });
         }
     };
 
@@ -182,8 +190,7 @@ export class SelectIDNodeRed extends Component<ISelectIDNodeRedProps, SelectIDNo
                     <SelectID
                         themeName="light"
                         themeType="light"
-                        // @ts-expect-error fixed in new admin version
-                        allowNonObjects={this.props.all}
+                        allowNonObjects={this.state.all === 'true'}
                         imagePrefix={`${this.props.protocol || window.location.protocol}//${this.props.host || window.location.hostname}:${this.props.port || 8081}`}
                         theme={this.state.theme}
                         selected={this.state.selected}
