@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "6.0.3",
+    "version": "6.0.4",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "6.0.4": {
+        "en": "Restart node-red if admin settings changed\nNode-red updated to 4.0.8",
+        "de": "Neustart-Knoten-rot, wenn Admin-Einstellungen geändert\nNode-red aktualisiert auf 4.0.8",
+        "ru": "Перезапустить узел-красный, если изменились настройки администратора\n4.0.8",
+        "pt": "Reinicie o nó-vermelho se as configurações de admin mudaram\nNode-red atualizado para 4.0.8",
+        "nl": "Node-red herstarten als de admin-instellingen zijn veranderd\nNode-rode bijgewerkt naar 4.0.8",
+        "fr": "Redémarrer node-red si les paramètres d'administration ont changé\nNode-red mis à jour à 4.0.8",
+        "it": "Riavviare il nodo-rosso se le impostazioni di amministratore cambiate\nNodo-rosso aggiornato a 4.0.8",
+        "es": "Reinicie node-red si los ajustes de administración cambiaron\nNodo-red actualizado a 4.0.8",
+        "pl": "Uruchom node- red jeśli ustawienia admin zmienione\nNode- czerwony zaktualizowany do 4.0.8",
+        "uk": "Перезавантажити вузол-червоний, якщо зміни налаштувань адміністратора\nNode-red оновлено до 4.0.8",
+        "zh-cn": "如果管理员设置改变, 重新启动节点红\n节点红色更新为4.0.8"
+      },
       "6.0.3": {
         "en": "Restart node-red if admin settings changed\nNode-red updated to 4.0.8",
         "de": "Neustart-Knoten-rot, wenn Admin-Einstellungen geändert\nNode-red aktualisiert auf 4.0.8",
@@ -93,19 +106,6 @@
         "pl": "Allow zwyczajowe tematy\nFixed sklasyfikowane pakiety węzłowe",
         "uk": "Дозволити користувацькі теми\nВиправлені масштабовані пакети node-red",
         "zh-cn": "允许习俗\n固定范围无端一揽子计划"
-      },
-      "5.0.2": {
-        "en": "Fixed a fatal error when getting a non-existent value",
-        "de": "Ein tödlicher Fehler behoben, wenn ein nicht vorhandener Wert erhalten",
-        "ru": "Исправлена фатальная ошибка при получении несущей ценности",
-        "pt": "Corrigido um erro fatal ao obter um valor inexistente",
-        "nl": "Een fatale fout maken als je een niet-existente waarde krijgt",
-        "fr": "Correction d'une erreur fatale lorsqu'on obtient une valeur inexistante",
-        "it": "Risolto un errore fatale quando si ottiene un valore non esistente",
-        "es": "Se corrigió un error fatal al obtener un valor inexistente",
-        "pl": "Fixed fatal error, kiedy dostaje nieistniejącą wartość",
-        "uk": "Виправлено помилку жиру при отриманні нестійкої цінності",
-        "zh-cn": "在取得未存在的价值时,确定致命错误"
       }
     },
     "desc": {
