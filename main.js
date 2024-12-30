@@ -142,7 +142,7 @@ class NodeRed extends Adapter {
 
     async onObjectChange(id) {
         if (id.startsWith('system.adapter.admin.')) {
-            const { adminInstanceObj, adminUrl } = await this.getWsConnectionString();
+            const { adminUrl } = await this.getWsConnectionString();
             if (this.adminUrl !== adminUrl) {
                 // restart node-red to apply new settings
                 this.log.info('Restarting node-red to apply new settings of admin instance');
@@ -165,7 +165,7 @@ class NodeRed extends Adapter {
             const admins = await this.getObjectViewAsync(
                 'system',
                 'instance',
-                {startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999'},
+                { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' },
                 {},
             );
             let admin = admins.rows.find(
@@ -194,13 +194,12 @@ class NodeRed extends Adapter {
                     !!adminInstanceObj.native.secure === !!settings.native.secure
                 ) {
                     adminUrl = `ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}`;
-                        `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
+                    `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
                 } else {
                     adminUrl = '';
                 }
             } else if (adminInstanceObj) {
                 adminUrl = '';
-
             } else {
                 adminUrl = '';
             }
@@ -233,7 +232,9 @@ class NodeRed extends Adapter {
                 }
             } else {
                 lines[pos] = `            var socket = null; ${searchText}`;
-                this.log.warn(`Cannot enable the dynamic object read as no admin instance found on the same host and wihout authentication`);
+                this.log.warn(
+                    `Cannot enable the dynamic object read as no admin instance found on the same host and wihout authentication`,
+                );
             }
 
             const searchTextIob = '// THIS LINE WILL BE CHANGED FOR SELECT ID';
