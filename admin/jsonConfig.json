@@ -16,120 +16,133 @@
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
-                    "lg": 4
+                    "lg": 4,
+                    "xl": 4
                 },
                 "port": {
                     "type": "number",
+                    "label": "Port",
                     "min": 1,
                     "max": 65535,
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Port"
+                    "xl": 4
                 },
                 "secure": {
                     "newLine": true,
                     "type": "checkbox",
+                    "label": "Secure (HTTPS)",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Secure (HTTPS)"
+                    "xl": 4
                 },
                 "certPublic": {
                     "hidden": "!data.secure",
                     "type": "certificate",
                     "certType": "public",
+                    "label": "Public certificate",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Public certificate"
+                    "xl": 4
                 },
                 "certPrivate": {
                     "hidden": "!data.secure",
                     "type": "certificate",
                     "certType": "private",
+                    "label": "Private certificate",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Private certificate"
+                    "xl": 4
                 },
                 "httpAdminRoot": {
                     "newLine": true,
                     "type": "text",
+                    "label": "http Admin directory",
+                    "help": "Root directory for Node-RED (e.g. /admin)",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "http Admin directory",
-                    "help": "Root directory for Node-RED (e.g. /admin)"
+                    "xl": 4
                 },
                 "httpNodeRoot": {
                     "type": "text",
+                    "label": "http Node directory",
+                    "help": "Root directory for HTTP Nodes and Dashboard (e.g. /)",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "http Node directory",
-                    "help": "Root directory for HTTP Nodes and Dashboard (e.g. /)"
+                    "xl": 4
                 },
                 "httpStatic": {
                     "type": "text",
+                    "label": "http Static directory",
+                    "help": "Can be used to identify a directory of static content on local host",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "http Static directory",
-                    "help": "Can be used to identify a directory of static content on local host"
+                    "xl": 4
                 },
                 "maxMemory": {
                     "newLine": true,
                     "type": "number",
+                    "label": "Max. allocated RAM",
                     "min": 32,
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Max. allocated RAM"
+                    "xl": 4
                 },
                 "npmLibs": {
                     "type": "chips",
+                    "label": "Additional npm packages",
                     "xs": 12,
                     "sm": 12,
                     "md": 8,
                     "lg": 8,
-                    "label": "Additional npm packages"
+                    "xl": 8
                 },
                 "_headerAdditionalFeatures": {
                     "newLine": true,
                     "type": "header",
                     "size": 3,
+                    "text": "Additional features",
                     "xs": 12,
                     "sm": 12,
                     "md": 12,
                     "lg": 12,
-                    "text": "Additional features"
+                    "xl": 12
                 },
                 "valueConvert": {
                     "newLine": true,
                     "type": "checkbox",
+                    "label": "Convert state values to strings",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Convert state values to strings"
+                    "xl": 4
                 },
                 "palletmanagerEnabled": {
                     "newLine": true,
                     "type": "checkbox",
+                    "label": "Use palletmanager",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Use palletmanager"
+                    "xl": 4
                 },
                 "_backupWarningPallet": {
                     "hidden": "!data.palletmanagerEnabled",
@@ -146,16 +159,18 @@
                     "xs": 12,
                     "sm": 12,
                     "md": 8,
-                    "lg": 8
+                    "lg": 8,
+                    "xl": 8
                 },
                 "projectsEnabled": {
                     "newLine": true,
                     "type": "checkbox",
+                    "label": "Enable Projects feature",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Enable Projects feature"
+                    "xl": 4
                 },
                 "_backupWarningProjects": {
                     "hidden": "!data.projectsEnabled",
@@ -172,37 +187,43 @@
                     "xs": 12,
                     "sm": 12,
                     "md": 8,
-                    "lg": 8
+                    "lg": 8,
+                    "xl": 8
                 },
                 "allowCreationOfForeignObjects": {
                     "newLine": true,
                     "type": "checkbox",
+                    "label": "Allow creation of foreign objects",
                     "xs": 12,
                     "sm": 12,
                     "md": 6,
                     "lg": 6,
-                    "label": "Allow creation of foreign objects"
+                    "xl": 6
                 },
                 "safeMode": {
                     "newLine": true,
                     "type": "checkbox",
+                    "label": "Safe mode",
                     "xs": 12,
                     "sm": 12,
                     "md": 6,
                     "lg": 6,
-                    "label": "Safe mode"
+                    "xl": 6
                 },
                 "doNotReadObjectsDynamically": {
                     "newLine": true,
                     "type": "checkbox",
+                    "label": "Do not read objects from admin in the select object dialog",
+                    "xs": 12,
                     "sm": 12,
                     "md": 6,
                     "lg": 6,
-                    "label": "Do not read objects from admin in the select object dialog"
+                    "xl": 6
                 },
                 "_update": {
                     "newLine": true,
                     "type": "sendTo",
+                    "label": "Update select dialog",
                     "showProcess": true,
                     "command": "update",
                     "variant": "outlined",
@@ -221,8 +242,7 @@
                             "uk": "Успішно оновлено",
                             "zh-cn": "成功更新"
                         }
-                    },
-                    "label": "Update select dialog"
+                    }
                 }
             }
         },
@@ -234,6 +254,7 @@
                 "authType": {
                     "newLine": true,
                     "type": "select",
+                    "label": "Authentication type",
                     "options": [
                         {
                             "label": {
@@ -288,53 +309,53 @@
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Authentication type"
+                    "xl": 4
                 },
                 "user": {
                     "hidden": "data.authType !== 'Simple'",
                     "type": "text",
+                    "label": "User name",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "User name"
+                    "xl": 4
                 },
                 "pass": {
                     "hidden": "data.authType !== 'Simple'",
                     "type": "password",
+                    "label": "Password",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Password"
+                    "xl": 4
                 },
                 "hasDefaultPermissions": {
                     "newLine": true,
                     "hidden": "data.authType !== 'Extended'",
                     "type": "checkbox",
+                    "label": "Use default permissions",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Use default permissions"
+                    "xl": 4
                 },
                 "defaultPermissions": {
                     "hidden": "data.authType !== 'Extended' || !data.hasDefaultPermissions",
                     "type": "text",
+                    "label": "Default permissions",
                     "xs": 12,
                     "sm": 12,
                     "md": 6,
                     "lg": 6,
-                    "label": "Default permissions"
+                    "xl": 6
                 },
                 "authExt": {
                     "newLine": true,
                     "hidden": "data.authType !== 'Extended'",
                     "type": "table",
-                    "xs": 12,
-                    "sm": 12,
-                    "md": 12,
-                    "lg": 12,
                     "label": "Users",
                     "items": [
                         {
@@ -399,7 +420,12 @@
                             "filter": false,
                             "sort": false
                         }
-                    ]
+                    ],
+                    "xs": 12,
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "xl": 12
                 }
             }
         },
@@ -421,22 +447,24 @@
                             "value": "ace"
                         }
                     ],
+                    "label": "Editor type",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Editor type"
+                    "xl": 4
                 },
                 "theme": {
                     "newLine": true,
                     "type": "text",
+                    "label": "Theme",
+                    "help": "Apply a custom theme (if installed)",
+                    "helpLink": "https://github.com/node-red-contrib-themes/theme-collection",
                     "xs": 12,
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "label": "Theme",
-                    "help": "Apply a custom theme (if installed)",
-                    "helpLink": "https://github.com/node-red-contrib-themes/theme-collection"
+                    "xl": 4
                 }
             }
         },
@@ -448,10 +476,6 @@
                 "envVars": {
                     "newLine": true,
                     "type": "table",
-                    "xs": 12,
-                    "sm": 12,
-                    "md": 12,
-                    "lg": 12,
                     "label": "Environment variables",
                     "items": [
                         {
@@ -496,7 +520,12 @@
                             "sort": false,
                             "default": ""
                         }
-                    ]
+                    ],
+                    "xs": 12,
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "xl": 12
                 }
             }
         }
