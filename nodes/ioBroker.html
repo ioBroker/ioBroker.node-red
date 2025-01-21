@@ -170,6 +170,9 @@
                 };
                 if (!selectDialog) {
                     selectDialog = document.createElement('iobroker-select-id');
+                    selectDialog.setAttribute('primary', '#AD1625');
+                    selectDialog.setAttribute('secondary', 'rgb(228, 145, 145)');
+                    selectDialog.setAttribute('paper', 'rgb(243, 243, 243)');
                     selectDialog.setAttribute('id', 'iob-select-id');
                     selectDialog.setAttribute('port', window.ioBrokerAdmin.port);
                     selectDialog.setAttribute('host', window.ioBrokerAdmin.host);

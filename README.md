@@ -36,6 +36,10 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+
+-   (@GermanBluefox) Replace Select-ID dialog with a library
+
 ### 6.0.5 (2024-12-30)
 
 -   (@GermanBluefox) Restart node-red if admin settings changed
@@ -63,7 +67,7 @@ Instantiate the server with Node-RED
 
 ## License
 
-Copyright 2014-2024 bluefox <dogafox@gmail.com>.
+Copyright 2014-2025 bluefox <dogafox@gmail.com>.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
