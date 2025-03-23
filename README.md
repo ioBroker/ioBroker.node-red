@@ -36,7 +36,7 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 6.0.6 (2025-03-23)
 -   (@GermanBluefox) Replace Select-ID dialog with a library
 -   (@GermanBluefox) Packages were updated
 
@@ -59,11 +59,6 @@ Instantiate the server with Node-RED
 ### 5.2.0 (2024-02-17)
 
 -   (klein0r) Added persistence of context data (filesystem)
-
-### 5.1.0 (2023-12-27)
-
--   (klein0r) Allow custom themes
--   (klein0r) Fixed scoped node-red packages
 
 ## License
 
