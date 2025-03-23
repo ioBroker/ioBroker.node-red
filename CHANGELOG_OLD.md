@@ -1,4 +1,9 @@
 # Older changes
+## 5.1.0 (2023-12-27)
+
+-   (klein0r) Allow custom themes
+-   (klein0r) Fixed scoped node-red packages
+
 ## 5.0.2 (2023-12-14)
 
 -   (TheRealArthurDent) Fixed a fatal error when getting a non-existent value
