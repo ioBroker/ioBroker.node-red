@@ -95,13 +95,13 @@
     "test": "npm run test:integration && npm run test:package",
     "check": "tsc --noEmit -p tsconfig.check.json",
     "build": "node tasks",
-    "lint": "eslint -c eslint.config.mjs && cd src-object-selector && eslint -c eslint.config.mjs",
+    "lint": "eslint -c eslint.config.mjs",
     "translate": "translate-adapter",
     "release": "release-script",
     "release-patch": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
     "release-major": "release-script major --yes",
-    "update-packages": "npx -y npm-check-updates --upgrade && cd src-object-selector && npx -y npm-check-updates --upgrade",
+    "update-packages": "npx -y npm-check-updates --upgrade",
     "npm": "npm i && cd src-object-selector && npm i"
   },
   "readmeFilename": "README.md"
