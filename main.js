@@ -133,11 +133,12 @@ class NodeRed extends Adapter {
     }
 
     static getAdminJson(adminInstanceObj) {
-        return `window.ioBrokerAdmin = ${JSON.stringify({
+        // We can load the admin only if it has the same security (http/https) and has no authentication
+        return `window.ioBrokerAdmin = ${adminInstanceObj ? JSON.stringify({
             port: adminInstanceObj.native.port || 8081,
             host: adminInstanceObj.native.bind === '0.0.0.0' ? '' : adminInstanceObj.native.bind,
             protocol: adminInstanceObj.native.secure ? 'https:' : 'http:',
-        })};`;
+        }) : 'false'};`;
     }
 
     async onObjectChange(id) {
@@ -177,10 +178,9 @@ class NodeRed extends Adapter {
                     // admin should be enabled
                     obj.value.common.enabled &&
                     // admin should have secure enabled if node-red has secure not enabled
-                    ((!obj.value.native.secure && !!settings.native.secure) ||
-                        // or admin should have the same secure settings
-                        !!obj.value.native.secure === !!settings.native.secure),
+                    !!obj.value.native.secure === !!settings.native.secure,
             );
+
             adminInstanceObj = admin?.value || null;
             if (adminInstanceObj) {
                 // subscribe on changes of admin instance
@@ -233,13 +233,13 @@ class NodeRed extends Adapter {
             } else {
                 lines[pos] = `            var socket = null; ${searchText}`;
                 this.log.warn(
-                    `Cannot enable the dynamic object read as no admin instance found on the same host and wihout authentication`,
+                    `Cannot enable the dynamic object read as no admin instance found on the same host and without authentication`,
                 );
             }
 
             const searchTextIob = '// THIS LINE WILL BE CHANGED FOR SELECT ID';
             const posIob = lines.findIndex(line => line.includes(searchTextIob));
-            if (posIob !== -1 && adminInstanceObj) {
+            if (posIob !== -1) {
                 lines[posIob] = `    ${NodeRed.getAdminJson(adminInstanceObj)} ${searchTextIob}`;
             }
 
@@ -429,7 +429,7 @@ class NodeRed extends Adapter {
         // Install node modules as system call
 
         // System call used for update of js-controller itself,
-        // because during installation npm packet will be deleted too, but some files must be loaded even during the install process.
+        // because during an installation the npm packet will be deleted too, but some files must be loaded even during the installation process.
         const exec = require('child_process').exec;
         const child = exec(cmd);
         child.stdout.on('data', buf => this.log.info(buf.toString('utf8')));
