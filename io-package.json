@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "6.0.7",
+    "version": "6.0.8",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "6.0.8": {
+        "en": "Do not try to connect to unsecure admin from secure page and vice versa",
+        "de": "Versuchen Sie nicht, eine Verbindung zu unsecure Admin von der sicheren Seite und umgekehrt",
+        "ru": "Не пытайтесь подключиться к небезопасному администратору с защищенной страницы и наоборот",
+        "pt": "Não tente se conectar a administrador inseguro de página segura e vice-versa",
+        "nl": "Probeer geen verbinding te maken met onveilige admin van beveiligde pagina en vice versa",
+        "fr": "N'essayez pas de vous connecter à l'administrateur non sécurisé de la page sécurisée et vice versa",
+        "it": "Non cercare di connettersi a amministratore non sicuro da pagina sicura e viceversa",
+        "es": "No trate de conectarse a admin inseguro de página segura y viceversa",
+        "pl": "Nie próbuj połączyć się z niezabezpieczonym administratorem z bezpiecznej strony i odwrotnie",
+        "uk": "Не намагайтеся підключитися до некуруючого адміністратора з захищеної сторінки і навпаки",
+        "zh-cn": "不要试图从安全的页面连接到不安全的管理员,反之亦然"
+      },
       "6.0.7": {
         "en": "Replace Select-ID dialog with a library\nPackages were updated",
         "de": "Wählen-ID-Dialog mit einer Bibliothek ersetzen\nPakete wurden aktualisiert",

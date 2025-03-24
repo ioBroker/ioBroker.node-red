@@ -36,7 +36,7 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 6.0.8 (2025-03-24)
 -   (@GermanBluefox) Do not try to connect to unsecure admin from secure page and vice versa
 
 ### 6.0.7 (2025-03-24)
@@ -58,10 +58,6 @@ Instantiate the server with Node-RED
 
 -   (Apollon77) Update node-red to 3.1.9 to fix execution on windows
 -   (Apollon77) Restore log behavior as it was in till 5.0.x
-
-### 5.2.0 (2024-02-17)
-
--   (klein0r) Added persistence of context data (filesystem)
 
 ## License
 

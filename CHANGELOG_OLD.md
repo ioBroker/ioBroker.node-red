@@ -1,4 +1,8 @@
 # Older changes
+## 5.2.0 (2024-02-17)
+
+-   (klein0r) Added persistence of context data (filesystem)
+
 ## 5.1.0 (2023-12-27)
 
 -   (klein0r) Allow custom themes
