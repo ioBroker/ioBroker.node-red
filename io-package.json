@@ -16,19 +16,6 @@
       "zh-cn": "Node-RED"
     },
     "news": {
-      "6.0.6": {
-        "en": "Replace Select-ID dialog with a library\nPackages were updated",
-        "de": "Wählen-ID-Dialog mit einer Bibliothek ersetzen\nPakete wurden aktualisiert",
-        "ru": "Заменить диалог с Select-ID библиотекой\nПакеты были обновлены",
-        "pt": "Substituir Selecione-ID diálogo com uma biblioteca\nPacotes foram atualizados",
-        "nl": "SelecteerID-dialoog vervangen door een bibliotheek\nPakketten werden bijgewerkt",
-        "fr": "Remplacer la boîte de dialogue Select-ID par une bibliothèque\nLes paquets ont été mis à jour",
-        "it": "Sostituisci dialogo Seleziona-ID con una libreria\nI pacchetti sono stati aggiornati",
-        "es": "Reemplazar el diálogo Select-ID con una biblioteca\nSe actualizaron los paquetes",
-        "pl": "Zastąp okno wyboru ID biblioteką\nPakiety zostały zaktualizowane",
-        "uk": "Замініть діалогове вікно Select-ID з бібліотекою\nПакети оновлено",
-        "zh-cn": "用库替换选择ID对话框\n软件包已更新"
-      },
       "6.0.5": {
         "en": "Restart node-red if admin settings changed\nNode-red updated to 4.0.8",
         "de": "Neustart-Knoten-rot, wenn Admin-Einstellungen geändert\nNode-red aktualisiert auf 4.0.8",
