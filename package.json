@@ -56,7 +56,7 @@
     "@iobroker/adapter-dev": "^1.4.0",
     "@iobroker/build-tools": "^2.0.15",
     "@iobroker/eslint-config": "^2.0.1",
-    "@iobroker/testing": "^5.0.3",
+    "@iobroker/testing": "^5.0.4",
     "@iobroker/webcomponent-selectid-dialog": "^1.0.4",
     "@iobroker/ws": "^2.1.0",
     "@types/chai": "^4.3.20",
