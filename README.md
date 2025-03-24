@@ -36,7 +36,7 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 6.0.7 (2025-03-24)
 -   (@GermanBluefox) Replace Select-ID dialog with a library
 -   (@GermanBluefox) Packages were updated
 
