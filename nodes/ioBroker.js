@@ -144,7 +144,7 @@ module.exports = function (RED) {
                         // admin should run on the same host
                         obj.value.common.host === instanceObj.common.host &&
                         // admin should be enabled
-                        //obj.value.common.enabled &&
+                        obj.value.common.enabled &&
                         // admin should have the secure option enabled if node-red has the secure option enabled and vice versa
                         !!obj.value.native.secure === !!instanceObj.native.secure,
                 );
