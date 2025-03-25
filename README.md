@@ -36,6 +36,9 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+-   (@GermanBluefox) Allowed to use admin instance with authentication
+
 ### 6.0.8 (2025-03-24)
 -   (@GermanBluefox) Do not try to connect to unsecure admin from secure page and vice versa
 

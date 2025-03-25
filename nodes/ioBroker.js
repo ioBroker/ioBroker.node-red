@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2024 bluefox <dogafox@gmail.com>.
+ * Copyright 2014-2025 bluefox <dogafox@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +84,12 @@ module.exports = function (RED) {
                         adapter.on('stateChange', node.stateChange);
                         stateChangeSubscribedNodes.push(node.id);
 
-                        if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
+                        if (
+                            !node.topic.includes('*') &&
+                            (node.func === 'rbe-preinitvalue' ||
+                                node.func === 'deadband-preinitvalue' ||
+                                node.fireOnStart)
+                        ) {
                             try {
                                 const state = await adapter.getForeignStateAsync(node.topic);
                                 if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
@@ -121,7 +126,60 @@ module.exports = function (RED) {
                 nodeSetData.node.emit('input', nodeSetData.msg);
                 count++;
             }
-            count && log(`${count} queued state values set in ioBroker`);
+            if (count) {
+                log(`${count} queued state values set in ioBroker`);
+            }
+
+            RED.httpAdmin.post('/iobroker/token', async function (req, res) {
+                // Ask for the token by admin instance
+                const admins = await adapter.getObjectViewAsync(
+                    'system',
+                    'instance',
+                    { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' },
+                    {},
+                );
+                const instanceObj = await adapter.getForeignObjectAsync(`system.adapter.${adapter.namespace}`);
+                let admin = admins.rows.find(
+                    obj =>
+                        // admin should run on the same host
+                        obj.value.common.host === instanceObj.common.host &&
+                        // admin should be enabled
+                        //obj.value.common.enabled &&
+                        // admin should have the secure option enabled if node-red has the secure option enabled and vice versa
+                        !!obj.value.native.secure === !!instanceObj.native.secure,
+                );
+
+                const adminInstanceObj = admin?.value || null;
+                if (adminInstanceObj) {
+                    if (adminInstanceObj.native.auth) {
+                        let timeout = setTimeout(() => {
+                            timeout = null;
+                            res.status(401).json({ error: 'No admin instance found' });
+                        }, 500);
+                        // Ask the admin instance for the token
+                        adapter.sendTo(
+                            adminInstanceObj._id,
+                            'internalToken',
+                            null,
+                            response => {
+                                if (timeout) {
+                                    clearTimeout(timeout);
+                                    timeout = null;
+                                    if (!response || response.error) {
+                                        res.status(401).json({ error: response?.error || 'No answer' });
+                                    } else {
+                                        res.json(response);
+                                    }
+                                }
+                            },
+                        );
+                    } else {
+                        res.json({ access_token: 'not required' });
+                    }
+                } else {
+                    res.status(401).json({ error: 'No admin instance found' });
+                }
+            });
         });
     });
 
@@ -192,11 +250,11 @@ module.exports = function (RED) {
                     await adapter.setForeignObjectAsync(idToCheck, {
                         type: 'folder',
                         common: {
-                            name: part
+                            name: part,
                         },
                         native: {
-                            autocreated: 'by automatic ensure logic'
-                        }
+                            autocreated: 'by automatic ensure logic',
+                        },
                     });
                 } catch (err) {
                     adapter.log.info(`Could not automatically create folder object ${idToCheck}: ${err.message}`);
@@ -207,7 +265,7 @@ module.exports = function (RED) {
         }
     }
 
-    // check if object exists and sets its value if provided
+    // check if an object exists and sets its value if provided
     function checkState(node, id, common, val, callback) {
         if (node.idChecked) {
             return callback && callback();
@@ -220,18 +278,34 @@ module.exports = function (RED) {
             node.idChecked = true;
         }
 
-        if (val === null || val === '__create__' || (typeof val === 'object' && (val.val === '__create__' || val.val === null))) {
+        if (
+            val === null ||
+            val === '__create__' ||
+            (typeof val === 'object' && (val.val === '__create__' || val.val === null))
+        ) {
             val = undefined;
         }
 
         adapter.getObject(id, async (err, obj) => {
-            if (obj?._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
+            if (
+                obj?._id &&
+                validIdForAutomaticFolderCreation(obj._id) &&
+                obj.type === 'folder' &&
+                obj.native &&
+                obj.native.autocreated === 'by automatic ensure logic'
+            ) {
                 // ignore default created object because we now have a more defined one
                 obj = null;
             }
             if (!obj) {
                 adapter.getForeignObject(id, async (err, obj) => {
-                    if (obj?._id && validIdForAutomaticFolderCreation(obj._id) && obj.type === 'folder' && obj.native && obj.native.autocreated === 'by automatic ensure logic') {
+                    if (
+                        obj?._id &&
+                        validIdForAutomaticFolderCreation(obj._id) &&
+                        obj.type === 'folder' &&
+                        obj.native &&
+                        obj.native.autocreated === 'by automatic ensure logic'
+                    ) {
                         // ignore default created object because we now have a more defined one
                         obj = null;
                     }
@@ -243,7 +317,7 @@ module.exports = function (RED) {
                             const data = {
                                 common,
                                 native: {},
-                                type: 'state'
+                                type: 'state',
                             };
 
                             if (isForeignState(id)) {
@@ -256,8 +330,12 @@ module.exports = function (RED) {
                                         callback && callback(true);
                                     });
                                 } else {
-                                    adapter.log.info(`${node.id}: "${node.customName}" Cannot set state of non-existing object "${id}".`);
-                                    adapter.log.info(`${node.id}: Creation of foreign objects is not enabled. You can enable it in the instance configuration`);
+                                    adapter.log.info(
+                                        `${node.id}: "${node.customName}" Cannot set state of non-existing object "${id}".`,
+                                    );
+                                    adapter.log.info(
+                                        `${node.id}: Creation of foreign objects is not enabled. You can enable it in the instance configuration`,
+                                    );
                                     callback && callback(false);
                                 }
                             } else {
@@ -270,8 +348,12 @@ module.exports = function (RED) {
                                 });
                             }
                         } else {
-                            adapter.log.info(`${node.id}: "${node.customName}" Cannot set state of non-existing object "${id}".`);
-                            adapter.log.info(`${node.id}: Automatic objects creation is not enabled. You can enable it in the node configuration`);
+                            adapter.log.info(
+                                `${node.id}: "${node.customName}" Cannot set state of non-existing object "${id}".`,
+                            );
+                            adapter.log.info(
+                                `${node.id}: Automatic objects creation is not enabled. You can enable it in the node configuration`,
+                            );
                             callback && callback(false);
                         }
                     } else {
@@ -301,10 +383,10 @@ module.exports = function (RED) {
             desc: 'Created by Node-Red',
             role: node.objectPreDefinedRole || msg.stateRole || 'state',
             name: node.objectPreDefinedName || msg.stateName || id,
-            type: node.objectPreDefinedType || msg.stateType || typeof msg.payload || 'string'
+            type: node.objectPreDefinedType || msg.stateType || typeof msg.payload || 'string',
         };
         if (msg.stateReadonly !== undefined) {
-            common.write = (msg.stateReadonly === false || msg.stateReadonly === 'false');
+            common.write = msg.stateReadonly === false || msg.stateReadonly === 'false';
         }
 
         if (node.objectPreDefinedUnit || msg.stateUnit) {
@@ -334,7 +416,7 @@ module.exports = function (RED) {
             node.objectPreDefinedRole = n.role;
             node.objectPreDefinedType = n.payloadType;
             node.objectPreDefinedName = n.stateName || '';
-            node.objectPreDefinedReadonly = (n.readonly === 'false' || n.readonly === false);
+            node.objectPreDefinedReadonly = n.readonly === 'false' || n.readonly === false;
             node.objectPreDefinedUnit = n.stateUnit;
             node.objectPreDefinedMin = n.stateMin;
             node.objectPreDefinedMax = n.stateMax;
@@ -429,7 +511,7 @@ module.exports = function (RED) {
                     if (!isNaN(n)) {
                         //node.log('Old Value: ' + node.previous[t] + ' New Value: ' + n);
                         if (node.pc) {
-                            node.gap = (node.previous[t] * node.g / 100) || 0;
+                            node.gap = (node.previous[t] * node.g) / 100 || 0;
                         }
                         if (!Object.prototype.hasOwnProperty.call(node.previous, t)) {
                             node.previous[t] = n - node.gap;
@@ -448,24 +530,36 @@ module.exports = function (RED) {
                 //adapter.log.debug(`${node.id} Node.send payload: ${(node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)))}`);
                 node.send({
                     topic: node.outFormat === 'ioBroker' ? t.replace(/\//g, '.') : t,
-                    [node.attrname]: node.payloadType === 'object' ? state : (!state || state.val === null || state.val === undefined ? '' : (valueConvert ? state.val.toString() : state.val)),
+                    [node.attrname]:
+                        node.payloadType === 'object'
+                            ? state
+                            : !state || state.val === null || state.val === undefined
+                              ? ''
+                              : valueConvert
+                                ? state.val.toString()
+                                : state.val,
                     acknowledged: state ? state.ack : false,
                     timestamp: state ? state.ts : Date.now(),
                     lastchange: state ? state.lc : Date.now(),
-                    from: state ? state.from : ''
+                    from: state ? state.from : '',
                 });
 
                 if (!state) {
                     node.status({
                         fill: 'red',
                         shape: 'ring',
-                        text: 'not exists'
+                        text: 'not exists',
                     });
                 } else {
                     node.status({
                         fill: 'green',
                         shape: 'dot',
-                        text: node.payloadType === 'object' ? JSON.stringify(state) : (!state || state.val === null || state.val === undefined ? '' : state.val.toString())
+                        text:
+                            node.payloadType === 'object'
+                                ? JSON.stringify(state)
+                                : !state || state.val === null || state.val === undefined
+                                  ? ''
+                                  : state.val.toString(),
                     });
                 }
             } catch (err) {
@@ -492,9 +586,15 @@ module.exports = function (RED) {
                 //adapter.log.debug(`${node.id} Subscribe to "${node.subscribePattern}" (${subscribedIds[node.subscribePattern]})`);
             }
 
-            if (!node.topic.includes('*') && (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)) {
+            if (
+                !node.topic.includes('*') &&
+                (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue' || node.fireOnStart)
+            ) {
                 adapter.getForeignState(node.topic, (err, state) => {
-                    err && adapter.log.info(`${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`);
+                    err &&
+                        adapter.log.info(
+                            `${node.id}: Could not read value of "${node.topic}" for initialization: ${err.message}`,
+                        );
                     if (node.func === 'rbe-preinitvalue' || node.func === 'deadband-preinitvalue') {
                         const t = node.topic.replace(/\./g, '/') || '_no_topic';
                         node.previous[t] = state ? state.val : null;
@@ -574,7 +674,7 @@ module.exports = function (RED) {
                 id = `${adapter.namespace}.${id}`;
             }
 
-            const msgAck = msg.ack !== undefined ? (msg.ack === 'true' || msg.ack === true) : node.ack;
+            const msgAck = msg.ack !== undefined ? msg.ack === 'true' || msg.ack === true : node.ack;
 
             if (!ready) {
                 //log('Message for "' + id + '" queued because ioBroker connection not initialized');
@@ -583,22 +683,33 @@ module.exports = function (RED) {
                 // Create variable if not exists
                 if (node.autoCreate && !node.idChecked) {
                     if (!id.includes('*') && isValidId(id)) {
-                        return checkState(node, id, assembleCommon(node, msg, id), { val: msg.payload, ack: msgAck }, isOk => {
-                            if (isOk) {
-                                node.status({
-                                    fill: 'green',
-                                    shape: 'dot',
-                                    text: msg.payload === null || msg.payload === undefined ? '' : (msg.payload === '__create__' ? 'Object created' : msg.payload.toString())
-                                });
-                            } else {
-                                node.status({
-                                    fill: 'red',
-                                    shape: 'ring',
-                                    text: 'Cannot set state'
-                                });
-                            }
-                            done();
-                        });
+                        return checkState(
+                            node,
+                            id,
+                            assembleCommon(node, msg, id),
+                            { val: msg.payload, ack: msgAck },
+                            isOk => {
+                                if (isOk) {
+                                    node.status({
+                                        fill: 'green',
+                                        shape: 'dot',
+                                        text:
+                                            msg.payload === null || msg.payload === undefined
+                                                ? ''
+                                                : msg.payload === '__create__'
+                                                  ? 'Object created'
+                                                  : msg.payload.toString(),
+                                    });
+                                } else {
+                                    node.status({
+                                        fill: 'red',
+                                        shape: 'ring',
+                                        text: 'Cannot set state',
+                                    });
+                                }
+                                done();
+                            },
+                        );
                     }
                 }
                 // If not this adapter state
@@ -611,14 +722,14 @@ module.exports = function (RED) {
                                     node.status({
                                         fill: 'red',
                                         shape: 'ring',
-                                        text: 'Error on setForeignState. See Log'
+                                        text: 'Error on setForeignState. See Log',
                                     });
                                     log(`${node.id}: Error on setState for ${id}: ${err}`);
                                 } else {
                                     node.status({
                                         fill: 'green',
                                         shape: 'dot',
-                                        text: `${_id}: ${msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()}`
+                                        text: `${_id}: ${msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()}`,
                                     });
                                 }
                                 done();
@@ -628,7 +739,7 @@ module.exports = function (RED) {
                             node.status({
                                 fill: 'red',
                                 shape: 'ring',
-                                text: `State "${id}" does not exist in ioBroker`
+                                text: `State "${id}" does not exist in ioBroker`,
                             });
                             done();
                         }
@@ -639,7 +750,7 @@ module.exports = function (RED) {
                         node.status({
                             fill: 'red',
                             shape: 'ring',
-                            text: `Invalid topic name "${id}" for ioBroker`
+                            text: `Invalid topic name "${id}" for ioBroker`,
                         });
                         done();
                     } else {
@@ -648,14 +759,14 @@ module.exports = function (RED) {
                                 node.status({
                                     fill: 'red',
                                     shape: 'ring',
-                                    text: 'Error on setState. See Log'
+                                    text: 'Error on setState. See Log',
                                 });
                                 log(`${node.id}: Error on setState for ${id}: ${err}`);
                             } else {
                                 node.status({
                                     fill: 'green',
                                     shape: 'dot',
-                                    text: `${_id}: ${msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()}`
+                                    text: `${_id}: ${msg.payload === null || msg.payload === undefined ? '' : msg.payload.toString()}`,
                                 });
                             }
                             done();
@@ -667,7 +778,7 @@ module.exports = function (RED) {
                 node.status({
                     fill: 'red',
                     shape: 'ring',
-                    text: 'No key or topic set'
+                    text: 'No key or topic set',
                 });
                 done();
             }
@@ -710,7 +821,14 @@ module.exports = function (RED) {
         node.getStateValue = function (msg, id) {
             return function (err, state) {
                 if (!err && state) {
-                    msg[node.attrname] = node.payloadType === 'object' ? state : ((state.val === null || state.val === undefined) ? '' : (valueConvert ? state.val.toString() : state.val));
+                    msg[node.attrname] =
+                        node.payloadType === 'object'
+                            ? state
+                            : state.val === null || state.val === undefined
+                              ? ''
+                              : valueConvert
+                                ? state.val.toString()
+                                : state.val;
                     msg.acknowledged = state.ack;
                     msg.timestamp = state.ts;
                     msg.lastchange = state.lc;
@@ -718,27 +836,41 @@ module.exports = function (RED) {
                     node.status({
                         fill: 'green',
                         shape: 'dot',
-                        text: node.payloadType === 'object' ? JSON.stringify(state) : ((state.val === null || state.val === undefined) ? '' : state.val.toString())
+                        text:
+                            node.payloadType === 'object'
+                                ? JSON.stringify(state)
+                                : state.val === null || state.val === undefined
+                                  ? ''
+                                  : state.val.toString(),
                     });
                     node.send(msg);
                 } else {
-                    const getObjFunc = isForeignState(id) ? adapter.getForeignObject.bind(adapter) : adapter.getObject.bind(adapter);
+                    const getObjFunc = isForeignState(id)
+                        ? adapter.getForeignObject.bind(adapter)
+                        : adapter.getObject.bind(adapter);
                     getObjFunc(id, (err, obj) => {
                         if ((err || !obj) && (node.errOnInvalidState === 'true' || node.errOnInvalidState === true)) {
                             node.error(`Object for state ${id} do not exist`, msg);
                             return;
                         }
 
-                        msg[node.attrname] = node.payloadType === 'object' ? state : (valueConvert ? '' : undefined);
+                        msg[node.attrname] = node.payloadType === 'object' ? state : valueConvert ? '' : undefined;
                         msg.topic = node.topic || msg.topic;
                         node.status({
                             fill: 'yellow',
                             shape: 'dot',
-                            text: node.payloadType === 'object' ? JSON.stringify(state) : ''
+                            text: node.payloadType === 'object' ? JSON.stringify(state) : '',
                         });
-                        if (node.errOnInvalidState !== 'true' && node.errOnInvalidState !== true && node.errOnInvalidState !== 'false' && node.errOnInvalidState !== false) {
+                        if (
+                            node.errOnInvalidState !== 'true' &&
+                            node.errOnInvalidState !== true &&
+                            node.errOnInvalidState !== 'false' &&
+                            node.errOnInvalidState !== false
+                        ) {
                             if (err || !obj) {
-                                log(`${node.id}: Object for state ${id} do not exist: ${err ? err.message : 'unknown'}`);
+                                log(
+                                    `${node.id}: Object for state ${id} do not exist: ${err ? err.message : 'unknown'}`,
+                                );
                             } else if (!state) {
                                 log(`${node.id}: State ${id} has no value`);
                             }
@@ -813,7 +945,7 @@ module.exports = function (RED) {
                     node.status({
                         fill: 'green',
                         shape: 'dot',
-                        text: JSON.stringify(state)
+                        text: JSON.stringify(state),
                     });
                     node.send(msg);
                 } else {
@@ -883,7 +1015,7 @@ module.exports = function (RED) {
                     node.status({
                         fill: 'green',
                         shape: 'dot',
-                        text: JSON.stringify(state)
+                        text: JSON.stringify(state),
                     });
                     node.send(msg);
                 } else {
@@ -1000,46 +1132,45 @@ module.exports = function (RED) {
 
                 const ids = Object.keys(list);
 
-                return adapter.getForeignStatesAsync(!node.withValues ? [] : ids)
-                    .then(values => {
-                        if (node.asArray) {
-                            if (node.onlyIDs) {
-                                msg.payload = ids;
-                                if (node.withValues) {
-                                    msg.payload = msg.payload.map(id => {
-                                        values[id] = values[id] || {};
-                                        values[id]._id = id;
-                                        return values[id];
-                                    });
-                                }
-                            } else {
-                                const newList = [];
-                                ids.forEach(id => newList.push(list[id]));
-                                // Add states values if required
-                                node.withValues && newList.forEach(el => Object.assign(el, values[el._id] || {}));
-                                msg.payload = newList;
+                return adapter.getForeignStatesAsync(!node.withValues ? [] : ids).then(values => {
+                    if (node.asArray) {
+                        if (node.onlyIDs) {
+                            msg.payload = ids;
+                            if (node.withValues) {
+                                msg.payload = msg.payload.map(id => {
+                                    values[id] = values[id] || {};
+                                    values[id]._id = id;
+                                    return values[id];
+                                });
                             }
-                            node.send(msg);
                         } else {
-                            // every ID as one message
-                            const _msg = JSON.parse(JSON.stringify(msg));
-                            ids.forEach((id, i) => {
-                                const __msg = !i ? msg : JSON.parse(JSON.stringify(_msg));
-                                __msg.topic = id;
-                                if (!node.onlyIDs) {
-                                    __msg.payload = list[id];
-                                }
-                                // Add states values if required
-                                if (node.withValues) {
-                                    if (typeof __msg.payload !== 'object' || __msg.payload === null) {
-                                        __msg.payload = {};
-                                    }
-                                    Object.assign(__msg.payload, values[id]);
-                                }
-                                node.send(__msg);
-                            });
+                            const newList = [];
+                            ids.forEach(id => newList.push(list[id]));
+                            // Add states values if required
+                            node.withValues && newList.forEach(el => Object.assign(el, values[el._id] || {}));
+                            msg.payload = newList;
                         }
-                    });
+                        node.send(msg);
+                    } else {
+                        // every ID as one message
+                        const _msg = JSON.parse(JSON.stringify(msg));
+                        ids.forEach((id, i) => {
+                            const __msg = !i ? msg : JSON.parse(JSON.stringify(_msg));
+                            __msg.topic = id;
+                            if (!node.onlyIDs) {
+                                __msg.payload = list[id];
+                            }
+                            // Add states values if required
+                            if (node.withValues) {
+                                if (typeof __msg.payload !== 'object' || __msg.payload === null) {
+                                    __msg.payload = {};
+                                }
+                                Object.assign(__msg.payload, values[id]);
+                            }
+                            node.send(__msg);
+                        });
+                    }
+                });
             } else {
                 node.warn('No pattern set');
             }
@@ -1076,15 +1207,21 @@ module.exports = function (RED) {
                 const command = msg.command || node.command;
                 const timeout = parseInt(msg.timeout || node.timeout);
 
-                adapter.sendTo(instance, command, msg.payload, (data) => {
-                    if (data?.error) {
-                        done(data.error);
-                    } else if (data?.result) {
-                        msg.payload = data.result;
-                        send(msg);
-                        done();
-                    }
-                }, { timeout });
+                adapter.sendTo(
+                    instance,
+                    command,
+                    msg.payload,
+                    data => {
+                        if (data?.error) {
+                            done(data.error);
+                        } else if (data?.result) {
+                            msg.payload = data.result;
+                            send(msg);
+                            done();
+                        }
+                    },
+                    { timeout },
+                );
             }
         });
 

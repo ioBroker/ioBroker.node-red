@@ -173,11 +173,9 @@ class NodeRed extends Adapter {
                 obj =>
                     // admin should run on the same host
                     obj.value.common.host === settings.common.host &&
-                    // admin should not have authentication
-                    !obj.value.native.auth &&
                     // admin should be enabled
-                    obj.value.common.enabled &&
-                    // admin should have secure enabled if node-red has secure not enabled
+                    //obj.value.common.enabled &&
+                    // admin should have the secure option enabled if node-red has the secure option enabled and vice versa
                     !!obj.value.native.secure === !!settings.native.secure,
             );
 
