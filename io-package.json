@@ -176,8 +176,7 @@
         "uk": "Node-RED",
         "zh-cn": "Node-RED"
       },
-      "singleton": false,
-      "fa-icon": "settings_input_composite"
+      "singleton": false
     },
     "adminUI": {
       "config": "json",
