@@ -37,6 +37,7 @@ Instantiate the server with Node-RED
 
 ## Changelog
 ### **WORK IN PROGRESS**
+- (iobroker-bot) Adapter requires node.js >= 20 now.
 -   (@GermanBluefox) Allowed to use admin instance with authentication (Admin 7.6.4 is required)
 
 ### 6.0.8 (2025-03-24)
