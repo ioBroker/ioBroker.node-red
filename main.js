@@ -428,7 +428,7 @@ class NodeRed extends Adapter {
 
         // System call used for update of js-controller itself,
         // because during an installation the npm packet will be deleted too, but some files must be loaded even during the installation process.
-        const exec = require('child_process').exec;
+        const exec = require('node:child_process').exec;
         const child = exec(cmd);
         child.stdout.on('data', buf => this.log.info(buf.toString('utf8')));
         child.stderr.on('data', buf => this.log.error(buf.toString('utf8')));
