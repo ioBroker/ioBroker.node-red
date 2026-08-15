@@ -85,8 +85,8 @@ module.exports = {
 
         /** Option 1: static object */
         //https: {
-        //  key: require("fs").readFileSync('privkey.pem'),
-        //  cert: require("fs").readFileSync('cert.pem')
+        //  key: require("node:fs").readFileSync('privkey.pem'),
+        //  cert: require("node:fs").readFileSync('cert.pem')
         //},
 
         /** Option 2: function that returns the HTTP configuration object */
@@ -94,11 +94,11 @@ module.exports = {
         //     // This function should return the options object, or a Promise
         //     // that resolves to the options object
         //     return {
-        //         key: require("fs").readFileSync('privkey.pem'),
-        //         cert: require("fs").readFileSync('cert.pem')
+        //         key: require("node:fs").readFileSync('privkey.pem'),
+        //         cert: require("node:fs").readFileSync('cert.pem')
         //     }
         // },
-        '%%secure%%'https: { key: require("fs").readFileSync("'%%certPrivate%%'"), cert: require("fs").readFileSync("'%%certPublic%%'") },
+        '%%secure%%'https: { key: require("node:fs").readFileSync("'%%certPrivate%%'"), cert: require("node:fs").readFileSync("'%%certPublic%%'") },
         /** If the `https` setting is a function, the following setting can be used
          * to set how often, in hours, the function will be called. That can be used
          * to refresh any certificates.
@@ -436,13 +436,13 @@ module.exports = {
         /** The following property can be used to set predefined values in Global Context.
          * This allows extra node modules to be made available with in Function node.
          * For example, the following:
-         *    functionGlobalContext: { os:require('os') }
+         *    functionGlobalContext: { os:require('node:os') }
          * will allow the `os` module to be accessed in a Function node using:
          *    global.get("os")
          */
         functionGlobalContext: {
             // '%%functionGlobalContext%%'
-            // os:require('os'),
+            // os:require('node:os'),
         },
 
         /** The maximum number of messages nodes will buffer internally as part of their

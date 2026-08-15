@@ -21,7 +21,7 @@ function delay(time) {
 module.exports = function (RED) {
     'use strict';
     // patch event emitter
-    require('events').EventEmitter.prototype._maxListeners = 10000;
+    require('node:events').EventEmitter.prototype._maxListeners = 10000;
 
     const utils = require('@iobroker/adapter-core');
     const settings = require(`${process.env.NODE_RED_HOME}/lib/red`).settings;
