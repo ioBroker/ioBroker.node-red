@@ -65,6 +65,8 @@ Instantiate the server with Node-RED
 -   (Apollon77) Update node-red to 3.1.9 to fix execution on windows
 -   (Apollon77) Restore log behavior as it was in till 5.0.x
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 Copyright 2014-2026 bluefox <dogafox@gmail.com>.
