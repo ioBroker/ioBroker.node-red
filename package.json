@@ -92,7 +92,7 @@
     "release-minor": "release-script minor --yes",
     "release-major": "release-script major --yes",
     "update-packages": "npx -y npm-check-updates --upgrade",
-    "npm": "npm i && cd src-object-selector && npm i"
+    "npm": "npm i"
   },
   "readmeFilename": "README.md"
 }
