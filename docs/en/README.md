@@ -16,6 +16,19 @@ In the adapter/instance configuration you can adjust the maximum RAM/Heap for th
 
 Flows will not be started, and you can edit the flows to fix some overload problem.
 
+### Context Storage
+
+Node-RED can store the context of a node (`context`, `flow` and `global`) in different [context stores](https://nodered.org/docs/user-guide/context). This adapter configures two of them:
+
+| Store        | Persistent | Description                                                                                             |
+| ------------ | ---------- | ------------------------------------------------------------------------------------------------------- |
+| `file`       | yes        | Default store. The context is written to the ioBroker data directory and survives a restart of the adapter |
+| `memoryOnly` | no         | The context is only kept in RAM and is lost as soon as the adapter restarts                              |
+
+The store can be selected in the configuration dialog of every node that uses the context. If no store is selected, `file` is used.
+
+**Note:** Up to version 6.0.8 the file based store was named `default`. If you selected the store explicitly in a node, open the node and select `file` again, otherwise node-red logs a warning about an unknown context store.
+
 ## Authentication
 
 ### None

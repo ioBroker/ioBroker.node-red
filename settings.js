@@ -280,17 +280,23 @@ module.exports = {
 
          /** Context Storage
           * The following property can be used to enable context storage. The configuration
-          * provided here will enable file-based context that flushes to disk every 30 seconds.
+          * provided here enables two stores:
+          *  - "file"       (the default) file-based context that flushes to disk every 30 seconds
+          *  - "memoryOnly" volatile context that is lost when the adapter restarts
+          * The store can be selected per node in the editor. If no store is selected, "file" is used.
           * Refer to the documentation for further options: https://nodered.org/docs/api/context/
           */
          contextStorage: {
             default: "file",
-            memoryOnly: { module: "memory" },
-            file: { module: "localfilesystem",
-                    config: {
-                        dir: "'%%contextDir%%'"
-                    }
-                  }
+            file: {
+                module: "localfilesystem",
+                config: {
+                    dir: "'%%contextDir%%'"
+                }
+            },
+            memoryOnly: {
+                module: "memory"
+            }
          },
 
          /** `global.keys()` returns a list of all properties set in global context.

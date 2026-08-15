@@ -38,7 +38,8 @@ Instantiate the server with Node-RED
 ## Changelog
 ### **WORK IN PROGRESS**
 -   (@GermanBluefox) Allowed to use admin instance with authentication (Admin 7.6.4 is required)
--   (thiloms) Add additional memory based context storage (memoryOnly).
+-   (@thiloms) Added an additional memory based context storage (`memoryOnly`)
+-   (@thiloms) The file based context storage was renamed from `default` to `file`. Existing data is kept, but nodes with an explicitly selected store must be re-selected in the editor
 
 ### 6.0.8 (2025-03-24)
 -   (@GermanBluefox) Do not try to connect to unsecure admin from secure page and vice versa
