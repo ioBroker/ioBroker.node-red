@@ -41,6 +41,8 @@ Instantiate the server with Node-RED
 -   (@thiloms) Added an additional memory based context storage (`memoryOnly`)
 -   (@thiloms) The file based context storage was renamed from `default` to `file`. Existing data is kept, but nodes with an explicitly selected store must be re-selected in the editor
 -   (@GermanBluefox) The adapter backend was rewritten in TypeScript. The sources are now located in `src` and are compiled into `build`
+-   (@GermanBluefox) Disabled the node-red notification about a new node-red version, as node-red is updated together with the adapter
+-   (@GermanBluefox) Updated nore-red to 5
 
 ### 6.0.8 (2025-03-24)
 -   (@GermanBluefox) Do not try to connect to unsecure admin from secure page and vice versa

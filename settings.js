@@ -245,6 +245,7 @@ module.exports = {
     /*******************************************************************************
      * Runtime Settings
      *  - lang
+     *  - telemetry
      *  - logging
      *  - contextStorage
      *  - exportGlobalContextKeys
@@ -256,6 +257,20 @@ module.exports = {
           * Some languages are more complete than others.
           */
          // lang: "de",
+
+         telemetry: {
+             /** By default, node-red asks the user for consent the first time the editor
+              * is opened. Uncomment the following property to answer that question for
+              * all users of this instance without showing the dialog.
+              * The user can still override it in the user settings dialog of the editor.
+              */
+             // enabled: false,
+             /** The node-red version is defined by the dependencies of this adapter, so a
+              * user cannot update node-red on its own. Therefore, the notification about a
+              * new node-red version is disabled here.
+              */
+             updateNotification: false
+         },
 
          /** Configure the logging output */
          logging: {
