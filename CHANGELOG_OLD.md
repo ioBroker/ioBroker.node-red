@@ -1,4 +1,9 @@
 # Older changes
+## 5.2.1 (2024-04-27)
+
+-   (Apollon77) Update node-red to 3.1.9 to fix execution on windows
+-   (Apollon77) Restore log behavior as it was in till 5.0.x
+
 ## 5.2.0 (2024-02-17)
 
 -   (klein0r) Added persistence of context data (filesystem)

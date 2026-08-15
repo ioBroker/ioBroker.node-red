@@ -36,7 +36,7 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 7.0.0 (2026-08-15)
 -   (@GermanBluefox) Allowed to use admin instance with authentication (Admin 7.6.4 is required)
 -   (@thiloms) Added an additional memory based context storage (`memoryOnly`)
 -   (@thiloms) The file based context storage was renamed from `default` to `file`. Existing data is kept, but nodes with an explicitly selected store must be re-selected in the editor
@@ -61,11 +61,6 @@ Instantiate the server with Node-RED
 -   (@GermanBluefox) Corrected the case if `envVars` settings is undefined
 -   (@GermanBluefox) Used common `@iobroker/eslint-config`
 -   (@GermanBluefox) Node-red updated to 4.0.3
-
-### 5.2.1 (2024-04-27)
-
--   (Apollon77) Update node-red to 3.1.9 to fix execution on windows
--   (Apollon77) Restore log behavior as it was in till 5.0.x
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
