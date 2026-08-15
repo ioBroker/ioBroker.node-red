@@ -131,6 +131,7 @@
       "type": "free"
     },
     "platform": "Javascript/Node.js",
+    "main": "build/main.js",
     "mode": "daemon",
     "messagebox": true,
     "loglevel": "info",

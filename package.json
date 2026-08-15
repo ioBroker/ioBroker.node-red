@@ -1,108 +1,98 @@
 {
-  "name": "iobroker.node-red",
-  "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
-  "version": "6.0.8",
-  "author": {
-    "name": "bluefox",
-    "email": "dogafox@gmail.com"
-  },
-  "contributors": [
-    {
-      "name": "Matthias Kleine",
-      "email": "info@haus-automatisierung.com"
+    "name": "iobroker.node-red",
+    "description": "This adapter uses node-red as a service of ioBroker. No additional node-red instance required.",
+    "version": "6.0.8",
+    "author": {
+        "name": "bluefox",
+        "email": "dogafox@gmail.com"
     },
-    {
-      "name": "Apollon77",
-      "email": "iobroker@fischer-ka.de"
-    }
-  ],
-  "homepage": "https://github.com/ioBroker/ioBroker.node-red",
-  "license": "Apache-2.0",
-  "keywords": [
-    "ioBroker",
-    "node-red",
-    "home automation"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ioBroker/ioBroker.node-red"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "optionalDependencies": {
-    "feedparser": "^2.2.10",
-    "fs.notify": "^0.0.4",
-    "js2xmlparser": "^5.0.0",
-    "mongodb": "^6.15.0",
-    "node-red-contrib-os": "^0.2.1"
-  },
-  "dependencies": {
-    "@iobroker/adapter-core": "^3.2.3",
-    "bcrypt": "^5.1.1",
-    "node-red": "^4.0.8",
-    "node-red-contrib-aggregator": "^2.0.0",
-    "node-red-contrib-polymer": "^0.0.22",
-    "node-red-dashboard": "^3.6.5",
-    "node-red-node-email": "^3.0.3",
-    "node-red-node-feedparser": "^0.3.0",
-    "node-red-node-sentiment": "^0.1.6",
-    "node-red-node-twitter": "^1.2.0"
-  },
-  "devDependencies": {
-    "@alcalzone/release-script": "^3.8.0",
-    "@alcalzone/release-script-plugin-iobroker": "^3.7.2",
-    "@alcalzone/release-script-plugin-license": "^3.7.0",
-    "@iobroker/adapter-dev": "^1.4.0",
-    "@iobroker/build-tools": "^2.0.15",
-    "@iobroker/eslint-config": "^2.0.1",
-    "@iobroker/testing": "^5.0.4",
-    "@iobroker/webcomponent-selectid-dialog": "^1.0.7",
-    "@iobroker/ws": "^2.1.0",
-    "@types/chai": "^4.3.20",
-    "@types/chai-as-promised": "^7.1.8",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^22.13.11",
-    "@types/proxyquire": "^1.3.31",
-    "@types/sinon": "^17.0.4",
-    "@types/sinon-chai": "^3.2.12",
-    "chai": "^4.5.0",
-    "chai-as-promised": "^7.1.2",
-    "mocha": "^11.1.0",
-    "proxyquire": "^2.1.3",
-    "sinon": "^19.0.4",
-    "sinon-chai": "^3.7.0",
-    "typescript": "~5.8.2"
-  },
-  "bugs": {
-    "url": "https://github.com/ioBroker/ioBroker.node-red/issues"
-  },
-  "main": "main.js",
-  "files": [
-    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*).json",
-    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
-    "lib/",
-    "nodes/",
-    "public/",
-    "io-package.json",
-    "LICENSE",
-    "main.js",
-    "settings.js"
-  ],
-  "scripts": {
-    "test:package": "mocha test/package --exit",
-    "test:integration": "mocha test/integration --exit",
-    "test": "npm run test:integration && npm run test:package",
-    "check": "tsc --noEmit -p tsconfig.check.json",
-    "build": "node tasks",
-    "lint": "eslint -c eslint.config.mjs",
-    "translate": "translate-adapter",
-    "release": "release-script",
-    "release-patch": "release-script patch --yes",
-    "release-minor": "release-script minor --yes",
-    "release-major": "release-script major --yes",
-    "update-packages": "npx -y npm-check-updates --upgrade",
-    "npm": "npm i && cd src-object-selector && npm i"
-  },
-  "readmeFilename": "README.md"
+    "contributors": [
+        {
+            "name": "Matthias Kleine",
+            "email": "info@haus-automatisierung.com"
+        },
+        {
+            "name": "Apollon77",
+            "email": "iobroker@fischer-ka.de"
+        }
+    ],
+    "homepage": "https://github.com/ioBroker/ioBroker.node-red",
+    "license": "Apache-2.0",
+    "keywords": [
+        "ioBroker",
+        "node-red",
+        "home automation"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ioBroker/ioBroker.node-red"
+    },
+    "engines": {
+        "node": ">=22"
+    },
+    "optionalDependencies": {
+        "feedparser": "^2.6.0",
+        "fs.notify": "^0.0.4",
+        "js2xmlparser": "^5.0.0",
+        "mongodb": "^7.5.0",
+        "node-red-contrib-os": "^0.2.1"
+    },
+    "dependencies": {
+        "@iobroker/adapter-core": "^3.4.3",
+        "bcrypt": "^6.0.0",
+        "node-red": "^5.0.4",
+        "node-red-contrib-aggregator": "^2.0.0",
+        "node-red-contrib-polymer": "^0.0.22",
+        "node-red-dashboard": "^3.6.6",
+        "node-red-node-email": "^5.2.5",
+        "node-red-node-feedparser": "^1.0.7",
+        "node-red-node-sentiment": "^0.1.6",
+        "node-red-node-twitter": "^1.2.0"
+    },
+    "devDependencies": {
+        "@alcalzone/release-script": "^5.2.1",
+        "@alcalzone/release-script-plugin-iobroker": "^5.2.0",
+        "@alcalzone/release-script-plugin-license": "^5.2.2",
+        "@iobroker/adapter-dev": "^1.5.0",
+        "@iobroker/build-tools": "^3.0.1",
+        "@iobroker/eslint-config": "^2.3.4",
+        "@iobroker/testing": "^5.3.0",
+        "@iobroker/webcomponent-selectid-dialog": "^2.0.2",
+        "@iobroker/ws": "^3.1.0",
+        "@tsconfig/node22": "^22.0.6",
+        "@types/bcrypt": "^6.0.0",
+        "@types/node": "^26.2.0",
+        "typescript": "~6.0.3"
+    },
+    "bugs": {
+        "url": "https://github.com/ioBroker/ioBroker.node-red/issues"
+    },
+    "main": "build/main.js",
+    "files": [
+        "admin{,/!(src)/**}/!(tsconfig|tsconfig.*).json",
+        "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+        "build/",
+        "nodes/",
+        "public/",
+        "io-package.json",
+        "LICENSE",
+        "settings.js"
+    ],
+    "scripts": {
+        "test:package": "mocha test/package --exit",
+        "test:integration": "mocha test/integration --exit",
+        "test": "npm run test:integration && npm run test:package",
+        "check": "tsc --noEmit -p tsconfig.check.json",
+        "build": "tsc -p tsconfig.build.json && node tasks",
+        "prepare": "npm run build",
+        "lint": "eslint -c eslint.config.mjs",
+        "translate": "translate-adapter",
+        "release": "release-script",
+        "release-patch": "release-script patch --yes",
+        "release-minor": "release-script minor --yes",
+        "release-major": "release-script major --yes",
+        "update-packages": "npx -y npm-check-updates --upgrade",
+        "npm": "npm i && cd src-object-selector && npm i"
+    },
+    "readmeFilename": "README.md"
 }

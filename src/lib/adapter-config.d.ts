@@ -14,15 +14,20 @@ declare global {
             httpAdminRoot: string;
             httpNodeRoot: string;
             httpStatic: string;
-            npmLibs: [];
-            maxMemory: number;
-            valueConvert: boolean;
+            /** Normally an array, but older configurations may still contain a separated list */
+            npmLibs: string[] | string;
+            maxMemory: number | string;
+            /** Older configurations may still contain the value as string or number */
+            valueConvert: boolean | string | number;
             palletmanagerEnabled: boolean;
-            projectsEnabled: boolean;
-            allowCreationOfForeignObjects: boolean;
+            /** Not present in configurations created before this option was introduced */
+            projectsEnabled?: boolean;
+            /** Not present in configurations created before this option was introduced */
+            allowCreationOfForeignObjects?: boolean;
             safeMode: boolean;
             doNotReadObjectsDynamically: boolean;
-            authType: 'None' | 'Simple' | 'Extended';
+            /** Empty or missing for instances that were created before the authentication types were introduced */
+            authType?: 'None' | 'Simple' | 'Extended' | '';
             user: string;
             pass: string;
             hasDefaultPermissions: boolean;
@@ -34,3 +39,5 @@ declare global {
         }
     }
 }
+
+export {};

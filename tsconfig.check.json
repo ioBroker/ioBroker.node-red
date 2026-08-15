@@ -1,7 +1,19 @@
-// Specialized tsconfig for type-checking js files
+// Specialized tsconfig for type-checking the ts and js files
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {},
-    "include": ["**/*.js", "**/*.d.ts"],
-    "exclude": ["**/build", "node_modules/", "widgets/"]
+    "include": ["**/*.js", "**/*.ts", "**/*.d.ts"],
+    // the same set that is ignored by eslint:
+    // "settings.js" is a template with placeholders and therefore no valid JavaScript,
+    // "nodes" contains the node-red runtime nodes and "public" third-party browser bundles
+    "exclude": [
+        "**/build",
+        "node_modules/",
+        "widgets/",
+        "nodes/",
+        "public/",
+        "userdata/",
+        "src-object-selector/",
+        "settings.js"
+    ]
 }

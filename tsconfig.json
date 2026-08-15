@@ -1,5 +1,6 @@
 // Root tsconfig to set the settings and power editor support for all TS files
 {
+    "extends": "@tsconfig/node22/tsconfig.json",
     "compileOnSave": true,
     "compilerOptions": {
         // do not compile anything, this file is just to configure type checking
@@ -9,8 +10,8 @@
         "allowJs": true,
         "checkJs": true,
 
-        "module": "commonjs",
-        "moduleResolution": "node",
+        // "module": "nodenext" and "moduleResolution": "node16" come from @tsconfig/node22.
+        // As package.json has no "type": "module", the adapter is still emitted as CommonJS.
         "esModuleInterop": true,
         // this is necessary for the automatic typing of the adapter config
         "resolveJsonModule": true,
@@ -29,6 +30,17 @@
         // Consider targetting es2019 or higher if you only support Node.js 12+
         "target": "es2020"
     },
-    "include": ["**/*.js", "**/*.d.ts"],
-    "exclude": ["node_modules/**"]
+    "include": ["**/*.js", "**/*.ts", "**/*.d.ts"],
+    // the same set that is ignored by eslint:
+    // "settings.js" is a template with placeholders and therefore no valid JavaScript,
+    // "nodes" contains the node-red runtime nodes and "public" third-party browser bundles
+    "exclude": [
+        "node_modules/**",
+        "build/**",
+        "nodes/**",
+        "public/**",
+        "userdata/**",
+        "src-object-selector/**",
+        "settings.js"
+    ]
 }

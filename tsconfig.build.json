@@ -1,0 +1,21 @@
+// Specialized tsconfig to compile the adapter backend from ./src into ./build
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        // this config is the only one that emits JavaScript
+        "noEmit": false,
+        "outDir": "./build",
+        "rootDir": "./src",
+
+        // only TypeScript sources are compiled
+        "allowJs": false,
+        "checkJs": false,
+
+        "declaration": false,
+        // the sources are not part of the npm package, so they are embedded into the source maps
+        "sourceMap": true,
+        "inlineSources": true
+    },
+    "include": ["./src/**/*.ts"],
+    "exclude": ["node_modules/**", "build/**"]
+}

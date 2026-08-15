@@ -8,7 +8,15 @@ export default [
         },
     },
     {
-        ignores: ['node_modules/**', 'nodes/**', 'public/**', 'userdata/**', 'src-object-selector/**', 'settings.js'],
+        ignores: [
+            'node_modules/**',
+            'build/**',
+            'nodes/**',
+            'public/**',
+            'userdata/**',
+            'src-object-selector/**',
+            'settings.js',
+        ],
     },
     {
         languageOptions: {

@@ -40,6 +40,7 @@ Instantiate the server with Node-RED
 -   (@GermanBluefox) Allowed to use admin instance with authentication (Admin 7.6.4 is required)
 -   (@thiloms) Added an additional memory based context storage (`memoryOnly`)
 -   (@thiloms) The file based context storage was renamed from `default` to `file`. Existing data is kept, but nodes with an explicitly selected store must be re-selected in the editor
+-   (@GermanBluefox) The adapter backend was rewritten in TypeScript. The sources are now located in `src` and are compiled into `build`
 
 ### 6.0.8 (2025-03-24)
 -   (@GermanBluefox) Do not try to connect to unsecure admin from secure page and vice versa
@@ -66,7 +67,7 @@ Instantiate the server with Node-RED
 
 ## License
 
-Copyright 2014-2025 bluefox <dogafox@gmail.com>.
+Copyright 2014-2026 bluefox <dogafox@gmail.com>.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

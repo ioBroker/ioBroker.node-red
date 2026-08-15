@@ -7,6 +7,10 @@
 node_modules
 nbproject
 
+# compiled backend
+build/
+tsconfig.tsbuildinfo
+
 # npm package files
 iobroker.*.tgz
 

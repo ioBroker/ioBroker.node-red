@@ -1,18 +1,29 @@
-const { Adapter, getAbsoluteDefaultDataDir } = require('@iobroker/adapter-core');
-const fs = require('node:fs');
-const path = require('node:path');
-const spawn = require('node:child_process').spawn;
-const Notify = require('fs.notify');
-const bcrypt = require('bcrypt');
+import { Adapter, type AdapterOptions, getAbsoluteDefaultDataDir } from '@iobroker/adapter-core';
+import {
+    createReadStream,
+    createWriteStream,
+    existsSync,
+    mkdirSync,
+    readdirSync,
+    readFileSync,
+    statSync,
+    writeFileSync,
+} from 'node:fs';
+import { join, normalize } from 'node:path';
+import { exec, spawn, type ChildProcess } from 'node:child_process';
+import Notify from 'fs.notify';
+import { hashSync } from 'bcrypt';
 
-function getNodeRedPath() {
-    let nodeRed = `${__dirname}/node_modules/node-red`;
-    if (!fs.existsSync(nodeRed)) {
-        nodeRed = path.normalize(`${__dirname}/../node-red`);
-        if (!fs.existsSync(nodeRed)) {
-            nodeRed = path.normalize(`${__dirname}/../node_modules/node-red`);
-            if (!fs.existsSync(nodeRed)) {
-                //adapter && adapter.log && adapter.log.error('Cannot find node-red packet!');
+/** Root directory of the adapter. The compiled sources are located in `<adapterRootDir>/build` */
+const adapterRootDir = normalize(`${__dirname}/..`);
+
+function getNodeRedPath(): string {
+    let nodeRed = `${adapterRootDir}/node_modules/node-red`;
+    if (!existsSync(nodeRed)) {
+        nodeRed = normalize(`${adapterRootDir}/../node-red`);
+        if (!existsSync(nodeRed)) {
+            nodeRed = normalize(`${adapterRootDir}/../node_modules/node-red`);
+            if (!existsSync(nodeRed)) {
                 throw new Error('Cannot find node-red packet!');
             }
         }
@@ -21,14 +32,13 @@ function getNodeRedPath() {
     return nodeRed;
 }
 
-function getNodeRedEditorPath() {
-    let nodeRedEditor = `${__dirname}/node_modules/@node-red/editor-client`;
-    if (!fs.existsSync(nodeRedEditor)) {
-        nodeRedEditor = path.normalize(`${__dirname}/../@node-red/editor-client`);
-        if (!fs.existsSync(nodeRedEditor)) {
-            nodeRedEditor = path.normalize(`${__dirname}/../node_modules/@node-red/editor-client`);
-            if (!fs.existsSync(nodeRedEditor)) {
-                //adapter && adapter.log && adapter.log.error('Cannot find @node-red/editor-client packet!');
+function getNodeRedEditorPath(): string {
+    let nodeRedEditor = `${adapterRootDir}/node_modules/@node-red/editor-client`;
+    if (!existsSync(nodeRedEditor)) {
+        nodeRedEditor = normalize(`${adapterRootDir}/../@node-red/editor-client`);
+        if (!existsSync(nodeRedEditor)) {
+            nodeRedEditor = normalize(`${adapterRootDir}/../node_modules/@node-red/editor-client`);
+            if (!existsSync(nodeRedEditor)) {
                 throw new Error('Cannot find @node-red/editor-client packet!');
             }
         }
@@ -39,27 +49,44 @@ function getNodeRedEditorPath() {
 const nodePath = getNodeRedPath();
 const editorClientPath = getNodeRedEditorPath();
 
+/** One user of the node-red `adminAuth` configuration */
+interface NodeRedAuthUser {
+    username: string;
+    password: string;
+    permissions: string;
+}
+
+/** The `adminAuth` configuration written into the generated settings.js */
+interface NodeRedAuth {
+    type: 'credentials';
+    users?: NodeRedAuthUser[];
+    default?: { permissions: string };
+}
+
+/** Values that may be written into the generated settings.js */
+type SettingsValue = string | number | boolean | null;
+
 class NodeRed extends Adapter {
-    constructor(options) {
+    private systemSecret: string | null = null;
+    private userDataDir: string = `${adapterRootDir}/userdata/`;
+    private redProcess: ChildProcess | null = null;
+    private adminUrl = '';
+
+    private stopping = false;
+    private saveTimer: ioBroker.Timeout | undefined = undefined;
+
+    private notificationsFlows: Notify | null = null;
+    private notificationsCreds: Notify | null = null;
+
+    private readonly attempts: Record<string, number> = {};
+    private readonly additional: string[] = [];
+
+    public constructor(options: Partial<AdapterOptions> = {}) {
         super({
             ...options,
             name: 'node-red',
             systemConfig: true,
         });
-
-        this.systemSecret = null;
-        this.userDataDir = `${__dirname}/userdata/`;
-        this.redProcess = null;
-        this.adminUrl = '';
-
-        this.stopping = false;
-        this.saveTimer = null;
-
-        this.notificationsFlows = null;
-        this.notificationsCreds = null;
-
-        this.attempts = {};
-        this.additional = [];
 
         this.on('objectChange', this.onObjectChange.bind(this));
         this.on('ready', this.onReady.bind(this));
@@ -68,7 +95,7 @@ class NodeRed extends Adapter {
         this.on('unload', this.onUnload.bind(this));
     }
 
-    async onReady() {
+    async onReady(): Promise<void> {
         await this.setState('info.connection', { val: false, ack: true });
 
         this.installLibraries(() => {
@@ -80,11 +107,11 @@ class NodeRed extends Adapter {
             }
 
             // create userData directory
-            if (!fs.existsSync(this.userDataDir)) {
-                fs.mkdirSync(this.userDataDir);
+            if (!existsSync(this.userDataDir)) {
+                mkdirSync(this.userDataDir);
             }
 
-            this.generateHtml().then(() => {
+            void this.generateHtml().then(() => {
                 this.syncPublic();
 
                 // Read flow configuration
@@ -93,10 +120,7 @@ class NodeRed extends Adapter {
                         const c = JSON.stringify(obj.native.cred);
                         // If really not empty
                         if (c !== '{}' && c !== '[]') {
-                            fs.writeFileSync(
-                                path.join(this.userDataDir, 'flows_cred.json'),
-                                JSON.stringify(obj.native.cred),
-                            );
+                            writeFileSync(join(this.userDataDir, 'flows_cred.json'), JSON.stringify(obj.native.cred));
                             this.log.debug(`Updated flow cred configuration of object data`);
                         }
                     }
@@ -104,10 +128,7 @@ class NodeRed extends Adapter {
                         const f = JSON.stringify(obj.native.flows);
                         // If really not empty
                         if (f !== '{}' && f !== '[]') {
-                            fs.writeFileSync(
-                                path.join(this.userDataDir, 'flows.json'),
-                                JSON.stringify(obj.native.flows),
-                            );
+                            writeFileSync(join(this.userDataDir, 'flows.json'), JSON.stringify(obj.native.flows));
                             this.log.debug(`Updated flow configuration of object data`);
                         }
                     }
@@ -115,10 +136,10 @@ class NodeRed extends Adapter {
                     this.installNotifierFlows(true);
                     this.installNotifierCreds(true);
 
-                    this.getForeignObject('system.config', (err, obj) => {
+                    void this.getForeignObject('system.config', (err, obj) => {
                         if (obj?.native?.secret) {
                             this.systemSecret = obj.native.secret;
-                            this.log.debug(`Found system secret: ${this.systemSecret.substring(-10)}**********`);
+                            this.log.debug(`Found system secret: ${this.systemSecret!.substring(-10)}**********`);
                         } else {
                             this.log.warn('Unable to find system secret in system.config');
                         }
@@ -132,16 +153,20 @@ class NodeRed extends Adapter {
         });
     }
 
-    static getAdminJson(adminInstanceObj) {
+    static getAdminJson(adminInstanceObj: ioBroker.InstanceObject | null | undefined): string {
         // We can load the admin only if it has the same security (http/https) and has no authentication
-        return `window.ioBrokerAdmin = ${adminInstanceObj ? JSON.stringify({
-            port: adminInstanceObj.native.port || 8081,
-            host: adminInstanceObj.native.bind === '0.0.0.0' ? '' : adminInstanceObj.native.bind,
-            protocol: adminInstanceObj.native.secure ? 'https:' : 'http:',
-        }) : 'false'};`;
+        return `window.ioBrokerAdmin = ${
+            adminInstanceObj
+                ? JSON.stringify({
+                      port: adminInstanceObj.native.port || 8081,
+                      host: adminInstanceObj.native.bind === '0.0.0.0' ? '' : adminInstanceObj.native.bind,
+                      protocol: adminInstanceObj.native.secure ? 'https:' : 'http:',
+                  })
+                : 'false'
+        };`;
     }
 
-    async onObjectChange(id) {
+    async onObjectChange(id: string): Promise<void> {
         if (id.startsWith('system.adapter.admin.')) {
             const { adminUrl } = await this.getWsConnectionString();
             if (this.adminUrl !== adminUrl) {
@@ -155,10 +180,13 @@ class NodeRed extends Adapter {
         }
     }
 
-    async getWsConnectionString() {
+    async getWsConnectionString(): Promise<{
+        adminInstanceObj: ioBroker.InstanceObject | null | undefined;
+        adminUrl: string;
+    }> {
         // get settings for admin
         const settings = await this.getForeignObjectAsync(`system.adapter.${this.namespace}`);
-        let adminInstanceObj;
+        let adminInstanceObj: ioBroker.InstanceObject | null | undefined;
         let adminUrl = '';
 
         if (settings) {
@@ -169,7 +197,7 @@ class NodeRed extends Adapter {
                 { startkey: 'system.adapter.admin.', endkey: 'system.adapter.admin.\u9999' },
                 {},
             );
-            let admin = admins.rows.find(
+            const admin = admins.rows.find(
                 obj =>
                     // admin should run on the same host
                     obj.value.common.host === settings.common.host &&
@@ -192,7 +220,6 @@ class NodeRed extends Adapter {
                     !!adminInstanceObj.native.secure === !!settings.native.secure
                 ) {
                     adminUrl = `ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}`;
-                    `            var socket = new WebSocket('ws${adminInstanceObj.native.secure ? 's' : ''}://${adminInstanceObj.native.bind === '0.0.0.0' || adminInstanceObj.native.bind === '127.0.0.1' ? `' + window.location.hostname + '` : adminInstanceObj.native.bind}:${adminInstanceObj.native.port}?sid=' + Date.now()); // THIS LINE WILL BE CHANGED FOR ADMIN`;
                 } else {
                     adminUrl = '';
                 }
@@ -206,9 +233,9 @@ class NodeRed extends Adapter {
         return { adminInstanceObj, adminUrl };
     }
 
-    async generateHtml() {
+    async generateHtml(): Promise<void> {
         const searchText = '// THIS LINE WILL BE CHANGED FOR ADMIN';
-        const html = fs.readFileSync(`${__dirname}/nodes/ioBroker.html`).toString('utf8');
+        const html = readFileSync(`${adapterRootDir}/nodes/ioBroker.html`).toString('utf8');
         const lines = html.split('\n');
         const pos = lines.findIndex(line => line.includes(searchText));
         if (pos) {
@@ -242,39 +269,39 @@ class NodeRed extends Adapter {
             }
 
             if (html !== lines.join('\n')) {
-                fs.writeFileSync(`${__dirname}/nodes/ioBroker.html`, lines.join('\n'));
+                writeFileSync(`${adapterRootDir}/nodes/ioBroker.html`, lines.join('\n'));
             }
             this.adminUrl = adminUrl;
         }
     }
 
-    syncPublic(path) {
-        path = path || '/public';
+    syncPublic(subPath?: string): void {
+        subPath = subPath || '/public';
 
-        const dirs = fs.readdirSync(__dirname + path);
-        const dest = editorClientPath + path;
+        const dirs = readdirSync(adapterRootDir + subPath);
+        const dest = editorClientPath + subPath;
 
-        if (!fs.existsSync(dest)) {
-            fs.mkdirSync(dest);
+        if (!existsSync(dest)) {
+            mkdirSync(dest);
         }
 
-        // this.log.debug(`[syncPublic] Src ${path} to ${dest}`);
+        // this.log.debug(`[syncPublic] Src ${subPath} to ${dest}`);
 
         for (const dir of dirs) {
-            const sourcePath = `${__dirname + path}/${dir}`;
+            const sourcePath = `${adapterRootDir + subPath}/${dir}`;
             const destPath = `${dest}/${dir}`;
 
-            const stat = fs.statSync(sourcePath);
+            const stat = statSync(sourcePath);
             if (stat.isDirectory()) {
-                this.syncPublic(`${path}/${dir}`);
+                this.syncPublic(`${subPath}/${dir}`);
             } else {
-                if (!fs.existsSync(destPath)) {
-                    fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
+                if (!existsSync(destPath)) {
+                    createReadStream(sourcePath).pipe(createWriteStream(destPath));
                 } else if (dir.endsWith('.js')) {
-                    const dest = fs.readFileSync(destPath).toString('utf8');
-                    const src = fs.readFileSync(sourcePath).toString('utf8');
-                    if (dest !== src) {
-                        fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
+                    const destContent = readFileSync(destPath).toString('utf8');
+                    const srcContent = readFileSync(sourcePath).toString('utf8');
+                    if (destContent !== srcContent) {
+                        createReadStream(sourcePath).pipe(createWriteStream(destPath));
                     }
                 }
 
@@ -283,10 +310,10 @@ class NodeRed extends Adapter {
         }
     }
 
-    installNotifierFlows(isFirst) {
+    installNotifierFlows(isFirst?: boolean): void {
         if (!this.notificationsFlows) {
-            const flowsPath = path.join(this.userDataDir, 'flows.json');
-            if (fs.existsSync(flowsPath)) {
+            const flowsPath = join(this.userDataDir, 'flows.json');
+            if (existsSync(flowsPath)) {
                 if (!isFirst) {
                     this.saveObjects();
                 }
@@ -294,7 +321,9 @@ class NodeRed extends Adapter {
                 // monitor the project file
                 this.notificationsFlows = new Notify([flowsPath]);
                 this.notificationsFlows.on('change', () => {
-                    this.saveTimer && this.clearTimeout(this.saveTimer);
+                    if (this.saveTimer) {
+                        this.clearTimeout(this.saveTimer);
+                    }
                     this.saveTimer = this.setTimeout(this.saveObjects.bind(this), 500);
                 });
             } else {
@@ -304,10 +333,10 @@ class NodeRed extends Adapter {
         }
     }
 
-    installNotifierCreds(isFirst) {
+    installNotifierCreds(isFirst?: boolean): void {
         if (!this.notificationsCreds) {
-            const flowsCredPath = path.join(this.userDataDir, 'flows_cred.json');
-            if (fs.existsSync(flowsCredPath)) {
+            const flowsCredPath = join(this.userDataDir, 'flows_cred.json');
+            if (existsSync(flowsCredPath)) {
                 if (!isFirst) {
                     this.saveObjects();
                 }
@@ -315,7 +344,9 @@ class NodeRed extends Adapter {
                 // monitor the project file
                 this.notificationsCreds = new Notify([flowsCredPath]);
                 this.notificationsCreds.on('change', () => {
-                    this.saveTimer && this.clearTimeout(this.saveTimer);
+                    if (this.saveTimer) {
+                        this.clearTimeout(this.saveTimer);
+                    }
                     this.saveTimer = this.setTimeout(this.saveObjects.bind(this), 500);
                 });
             } else {
@@ -325,14 +356,14 @@ class NodeRed extends Adapter {
         }
     }
 
-    startNodeRed() {
-        this.config.maxMemory = parseInt(this.config.maxMemory, 10) || 128;
+    startNodeRed(): void {
+        this.config.maxMemory = parseInt(this.config.maxMemory as string, 10) || 128;
         const args = [
             `--max-old-space-size=${this.config.maxMemory}`,
-            path.join(nodePath, 'red.js'),
+            join(nodePath, 'red.js'),
             '-v',
             '--settings',
-            path.join(this.userDataDir, 'settings.js'),
+            join(this.userDataDir, 'settings.js'),
         ];
 
         if (this.config.safeMode) {
@@ -343,22 +374,25 @@ class NodeRed extends Adapter {
 
         const envVars = {
             ...process.env,
-            ...this.config.envVars?.reduce((acc, v) => ({ ...acc, [v.name]: v.value || null }), {}),
-        };
+            ...this.config.envVars?.reduce<Record<string, string | null>>(
+                (acc, v) => ({ ...acc, [v.name]: v.value || null }),
+                {},
+            ),
+        } as NodeJS.ProcessEnv;
 
         this.redProcess = spawn('node', args, { env: envVars });
         this.redProcess.on('error', err => this.log.error(`caught exception from node-red:${JSON.stringify(err)}`));
         this.redProcess.on('spawn', () => {
-            this.setStateAsync('info.connection', { val: true, ack: true });
+            void this.setStateAsync('info.connection', { val: true, ack: true });
             this.log.info(`Node-RED started successfully (PID: ${this.redProcess?.pid})`);
         });
 
-        this.redProcess.stdout.on('data', data => {
-            if (!data) {
+        this.redProcess.stdout?.on('data', (chunk: Buffer | string) => {
+            if (!chunk) {
                 return;
             }
 
-            data = data.toString();
+            let data = chunk.toString();
 
             if (data.endsWith('\r\n')) {
                 data = data.substring(0, data.length - 2);
@@ -388,18 +422,22 @@ class NodeRed extends Adapter {
             }
         });
 
-        this.redProcess.stderr.on('data', data => {
-            if (!data) {
+        this.redProcess.stderr?.on('data', (chunk: Buffer | string) => {
+            if (!chunk) {
                 return;
             }
-            if (data[0]) {
-                let text = '';
-                for (let i = 0; i < data.length; i++) {
-                    text += String.fromCharCode(data[i]);
+
+            let data: string;
+            if (typeof chunk === 'string') {
+                data = chunk;
+            } else {
+                data = '';
+                for (let i = 0; i < chunk.length; i++) {
+                    data += String.fromCharCode(chunk[i]);
                 }
-                data = text;
             }
-            if (data.includes && !data.includes('[warn]')) {
+
+            if (!data.includes('[warn]')) {
                 this.log.warn(data);
             } else {
                 this.log.error(JSON.stringify(data));
@@ -411,55 +449,55 @@ class NodeRed extends Adapter {
             this.redProcess = null;
             if (!this.stopping) {
                 this.setTimeout(this.startNodeRed.bind(this), 5000);
-                this.setStateAsync('info.connection', { val: false, ack: true, c: `EXIT_CODE_${exitCode}` });
+                void this.setStateAsync('info.connection', { val: false, ack: true, c: `EXIT_CODE_${exitCode}` });
             }
         });
     }
 
-    installNpm(npmLib, callback) {
-        if (typeof npmLib === 'function') {
-            callback = npmLib;
-            npmLib = undefined;
-        }
-
+    installNpm(npmLib: string, callback?: (npmLib: string) => void): void {
         const cmd = `npm install ${npmLib} --omit=dev --prefix "${this.userDataDir}" --save`;
         this.log.info(`${cmd} (System call)`);
         // Install node modules as system call
 
         // System call used for update of js-controller itself,
         // because during an installation the npm packet will be deleted too, but some files must be loaded even during the installation process.
-        const exec = require('child_process').exec;
         const child = exec(cmd);
-        child.stdout.on('data', buf => this.log.info(buf.toString('utf8')));
-        child.stderr.on('data', buf => this.log.error(buf.toString('utf8')));
+        child.stdout?.on('data', (buf: Buffer) => this.log.info(buf.toString('utf8')));
+        child.stderr?.on('data', (buf: Buffer) => this.log.error(buf.toString('utf8')));
 
         child.on('exit', code => {
-            code && this.log.error(`Cannot install ${npmLib}: ${code}`);
+            if (code) {
+                this.log.error(`Cannot install ${npmLib}: ${code}`);
+            }
             // command succeeded
-            callback && callback(npmLib);
+            callback?.(npmLib);
         });
     }
 
-    installLibraries(callback) {
+    installLibraries(callback: () => void): void {
         let allInstalled = true;
 
+        let npmLibs: string[] = [];
         if (typeof this.config.npmLibs === 'string') {
-            this.config.npmLibs = this.config.npmLibs.split(/[,;\s]+/);
+            npmLibs = this.config.npmLibs.split(/[,;\s]+/);
+            this.config.npmLibs = npmLibs;
+        } else if (Array.isArray(this.config.npmLibs)) {
+            npmLibs = this.config.npmLibs;
         }
 
         // Find userdata directory
         if (this.instance === 0) {
-            this.userDataDir = path.join(getAbsoluteDefaultDataDir(), 'node-red');
+            this.userDataDir = join(getAbsoluteDefaultDataDir(), 'node-red');
         } else {
-            this.userDataDir = path.join(getAbsoluteDefaultDataDir(), `node-red.${this.instance}`);
+            this.userDataDir = join(getAbsoluteDefaultDataDir(), `node-red.${this.instance}`);
         }
 
         if (this.config.npmLibs && !this.config.palletmanagerEnabled) {
             this.log.info(`Requested NPM packages: ${JSON.stringify(this.config.npmLibs)}`);
-            for (let lib of this.config.npmLibs) {
+            for (let lib of npmLibs) {
                 lib = lib.trim();
                 if (lib) {
-                    if (!fs.existsSync(path.join(this.userDataDir, `node_modules/${lib}/package.json`))) {
+                    if (!existsSync(join(this.userDataDir, `node_modules/${lib}/package.json`))) {
                         if (!this.attempts[lib]) {
                             this.attempts[lib] = 1;
                         } else {
@@ -484,20 +522,19 @@ class NodeRed extends Adapter {
             }
         }
 
-        allInstalled && callback();
+        if (allInstalled) {
+            callback();
+        }
     }
 
-    setOption(line, option, value) {
+    setOption(line: string, option: string, value?: SettingsValue): string {
         const toFind = `'%%${option}%%'`;
         const pos = line.indexOf(toFind);
 
         if (pos !== -1) {
-            let setValue =
-                value !== undefined
-                    ? value
-                    : this.config[option] === null || this.config[option] === undefined
-                      ? ''
-                      : this.config[option];
+            const configValue = (this.config as Record<string, any>)[option] as SettingsValue | undefined;
+            let setValue: SettingsValue =
+                value !== undefined ? value : configValue === null || configValue === undefined ? '' : configValue;
             if (
                 typeof setValue === 'string' &&
                 !setValue.startsWith('{') &&
@@ -514,20 +551,20 @@ class NodeRed extends Adapter {
         return line;
     }
 
-    hashPassword(pass) {
-        return bcrypt.hashSync(pass, 8);
+    hashPassword(pass: string): string {
+        return hashSync(pass, 8);
     }
 
-    writeSettings() {
+    writeSettings(): void {
         const config = JSON.stringify(this.systemConfig);
-        const text = fs.readFileSync(`${__dirname}/settings.js`).toString();
+        const text = readFileSync(`${adapterRootDir}/settings.js`).toString();
         const lines = text.split('\n');
-        const dir = `${__dirname.replace(/\\/g, '/')}/node_modules/`;
-        const nodesDir = `"${__dirname.replace(/\\/g, '/')}/nodes/"`;
+        const dir = `${adapterRootDir.replace(/\\/g, '/')}/node_modules/`;
+        const nodesDir = `"${adapterRootDir.replace(/\\/g, '/')}/nodes/"`;
 
         const bind = `"${this.config.bind || '0.0.0.0'}"`;
 
-        let authObj = { type: 'credentials' };
+        let authObj: NodeRedAuth = { type: 'credentials' };
         if (this.config.authType === undefined || this.config.authType === '') {
             // first time after upgrade or fresh install
             if (this.config.user) {
@@ -565,8 +602,8 @@ class NodeRed extends Adapter {
 
         const pass = `"${this.config.pass}"`;
         const secure = this.config.secure ? '' : '// ';
-        const certFile = this.config.certPublic ? path.join(this.userDataDir, `${this.config.certPublic}.crt`) : '';
-        const keyFile = this.config.certPrivate ? path.join(this.userDataDir, `${this.config.certPrivate}.key`) : '';
+        const certFile = this.config.certPublic ? join(this.userDataDir, `${this.config.certPublic}.crt`) : '';
+        const keyFile = this.config.certPrivate ? join(this.userDataDir, `${this.config.certPrivate}.key`) : '';
         const hNodeRoot = this.config.httpNodeRoot ? this.config.httpNodeRoot : '/';
         const hStatic = this.config.httpStatic ? '' : '// ';
 
@@ -578,29 +615,29 @@ class NodeRed extends Adapter {
         this.log.debug(`[writeSettings] Additional npm packages (functionGlobalContext): ${npms}`);
 
         // update from 1.0.1 (new convert-option)
+        const valueConvert = this.config.valueConvert as unknown;
         if (
-            this.config.valueConvert === null ||
-            this.config.valueConvert === undefined ||
-            this.config.valueConvert === '' ||
-            this.config.valueConvert === 'true' ||
-            this.config.valueConvert === '1' ||
-            this.config.valueConvert === 1
+            valueConvert === null ||
+            valueConvert === undefined ||
+            valueConvert === '' ||
+            valueConvert === 'true' ||
+            valueConvert === '1' ||
+            valueConvert === 1
         ) {
             this.config.valueConvert = true;
         }
-        if (
-            this.config.valueConvert === 0 ||
-            this.config.valueConvert === '0' ||
-            this.config.valueConvert === 'false'
-        ) {
+        if (valueConvert === 0 || valueConvert === '0' || valueConvert === 'false') {
             this.config.valueConvert = false;
         }
 
         // write certificates, if defined
         if (this.config.certPublic && this.config.certPrivate) {
-            this.getCertificates((err, certificates) => {
-                fs.writeFileSync(certFile, certificates.cert);
-                fs.writeFileSync(keyFile, certificates.key);
+            // the names default to this.config.certPublic/certPrivate
+            this.getCertificates(undefined, undefined, undefined, (err, certificates) => {
+                if (certificates) {
+                    writeFileSync(certFile, certificates.cert);
+                    writeFileSync(keyFile, certificates.key);
+                }
             });
         }
 
@@ -635,53 +672,53 @@ class NodeRed extends Adapter {
             lines[i] = this.setOption(lines[i], 'theme');
         }
 
-        const settingsPath = path.join(this.userDataDir, 'settings.js');
-        const oldText = fs.existsSync(settingsPath) ? fs.readFileSync(settingsPath, 'utf8') : '';
+        const settingsPath = join(this.userDataDir, 'settings.js');
+        const oldText = existsSync(settingsPath) ? readFileSync(settingsPath, 'utf8') : '';
         const newText = lines.join('\n');
         if (oldText !== newText) {
-            fs.writeFileSync(settingsPath, newText);
+            writeFileSync(settingsPath, newText);
             this.log.debug(`[writeSettings] Updated settings file: ${settingsPath}`);
         }
     }
 
-    writeStateList(callback) {
-        this.getForeignObjects('*', 'state', ['rooms', 'functions'], (err, obj) => {
+    writeStateList(callback?: (err?: Error | null) => void): void {
+        this.getForeignObjects('*', 'state', ['rooms', 'functions'], (err, objs) => {
             // remove native information
-            for (const i in obj) {
-                if (Object.prototype.hasOwnProperty.call(obj, i) && obj[i].native) {
-                    delete obj[i].native;
+            for (const id in objs) {
+                if (Object.prototype.hasOwnProperty.call(objs, id) && objs[id].native) {
+                    delete (objs[id] as { native?: Record<string, any> }).native;
                 }
             }
 
-            fs.writeFileSync(`${editorClientPath}/public/iobroker.json`, JSON.stringify(obj, null, 2));
+            writeFileSync(`${editorClientPath}/public/iobroker.json`, JSON.stringify(objs, null, 2));
 
-            //this.log.debug(`[writeStateList] Updated to: ${JSON.stringify(obj)}`);
+            //this.log.debug(`[writeStateList] Updated to: ${JSON.stringify(objs)}`);
 
-            callback && callback(err);
+            callback?.(err);
         });
     }
 
-    saveObjects() {
+    saveObjects(): void {
         if (this.saveTimer) {
             this.clearTimeout(this.saveTimer);
-            this.saveTimer = null;
+            this.saveTimer = undefined;
         }
 
-        let cred = undefined;
-        let flows = undefined;
+        let cred: any = undefined;
+        let flows: any = undefined;
 
-        const flowCredPath = path.join(this.userDataDir, 'flows_cred.json');
+        const flowCredPath = join(this.userDataDir, 'flows_cred.json');
         try {
-            if (fs.existsSync(flowCredPath)) {
-                cred = JSON.parse(fs.readFileSync(flowCredPath, 'utf8'));
+            if (existsSync(flowCredPath)) {
+                cred = JSON.parse(readFileSync(flowCredPath, 'utf8'));
             }
         } catch {
             this.log.error(`Cannot read ${flowCredPath}`);
         }
-        const flowsPath = path.join(this.userDataDir, 'flows.json');
+        const flowsPath = join(this.userDataDir, 'flows.json');
         try {
-            if (fs.existsSync(flowsPath)) {
-                flows = JSON.parse(fs.readFileSync(flowsPath, 'utf8'));
+            if (existsSync(flowsPath)) {
+                flows = JSON.parse(readFileSync(flowsPath, 'utf8'));
             }
         } catch {
             this.log.error(`Cannot save ${flowsPath}`);
@@ -716,17 +753,19 @@ class NodeRed extends Adapter {
         );
     }
 
-    onMessage(msg) {
-        if (msg && msg.command && !msg?.callback?.ack) {
+    onMessage(msg: ioBroker.Message): void {
+        if (msg?.command && !msg?.callback?.ack) {
             this.log.debug(`Received command: ${JSON.stringify(msg)}`);
 
             switch (msg.command) {
                 case 'update':
                     this.writeStateList(error => {
                         if (error) {
-                            msg.callback && this.sendTo(msg.from, msg.command, { error }, msg.callback);
-                        } else {
-                            msg.callback && this.sendTo(msg.from, msg.command, { result: 'success' }, msg.callback);
+                            if (msg.callback) {
+                                this.sendTo(msg.from, msg.command, { error }, msg.callback);
+                            }
+                        } else if (msg.callback) {
+                            this.sendTo(msg.from, msg.command, { result: 'success' }, msg.callback);
                         }
                     });
                     break;
@@ -738,7 +777,7 @@ class NodeRed extends Adapter {
         }
     }
 
-    unloadRed(callback) {
+    unloadRed(callback?: () => void): void {
         // Stop node-red
         this.stopping = true;
 
@@ -748,15 +787,17 @@ class NodeRed extends Adapter {
             this.redProcess = null;
         }
 
-        this.saveTimer && this.clearTimeout(this.saveTimer);
+        if (this.saveTimer) {
+            this.clearTimeout(this.saveTimer);
+        }
 
-        this.notificationsCreds && this.notificationsCreds.close();
-        this.notificationsFlows && this.notificationsFlows.close();
+        this.notificationsCreds?.close();
+        this.notificationsFlows?.close();
 
-        this.setTimeout(() => callback && callback(), 2000);
+        this.setTimeout(() => callback?.(), 2000);
     }
 
-    onUnload(callback) {
+    onUnload(callback: () => void): void {
         try {
             this.log.info('cleaned everything up...');
 
@@ -767,11 +808,10 @@ class NodeRed extends Adapter {
     }
 }
 
-// @ts-expect-error parent is a valid property on module
-if (module.parent) {
+if (require.main !== module) {
     // Export the constructor in compact mode
-    module.exports = options => new NodeRed(options);
+    module.exports = (options: Partial<AdapterOptions> | undefined) => new NodeRed(options);
 } else {
     // otherwise start the instance directly
-    new NodeRed();
+    (() => new NodeRed())();
 }
