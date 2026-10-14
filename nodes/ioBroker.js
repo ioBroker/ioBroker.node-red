@@ -45,6 +45,31 @@ module.exports = function (RED) {
     if (typeof adapter.setMaxListeners === 'function') {
         adapter.setMaxListeners(10000);
     }
+
+    // Tell the adapter process which port the web server really bound to, so it can report it to js-controller.
+    // The IPC channel only exists when Node-RED was started by the adapter.
+    if (typeof process.send === 'function' && RED.server) {
+        const reportListening = () => {
+            const address = RED.server.address();
+            if (address && typeof address === 'object') {
+                try {
+                    process.send(
+                        { command: 'listening', port: address.port, bind: address.address, family: address.family },
+                        () => {
+                            // ignore: the adapter may be gone already
+                        },
+                    );
+                } catch {
+                    // ignore: the channel is closed
+                }
+            }
+        };
+        if (RED.server.listening) {
+            reportListening();
+        } else {
+            RED.server.once('listening', reportListening);
+        }
+    }
     const nodeSets = [];
     const checkStates = [];
     const verifiedObjects = {};

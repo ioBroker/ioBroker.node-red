@@ -159,11 +159,13 @@
     "supportStopInstance": 5000,
     "unsafePerm": true,
     "compact": true,
+    "declareUsedResources": true,
     "type": "logic",
     "readme": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
     "stopBeforeUpdate": true,
     "adminTab": {
       "link": "%protocol%://%ip%:%port%%httpAdminRoot%",
+      "proxy": true,
       "name": {
         "en": "Node-RED",
         "de": "Node-RED",
@@ -190,7 +192,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.6.4"
+        "admin": ">=8.2.1"
       }
     ],
     "tier": 1,

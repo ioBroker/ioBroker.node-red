@@ -66,6 +66,45 @@ interface NodeRedAuth {
 /** Values that may be written into the generated settings.js */
 type SettingsValue = string | number | boolean | null;
 
+/** Feature a js-controller announces once it keeps the per-host registry of used resources. Since js-controller 8. */
+const USED_RESOURCES_FEATURE = 'CONTROLLER_USED_RESOURCES';
+
+/** Addresses that stand for every interface: the port is occupied in both address families, so no family is reported */
+const WILDCARD_ADDRESSES = ['0.0.0.0', '::', '*', ''];
+
+/** Payload of the `tcpPort` resource type - `ioBroker.TcpPortResourceData` of js-controller 8 */
+interface UsedTcpPort {
+    /** TCP port number */
+    port: number;
+    /** Address the socket is bound to, `0.0.0.0` or `::` for every interface */
+    bind?: string;
+    /** Address family, only reported for a concrete bind address */
+    family?: 4 | 6;
+}
+
+/**
+ * The part of the adapter API used to report the occupied port. The methods exist since js-controller 8,
+ * and `supportsFeature()` is typed against a union of known features that does not contain the feature in older types.
+ */
+interface UsedResourcesApi {
+    registerUsedResource?: (type: 'tcpPort', data: UsedTcpPort) => Promise<void>;
+    freeUsedResource?: (type: 'tcpPort', data?: Partial<UsedTcpPort>) => Promise<void>;
+    supportsFeature?: (feature: string) => boolean;
+}
+
+/** Message the Node-RED process sends (nodes/ioBroker.js) once its web server listens */
+interface NodeRedListeningMessage {
+    command: 'listening';
+    port: number;
+    bind: string;
+    family: string | number;
+}
+
+function isListeningMessage(msg: unknown): msg is NodeRedListeningMessage {
+    const m = msg as Partial<NodeRedListeningMessage> | null;
+    return !!m && m.command === 'listening' && typeof m.port === 'number' && typeof m.bind === 'string';
+}
+
 class NodeRed extends Adapter {
     private systemSecret: string | null = null;
     private userDataDir: string = `${adapterRootDir}/userdata/`;
@@ -80,6 +119,11 @@ class NodeRed extends Adapter {
 
     private readonly attempts: Record<string, number> = {};
     private readonly additional: string[] = [];
+
+    /** Port registered in the used resources of the host, so it can be freed when Node-RED exits */
+    private reportedPort: UsedTcpPort | null = null;
+    /** Register and free go to the host one after another, so a free cannot overtake the register it undoes */
+    private usedResourcesQueue: Promise<void> = Promise.resolve();
 
     public constructor(options: Partial<AdapterOptions> = {}) {
         super({
@@ -380,11 +424,17 @@ class NodeRed extends Adapter {
             ),
         } as NodeJS.ProcessEnv;
 
-        this.redProcess = spawn('node', args, { env: envVars });
+        // The IPC channel carries the port the web server really bound to (see nodes/ioBroker.js)
+        this.redProcess = spawn('node', args, { env: envVars, stdio: ['pipe', 'pipe', 'pipe', 'ipc'] });
         this.redProcess.on('error', err => this.log.error(`caught exception from node-red:${JSON.stringify(err)}`));
         this.redProcess.on('spawn', () => {
             void this.setStateAsync('info.connection', { val: true, ack: true });
             this.log.info(`Node-RED started successfully (PID: ${this.redProcess?.pid})`);
+        });
+        this.redProcess.on('message', msg => {
+            if (isListeningMessage(msg)) {
+                this.registerUsedPort(msg);
+            }
         });
 
         this.redProcess.stdout?.on('data', (chunk: Buffer | string) => {
@@ -448,9 +498,85 @@ class NodeRed extends Adapter {
             this.log.info(`Node-RED exited with ${exitCode}`);
             this.redProcess = null;
             if (!this.stopping) {
+                // Not needed on stop: the host marks the entries of a stopped instance as no longer held itself
+                this.freeUsedPort();
                 this.setTimeout(this.startNodeRed.bind(this), 5000);
                 void this.setStateAsync('info.connection', { val: false, ack: true, c: `EXIT_CODE_${exitCode}` });
             }
+        });
+    }
+
+    /**
+     * Whether the port may be reported to the registry of used resources of js-controller 8.
+     * A host without the feature never answers, so every call would sit out the timeout of the adapter API.
+     */
+    canReportUsedResources(): boolean {
+        const api = this as unknown as UsedResourcesApi;
+
+        if (typeof api.registerUsedResource !== 'function' || typeof api.freeUsedResource !== 'function') {
+            this.log.debug('Used port is not reported: js-controller is older than 8');
+            return false;
+        }
+        if (typeof api.supportsFeature !== 'function' || !api.supportsFeature(USED_RESOURCES_FEATURE)) {
+            this.log.debug(`Used port is not reported: js-controller does not support "${USED_RESOURCES_FEATURE}"`);
+            return false;
+        }
+        if ((this.common as { declareUsedResources?: boolean } | undefined)?.declareUsedResources !== true) {
+            this.log.debug('Used port is not reported: "common.declareUsedResources" is not set');
+            return false;
+        }
+
+        return true;
+    }
+
+    /** Run a call to the registry after the previous one. Failures are logged, the port is not worth a crash */
+    queueUsedResources(task: () => Promise<void>): void {
+        this.usedResourcesQueue = this.usedResourcesQueue.then(task).catch((e: any) => {
+            try {
+                this.log.warn(`Could not report the used port: ${e?.message}`);
+            } catch {
+                // the logger may already be gone during shutdown
+            }
+        });
+    }
+
+    /**
+     * Report the port the Node-RED web server listens on as occupied by this instance.
+     *
+     * @param msg what the Node-RED process reported once its server listens
+     */
+    registerUsedPort(msg: NodeRedListeningMessage): void {
+        if (!this.canReportUsedResources()) {
+            return;
+        }
+
+        const data: UsedTcpPort = { port: msg.port, bind: msg.bind };
+        if (!WILDCARD_ADDRESSES.includes(msg.bind)) {
+            data.family = msg.family === 'IPv6' || msg.family === 6 ? 6 : 4;
+        }
+        this.reportedPort = data;
+
+        this.queueUsedResources(async () => {
+            await (this as unknown as UsedResourcesApi).registerUsedResource!('tcpPort', data);
+            this.log.debug(`Registered TCP port ${data.bind}:${data.port} as used by this instance`);
+        });
+    }
+
+    /** Take the reported port back, e.g. when Node-RED exited and is restarted */
+    freeUsedPort(): void {
+        const data = this.reportedPort;
+        if (!data) {
+            return;
+        }
+        this.reportedPort = null;
+
+        // Filtered by port and address only: the family was derived from the address
+        this.queueUsedResources(async () => {
+            await (this as unknown as UsedResourcesApi).freeUsedResource!('tcpPort', {
+                port: data.port,
+                bind: data.bind,
+            });
+            this.log.debug(`Freed TCP port ${data.bind}:${data.port}`);
         });
     }
 

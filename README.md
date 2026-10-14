@@ -36,6 +36,10 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (@GermanBluefox) The tab in admin runs through the port of admin
+* (@GermanBluefox) The port Node-RED really listens on is reported to the registry of used resources of js-controller 8
+
 ### 7.0.2 (2026-08-15)
 -   (@GermanBluefox) Allowed to use admin instance with authentication (Admin 7.6.4 is required)
 -   (@thiloms) Added an additional memory based context storage (`memoryOnly`)
