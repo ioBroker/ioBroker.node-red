@@ -39,6 +39,9 @@ Instantiate the server with Node-RED
 ### **WORK IN PROGRESS**
 * (@GermanBluefox) The tab in admin runs through the port of admin
 * (@GermanBluefox) The port Node-RED really listens on is reported to the registry of used resources of js-controller 8
+* (@GermanBluefox) Removed `prepare` script
+* (@GermanBluefox) The monaco code editor uses the theme of the selected editor theme
+* (@GermanBluefox) Wildcards are allowed in the adapter instance of `ioBroker in` and `ioBroker list` nodes, e.g. `hm-rpc.*.ABC.1.STATE`
 
 ### 7.0.2 (2026-08-15)
 -   (@GermanBluefox) Allowed to use admin instance with authentication (Admin 7.6.4 is required)
@@ -46,7 +49,7 @@ Instantiate the server with Node-RED
 -   (@thiloms) The file based context storage was renamed from `default` to `file`. Existing data is kept, but nodes with an explicitly selected store must be re-selected in the editor
 -   (@GermanBluefox) The adapter backend was rewritten in TypeScript. The sources are now located in `src` and are compiled into `build`
 -   (@GermanBluefox) Disabled the node-red notification about a new node-red version, as node-red is updated together with the adapter
--   (@GermanBluefox) Updated nore-red to 5
+-   (@GermanBluefox) Updated node-red to 5
 
 ### 6.0.8 (2025-03-24)
 -   (@GermanBluefox) Do not try to connect to unsecure admin from secure page and vice versa
@@ -70,7 +73,7 @@ Instantiate the server with Node-RED
 
 ## License
 
-Copyright 2014-2026 bluefox <dogafox@gmail.com>.
+Copyright (c) 2014-2026 bluefox <dogafox@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

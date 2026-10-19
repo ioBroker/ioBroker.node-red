@@ -32,7 +32,6 @@ jobs:
           type-checking: true
           lint: true
           install-command: 'npm run npm'
-          lint-command: 'npm run lint .'
 
   adapter-tests:
     needs: [check-and-lint]

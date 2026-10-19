@@ -403,8 +403,9 @@ module.exports = {
                      * theme - must match the file name of a theme in
                      * packages/node_modules/@node-red/editor-client/src/vendor/monaco/dist/theme
                      * e.g. "tomorrow-night", "upstream-sunburst", "github", "my-theme"
+                     * If not set, the monaco theme of the selected editor theme is used.
                      */
-                    theme: "vs",
+                    //theme: "vs",
                     /** other overrides can be set e.g. fontSize, fontFamily, fontLigatures etc.
                      * for the full list, see https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IStandaloneEditorConstructionOptions.html
                      */

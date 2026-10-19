@@ -75,6 +75,8 @@ module.exports = function (RED) {
     const verifiedObjects = {};
     const subscribedIds = {};
     const isValidIDRegExp = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]+\\.\\d+\\.');
+    // Like isValidIDRegExp, but the instance number may be a wildcard, e.g. "hm-rpc.*.ABC.1.STATE"
+    const isValidPatternRegExp = new RegExp('^[_A-Za-z0-9ÄÖÜäöüа-яА-Я][-_A-Za-z0-9ÄÖÜäöüа-яА-Я]+\\.(\\d+|\\*)\\.');
     let ready = false;
     const log = adapter && adapter.log && adapter.log.warn ? adapter.log.warn : console.log;
 
@@ -210,6 +212,10 @@ module.exports = function (RED) {
 
     function isValidId(id) {
         return isValidIDRegExp.test(id) || id.startsWith('system.');
+    }
+
+    function isValidPattern(pattern) {
+        return isValidPatternRegExp.test(pattern) || pattern.startsWith('system.');
     }
 
     function isForeignState(id) {
@@ -465,7 +471,7 @@ module.exports = function (RED) {
         defineCommon(node, n);
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidPattern(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = `${adapter.namespace}.${node.topic}`;
         }
         node.subscribePattern = node.topic;
@@ -1014,7 +1020,7 @@ module.exports = function (RED) {
         node.customName = 'ioBroker list';
 
         // If no adapter prefix, add own adapter prefix
-        if (node.topic && !isValidId(node.topic) && !node.topic.startsWith(adapter.namespace)) {
+        if (node.topic && !isValidPattern(node.topic) && !node.topic.startsWith(adapter.namespace)) {
             node.topic = `${adapter.namespace}.${node.topic}`;
         }
         node.objType = n.objType;

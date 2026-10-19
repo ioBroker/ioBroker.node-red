@@ -29,19 +29,6 @@
         "uk": "Дозволено використовувати екземпляр адміністратора з автентифікацією (потрібна версія Admin 7.6.4)\nДодано додаткове сховище контексту на основі пам'яті (`memoryOnly`).\nФайлове сховище контексту було перейменовано з `default` на `file`. Існуючі дані зберігаються, але вузли з явно вибраним сховищем необхідно повторно вибрати в редакторі.\nБекенд адаптера було переписано на TypeScript. Вихідні коди тепер знаходяться в `src` та компілюються в `build`.\nВимкнено сповіщення node-red про нову версію node-red, оскільки node-red оновлюється разом з адаптером.\nОновлено nore-red до 5",
         "zh-cn": "允许使用带身份验证的管理员实例（需要管理员版本 7.6.4）\n添加了额外的基于内存的上下文存储（`memoryOnly`）\n基于文件的上下文存储已从“default”重命名为“file”。现有数据将被保留，但已显式选择存储方式的节点必须在编辑器中重新选择。\n适配器后端已使用 TypeScript 重写。源代码现在位于 `src` 目录下，并编译到 `build` 文件中。\n已禁用 Node-RED 新版本通知，因为 Node-RED 会随适配器一起更新。\n更新 nore-red 至 5"
       },
-      "6.0.8": {
-        "en": "Do not try to connect to unsecure admin from secure page and vice versa",
-        "de": "Versuchen Sie nicht, eine Verbindung zu unsecure Admin von der sicheren Seite und umgekehrt",
-        "ru": "Не пытайтесь подключиться к небезопасному администратору с защищенной страницы и наоборот",
-        "pt": "Não tente se conectar a administrador inseguro de página segura e vice-versa",
-        "nl": "Probeer geen verbinding te maken met onveilige admin van beveiligde pagina en vice versa",
-        "fr": "N'essayez pas de vous connecter à l'administrateur non sécurisé de la page sécurisée et vice versa",
-        "it": "Non cercare di connettersi a amministratore non sicuro da pagina sicura e viceversa",
-        "es": "No trate de conectarse a admin inseguro de página segura y viceversa",
-        "pl": "Nie próbuj połączyć się z niezabezpieczonym administratorem z bezpiecznej strony i odwrotnie",
-        "uk": "Не намагайтеся підключитися до некуруючого адміністратора з захищеної сторінки і навпаки",
-        "zh-cn": "不要试图从安全的页面连接到不安全的管理员,反之亦然"
-      },
       "6.0.7": {
         "en": "Replace Select-ID dialog with a library\nPackages were updated",
         "de": "Wählen-ID-Dialog mit einer Bibliothek ersetzen\nPakete wurden aktualisiert",
@@ -131,8 +118,8 @@
       "type": "free"
     },
     "platform": "Javascript/Node.js",
-    "main": "build/main.js",
     "mode": "daemon",
+    "nogit": true,
     "messagebox": true,
     "loglevel": "info",
     "icon": "node-red.png",
