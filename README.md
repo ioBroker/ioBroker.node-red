@@ -36,7 +36,7 @@ Instantiate the server with Node-RED
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 7.1.0 (2026-10-19)
 * (@GermanBluefox) The tab in admin runs through the port of admin
 * (@GermanBluefox) The port Node-RED really listens on is reported to the registry of used resources of js-controller 8
 * (@GermanBluefox) Removed `prepare` script
@@ -62,12 +62,6 @@ Instantiate the server with Node-RED
 
 -   (@GermanBluefox) Restart node-red if admin settings changed
 -   (@GermanBluefox) Node-red updated to 4.0.8
-
-### 6.0.1 (2024-09-30)
-
--   (@GermanBluefox) Corrected the case if `envVars` settings is undefined
--   (@GermanBluefox) Used common `@iobroker/eslint-config`
--   (@GermanBluefox) Node-red updated to 4.0.3
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 

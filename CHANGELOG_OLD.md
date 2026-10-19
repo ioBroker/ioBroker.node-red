@@ -1,4 +1,10 @@
 # Older changes
+## 6.0.1 (2024-09-30)
+
+-   (@GermanBluefox) Corrected the case if `envVars` settings is undefined
+-   (@GermanBluefox) Used common `@iobroker/eslint-config`
+-   (@GermanBluefox) Node-red updated to 4.0.3
+
 ## 5.2.1 (2024-04-27)
 
 -   (Apollon77) Update node-red to 3.1.9 to fix execution on windows

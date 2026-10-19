@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "node-red",
-    "version": "7.0.2",
+    "version": "7.1.0",
     "titleLang": {
       "en": "Node-RED",
       "de": "Node-RED",
@@ -16,6 +16,19 @@
       "zh-cn": "Node-RED"
     },
     "news": {
+      "7.1.0": {
+        "en": "The tab in admin runs through the port of admin\nThe port Node-RED really listens on is reported to the registry of used resources of js-controller 8\nRemoved `prepare` script\nThe monaco code editor uses the theme of the selected editor theme\nWildcards are allowed in the adapter instance of `ioBroker in` and `ioBroker list` nodes, e.g. `hm-rpc.*.ABC.1.STATE`",
+        "de": "Der Tab in Admin läuft über den Port Admin\nDer Port, den Node-RED wirklich abhört, wird im Ressourcenregister von JS-Controller 8 gemeldet\nSkript `Prepare` entfernt\nDer Code-Editor von Monaco verwendet das gewählte Editor-Thema\nPlatzhalter sind in Adapterinstanzen der Knoten `ioBroker in` und `ioBroker List` erlaubt, z. B. `HM-RPC.*.abc.1.state`",
+        "ru": "Вкладка в админке проходит через порт администратора\nПорт, который действительно слушает Node-red, сообщается в реестре используемых ресурсов js-controller 8\nУдален скрипт `prepare`\nРедактор кода monaco использует тему выбранной темы редактора\nПодстановочные знаки разрешены в экземпляре адаптера узлов «IOBroker in» и «IOBroker list», например, `HM-RPC.*.abc.1.state`",
+        "pt": "A guia em admin passa pela porta admin\nA porta Node-RED realmente escuta é relatada ao registro de recursos usados do js-controller 8\nRemovido o script `prepare`\nO editor de código monaco usa o tema do editor selecionado\nOs curingas são permitidos no adaptador dos nós `IOBroker in` e `IOBroker list`, ex: `hm-rpc.*.abc.1.state`",
+        "nl": "Het tabblad in admin loopt via de poort van admin\nDe poort waar Node-RED echt naar luistert, wordt gerapporteerd aan het register van gebruikte bronnen van js-controller 8\nHet `prepare'-script is verwijderd\nDe monaco-code-editor gebruikt het thema van het geselecteerde editorthema.\nJokertekens zijn toegestaan in de adapterversie van de knooppunten `IOBroker in` en `IOBroker list`, bijvoorbeeld `HM-RPC.*.abc.1.state`",
+        "fr": "L'onglet Admin passe par le port d'admin\nLe port que Node-RED écoute vraiment est indiqué dans le registre des ressources utilisées de JS-Controller 8\nScript « prepare » supprimé\nL'éditeur de code Monaco utilise le thème de l'éditeur sélectionné\nLes jokers sont autorisés sur l'adaptateur des nœuds « IOBroker in » et « IOBroker list », par exemple « HM-RPC.*.abc.1.state »",
+        "it": "La scheda in admin passa alla porta admin\nLa porta che Node-RED ascolta è riportata nel registro delle risorse usate di js-controller 8\nScript «prepara» rimosso\nMonaco Code Editor usa il tema del tema selezionato\nI jolly sono ammessi nei nodi `IOBroker in` e `IOBroker list`, ad esempio `HM-RPC.*.abc.1.state`",
+        "es": "La pestaña admin pasa por el puerto de admin\nEl puerto que Node-RED realmente escucha se informa al registro de recursos usados de js-controller 8\nSe quitó el guion de «preparar»\nEl editor de código de Mónaco usa el tema del editor seleccionado\nSe permiten comodines en la instancia adaptadora de los nodos «IOBroker in» e «IOBroker list», p. ej., «HM-RPC.*.abc.1.State»",
+        "pl": "Zakładka w administratorze przebiega przez port administratora\nPort Node-red naprawdę słucha, jest zgłaszany do rejestru używanych zasobów js-controller 8\nUsunięto skrypt „prepare'\nEdytor kodu Monaco wykorzystuje motyw wybranego motywu edytora\nZnaczniki wieloznaczne są dozwolone w instancji adaptera węzłów `IOBroker in` i `IOBroker list`, np. `HM-RPC.*.abc.1.state`",
+        "uk": "Вкладка в admin запускається через порт admin\nПорт Node-RED дійсно слухає повідомляється в реєстр використовуваних ресурсів js-контролера 8\nВилучено скрипт `prepare`\nРедактор коду Monaco використовує тему вибраної теми редактора\nПідстановки дозволені в екземплярі адаптера вузлів `ioBroker in` і `ioBroker list`, наприклад `hm-rpc.*.abc.1.state`",
+        "zh-cn": "管理员中的选项卡通过管理员端口运行\nNode-RED 真正监听的端口会报告给 js-controller 8 的已用资源注册表\n删除了 “准备” 脚本\n摩纳哥代码编辑器使用所选编辑器主题的主题\n允许在 “IOBroker in” 和 “IOBroker 列表” 节点的适配器实例中使用通配符，例如 `HM-rpc.*.abc.1.state`"
+      },
       "7.0.2": {
         "en": "Allowed to use admin instance with authentication (Admin 7.6.4 is required)\nAdded an additional memory based context storage (`memoryOnly`)\nThe file based context storage was renamed from `default` to `file`. Existing data is kept, but nodes with an explicitly selected store must be re-selected in the editor\nThe adapter backend was rewritten in TypeScript. The sources are now located in `src` and are compiled into `build`\nDisabled the node-red notification about a new node-red version, as node-red is updated together with the adapter\nUpdated nore-red to 5",
         "de": "Die Nutzung der Administratorinstanz ist mit Authentifizierung zulässig (Admin 7.6.4 erforderlich).\nZusätzlicher speicherbasierter Kontextspeicher hinzugefügt (`memoryOnly`)\nDer dateibasierte Kontextspeicher wurde von `default` in `file` umbenannt. Vorhandene Daten bleiben erhalten, Knoten mit einem explizit ausgewählten Speicher müssen jedoch im Editor erneut ausgewählt werden.\nDas Adapter-Backend wurde in TypeScript neu geschrieben. Die Quelltexte befinden sich nun im Verzeichnis `src` und werden in `build` kompiliert.\nDie Benachrichtigung über eine neue Node-RED-Version wurde deaktiviert, da Node-RED zusammen mit dem Adapter aktualisiert wird.\nAktualisiert nore-red auf 5",
