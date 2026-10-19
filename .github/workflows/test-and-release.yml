@@ -40,7 +40,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [22.x, 24.x, 26.x]
+        node-version: [22.x, 24.x]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -48,6 +48,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           os: ${{ matrix.os }}
+          build: 'true'
           install-command: 'npm run npm'
           extra-tests: npm run test
 
@@ -70,3 +71,4 @@ jobs:
           node-version: '24.x'
           install-command: 'npm run npm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          build: 'true'
