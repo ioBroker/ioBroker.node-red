@@ -306,6 +306,60 @@
           "agree",
           "cancel"
         ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<7.0.0",
+            "newVersion>=7.0.0"
+          ]
+        },
+        "title": {
+          "en": "Node-RED upgraded to 5.x",
+          "de": "Node-RED auf 5.x aktualisiert",
+          "ru": "Node-RED обновлен до версии 5.x",
+          "pt": "Node-RED atualizado para 5.x",
+          "nl": "Node-RED geüpgraded naar 5.x",
+          "fr": "Node-RED mis à niveau vers 5.x",
+          "it": "Node-RED aggiornato a 5.x",
+          "es": "Node-RED actualizado a 5.x",
+          "pl": "Node-RED uaktualniony do 5.x",
+          "uk": "Node-RED оновлено до 5.x",
+          "zh-cn": "Node-RED 已升级到 5.x"
+        },
+        "text": {
+          "en": "This adapter version updates Node-RED to version 5. Please check your nodes for compatibility. The file based context storage was renamed from 'default' to 'file'. Existing data is kept, but nodes with an explicitly selected context store must be re-selected in the Node-RED editor. Node.js 22.19 or newer and Admin 8.2.1 or newer are required.",
+          "de": "Diese Adapterversion aktualisiert Node-RED auf Version 5. Bitte prüfen Sie Ihre Nodes auf Kompatibilität. Der dateibasierte Kontextspeicher wurde von 'default' in 'file' umbenannt. Vorhandene Daten bleiben erhalten, aber bei Nodes mit explizit ausgewähltem Kontextspeicher muss dieser im Node-RED-Editor erneut ausgewählt werden. Node.js 22.19 oder neuer und Admin 8.2.1 oder neuer sind erforderlich.",
+          "ru": "Эта версия адаптера обновляет Node-RED до версии 5. Пожалуйста, проверьте ваши узлы на совместимость. Файловое хранилище контекста было переименовано из 'default' в 'file'. Существующие данные сохраняются, но в узлах с явно выбранным хранилищем контекста его необходимо выбрать заново в редакторе Node-RED. Требуется Node.js 22.19 или новее и Admin 8.2.1 или новее.",
+          "pt": "Esta versão do adaptador atualiza o Node-RED para a versão 5. Verifique a compatibilidade dos seus nós. O armazenamento de contexto baseado em arquivo foi renomeado de 'default' para 'file'. Os dados existentes são mantidos, mas os nós com um armazenamento de contexto selecionado explicitamente devem ser selecionados novamente no editor do Node-RED. São necessários Node.js 22.19 ou mais recente e Admin 8.2.1 ou mais recente.",
+          "nl": "Deze adapterversie werkt Node-RED bij naar versie 5. Controleer uw nodes op compatibiliteit. De op bestanden gebaseerde contextopslag is hernoemd van 'default' naar 'file'. Bestaande gegevens blijven behouden, maar bij nodes met een expliciet geselecteerde contextopslag moet deze opnieuw worden geselecteerd in de Node-RED-editor. Node.js 22.19 of nieuwer en Admin 8.2.1 of nieuwer zijn vereist.",
+          "fr": "Cette version de l'adaptateur met à jour Node-RED vers la version 5. Veuillez vérifier la compatibilité de vos nœuds. Le stockage de contexte basé sur fichier a été renommé de 'default' en 'file'. Les données existantes sont conservées, mais les nœuds avec un stockage de contexte sélectionné explicitement doivent être resélectionnés dans l'éditeur Node-RED. Node.js 22.19 ou plus récent et Admin 8.2.1 ou plus récent sont requis.",
+          "it": "Questa versione dell'adattatore aggiorna Node-RED alla versione 5. Controlla la compatibilità dei tuoi nodi. L'archivio di contesto basato su file è stato rinominato da 'default' a 'file'. I dati esistenti vengono mantenuti, ma nei nodi con un archivio di contesto selezionato esplicitamente è necessario selezionarlo di nuovo nell'editor di Node-RED. Sono richiesti Node.js 22.19 o successivo e Admin 8.2.1 o successivo.",
+          "es": "Esta versión del adaptador actualiza Node-RED a la versión 5. Compruebe la compatibilidad de sus nodos. El almacenamiento de contexto basado en archivos se ha renombrado de 'default' a 'file'. Los datos existentes se conservan, pero en los nodos con un almacenamiento de contexto seleccionado explícitamente debe volver a seleccionarse en el editor de Node-RED. Se requiere Node.js 22.19 o posterior y Admin 8.2.1 o posterior.",
+          "pl": "Ta wersja adaptera aktualizuje Node-RED do wersji 5. Sprawdź swoje węzły pod kątem kompatybilności. Plikowy magazyn kontekstu został przemianowany z 'default' na 'file'. Istniejące dane zostają zachowane, ale w węzłach z jawnie wybranym magazynem kontekstu należy wybrać go ponownie w edytorze Node-RED. Wymagany jest Node.js 22.19 lub nowszy oraz Admin 8.2.1 lub nowszy.",
+          "uk": "Ця версія адаптера оновлює Node-RED до версії 5. Будь ласка, перевірте свої вузли на сумісність. Файлове сховище контексту перейменовано з 'default' на 'file'. Наявні дані зберігаються, але у вузлах з явно вибраним сховищем контексту його потрібно вибрати повторно в редакторі Node-RED. Потрібні Node.js 22.19 або новіший та Admin 8.2.1 або новіший.",
+          "zh-cn": "此适配器版本将 Node-RED 更新到版本 5。请检查您的节点是否兼容。基于文件的上下文存储已从 'default' 重命名为 'file'。现有数据会被保留，但显式选择了上下文存储的节点必须在 Node-RED 编辑器中重新选择。需要 Node.js 22.19 或更高版本以及 Admin 8.2.1 或更高版本。"
+        },
+        "link": "https://github.com/ioBroker/ioBroker.node-red/blob/master/README.md",
+        "level": "warn",
+        "linkText": {
+          "en": "Documentation",
+          "de": "Dokumentation",
+          "ru": "Документация",
+          "pt": "Documentação",
+          "nl": "Document",
+          "fr": "Documentation",
+          "it": "Documentazione",
+          "es": "Documentación",
+          "pl": "Dokumentacja",
+          "uk": "Документація",
+          "zh-cn": "文件"
+        },
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
       }
     ]
   },
